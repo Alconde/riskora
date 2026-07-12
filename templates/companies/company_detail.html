@@ -10,8 +10,11 @@
             <h3 class="section-title" style="margin-bottom: 6px;">{{ company.trade_name|default:company.legal_name }}</h3>
             <div class="meta">Razón social: {{ company.legal_name|default:"-" }}</div>
         </div>
-        <a href="{% url 'company-update' company.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+        <a href="{% url 'companies:company-update' company.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
             Editar empresa
+        </a>
+        <a href="{% url 'companies:company-delete' company.pk %}" style="background:#dc2626;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;margin-left:8px;">
+            Eliminar
         </a>
     </div>
 </div>
@@ -52,6 +55,6 @@
 </div>
 
 <div style="margin-top: 18px;">
-    <a href="{% url 'company-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+    <a href="{% url 'companies:company-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
 </div>
 {% endblock %}

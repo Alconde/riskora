@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Cerrar {{ nc.codigo }} | Riskora{% endblock %}
+{% block page_title %}Cerrar no conformidad {{ nc.codigo }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de resolucion *</label>
+                {{ form.resuelta_en }}
+                {% if form.resuelta_en.errors %}<div style="color:#dc2626;font-size:12px;">{{ form.resuelta_en.errors.0 }}</div>{% endif %}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Notas de verificacion</label>
+                {{ form.notas_verificacion }}
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Cerrar NC</button>
+            <a href="{% url 'corrective_actions:nc-detail' nc.pk %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

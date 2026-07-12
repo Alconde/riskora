@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Mi perfil | Riskora{% endblock %}
+{% block page_title %}Mi perfil{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:700px;">
+    <h3 class="section-title" style="margin-bottom:16px;">Datos personales</h3>
+
+    {% if messages %}
+        <ul style="list-style:none;padding:0;margin:0 0 16px;">
+            {% for message in messages %}
+                <li style="padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:8px;{% if message.tags == 'success' %}background:#dcfce7;color:#15803d;{% elif message.tags == 'error' %}background:#fee2e2;color:#991b1b;{% endif %}">
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label for="{{ form.first_name.id_for_label }}">Nombre</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}<div style="color:#b91c1c;">{{ form.first_name.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.last_name.id_for_label }}">Apellidos</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}<div style="color:#b91c1c;">{{ form.last_name.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.email.id_for_label }}">Correo electrónico</label>
+                {{ form.email }}
+                {% if form.email.errors %}<div style="color:#b91c1c;">{{ form.email.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.phone.id_for_label }}">Teléfono</label>
+                {{ form.phone }}
+                {% if form.phone.errors %}<div style="color:#b91c1c;">{{ form.phone.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.job_title.id_for_label }}">Cargo</label>
+                {{ form.job_title }}
+                {% if form.job_title.errors %}<div style="color:#b91c1c;">{{ form.job_title.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:20px;">
+            <button type="submit" style="background:#1d4ed8;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
+                Guardar cambios
+            </button>
+            <a href="{% url 'accounts:password-change' %}" style="padding:10px 16px;border-radius:10px;border:1px solid #d97706;text-decoration:none;color:#92400e;background:#fef3c7;">
+                Cambiar contraseña
+            </a>
+        </div>
+    </form>
+</div>
+
+<div class="card" style="max-width:700px;margin-top:18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Información de cuenta</h3>
+    <div style="display:grid;gap:8px;font-size:14px;">
+        <div><strong>Usuario:</strong> {{ request.user.username }}</div>
+        <div><strong>Rol:</strong> {{ request.user.get_role_display }}</div>
+        <div><strong>Miembro desde:</strong> {{ request.user.date_joined|date:"d/m/Y" }}</div>
+        <div><strong>Último acceso:</strong> {{ request.user.last_login|date:"d/m/Y H:i"|default:"Nunca" }}</div>
+    </div>
+</div>
+{% endblock %}

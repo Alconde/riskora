@@ -1,7 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
 
 from apps.workers.forms import WorkerForm
@@ -17,7 +18,7 @@ class WorkerListView(LoginRequiredMixin, CompanyScopedMixin, ListView):
     template_name = 'workers/worker_list.html'
     context_object_name = 'workers'
     paginate_by = 20
-    login_url = '/admin/login/'
+    login_url = '/login/'
     company_field_name = 'company'
 
     def get_base_queryset(self):
@@ -93,7 +94,7 @@ class WorkerDetailView(LoginRequiredMixin, CompanyScopedMixin, DetailView):
     model = Worker
     template_name = 'workers/worker_detail.html'
     context_object_name = 'worker'
-    login_url = '/admin/login/'
+    login_url = '/login/'
     company_field_name = 'company'
 
     def get_queryset(self):
@@ -105,20 +106,43 @@ class WorkerDetailView(LoginRequiredMixin, CompanyScopedMixin, DetailView):
         return self.get_company_scoped_queryset(queryset)
 
 
-class WorkerCreateView(LoginRequiredMixin, CreateView):
+class WorkerCreateView(LoginRequiredMixin, CompanyScopedMixin, CreateView):
     model = Worker
     form_class = WorkerForm
     template_name = 'workers/worker_form.html'
-    success_url = reverse_lazy('worker-list')
+    success_url = reverse_lazy('workers:worker-list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        active_company = self.get_active_company()
+        if active_company:
+            if self.request.method == 'GET':
+                kwargs['initial'] = {'company': active_company}
+        return kwargs
+
+    def form_valid(self, form):
+        active_company = self.get_active_company()
+        if active_company:
+            form.instance.company = active_company
+        return super().form_valid(form)
 
 
-class WorkerUpdateView(LoginRequiredMixin, UpdateView):
+class WorkerUpdateView(LoginRequiredMixin, CompanyScopedMixin, UpdateView):
     model = Worker
     form_class = WorkerForm
     template_name = 'workers/worker_form.html'
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            Worker.objects.select_related('company', 'work_center', 'job_position')
+        )
 
     def get_success_url(self):
-        return reverse_lazy('worker-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('workers:worker-detail', kwargs={'pk': self.object.pk})
 
 
 def load_workcenters(request):
@@ -143,36 +167,102 @@ def load_jobpositions(request):
     return JsonResponse({'results': results})
 
 
-class JobPositionListView(LoginRequiredMixin, ListView):
+class JobPositionListView(LoginRequiredMixin, CompanyScopedMixin, ListView):
     model = JobPosition
     template_name = 'workers/jobposition_list.html'
     context_object_name = 'positions'
-    ordering = ['company__trade_name', 'name']
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_base_queryset(self):
+        return JobPosition.objects.select_related('company')
 
     def get_queryset(self):
-        return JobPosition.objects.select_related('company').order_by('company__trade_name', 'name')
+        return self.get_company_scoped_queryset(
+            self.get_base_queryset().order_by('company__trade_name', 'name')
+        )
 
 
-class JobPositionDetailView(LoginRequiredMixin, DetailView):
+class JobPositionDetailView(LoginRequiredMixin, CompanyScopedMixin, DetailView):
     model = JobPosition
     template_name = 'workers/jobposition_detail.html'
     context_object_name = 'position'
+    login_url = '/login/'
+    company_field_name = 'company'
 
     def get_queryset(self):
-        return JobPosition.objects.select_related('company')
+        return self.get_company_scoped_queryset(
+            JobPosition.objects.select_related('company')
+        )
 
 
-class JobPositionCreateView(LoginRequiredMixin, CreateView):
+class JobPositionCreateView(LoginRequiredMixin, CompanyScopedMixin, CreateView):
     model = JobPosition
     form_class = JobPositionForm
     template_name = 'workers/jobposition_form.html'
-    success_url = reverse_lazy('jobposition-list')
+    success_url = reverse_lazy('workers:jobposition-list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        active_company = self.get_active_company()
+        if active_company and self.request.method == 'GET':
+            kwargs['initial'] = {'company': active_company}
+        return kwargs
+
+    def form_valid(self, form):
+        active_company = self.get_active_company()
+        if active_company:
+            form.instance.company = active_company
+        return super().form_valid(form)
 
 
-class JobPositionUpdateView(LoginRequiredMixin, UpdateView):
+class JobPositionUpdateView(LoginRequiredMixin, CompanyScopedMixin, UpdateView):
     model = JobPosition
     form_class = JobPositionForm
     template_name = 'workers/jobposition_form.html'
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            JobPosition.objects.select_related('company')
+        )
 
     def get_success_url(self):
-        return reverse_lazy('jobposition-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('workers:jobposition-detail', kwargs={'pk': self.object.pk})
+
+
+class WorkerDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
+    model = Worker
+    template_name = 'workers/worker_confirm_delete.html'
+    success_url = reverse_lazy('workers:worker-list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            Worker.objects.select_related('company')
+        )
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Trabajador eliminado correctamente.')
+        return super().delete(request, *args, **kwargs)
+
+
+class JobPositionDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
+    model = JobPosition
+    template_name = 'workers/jobposition_confirm_delete.html'
+    success_url = reverse_lazy('workers:jobposition-list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            JobPosition.objects.select_related('company')
+        )
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Puesto de trabajo eliminado correctamente.')
+        return super().delete(request, *args, **kwargs)

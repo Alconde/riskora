@@ -44,7 +44,8 @@ class ItemEvaluacionRiesgosForm(forms.ModelForm):
         fields = [
             'puesto_trabajo',
             'tipo_peligro',
-            'descripcion_peligro',
+            'factor_riesgo_condicion',
+            'riesgo',
             'medidas_existentes',
             'probabilidad',
             'severidad',
@@ -56,9 +57,10 @@ class ItemEvaluacionRiesgosForm(forms.ModelForm):
         widgets = {
             'puesto_trabajo': forms.Select(attrs={'class': 'form-control'}),
             'tipo_peligro': forms.Select(attrs={'class': 'form-control'}),
-            'descripcion_peligro': forms.Textarea(
-                attrs={'class': 'form-control', 'rows': 2}
+            'factor_riesgo_condicion': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Ej: Ruido elevado en zona de soldadura'}
             ),
+            'riesgo': forms.Select(attrs={'class': 'form-control'}),
             'medidas_existentes': forms.Textarea(
                 attrs={'class': 'form-control', 'rows': 2}
             ),

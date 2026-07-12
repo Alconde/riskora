@@ -10,7 +10,7 @@
             <h3 class="section-title" style="margin-bottom:6px;">Listado de puestos</h3>
             <div class="meta">Puestos de trabajo definidos por empresa.</div>
         </div>
-        <a href="{% url 'jobposition-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+        <a href="{% url 'workers:jobposition-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
             Nuevo puesto
         </a>
     </div>
@@ -21,7 +21,7 @@
         {% for position in positions %}
             <div class="list-item">
                 <strong>
-                    <a href="{% url 'jobposition-detail' position.pk %}" style="text-decoration:none;color:#1f2937;">
+                    <a href="{% url 'workers:jobposition-detail' position.pk %}" style="text-decoration:none;color:#1f2937;">
                         {{ position.name }}
                     </a>
                 </strong>

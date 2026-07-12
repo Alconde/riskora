@@ -1,17 +1,57 @@
 {% extends 'base.html' %}
 
-{% block title %}Tarea | Riskora{% endblock %}
+{% block title %}{{ task.title }} | Riskora{% endblock %}
 {% block page_title %}Tarea{% endblock %}
 
 {% block content %}
 <div class="card" style="margin-bottom: 18px;">
-    <h3 class="section-title">{{ task.title }}</h3>
-    <div class="meta">
-        Empresa: {{ task.company }} ·
-        Estado: {{ task.get_status_display }} ·
-        Prioridad: {{ task.get_priority_display }} ·
-        Asignada a: {{ task.assigned_to|default:"Sin asignar" }} ·
-        Vence: {{ task.due_date|default:"-" }}
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:6px;">{{ task.title }}</h3>
+            <div class="meta">
+                Empresa: {{ task.company }} ·
+                Estado: {{ task.get_status_display }} ·
+                Prioridad: {{ task.get_priority_display }} ·
+                Asignada a: {{ task.assigned_to|default:"Sin asignar" }} ·
+                Vence: {{ task.due_date|default:"-" }}
+            </div>
+            <div style="margin-top:8px;">
+                {% if task.priority == 'critical' or task.priority == 'high' %}
+                    <span class="badge badge-danger">{{ task.get_priority_display }}</span>
+                {% elif task.priority == 'medium' %}
+                    <span class="badge badge-warning">{{ task.get_priority_display }}</span>
+                {% else %}
+                    <span class="badge badge-success">{{ task.get_priority_display }}</span>
+                {% endif %}
+
+                {% if task.status == 'completed' %}
+                    <span class="badge badge-success">Completada</span>
+                {% elif task.status == 'cancelled' %}
+                    <span class="badge badge-warning">Cancelada</span>
+                {% elif task.status == 'in_progress' %}
+                    <span class="badge badge-warning">En progreso</span>
+                {% else %}
+                    <span class="badge badge-danger">Pendiente</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap;">
+            {% if task.status != 'completed' and task.status != 'cancelled' %}
+                <form method="post" action="{% url 'tasks:complete' task.pk %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:#16a34a;color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;">
+                        Completar
+                    </button>
+                </form>
+            {% endif %}
+            <a href="{% url 'tasks:update' task.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+                Editar
+            </a>
+            <a href="{% url 'tasks:delete' task.pk %}" style="background:#dc2626;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+                Eliminar
+            </a>
+        </div>
     </div>
 </div>
 
@@ -52,5 +92,9 @@
             {% endif %}
         </div>
     </section>
+</div>
+
+<div style="margin-top:18px;">
+    <a href="{% url 'tasks:list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
 </div>
 {% endblock %}

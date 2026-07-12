@@ -137,16 +137,43 @@ class EvaluacionRiesgos(models.Model):
 
     @property
     def items_requieren_accion(self):
-        return self.items.filter(nivel_riesgo__in=['moderado', 'importante', 'intolerable']).count()
+        return self.items.filter(nivel_riesgo__in=['medio', 'alto', 'muy_alto']).count()
 
 
 class ItemEvaluacionRiesgos(models.Model):
     """
     Cada fila de la matriz de evaluación de riesgos.
-    Un item = puesto de trabajo + peligro + evaluación INSST.
+    Un item = puesto + factor de riesgo + riesgo + evaluación INSST.
 
     Cálculo: Grado de Riesgo = Probabilidad × Severidad
     """
+
+    RIESGO_CHOICES = [
+        ('', '--- Seleccionar ---'),
+        ('caidas_mismo_nivel', 'Caídas al mismo nivel'),
+        ('caidas_distinto_nivel', 'Caídas a distinto nivel'),
+        ('caida_objetos', 'Caída de objetos'),
+        ('proyeccion_fragmentos', 'Proyección de fragmentos y/o partículas'),
+        ('atrapamientos', 'Atrapamientos'),
+        ('golpes', 'Golpes contra objetos'),
+        ('cortes', 'Cortes y cortaduras'),
+        ('quemaduras', 'Quemaduras'),
+        ('electrocucion', 'Electrocución'),
+        ('explosion', 'Explosión'),
+        ('incendio', 'Incendio'),
+        ('intoxicacion', 'Intoxicación'),
+        ('asfixia', 'Asfixia'),
+        ('ahogamiento', 'Ahogamiento'),
+        ('sordera', 'Pérdida auditiva'),
+        ('lesiones_osteomusculares', 'Lesiones osteomusculares'),
+        ('enfermedad_profesional', 'Enfermedad profesional'),
+        ('ergonomico', 'Riesgo ergonómico'),
+        ('psicosocial', 'Riesgo psicosocial'),
+        ('biologico', 'Riesgo biológico'),
+        ('radiacion', 'Exposición a radiaciones'),
+        ('derrame_sustancias', 'Derrame de sustancias'),
+        ('otro', 'Otro'),
+    ]
 
     class Probabilidad(models.IntegerChoices):
         BAJA = 1, 'Baja'
@@ -154,16 +181,16 @@ class ItemEvaluacionRiesgos(models.Model):
         ALTA = 3, 'Alta'
 
     class Severidad(models.IntegerChoices):
-        LIGERAMENTE_DANINO = 1, 'Ligeramente dañino'
-        DANINO = 2, 'Dañino'
-        EXTREMADAMENTE_DANINO = 3, 'Extremadamente dañino'
+        BAJA = 1, 'Baja'
+        MEDIA = 2, 'Media'
+        ALTA = 3, 'Alta'
 
     class NivelRiesgo(models.TextChoices):
-        TRIVIAL = 'trivial', 'Trivial'
-        TOLERABLE = 'tolerable', 'Tolerable'
-        MODERADO = 'moderado', 'Moderado'
-        IMPORTANTE = 'importante', 'Importante'
-        INTOLERABLE = 'intolerable', 'Intolerable'
+        MUY_BAJO = 'muy_bajo', 'Muy bajo'
+        BAJO = 'bajo', 'Bajo'
+        MEDIO = 'medio', 'Medio'
+        ALTO = 'alto', 'Alto'
+        MUY_ALTO = 'muy_alto', 'Muy alto'
 
     evaluacion = models.ForeignKey(
         EvaluacionRiesgos,
@@ -182,14 +209,28 @@ class ItemEvaluacionRiesgos(models.Model):
         on_delete=models.PROTECT,
         related_name='items_evaluacion',
         verbose_name='tipo de peligro',
+        null=True,
+        blank=True,
     )
 
-    descripcion_peligro = models.TextField(
-        'descripción del peligro',
-        help_text='Descripción detallada del peligro identificado',
+    factor_riesgo_condicion = models.CharField(
+        'factor de riesgo / condición detectada',
+        max_length=255,
+        blank=True,
+        default='',
+        help_text='Ej: Ruido continuo en zona de producción, Iluminación deficiente en almacén',
     )
+    riesgo = models.CharField(
+        'riesgo',
+        max_length=50,
+        choices=RIESGO_CHOICES,
+        blank=True,
+        help_text='Tipo de daño que puede producirse',
+    )
+
     medidas_existentes = models.TextField(
         'medidas preventivas existentes',
+        blank=True,
         help_text='Medidas de protección y prevención actualmente implementadas',
     )
 
@@ -199,15 +240,15 @@ class ItemEvaluacionRiesgos(models.Model):
         help_text='1=Baja, 2=Media, 3=Alta',
     )
     severidad = models.PositiveSmallIntegerField(
-        'severidad (consecuencias)',
+        'severidad',
         choices=Severidad.choices,
-        help_text='1=Ligeramente dañino, 2=Dañino, 3=Extremadamente dañino',
+        help_text='1=Baja, 2=Media, 3=Alta',
     )
 
     grado_riesgo = models.PositiveSmallIntegerField(
         'grado de riesgo',
         editable=False,
-        help_text='Calculado automáticamente: Probabilidad × Severidad (escala 1-5)',
+        help_text='Calculado automáticamente: Probabilidad × Severidad (escala 1-9)',
     )
     nivel_riesgo = models.CharField(
         'nivel de riesgo',
@@ -217,7 +258,7 @@ class ItemEvaluacionRiesgos(models.Model):
     )
 
     medidas_propuestas = models.TextField(
-        'nuevas medidas preventivas propuestas',
+        'medidas preventivas propuestas',
         blank=True,
         help_text='Medidas a implementar para reducir el riesgo',
     )
@@ -252,11 +293,11 @@ class ItemEvaluacionRiesgos(models.Model):
     class Meta:
         verbose_name = 'item de evaluación de riesgos'
         verbose_name_plural = 'items de evaluación de riesgos'
-        ordering = ['evaluacion', 'puesto_trabajo', 'tipo_peligro']
+        ordering = ['evaluacion', 'puesto_trabajo', 'factor_riesgo_condicion']
 
     def __str__(self):
         return (
-            f'{self.puesto_trabajo} - {self.tipo_peligro} '
+            f'{self.puesto_trabajo} - {self.factor_riesgo_condicion} '
             f'[GR={self.grado_riesgo}]'
         )
 
@@ -269,15 +310,19 @@ class ItemEvaluacionRiesgos(models.Model):
         return self.get_severidad_display()
 
     @property
+    def riesgo_display(self):
+        return self.get_riesgo_display()
+
+    @property
     def requiere_accion(self):
-        return self.nivel_riesgo in ('moderado', 'importante', 'intolerable')
+        return self.nivel_riesgo in ('medio', 'alto', 'muy_alto')
 
 
 class NivelRiesgoReferencia(models.Model):
     """
     Tabla de referencia de los 9 niveles de riesgo de la matriz INSST.
     Permite configurar colores y etiquetas desde el admin.
-    Probabilidad (1-3) × Severidad (1-3) = GR (1-5)
+    Probabilidad (1-3) × Severidad (1-3) = GR (1-9)
     """
 
     grado = models.PositiveSmallIntegerField(

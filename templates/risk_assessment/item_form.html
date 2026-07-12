@@ -14,9 +14,23 @@
             </div>
         {% endif %}
 
-        {# Datos del peligro #}
-        <h3 class="section-title" style="margin-bottom:12px;font-size:15px;">Identificación del peligro</h3>
+        {# Factor de riesgo y riesgo #}
+        <h3 class="section-title" style="margin-bottom:12px;font-size:15px;">Factor de riesgo / Condición detectada</h3>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+            <div>
+                <label for="{{ form.factor_riesgo_condicion.id_for_label }}">Factor de riesgo / Condición detectada *</label>
+                {{ form.factor_riesgo_condicion }}
+                {% if form.factor_riesgo_condicion.errors %}<div style="color:#b91c1c;">{{ form.factor_riesgo_condicion.errors }}</div>{% endif %}
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">Describa la condición de riesgo observada</div>
+            </div>
+
+            <div>
+                <label for="{{ form.riesgo.id_for_label }}">Riesgo (daño potencial)</label>
+                {{ form.riesgo }}
+                {% if form.riesgo.errors %}<div style="color:#b91c1c;">{{ form.riesgo.errors }}</div>{% endif %}
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">Tipo de daño que puede producirse</div>
+            </div>
+
             <div>
                 <label for="{{ form.puesto_trabajo.id_for_label }}">Puesto de trabajo</label>
                 {{ form.puesto_trabajo }}
@@ -24,22 +38,18 @@
             </div>
 
             <div>
-                <label for="{{ form.tipo_peligro.id_for_label }}">Tipo de peligro</label>
+                <label for="{{ form.tipo_peligro.id_for_label }}">Tipo de peligro (categoría)</label>
                 {{ form.tipo_peligro }}
                 {% if form.tipo_peligro.errors %}<div style="color:#b91c1c;">{{ form.tipo_peligro.errors }}</div>{% endif %}
             </div>
+        </div>
 
-            <div style="grid-column:1 / -1;">
-                <label for="{{ form.descripcion_peligro.id_for_label }}">Descripción del peligro</label>
-                {{ form.descripcion_peligro }}
-                {% if form.descripcion_peligro.errors %}<div style="color:#b91c1c;">{{ form.descripcion_peligro.errors }}</div>{% endif %}
-            </div>
-
-            <div style="grid-column:1 / -1;">
-                <label for="{{ form.medidas_existentes.id_for_label }}">Medidas preventivas existentes</label>
-                {{ form.medidas_existentes }}
-                {% if form.medidas_existentes.errors %}<div style="color:#b91c1c;">{{ form.medidas_existentes.errors }}</div>{% endif %}
-            </div>
+        {# Medidas existentes #}
+        <h3 class="section-title" style="margin-bottom:12px;font-size:15px;">Medidas preventivas existentes</h3>
+        <div style="margin-bottom:24px;">
+            <label for="{{ form.medidas_existentes.id_for_label }}">Medidas de protección y prevención actualmente implementadas</label>
+            {{ form.medidas_existentes }}
+            {% if form.medidas_existentes.errors %}<div style="color:#b91c1c;">{{ form.medidas_existentes.errors }}</div>{% endif %}
         </div>
 
         {# Evaluación INSST #}
@@ -53,10 +63,10 @@
             </div>
 
             <div>
-                <label for="{{ form.severidad.id_for_label }}">Severidad (consecuencias)</label>
+                <label for="{{ form.severidad.id_for_label }}">Severidad</label>
                 {{ form.severidad }}
                 {% if form.severidad.errors %}<div style="color:#b91c1c;">{{ form.severidad.errors }}</div>{% endif %}
-                <div style="font-size:11px;color:#64748b;margin-top:4px;">1=Ligeramente dañino · 2=Dañino · 3=Extremadamente dañino</div>
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">1=Baja · 2=Media · 3=Alta</div>
             </div>
 
             {# Resultado del cálculo en tiempo real #}
@@ -121,11 +131,11 @@
     const descEl = document.getElementById('riesgo-descripcion');
 
     const colores = {
-        'trivial': {'color': '#22c55e', 'bg': '#dcfce7', 'text': '#15803d'},
-        'tolerable': {'color': '#84cc16', 'bg': '#ecfccb', 'text': '#3f6212'},
-        'moderado': {'color': '#eab308', 'bg': '#fef9c3', 'text': '#a16207'},
-        'importante': {'color': '#f97316', 'bg': '#ffedd5', 'text': '#c2410c'},
-        'intolerable': {'color': '#ef4444', 'bg': '#fee2e2', 'text': '#b91c1c'}
+        'muy_bajo': {'color': '#22c55e', 'bg': '#dcfce7', 'text': '#15803d'},
+        'bajo': {'color': '#84cc16', 'bg': '#ecfccb', 'text': '#3f6212'},
+        'medio': {'color': '#eab308', 'bg': '#fef9c3', 'text': '#a16207'},
+        'alto': {'color': '#f97316', 'bg': '#ffedd5', 'text': '#c2410c'},
+        'muy_alto': {'color': '#ef4444', 'bg': '#fee2e2', 'text': '#b91c1c'}
     };
 
     function calcular() {
@@ -136,14 +146,14 @@
             return;
         }
 
-        fetch(`/evaluaciones/api/calcular-riesgo/?probabilidad=${p}&severidad=${s}`)
-            .then(r => r.json())
-            .then(data => {
+        fetch('/evaluaciones/api/calcular-riesgo/?probabilidad=' + p + '&severidad=' + s)
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
                 if (data.error) return;
-                const c = colores[data.nivel] || colores['trivial'];
+                var c = colores[data.nivel] || colores['muy_bajo'];
                 preview.style.display = 'block';
                 preview.style.background = c.bg;
-                preview.style.border = `2px solid ${c.color}`;
+                preview.style.border = '2px solid ' + c.color;
                 valorEl.textContent = data.grado;
                 valorEl.style.color = c.color;
                 nivelEl.textContent = data.etiqueta;
@@ -155,7 +165,6 @@
     probSelect.addEventListener('change', calcular);
     sevSelect.addEventListener('change', calcular);
 
-    // Calcular al cargar si ya hay valores (edición)
     if (probSelect.value && sevSelect.value) {
         calcular();
     }

@@ -14,7 +14,7 @@ class DocumentListView(LoginRequiredMixin, ListView):
     template_name = 'documents/document_list.html'
     context_object_name = 'documents'
     paginate_by = 20
-    login_url = '/admin/login/'
+    login_url = '/login/'
 
     def get_queryset(self):
         queryset = Document.objects.select_related(
@@ -124,7 +124,7 @@ class DocumentDetailView(LoginRequiredMixin, DetailView):
     model = Document
     template_name = 'documents/document_detail.html'
     context_object_name = 'document'
-    login_url = '/admin/login/'
+    login_url = '/login/'
 
     def get_queryset(self):
         queryset = Document.objects.select_related(
@@ -143,7 +143,7 @@ class DocumentCreateView(LoginRequiredMixin, CreateView):
     model = Document
     form_class = DocumentForm
     template_name = 'documents/document_form.html'
-    login_url = '/admin/login/'
+    login_url = '/login/'
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -180,7 +180,7 @@ class DocumentUpdateView(LoginRequiredMixin, UpdateView):
     model = Document
     form_class = DocumentForm
     template_name = 'documents/document_form.html'
-    login_url = '/admin/login/'
+    login_url = '/login/'
 
     def get_queryset(self):
         queryset = Document.objects.select_related(
@@ -225,7 +225,7 @@ class DocumentDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'documents/document_confirm_delete.html'
     context_object_name = 'document'
     success_url = reverse_lazy('documents:list')
-    login_url = '/admin/login/'
+    login_url = '/login/'
 
     def get_queryset(self):
         queryset = Document.objects.select_related(

@@ -16,8 +16,11 @@
                 Centro: {{ worker.work_center.name|default:"-" }}
             </div>
         </div>
-        <a href="{% url 'worker-update' worker.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+        <a href="{% url 'workers:worker-update' worker.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
             Editar trabajador
+        </a>
+        <a href="{% url 'workers:worker-delete' worker.pk %}" style="background:#dc2626;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;margin-left:8px;">
+            Eliminar
         </a>
     </div>
 </div>
@@ -68,6 +71,6 @@
 </div>
 
 <div style="margin-top:18px;">
-    <a href="{% url 'worker-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+    <a href="{% url 'workers:worker-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
 </div>
 {% endblock %}

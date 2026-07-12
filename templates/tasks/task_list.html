@@ -90,8 +90,13 @@
 <div class="card">
     <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
         <h3 class="section-title" style="margin:0;">Listado de tareas</h3>
-        <div class="meta">
-            {{ page_obj.paginator.count }} tarea{{ page_obj.paginator.count|pluralize }}
+        <div style="display:flex;gap:8px;align-items:center;">
+            <div class="meta">
+                {{ page_obj.paginator.count }} tarea{{ page_obj.paginator.count|pluralize }}
+            </div>
+            <a href="{% url 'tasks:create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+                Nueva tarea
+            </a>
         </div>
     </div>
 

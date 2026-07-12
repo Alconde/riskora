@@ -122,7 +122,7 @@
             <button type="submit" style="background:#1d4ed8;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
                 Guardar
             </button>
-            <a href="{% url 'worker-list' %}" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
+            <a href="{% url 'workers:worker-list' %}" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
                 Cancelar
             </a>
         </div>
@@ -160,8 +160,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     companySelect.addEventListener('change', function () {
-        loadOptions("{% url 'ajax-load-workcenters' %}", workCenterSelect, 'Seleccione un centro');
-        loadOptions("{% url 'ajax-load-jobpositions' %}", jobPositionSelect, 'Seleccione un puesto');
+        loadOptions("{% url 'workers:ajax-load-workcenters' %}", workCenterSelect, 'Seleccione un centro');
+        loadOptions("{% url 'workers:ajax-load-jobpositions' %}", jobPositionSelect, 'Seleccione un puesto');
     });
 });
 </script>

@@ -683,6 +683,31 @@
             color: #475569;
         }
 
+        .badge-muy_bajo {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-bajo {
+            background: #ecfccb;
+            color: #3f6212;
+        }
+
+        .badge-medio {
+            background: #fef9c3;
+            color: #a16207;
+        }
+
+        .badge-alto {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .badge-muy_alto {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
         label {
             display: block;
             margin-bottom: 6px;
@@ -803,7 +828,7 @@
                     <span class="nav-label">Dashboard</span>
                 </a>
 
-                <a href="{% url 'company-list' %}" class="nav-link {% is_active 'company-list' %}">
+                <a href="{% url 'companies:company-list' %}" class="nav-link {% is_active 'companies:company-list' %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M4 20V7a2 2 0 0 1 2-2h8v15"></path>
                         <path d="M14 10h4a2 2 0 0 1 2 2v8"></path>
@@ -812,7 +837,7 @@
                     <span class="nav-label">Empresas</span>
                 </a>
 
-                <a href="{% url 'workcenter-list' %}" class="nav-link {% is_active 'workcenter-list' %}">
+                <a href="{% url 'workcenters:workcenter-list' %}" class="nav-link {% is_active 'workcenters:workcenter-list' %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M3 20h18"></path>
                         <path d="M5 20v-8l7-4 7 4v8"></path>
@@ -821,7 +846,7 @@
                     <span class="nav-label">Centros</span>
                 </a>
 
-                <a href="{% url 'worker-list' %}" class="nav-link {% is_active 'worker-list' %}">
+                <a href="{% url 'workers:worker-list' %}" class="nav-link {% is_active 'workers:worker-list' %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="10" cy="7" r="4"></circle>
@@ -831,7 +856,7 @@
                     <span class="nav-label">Trabajadores</span>
                 </a>
 
-                <a href="{% url 'jobposition-list' %}" class="nav-link {% is_active 'jobposition-list' %}">
+                <a href="{% url 'workers:jobposition-list' %}" class="nav-link {% is_active 'workers:jobposition-list' %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <rect x="3" y="7" width="18" height="12" rx="2"></rect>
                         <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -866,7 +891,7 @@
                     <span class="nav-label">Tareas</span>
                 </a>
 
-                <a href="{% url 'evaluacion-list' %}" class="nav-link {% is_active 'evaluacion-list' %}">
+                <a href="{% url 'risk_assessment:evaluacion-list' %}" class="nav-link {% is_active 'risk_assessment:evaluacion-list' %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
                         <path d="M8 12l3 3 5-5"></path>
@@ -874,7 +899,7 @@
                     <span class="nav-label">Evaluaciones</span>
                 </a>
 
-                <a href="/admin/tasks/alert/" class="nav-link {% if '/admin/tasks/alert/' in request.path %}is-active{% endif %}">
+                <a href="{% url 'tasks:alert-list' %}" class="nav-link {% if namespace == 'tasks' and url_name == 'alert-list' or namespace == 'tasks' and url_name == 'alert_detail' %}is-active{% endif %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path>
                         <path d="M12 9v4"></path>
@@ -896,6 +921,10 @@
             </nav>
 
             <div class="sidebar-footer">
+                <div style="margin-bottom:10px;">
+                    <a href="{% url 'accounts:profile' %}" style="color:#93c5fd;text-decoration:none;display:block;padding:6px 0;">Mi perfil</a>
+                    <a href="{% url 'accounts:logout' %}" style="color:#fca5a5;text-decoration:none;display:block;padding:6px 0;">Cerrar sesión</a>
+                </div>
                 Plataforma SaaS PRL para PYMES, consultoras y servicios de prevención.
             </div>
         </aside>
@@ -925,7 +954,7 @@
                             </div>
 
                             {% if available_companies|length > 1 or request.user.is_superuser %}
-                                <form method="post" action="{% url 'company-switch' %}" style="margin-left:8px;">
+                                <form method="post" action="{% url 'companies:company-switch' %}" style="margin-left:8px;">
                                     {% csrf_token %}
                                     <select
                                         name="company"

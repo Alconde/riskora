@@ -10,13 +10,16 @@
             <h3 class="section-title" style="margin-bottom:6px;">{{ center.name }}</h3>
             <div class="meta">
                 Empresa:
-                <a href="{% url 'company-detail' center.company.pk %}" style="color:#1d4ed8;text-decoration:none;">
+                <a href="{% url 'companies:company-detail' center.company.pk %}" style="color:#1d4ed8;text-decoration:none;">
                     {{ center.company.trade_name|default:center.company.legal_name }}
                 </a>
             </div>
         </div>
-        <a href="{% url 'workcenter-update' center.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+        <a href="{% url 'workcenters:workcenter-update' center.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
             Editar centro
+        </a>
+        <a href="{% url 'workcenters:workcenter-delete' center.pk %}" style="background:#dc2626;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;margin-left:8px;">
+            Eliminar
         </a>
     </div>
 </div>
@@ -60,6 +63,6 @@
 </div>
 
 <div style="margin-top:18px;">
-    <a href="{% url 'workcenter-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+    <a href="{% url 'workcenters:workcenter-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
 </div>
 {% endblock %}

@@ -1,2 +1,0 @@
-Usuario: Admin
-Contraseña: Admin1234

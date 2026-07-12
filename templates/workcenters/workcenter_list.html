@@ -10,7 +10,7 @@
             <h3 class="section-title" style="margin-bottom:6px;">Listado de centros</h3>
             <div class="meta">Centros asociados a las empresas gestionadas.</div>
         </div>
-        <a href="{% url 'workcenter-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+        <a href="{% url 'workcenters:workcenter-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
             Nuevo centro
         </a>
     </div>
@@ -21,7 +21,7 @@
         {% for center in centers %}
             <div class="list-item">
                 <strong>
-                    <a href="{% url 'workcenter-detail' center.pk %}" style="text-decoration:none;color:#1f2937;">
+                    <a href="{% url 'workcenters:workcenter-detail' center.pk %}" style="text-decoration:none;color:#1f2937;">
                         {{ center.name }} ({{ center.company.trade_name|default:center.company.legal_name }})
                     </a>
                 </strong>

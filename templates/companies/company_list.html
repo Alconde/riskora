@@ -10,7 +10,7 @@
             <h3 class="section-title" style="margin-bottom: 6px;">Listado de empresas</h3>
             <div class="meta">Gestión de empresas cliente y entidades gestionadas.</div>
         </div>
-        <a href="{% url 'company-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+        <a href="{% url 'companies:company-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
             Nueva empresa
         </a>
     </div>
@@ -21,7 +21,7 @@
         {% for company in companies %}
             <div class="list-item">
                 <strong>
-                    <a href="{% url 'company-detail' company.pk %}" style="text-decoration:none;color:#1f2937;">
+                    <a href="{% url 'companies:company-detail' company.pk %}" style="text-decoration:none;color:#1f2937;">
                         {{ company.trade_name|default:company.legal_name }}
                     </a>
                 </strong>

@@ -1,92 +1,132 @@
 """
-Servicios de cálculo de riesgo según metodología INSST.
+Servicios de cálculo de riesgo — Matriz INSST.
 
-Matriz de Evaluación de Riesgos del INSST:
-  Probabilidad (3 niveles) × Severidad (3 niveles) = Grado de Riesgo
+  Grado de Riesgo (GR) = Probabilidad × Severidad
 
-  Niveles de actuación:
-    1 = Trivial       → No requiere acción preventiva
-    2 = Tolerable     → No necesita mejora inmediata
-    3 = Moderado      → Deben hacerse esfuerzos para reducir
-    4 = Importante    → No comenzar hasta reducir el riesgo
-    5 = Intolerable   → No se permite el trabajo
+  Probabilidad: 1=Baja, 2=Media, 3=Alta
+  Severidad:    1=Baja, 2=Media, 3=Alta
+
+  Escala de niveles (1-9):
+    1-2 = Muy bajo
+    3-4 = Bajo
+    5-6 = Medio
+    7-8 = Alto
+    9   = Muy alto
 """
 
 
-# Matriz INSST: [probabilidad][severidad] → grado de riesgo (1-5)
-# Índices: 0=Baja/1=Media/2=Alta (prob)
-#          0=Ligeramente/1=Dañino/2=Extremadamente (sev)
+# Matriz INSST: [probabilidad][severidad] → grado de riesgo (1-9)
 MATRIZ_INSST = [
-    [1, 2, 3],   # Probabilidad Baja
-    [2, 3, 4],   # Probabilidad Media
-    [3, 4, 5],   # Probabilidad Alta
+    [1, 2, 3],   # Probabilidad Baja:   B×B=1, B×M=2, B×A=3
+    [2, 4, 6],   # Probabilidad Media:  M×B=2, M×M=4, M×A=6
+    [3, 6, 9],   # Probabilidad Alta:   A×B=3, A×M=6, A×A=9
 ]
 
-# Probabilidad: valor numérico → etiqueta
+# Probabilidad
 ETIQUETAS_PROBABILIDAD = {
     1: 'Baja',
     2: 'Media',
     3: 'Alta',
 }
 
-# Severidad: valor numérico → etiqueta
+# Severidad
 ETIQUETAS_SEVERIDAD = {
-    1: 'Ligeramente dañino',
-    2: 'Dañino',
-    3: 'Extremadamente dañino',
+    1: 'Baja',
+    2: 'Media',
+    3: 'Alta',
 }
 
-# Grado de riesgo: valor numérico → datos completos
+# Niveles de riesgo según el grado (1-9)
 NIVELES_RIESGO = {
     1: {
         'grado': 1,
-        'nivel': 'trivial',
-        'etiqueta': 'Trivial',
+        'nivel': 'muy_bajo',
+        'etiqueta': 'Muy bajo',
         'color': '#22c55e',
         'color_fondo': '#dcfce7',
         'color_texto': '#15803d',
-        'descripcion': 'No requiere acción preventiva.',
-        'badge_class': 'badge-success',
+        'descripcion': 'No requiere acción preventiva específica.',
+        'badge_class': 'badge-muy_bajo',
     },
     2: {
         'grado': 2,
-        'nivel': 'tolerable',
-        'etiqueta': 'Tolerable',
-        'color': '#84cc16',
-        'color_fondo': '#ecfccb',
-        'color_texto': '#3f6212',
-        'descripcion': 'No necesita mejora inmediata, pero requiere soluciones de bajo costo o menos urgentes.',
-        'badge_class': 'badge-tolerable',
+        'nivel': 'muy_bajo',
+        'etiqueta': 'Muy bajo',
+        'color': '#22c55e',
+        'color_fondo': '#dcfce7',
+        'color_texto': '#15803d',
+        'descripcion': 'No requiere acción preventiva específica.',
+        'badge_class': 'badge-muy_bajo',
     },
     3: {
         'grado': 3,
-        'nivel': 'moderado',
-        'etiqueta': 'Moderado',
+        'nivel': 'bajo',
+        'etiqueta': 'Bajo',
+        'color': '#84cc16',
+        'color_fondo': '#ecfccb',
+        'color_texto': '#3f6212',
+        'descripcion': 'No necesita mejora inmediata. Soluciones de bajo costo.',
+        'badge_class': 'badge-bajo',
+    },
+    4: {
+        'grado': 4,
+        'nivel': 'bajo',
+        'etiqueta': 'Bajo',
+        'color': '#84cc16',
+        'color_fondo': '#ecfccb',
+        'color_texto': '#3f6212',
+        'descripcion': 'No necesita mejora inmediata. Soluciones de bajo costo.',
+        'badge_class': 'badge-bajo',
+    },
+    5: {
+        'grado': 5,
+        'nivel': 'medio',
+        'etiqueta': 'Medio',
         'color': '#eab308',
         'color_fondo': '#fef9c3',
         'color_texto': '#a16207',
         'descripcion': 'Deben hacerse esfuerzos para reducir el riesgo.',
-        'badge_class': 'badge-moderate',
+        'badge_class': 'badge-medio',
     },
-    4: {
-        'grado': 4,
-        'nivel': 'importante',
-        'etiqueta': 'Importante',
+    6: {
+        'grado': 6,
+        'nivel': 'medio',
+        'etiqueta': 'Medio',
+        'color': '#eab308',
+        'color_fondo': '#fef9c3',
+        'color_texto': '#a16207',
+        'descripcion': 'Deben hacerse esfuerzos para reducir el riesgo.',
+        'badge_class': 'badge-medio',
+    },
+    7: {
+        'grado': 7,
+        'nivel': 'alto',
+        'etiqueta': 'Alto',
         'color': '#f97316',
         'color_fondo': '#ffedd5',
         'color_texto': '#c2410c',
         'descripcion': 'No debe comenzarse el trabajo hasta reducir el riesgo.',
-        'badge_class': 'badge-important',
+        'badge_class': 'badge-alto',
     },
-    5: {
-        'grado': 5,
-        'nivel': 'intolerable',
-        'etiqueta': 'Intolerable',
+    8: {
+        'grado': 8,
+        'nivel': 'alto',
+        'etiqueta': 'Alto',
+        'color': '#f97316',
+        'color_fondo': '#ffedd5',
+        'color_texto': '#c2410c',
+        'descripcion': 'No debe comenzarse el trabajo hasta reducir el riesgo.',
+        'badge_class': 'badge-alto',
+    },
+    9: {
+        'grado': 9,
+        'nivel': 'muy_alto',
+        'etiqueta': 'Muy alto',
         'color': '#ef4444',
         'color_fondo': '#fee2e2',
         'color_texto': '#b91c1c',
         'descripcion': 'No se permite el trabajo hasta eliminar o controlar el riesgo.',
-        'badge_class': 'badge-intolerable',
+        'badge_class': 'badge-muy_alto',
     },
 }
 
@@ -95,12 +135,7 @@ def calcular_grado_riesgo(probabilidad: int, severidad: int) -> dict:
     """
     Calcula el grado de riesgo según la matriz INSST.
 
-    Args:
-        probabilidad: 1=Baja, 2=Media, 3=Alta
-        severidad: 1=Ligeramente dañino, 2=Dañino, 3=Extremadamente dañino
-
-    Returns:
-        dict con grado, nivel, etiqueta, color, descripcion, badge_class
+    GR = Probabilidad × Severidad
     """
     if not (1 <= probabilidad <= 3 and 1 <= severidad <= 3):
         raise ValueError(
@@ -125,27 +160,21 @@ def obtener_etiqueta_severidad(valor: int) -> str:
 def calcular_estadisticas_evaluacion(items):
     """
     Calcula estadísticas resumen de una evaluación de riesgos.
-
-    Args:
-        items: QuerySet de RiskAssessmentItem
-
-    Returns:
-        dict con contadores por nivel y totales
     """
     stats = {
         'total': items.count(),
-        'trivial': items.filter(nivel_riesgo='trivial').count(),
-        'tolerable': items.filter(nivel_riesgo='tolerable').count(),
-        'moderado': items.filter(nivel_riesgo='moderado').count(),
-        'importante': items.filter(nivel_riesgo='importante').count(),
-        'intolerable': items.filter(nivel_riesgo='intolerable').count(),
+        'muy_bajo': items.filter(nivel_riesgo='muy_bajo').count(),
+        'bajo': items.filter(nivel_riesgo='bajo').count(),
+        'medio': items.filter(nivel_riesgo='medio').count(),
+        'alto': items.filter(nivel_riesgo='alto').count(),
+        'muy_alto': items.filter(nivel_riesgo='muy_alto').count(),
     }
     stats['requieren_accion'] = (
-        stats['moderado'] + stats['importante'] + stats['intolerable']
+        stats['medio'] + stats['alto'] + stats['muy_alto']
     )
     return stats
 
 
 def es_nivel_requiere_accion(nivel: str) -> bool:
     """Indica si un nivel de riesgo requiere acción preventiva."""
-    return nivel in ('moderado', 'importante', 'intolerable')
+    return nivel in ('medio', 'alto', 'muy_alto')

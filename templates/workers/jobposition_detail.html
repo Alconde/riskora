@@ -12,8 +12,11 @@
                 Empresa: {{ position.company.trade_name|default:position.company.legal_name }}
             </div>
         </div>
-        <a href="{% url 'jobposition-update' position.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+        <a href="{% url 'workers:jobposition-update' position.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
             Editar puesto
+        </a>
+        <a href="{% url 'workers:jobposition-delete' position.pk %}" style="background:#dc2626;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;margin-left:8px;">
+            Eliminar
         </a>
     </div>
 </div>
@@ -41,6 +44,6 @@
 </div>
 
 <div style="margin-top:18px;">
-    <a href="{% url 'jobposition-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+    <a href="{% url 'workers:jobposition-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
 </div>
 {% endblock %}

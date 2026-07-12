@@ -11,7 +11,7 @@
             <h3 class="section-title" style="margin-bottom:6px;">Evaluaciones de Riesgos</h3>
             <div class="meta">Metodología INSST — Matriz de Probabilidad × Severidad</div>
         </div>
-        <a href="{% url 'evaluacion-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+        <a href="{% url 'risk_assessment:evaluacion-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
             Nueva evaluación
         </a>
     </div>
@@ -22,7 +22,7 @@
         {% for ev in evaluaciones %}
             <div class="list-item">
                 <strong>
-                    <a href="{% url 'evaluacion-detail' ev.pk %}" style="text-decoration:none;color:#1f2937;">
+                    <a href="{% url 'risk_assessment:evaluacion-detail' ev.pk %}" style="text-decoration:none;color:#1f2937;">
                         {{ ev.titulo }}
                     </a>
                 </strong>

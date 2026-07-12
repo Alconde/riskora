@@ -1,5 +1,7 @@
 from django.urls import path
 
+app_name = 'risk_assessment'
+
 from apps.risk_assessment.views import (
     EvaluacionRiesgosListView,
     EvaluacionRiesgosDetailView,
@@ -10,6 +12,9 @@ from apps.risk_assessment.views import (
     ItemEvaluacionUpdateView,
     ItemEvaluacionDeleteView,
     calcular_riesgo_ajax,
+    exportar_excel,
+    importar_excel,
+    plantilla_excel,
 )
 
 urlpatterns = [
@@ -57,5 +62,20 @@ urlpatterns = [
         'api/calcular-riesgo/',
         calcular_riesgo_ajax,
         name='calcular-riesgo-ajax',
+    ),
+    path(
+        '<int:evaluacion_pk>/exportar/',
+        exportar_excel,
+        name='evaluacion-exportar',
+    ),
+    path(
+        '<int:evaluacion_pk>/importar/',
+        importar_excel,
+        name='evaluacion-importar',
+    ),
+    path(
+        'plantilla/',
+        plantilla_excel,
+        name='evaluacion-plantilla',
     ),
 ]

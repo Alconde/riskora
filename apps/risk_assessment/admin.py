@@ -22,8 +22,9 @@ class ItemEvaluacionInline(admin.TabularInline):
     readonly_fields = ('grado_riesgo', 'nivel_riesgo')
     fields = (
         'puesto_trabajo',
+        'factor_riesgo_condicion',
+        'riesgo',
         'tipo_peligro',
-        'descripcion_peligro',
         'probabilidad',
         'severidad',
         'grado_riesgo',
@@ -54,15 +55,16 @@ class ItemEvaluacionRiesgosAdmin(admin.ModelAdmin):
     list_display = (
         'evaluacion',
         'puesto_trabajo',
-        'tipo_peligro',
+        'factor_riesgo_condicion',
+        'riesgo',
         'probabilidad',
         'severidad',
         'grado_riesgo',
         'nivel_riesgo',
         'estado_implementacion',
     )
-    list_filter = ('nivel_riesgo', 'estado_implementacion')
-    search_fields = ('descripcion_peligro',)
+    list_filter = ('nivel_riesgo', 'estado_implementacion', 'riesgo')
+    search_fields = ('factor_riesgo_condicion',)
     readonly_fields = ('grado_riesgo', 'nivel_riesgo')
 
 

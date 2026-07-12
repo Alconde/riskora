@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}No conformidades | Riskora{% endblock %}
+{% block page_title %}No conformidades{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Listado de no conformidades</h3>
+            <div class="meta">Gestion de no conformidades detectadas, investigación y cierre.</div>
+        </div>
+        <a href="{% url 'corrective_actions:nc-create' %}" class="hero-btn hero-btn-primary">Nueva NC</a>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <form method="get" class="task-filters-grid">
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Buscar</label>
+            <input type="text" name="q" value="{{ filters.q|default:'' }}" placeholder="Codigo o titulo..." class="form-control">
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Estado</label>
+            <select name="estado" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in estado_choices %}
+                    <option value="{{ value }}" {% if filters.estado == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Gravedad</label>
+            <select name="gravedad" class="form-control">
+                <option value="">Todas</option>
+                {% for value, label in gravedad_choices %}
+                    <option value="{{ value }}" {% if filters.gravedad == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Fuente</label>
+            <select name="fuente" class="form-control">
+                <option value="">Todas</option>
+                {% for value, label in fuente_choices %}
+                    <option value="{{ value }}" {% if filters.fuente == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Vencidas</label>
+            <select name="vencidas" class="form-control">
+                <option value="">Todas</option>
+                <option value="1" {% if filters.vencidas == '1' %}selected{% endif %}>Solo vencidas</option>
+            </select>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:8px;">
+            <button type="submit" class="hero-btn hero-btn-primary" style="height:38px;">Filtrar</button>
+            <a href="{% url 'corrective_actions:nc-list' %}" class="hero-btn hero-btn-secondary" style="height:38px;">Limpiar</a>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for nc in no_conformidades %}
+            <div class="list-item">
+                <strong>
+                    <a href="{% url 'corrective_actions:nc-detail' nc.pk %}">{{ nc.codigo }} - {{ nc.titulo }}</a>
+                </strong>
+                <div class="meta">
+                    Empresa: {{ nc.empresa }} . Fuente: {{ nc.get_fuente_display }} . Detectada: {{ nc.fecha_deteccion }}
+                    {% if nc.fecha_limite_resolucion %} . Limite: {{ nc.fecha_limite_resolucion }}{% endif %}
+                </div>
+                <div style="display:flex;gap:8px;margin-top:6px;">
+                    <span class="badge {{ nc.badge_estado }}">{{ nc.get_estado_display }}</span>
+                    <span class="badge {{ nc.badge_gravedad }}">{{ nc.get_gravedad_display }}</span>
+                    {% if nc.esta_vencida %}<span class="badge badge-danger">Vencida</span>{% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay no conformidades registradas.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:8px;margin-top:18px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Anterior</a>
+    {% endif %}
+    <span style="padding:10px;color:#64748b;">Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Siguiente</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

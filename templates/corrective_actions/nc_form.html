@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar {{ object.codigo }}{% else %}Nueva no conformidad{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar {{ object.codigo }}{% else %}Nueva no conformidad{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="background:#fee2e2;color:#b91c1c;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
+                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+            </div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Titulo *</label>
+                {{ form.titulo }}
+                {% if form.titulo.errors %}<div style="color:#dc2626;font-size:12px;">{{ form.titulo.errors.0 }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Descripcion *</label>
+                {{ form.descripcion }}
+                {% if form.descripcion.errors %}<div style="color:#dc2626;font-size:12px;">{{ form.descripcion.errors.0 }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fuente *</label>
+                {{ form.fuente }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Gravedad *</label>
+                {{ form.gravedad }}
+            </div>
+
+            {% if object %}
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Estado</label>
+                {{ form.estado }}
+            </div>
+            {% endif %}
+
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de deteccion *</label>
+                {{ form.fecha_deteccion }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha limite de resolucion *</label>
+                {{ form.fecha_limite_resolucion }}
+            </div>
+
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Centro de trabajo</label>
+                {{ form.centro_trabajo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Trabajador</label>
+                {{ form.trabajador }}
+            </div>
+
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Ubicacion especifica</label>
+                {{ form.ubicacion }}
+            </div>
+
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Metodo de analisis de causa raiz</label>
+                {{ form.metodo_causa_raiz }}
+            </div>
+
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Causa raiz</label>
+                {{ form.causa_raiz }}
+            </div>
+
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Evidencias</label>
+                {{ form.evidencias }}
+            </div>
+
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Archivo de evidencia</label>
+                {{ form.archivo_evidencia }}
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="javascript:history.back()" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

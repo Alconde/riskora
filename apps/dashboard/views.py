@@ -7,7 +7,7 @@ from apps.dashboard.services import build_dashboard_context
 
 class DashboardView(LoginRequiredMixin, CompanyScopedMixin, TemplateView):
     template_name = 'dashboard/home.html'
-    login_url = '/admin/login/'
+    login_url = '/login/'
     company_field_name = 'company'
 
     def get_context_data(self, **kwargs):

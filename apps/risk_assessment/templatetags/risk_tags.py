@@ -6,13 +6,13 @@ register = template.Library()
 
 @register.filter
 def badge_riesgo(nivel):
-    """Devuelve la clase CSS del badge según el nivel de riesgo INSST."""
+    """Devuelve la clase CSS del badge según el nivel de riesgo."""
     niveles = {
-        'trivial': 'badge-success',
-        'tolerable': 'badge-tolerable',
-        'moderado': 'badge-moderate',
-        'importante': 'badge-important',
-        'intolerable': 'badge-intolerable',
+        'muy_bajo': 'badge-muy_bajo',
+        'bajo': 'badge-bajo',
+        'medio': 'badge-medio',
+        'alto': 'badge-alto',
+        'muy_alto': 'badge-muy_alto',
     }
     return niveles.get(nivel, 'badge-secondary')
 
@@ -21,11 +21,11 @@ def badge_riesgo(nivel):
 def color_riesgo(nivel):
     """Devuelve el color hex del nivel de riesgo."""
     niveles = {
-        'trivial': '#22c55e',
-        'tolerable': '#84cc16',
-        'moderado': '#eab308',
-        'importante': '#f97316',
-        'intolerable': '#ef4444',
+        'muy_bajo': '#22c55e',
+        'bajo': '#84cc16',
+        'medio': '#eab308',
+        'alto': '#f97316',
+        'muy_alto': '#ef4444',
     }
     return niveles.get(nivel, '#6b7280')
 
@@ -34,11 +34,11 @@ def color_riesgo(nivel):
 def color_fondo_riesgo(nivel):
     """Devuelve el color de fondo del nivel de riesgo."""
     niveles = {
-        'trivial': '#dcfce7',
-        'tolerable': '#ecfccb',
-        'moderado': '#fef9c3',
-        'importante': '#ffedd5',
-        'intolerable': '#fee2e2',
+        'muy_bajo': '#dcfce7',
+        'bajo': '#ecfccb',
+        'medio': '#fef9c3',
+        'alto': '#ffedd5',
+        'muy_alto': '#fee2e2',
     }
     return niveles.get(nivel, '#f3f4f6')
 
@@ -47,11 +47,11 @@ def color_fondo_riesgo(nivel):
 def color_texto_riesgo(nivel):
     """Devuelve el color de texto del nivel de riesgo."""
     niveles = {
-        'trivial': '#15803d',
-        'tolerable': '#3f6212',
-        'moderado': '#a16207',
-        'importante': '#c2410c',
-        'intolerable': '#b91c1c',
+        'muy_bajo': '#15803d',
+        'bajo': '#3f6212',
+        'medio': '#a16207',
+        'alto': '#c2410c',
+        'muy_alto': '#b91c1c',
     }
     return niveles.get(nivel, '#374151')
 
@@ -59,20 +59,25 @@ def color_texto_riesgo(nivel):
 @register.filter
 def etiqueta_riesgo(nivel):
     """Devuelve la etiqueta legible del nivel de riesgo."""
-    datos = NIVELES_RIESGO.get(nivel, {})
-    return datos.get('etiqueta', nivel)
+    datos = NIVELES_RIESGO.values()
+    for v in datos:
+        if v['nivel'] == nivel:
+            return v['etiqueta']
+    return nivel
 
 
 @register.filter
 def descripcion_riesgo(nivel):
     """Devuelve la descripción del nivel de riesgo."""
-    datos = NIVELES_RIESGO.get(nivel, {})
-    return datos.get('descripcion', '')
+    datos = NIVELES_RIESGO.values()
+    for v in datos:
+        if v['nivel'] == nivel:
+            return v['descripcion']
+    return ''
 
 
 @register.filter
 def risk_item_style(nivel):
     """Devuelve CSS inline completo para un item de riesgo."""
-    datos = NIVELES_RIESGO.get(nivel, {})
-    color = datos.get('color', '#6b7280')
+    color = color_riesgo(nivel)
     return f'border-left: 4px solid {color};'

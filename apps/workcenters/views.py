@@ -1,6 +1,7 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
 
 from apps.workcenters.forms import WorkCenterForm
@@ -14,7 +15,7 @@ class WorkCenterListView(LoginRequiredMixin, CompanyScopedMixin, ListView):
     template_name = 'workcenters/workcenter_list.html'
     context_object_name = 'workcenters'
     paginate_by = 20
-    login_url = '/admin/login/'
+    login_url = '/login/'
     company_field_name = 'company'
 
     def get_base_queryset(self):
@@ -74,7 +75,7 @@ class WorkCenterDetailView(LoginRequiredMixin, CompanyScopedMixin, DetailView):
     model = WorkCenter
     template_name = 'workcenters/workcenter_detail.html'
     context_object_name = 'workcenter'
-    login_url = '/admin/login/'
+    login_url = '/login/'
     company_field_name = 'company'
 
     def get_queryset(self):
@@ -82,17 +83,56 @@ class WorkCenterDetailView(LoginRequiredMixin, CompanyScopedMixin, DetailView):
         return self.get_company_scoped_queryset(queryset)
 
 
-class WorkCenterCreateView(LoginRequiredMixin, CreateView):
+class WorkCenterCreateView(LoginRequiredMixin, CompanyScopedMixin, CreateView):
     model = WorkCenter
     form_class = WorkCenterForm
     template_name = 'workcenters/workcenter_form.html'
-    success_url = reverse_lazy('workcenter-list')
+    success_url = reverse_lazy('workcenters:workcenter-list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        active_company = self.get_active_company()
+        if active_company and self.request.method == 'GET':
+            kwargs['initial'] = {'company': active_company}
+        return kwargs
+
+    def form_valid(self, form):
+        active_company = self.get_active_company()
+        if active_company:
+            form.instance.company = active_company
+        return super().form_valid(form)
 
 
-class WorkCenterUpdateView(LoginRequiredMixin, UpdateView):
+class WorkCenterUpdateView(LoginRequiredMixin, CompanyScopedMixin, UpdateView):
     model = WorkCenter
     form_class = WorkCenterForm
     template_name = 'workcenters/workcenter_form.html'
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            WorkCenter.objects.select_related('company')
+        )
 
     def get_success_url(self):
-        return reverse_lazy('workcenter-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('workcenters:workcenter-detail', kwargs={'pk': self.object.pk})
+
+
+class WorkCenterDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
+    model = WorkCenter
+    template_name = 'workcenters/workcenter_confirm_delete.html'
+    success_url = reverse_lazy('workcenters:workcenter-list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            WorkCenter.objects.select_related('company')
+        )
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Centro de trabajo eliminado correctamente.')
+        return super().delete(request, *args, **kwargs)

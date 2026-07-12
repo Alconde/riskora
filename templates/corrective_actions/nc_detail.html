@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ nc.codigo }} | Riskora{% endblock %}
+{% block page_title %}No conformidad {{ nc.codigo }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">{{ nc.titulo }}</h3>
+            <div class="meta">{{ nc.empresa }} . Detectada: {{ nc.fecha_deteccion }}</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            {% if nc.estado != 'cerrada' and nc.estado != 'cancelada' %}
+                <a href="{% url 'corrective_actions:nc-update' nc.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+                <form method="post" action="{% url 'corrective_actions:nc-close' nc.pk %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="resuelta_en" value="{{今天的日期|default:'' }}">
+                    <button type="submit" class="hero-btn hero-btn-primary">Cerrar NC</button>
+                </form>
+            {% endif %}
+            {% if nc.estado != 'cerrada' and nc.estado != 'cancelada' %}
+                <a href="{% url 'corrective_actions:nc-delete' nc.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Datos de la no conformidad</h3>
+        <div class="list">
+            <div class="list-item"><strong>Codigo:</strong> {{ nc.codigo }}</div>
+            <div class="list-item"><strong>Estado:</strong> <span class="badge {{ nc.badge_estado }}">{{ nc.get_estado_display }}</span></div>
+            <div class="list-item"><strong>Gravedad:</strong> <span class="badge {{ nc.badge_gravedad }}">{{ nc.get_gravedad_display }}</span></div>
+            <div class="list-item"><strong>Fuente:</strong> {{ nc.get_fuente_display }}</div>
+            <div class="list-item"><strong>Fecha deteccion:</strong> {{ nc.fecha_deteccion }}</div>
+            <div class="list-item"><strong>Fecha limite:</strong> {{ nc.fecha_limite_resolucion|default:"-" }}
+                {% if nc.esta_vencida %}<span class="badge badge-danger" style="margin-left:8px;">Vencida ({{ nc.dias_restantes }} dias)</span>{% endif %}
+            </div>
+            <div class="list-item"><strong>Detectado por:</strong> {{ nc.detectado_por|default:"-" }}</div>
+            <div class="list-item"><strong>Centro de trabajo:</strong> {{ nc.centro_trabajo|default:"-" }}</div>
+            <div class="list-item"><strong>Trabajador:</strong> {{ nc.trabajador|default:"-" }}</div>
+            <div class="list-item"><strong>Ubicacion:</strong> {{ nc.ubicacion|default:"-" }}</div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Descripcion y causa raiz</h3>
+        <div class="list">
+            <div class="list-item"><strong>Descripcion:</strong><br>{{ nc.descripcion|linebreaksbr }}</div>
+            {% if nc.causa_raiz %}
+                <div class="list-item"><strong>Causa raiz ({{ nc.get_metodo_causa_raiz_display }}):</strong><br>{{ nc.causa_raiz|linebreaksbr }}</div>
+            {% endif %}
+            {% if nc.evidencias %}
+                <div class="list-item"><strong>Evidencias:</strong><br>{{ nc.evidencias|linebreaksbr }}</div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+{% if nc.verificada %}
+<div class="card" style="margin-top: 18px;">
+    <h3 class="section-title">Verificacion de eficacia</h3>
+    <div class="list">
+        <div class="list-item"><strong>Verificada:</strong> Si</div>
+        <div class="list-item"><strong>Fecha:</strong> {{ nc.fecha_verificacion|default:"-" }}</div>
+        <div class="list-item"><strong>Verificada por:</strong> {{ nc.verificada_por|default:"-" }}</div>
+        {% if nc.notas_verificacion %}
+            <div class="list-item"><strong>Notas:</strong><br>{{ nc.notas_verificacion|linebreaksbr }}</div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+{% if nc.acciones_correctivas.exists %}
+<div class="card" style="margin-top: 18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 class="section-title" style="margin:0;">Acciones correctivas</h3>
+        <a href="{% url 'corrective_actions:ac-create' nc.pk %}" class="hero-btn hero-btn-primary" style="font-size:13px;">Nueva accion</a>
+    </div>
+    <div class="list">
+        {% for ac in nc.acciones_correctivas.all %}
+            <div class="list-item">
+                <strong><a href="{% url 'corrective_actions:ac-detail' ac.pk %}">AC-{{ forloop.counter0|add:1|stringformat:"04d" }}: {{ ac.descripcion|truncatechars:80 }}</a></strong>
+                <div class="meta">
+                    Responsable: {{ ac.responsable|default:"-" }} . Limite: {{ ac.fecha_limite }} . Ejecutada: {{ ac.fecha_ejecucion|default:"-" }}
+                </div>
+                <span class="badge {{ ac.badge_estado }}">{{ ac.get_estado_display }}</span>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay acciones correctivas registradas.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'corrective_actions:nc-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

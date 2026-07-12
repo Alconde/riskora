@@ -1,7 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
@@ -26,7 +27,7 @@ class CompanyCreateView(LoginRequiredMixin, CreateView):
     model = Company
     form_class = CompanyForm
     template_name = 'companies/company_form.html'
-    success_url = reverse_lazy('company-list')
+    success_url = reverse_lazy('companies:company-list')
 
 
 class CompanyUpdateView(LoginRequiredMixin, UpdateView):
@@ -35,7 +36,18 @@ class CompanyUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'companies/company_form.html'
 
     def get_success_url(self):
-        return reverse_lazy('company-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('companies:company-detail', kwargs={'pk': self.object.pk})
+
+
+class CompanyDeleteView(LoginRequiredMixin, DeleteView):
+    model = Company
+    template_name = 'companies/company_confirm_delete.html'
+    success_url = reverse_lazy('companies:company-list')
+    login_url = '/login/'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Empresa eliminada correctamente.')
+        return super().delete(request, *args, **kwargs)
 
 
 @login_required

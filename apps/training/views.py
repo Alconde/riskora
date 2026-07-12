@@ -92,19 +92,21 @@ class TrainingCategoryDeleteView(LoginRequiredMixin, DeleteView):
 # CURSOS
 # =========================================================
 
-class TrainingCourseListView(LoginRequiredMixin, ListView):
+class TrainingCourseListView(LoginRequiredMixin, CompanyScopedMixin, ListView):
     model = TrainingCourse
     template_name = 'training/course_list.html'
     context_object_name = 'courses'
     paginate_by = 10
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_base_queryset(self):
+        return TrainingCourse.objects.select_related(
+            'company', 'category'
+        ).prefetch_related('required_for_job_positions')
 
     def get_queryset(self):
-        queryset = (
-            TrainingCourse.objects
-            .select_related('company', 'category')
-            .prefetch_related('required_for_job_positions')
-            .order_by('name')
-        )
+        queryset = self.get_company_scoped_queryset(self.get_base_queryset())
 
         q = self.request.GET.get('q', '').strip()
         category = self.request.GET.get('category', '').strip()
@@ -131,7 +133,7 @@ class TrainingCourseListView(LoginRequiredMixin, ListView):
         if renewal == '1':
             queryset = queryset.filter(requires_renewal=True)
 
-        return queryset
+        return queryset.order_by('name')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -152,30 +154,60 @@ class TrainingCourseListView(LoginRequiredMixin, ListView):
         return context
 
 
-class TrainingCourseDetailView(LoginRequiredMixin, DetailView):
+class TrainingCourseDetailView(LoginRequiredMixin, CompanyScopedMixin, DetailView):
     model = TrainingCourse
     template_name = 'training/course_detail.html'
     context_object_name = 'course'
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            TrainingCourse.objects.select_related('company', 'category')
+            .prefetch_related('required_for_job_positions')
+        )
 
 
-class TrainingCourseCreateView(LoginRequiredMixin, CreateView):
+class TrainingCourseCreateView(LoginRequiredMixin, CompanyScopedMixin, CreateView):
     model = TrainingCourse
     form_class = TrainingCourseForm
     template_name = 'training/course_form.html'
     success_url = reverse_lazy('training:course_list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def form_valid(self, form):
+        active_company = self.get_active_company()
+        if active_company:
+            form.instance.company = active_company
+        return super().form_valid(form)
 
 
-class TrainingCourseUpdateView(LoginRequiredMixin, UpdateView):
+class TrainingCourseUpdateView(LoginRequiredMixin, CompanyScopedMixin, UpdateView):
     model = TrainingCourse
     form_class = TrainingCourseForm
     template_name = 'training/course_form.html'
     success_url = reverse_lazy('training:course_list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            TrainingCourse.objects.select_related('company', 'category')
+        )
 
 
-class TrainingCourseDeleteView(LoginRequiredMixin, DeleteView):
+class TrainingCourseDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
     model = TrainingCourse
     template_name = 'training/course_confirm_delete.html'
     success_url = reverse_lazy('training:course_list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            TrainingCourse.objects.select_related('company')
+        )
 
 
 # =========================================================
@@ -187,7 +219,7 @@ class TrainingRecordListView(LoginRequiredMixin, CompanyScopedMixin, ListView):
     template_name = 'training/record_list.html'
     context_object_name = 'records'
     paginate_by = 10
-    login_url = '/admin/login/'
+    login_url = '/login/'
     company_field_name = 'company'
 
     def get_base_queryset(self):
@@ -305,7 +337,7 @@ class TrainingRecordDetailView(LoginRequiredMixin, CompanyScopedMixin, DetailVie
     model = TrainingRecord
     template_name = 'training/record_detail.html'
     context_object_name = 'record'
-    login_url = '/admin/login/'
+    login_url = '/login/'
     company_field_name = 'company'
 
     def get_queryset(self):
@@ -317,34 +349,53 @@ class TrainingRecordDetailView(LoginRequiredMixin, CompanyScopedMixin, DetailVie
         return self.get_company_scoped_queryset(queryset)
 
 
-class TrainingRecordCreateView(LoginRequiredMixin, CreateView):
+class TrainingRecordCreateView(LoginRequiredMixin, CompanyScopedMixin, CreateView):
     model = TrainingRecord
     form_class = TrainingRecordForm
     template_name = 'training/record_form.html'
     success_url = reverse_lazy('training:record_list')
+    login_url = '/login/'
+    company_field_name = 'company'
 
     def form_valid(self, form):
+        active_company = self.get_active_company()
+        if active_company:
+            form.instance.company = active_company
         if self.request.user.is_authenticated:
             form.instance.created_by = self.request.user
         return super().form_valid(form)
 
 
-class TrainingRecordUpdateView(LoginRequiredMixin, UpdateView):
+class TrainingRecordUpdateView(LoginRequiredMixin, CompanyScopedMixin, UpdateView):
     model = TrainingRecord
     form_class = TrainingRecordForm
     template_name = 'training/record_form.html'
     success_url = reverse_lazy('training:record_list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            TrainingRecord.objects.select_related('company', 'worker', 'course')
+        )
 
 
-class TrainingRecordDeleteView(LoginRequiredMixin, DeleteView):
+class TrainingRecordDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
     model = TrainingRecord
     template_name = 'training/record_confirm_delete.html'
     success_url = reverse_lazy('training:record_list')
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_queryset(self):
+        return self.get_company_scoped_queryset(
+            TrainingRecord.objects.select_related('company')
+        )
 
 
 class TrainingDashboardView(LoginRequiredMixin, CompanyScopedMixin, TemplateView):
     template_name = 'training/dashboard.html'
-    login_url = '/admin/login/'
+    login_url = '/login/'
     company_field_name = 'company'
 
     def get_context_data(self, **kwargs):

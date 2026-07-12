@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar tarea{% else %}Nueva tarea{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar tarea{% else %}Nueva tarea{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 800px;">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.title.id_for_label }}">Título *</label>
+                {{ form.title }}
+                {% if form.title.errors %}<div style="color:#b91c1c;">{{ form.title.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.status.id_for_label }}">Estado</label>
+                {{ form.status }}
+                {% if form.status.errors %}<div style="color:#b91c1c;">{{ form.status.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.priority.id_for_label }}">Prioridad</label>
+                {{ form.priority }}
+                {% if form.priority.errors %}<div style="color:#b91c1c;">{{ form.priority.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.assigned_to.id_for_label }}">Asignada a</label>
+                {{ form.assigned_to }}
+                {% if form.assigned_to.errors %}<div style="color:#b91c1c;">{{ form.assigned_to.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.due_date.id_for_label }}">Fecha límite</label>
+                {{ form.due_date }}
+                {% if form.due_date.errors %}<div style="color:#b91c1c;">{{ form.due_date.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.description.id_for_label }}">Descripción</label>
+                {{ form.description }}
+                {% if form.description.errors %}<div style="color:#b91c1c;">{{ form.description.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.notes.id_for_label }}">Observaciones</label>
+                {{ form.notes }}
+                {% if form.notes.errors %}<div style="color:#b91c1c;">{{ form.notes.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div style="display:flex;gap:12px;">
+            <button type="submit" style="background:#1d4ed8;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
+                Guardar
+            </button>
+            <a href="javascript:history.back()" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
