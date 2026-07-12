@@ -13,6 +13,7 @@ urlpatterns = [
     path('training/', include('apps.training.urls')),
     path('documents/', include('apps.documents.urls', namespace='documents')),
     path('', include('apps.tasks.urls', namespace='tasks')),
+    path('evaluaciones/', include('apps.risk_assessment.urls')),
 ]
 
 if settings.DEBUG:

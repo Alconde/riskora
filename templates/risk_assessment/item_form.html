@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar item{% else %}Nuevo item{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar item de evaluación{% else %}Nuevo item de evaluación{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 1000px;">
+    <form method="post" id="item-form">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {# Datos del peligro #}
+        <h3 class="section-title" style="margin-bottom:12px;font-size:15px;">Identificación del peligro</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+            <div>
+                <label for="{{ form.puesto_trabajo.id_for_label }}">Puesto de trabajo</label>
+                {{ form.puesto_trabajo }}
+                {% if form.puesto_trabajo.errors %}<div style="color:#b91c1c;">{{ form.puesto_trabajo.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.tipo_peligro.id_for_label }}">Tipo de peligro</label>
+                {{ form.tipo_peligro }}
+                {% if form.tipo_peligro.errors %}<div style="color:#b91c1c;">{{ form.tipo_peligro.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.descripcion_peligro.id_for_label }}">Descripción del peligro</label>
+                {{ form.descripcion_peligro }}
+                {% if form.descripcion_peligro.errors %}<div style="color:#b91c1c;">{{ form.descripcion_peligro.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.medidas_existentes.id_for_label }}">Medidas preventivas existentes</label>
+                {{ form.medidas_existentes }}
+                {% if form.medidas_existentes.errors %}<div style="color:#b91c1c;">{{ form.medidas_existentes.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        {# Evaluación INSST #}
+        <h3 class="section-title" style="margin-bottom:12px;font-size:15px;">Evaluación del riesgo (Matriz INSST)</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+            <div>
+                <label for="{{ form.probabilidad.id_for_label }}">Probabilidad</label>
+                {{ form.probabilidad }}
+                {% if form.probabilidad.errors %}<div style="color:#b91c1c;">{{ form.probabilidad.errors }}</div>{% endif %}
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">1=Baja · 2=Media · 3=Alta</div>
+            </div>
+
+            <div>
+                <label for="{{ form.severidad.id_for_label }}">Severidad (consecuencias)</label>
+                {{ form.severidad }}
+                {% if form.severidad.errors %}<div style="color:#b91c1c;">{{ form.severidad.errors }}</div>{% endif %}
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">1=Ligeramente dañino · 2=Dañino · 3=Extremadamente dañino</div>
+            </div>
+
+            {# Resultado del cálculo en tiempo real #}
+            <div style="grid-column:1 / -1;">
+                <div id="riesgo-preview" style="display:none;padding:16px;border-radius:12px;text-align:center;">
+                    <div style="font-size:13px;color:#64748b;margin-bottom:4px;">Grado de Riesgo calculado</div>
+                    <div id="riesgo-valor" style="font-size:48px;font-weight:800;"></div>
+                    <div id="riesgo-nivel" style="font-size:16px;font-weight:700;margin-top:4px;"></div>
+                    <div id="riesgo-descripcion" style="font-size:13px;color:#475569;margin-top:8px;"></div>
+                </div>
+            </div>
+        </div>
+
+        {# Medidas propuestas #}
+        <h3 class="section-title" style="margin-bottom:12px;font-size:15px;">Medidas preventivas propuestas</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.medidas_propuestas.id_for_label }}">Nuevas medidas preventivas</label>
+                {{ form.medidas_propuestas }}
+                {% if form.medidas_propuestas.errors %}<div style="color:#b91c1c;">{{ form.medidas_propuestas.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.responsable_medida.id_for_label }}">Responsable de la medida</label>
+                {{ form.responsable_medida }}
+                {% if form.responsable_medida.errors %}<div style="color:#b91c1c;">{{ form.responsable_medida.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.fecha_limite_implementacion.id_for_label }}">Fecha límite de implementación</label>
+                {{ form.fecha_limite_implementacion }}
+                {% if form.fecha_limite_implementacion.errors %}<div style="color:#b91c1c;">{{ form.fecha_limite_implementacion.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.estado_implementacion.id_for_label }}">Estado de implementación</label>
+                {{ form.estado_implementacion }}
+                {% if form.estado_implementacion.errors %}<div style="color:#b91c1c;">{{ form.estado_implementacion.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div style="margin-top:24px;display:flex;gap:12px;">
+            <button type="submit" style="background:#1d4ed8;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
+                Guardar item
+            </button>
+            <a href="javascript:history.back()" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    const probSelect = document.getElementById('id_probabilidad');
+    const sevSelect = document.getElementById('id_severidad');
+    const preview = document.getElementById('riesgo-preview');
+    const valorEl = document.getElementById('riesgo-valor');
+    const nivelEl = document.getElementById('riesgo-nivel');
+    const descEl = document.getElementById('riesgo-descripcion');
+
+    const colores = {
+        'trivial': {'color': '#22c55e', 'bg': '#dcfce7', 'text': '#15803d'},
+        'tolerable': {'color': '#84cc16', 'bg': '#ecfccb', 'text': '#3f6212'},
+        'moderado': {'color': '#eab308', 'bg': '#fef9c3', 'text': '#a16207'},
+        'importante': {'color': '#f97316', 'bg': '#ffedd5', 'text': '#c2410c'},
+        'intolerable': {'color': '#ef4444', 'bg': '#fee2e2', 'text': '#b91c1c'}
+    };
+
+    function calcular() {
+        const p = probSelect.value;
+        const s = sevSelect.value;
+        if (!p || !s) {
+            preview.style.display = 'none';
+            return;
+        }
+
+        fetch(`/evaluaciones/api/calcular-riesgo/?probabilidad=${p}&severidad=${s}`)
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) return;
+                const c = colores[data.nivel] || colores['trivial'];
+                preview.style.display = 'block';
+                preview.style.background = c.bg;
+                preview.style.border = `2px solid ${c.color}`;
+                valorEl.textContent = data.grado;
+                valorEl.style.color = c.color;
+                nivelEl.textContent = data.etiqueta;
+                nivelEl.style.color = c.text;
+                descEl.textContent = data.descripcion;
+            });
+    }
+
+    probSelect.addEventListener('change', calcular);
+    sevSelect.addEventListener('change', calcular);
+
+    // Calcular al cargar si ya hay valores (edición)
+    if (probSelect.value && sevSelect.value) {
+        calcular();
+    }
+})();
+</script>
+{% endblock %}

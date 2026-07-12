@@ -79,10 +79,14 @@ class ItemEvaluacionRiesgosForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if empresa:
             from apps.workers.models import JobPosition
+            from apps.accounts.models import User
             self.fields['puesto_trabajo'].queryset = JobPosition.objects.filter(
-                empresa=empresa
+                company=empresa
             )
-            self.fields['responsable_medida'].queryset = empresa.members.filter(
+            user_ids = empresa.memberships.filter(
                 is_active=True
+            ).values_list('user_id', flat=True)
+            self.fields['responsable_medida'].queryset = User.objects.filter(
+                id__in=user_ids
             )
         self.fields['tipo_peligro'].queryset = TipoPeligro.objects.filter(activo=True)

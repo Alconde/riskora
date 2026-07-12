@@ -33,6 +33,7 @@ LOCAL_APPS = [
     'apps.tasks',
     'apps.training.apps.TrainingConfig',
     'apps.dashboard',
+    'apps.risk_assessment',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

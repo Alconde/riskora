@@ -658,6 +658,31 @@
             color: #15803d;
         }
 
+        .badge-tolerable {
+            background: #ecfccb;
+            color: #3f6212;
+        }
+
+        .badge-moderate {
+            background: #fef9c3;
+            color: #a16207;
+        }
+
+        .badge-important {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .badge-intolerable {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .badge-secondary {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
         label {
             display: block;
             margin-bottom: 6px;
@@ -839,6 +864,14 @@
                         <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                     </svg>
                     <span class="nav-label">Tareas</span>
+                </a>
+
+                <a href="{% url 'evaluacion-list' %}" class="nav-link {% is_active 'evaluacion-list' %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
+                        <path d="M8 12l3 3 5-5"></path>
+                    </svg>
+                    <span class="nav-label">Evaluaciones</span>
                 </a>
 
                 <a href="/admin/tasks/alert/" class="nav-link {% if '/admin/tasks/alert/' in request.path %}is-active{% endif %}">

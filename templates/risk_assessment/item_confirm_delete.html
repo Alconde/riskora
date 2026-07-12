@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar item | Riskora{% endblock %}
+{% block page_title %}Eliminar item de evaluación{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:600px;">
+    <h3 class="section-title" style="margin-bottom:12px;color:#dc2626;">Confirmar eliminación</h3>
+    <p style="color:#475569;margin-bottom:16px;">
+        ¿Estás seguro de que deseas eliminar este item de evaluación de riesgos?
+    </p>
+    <div style="padding:12px;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;margin-bottom:20px;">
+        <div style="font-size:13px;color:#475569;">
+            <strong>Puesto:</strong> {{ object.puesto_trabajo }}<br>
+            <strong>Peligro:</strong> {{ object.tipo_peligro }}<br>
+            <strong>Grado de riesgo:</strong> {{ object.grado_riesgo }} ({{ object.get_nivel_riesgo_display }})
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:flex;gap:12px;">
+            <button type="submit" style="background:#dc2626;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
+                Eliminar
+            </button>
+            <a href="javascript:history.back()" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
