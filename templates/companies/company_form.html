@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar empresa{% else %}Nueva empresa{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar empresa{% else %}Nueva empresa{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 1000px;">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label for="{{ form.trade_name.id_for_label }}">Nombre comercial</label>
+                {{ form.trade_name }}
+                {% if form.trade_name.errors %}<div style="color:#b91c1c;">{{ form.trade_name.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.legal_name.id_for_label }}">Razón social</label>
+                {{ form.legal_name }}
+                {% if form.legal_name.errors %}<div style="color:#b91c1c;">{{ form.legal_name.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.tax_id.id_for_label }}">CIF / NIF</label>
+                {{ form.tax_id }}
+                {% if form.tax_id.errors %}<div style="color:#b91c1c;">{{ form.tax_id.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.status.id_for_label }}">Estado</label>
+                {{ form.status }}
+                {% if form.status.errors %}<div style="color:#b91c1c;">{{ form.status.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}<div style="color:#b91c1c;">{{ form.email.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.phone.id_for_label }}">Teléfono</label>
+                {{ form.phone }}
+                {% if form.phone.errors %}<div style="color:#b91c1c;">{{ form.phone.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.website.id_for_label }}">Sitio web</label>
+                {{ form.website }}
+                {% if form.website.errors %}<div style="color:#b91c1c;">{{ form.website.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.postal_code.id_for_label }}">Código postal</label>
+                {{ form.postal_code }}
+                {% if form.postal_code.errors %}<div style="color:#b91c1c;">{{ form.postal_code.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.city.id_for_label }}">Ciudad</label>
+                {{ form.city }}
+                {% if form.city.errors %}<div style="color:#b91c1c;">{{ form.city.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.province.id_for_label }}">Provincia</label>
+                {{ form.province }}
+                {% if form.province.errors %}<div style="color:#b91c1c;">{{ form.province.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.autonomous_community.id_for_label }}">Comunidad autónoma</label>
+                {{ form.autonomous_community }}
+                {% if form.autonomous_community.errors %}<div style="color:#b91c1c;">{{ form.autonomous_community.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.country.id_for_label }}">País</label>
+                {{ form.country }}
+                {% if form.country.errors %}<div style="color:#b91c1c;">{{ form.country.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.activity.id_for_label }}">Actividad</label>
+                {{ form.activity }}
+                {% if form.activity.errors %}<div style="color:#b91c1c;">{{ form.activity.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.cnae.id_for_label }}">CNAE</label>
+                {{ form.cnae }}
+                {% if form.cnae.errors %}<div style="color:#b91c1c;">{{ form.cnae.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.workforce_size.id_for_label }}">Número de trabajadores</label>
+                {{ form.workforce_size }}
+                {% if form.workforce_size.errors %}<div style="color:#b91c1c;">{{ form.workforce_size.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.address.id_for_label }}">Dirección</label>
+                {{ form.address }}
+                {% if form.address.errors %}<div style="color:#b91c1c;">{{ form.address.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.notes.id_for_label }}">Observaciones</label>
+                {{ form.notes }}
+                {% if form.notes.errors %}<div style="color:#b91c1c;">{{ form.notes.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div style="margin-top:24px;display:flex;gap:12px;">
+            <button type="submit" style="background:#1d4ed8;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
+                Guardar
+            </button>
+            <a href="{% url 'company-list' %}" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

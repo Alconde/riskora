@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar categoría{% endblock %}
+
+{% block content %}
+{% include 'training/_training_header.html' with training_title='Categorías de formación' training_description='Eliminación controlada de categorías del módulo de formación.' %}
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">Eliminar categoría</h2>
+            <p class="training-section-text">
+                Revisa la acción antes de continuar.
+            </p>
+        </div>
+    </div>
+
+    <div class="empty-box" style="text-align:left; border-style:solid; background:#fff7f7; border-color:#fecaca; color:#7f1d1d;">
+        <p style="margin:0 0 10px; font-weight:700;">Vas a eliminar la categoría:</p>
+        <p style="margin:0; font-size:18px; font-weight:800;">{{ object.name }}</p>
+
+        {% if object.code %}
+        <p style="margin:8px 0 0;">Código: {{ object.code }}</p>
+        {% endif %}
+
+        <p style="margin:12px 0 0;">
+            Si esta categoría está asociada a cursos existentes, conviene revisar antes sus dependencias.
+        </p>
+    </div>
+
+    <form method="post" style="margin-top:20px;">
+        {% csrf_token %}
+        <div class="actions" style="margin-bottom:0;">
+            <button type="submit" class="btn btn-danger">Confirmar eliminación</button>
+            <a href="{% url 'training:category_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+</div>
+{% endblock %}

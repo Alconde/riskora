@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalle curso{% endblock %}
+
+{% block content %}
+{% include 'training/_training_header.html' with training_title='Cursos de formación' training_description='Detalle funcional del curso, configuración y criterios de vigencia.' %}
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">{{ course.name }}</h2>
+            <p class="training-section-text">Ficha del curso y configuración preventiva asociada.</p>
+        </div>
+        <div class="actions" style="margin-bottom:0;">
+            <a href="{% url 'training:course_update' course.pk %}" class="btn">Editar</a>
+            <a href="{% url 'training:course_delete' course.pk %}" class="btn btn-danger">Eliminar</a>
+            <a href="{% url 'training:course_list' %}" class="btn btn-secondary">Volver</a>
+        </div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="detail-label">Empresa</div>
+            <div class="detail-value">{{ course.company|default:"General" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Categoría</div>
+            <div class="detail-value">{{ course.category|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Modalidad</div>
+            <div class="detail-value">{{ course.get_modality_display|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Duración</div>
+            <div class="detail-value">{{ course.duration_hours|default:"-" }} horas</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Obligatoria</div>
+            <div class="detail-value">{{ course.is_mandatory|yesno:"Sí,No" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Renovación</div>
+            <div class="detail-value">{{ course.requires_renewal|yesno:"Sí,No" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Vigencia</div>
+            <div class="detail-value">
+                {% if course.validity_value %}
+                    {{ course.validity_value }} {{ course.get_validity_unit_display }}
+                {% else %}
+                    No definida
+                {% endif %}
+            </div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Estado</div>
+            <div class="detail-value">{{ course.get_status_display|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Descripción</div>
+            <div class="detail-value">{{ course.description|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Objetivo</div>
+            <div class="detail-value">{{ course.objective|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Contenido</div>
+            <div class="detail-value">{{ course.content|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Observaciones</div>
+            <div class="detail-value">{{ course.notes|default:"-" }}</div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

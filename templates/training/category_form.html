@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Formulario categoría{% endblock %}
+
+{% block content %}
+{% include 'training/_training_header.html' with training_title='Categorías de formación' training_description='Define y mantiene la estructura del catálogo formativo preventivo.' %}
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">
+                {% if object %}Editar categoría{% else %}Nueva categoría{% endif %}
+            </h2>
+            <p class="training-section-text">
+                Configura la categoría para clasificar correctamente los cursos del módulo.
+            </p>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-grid">
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="actions" style="margin-top:20px;">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% url 'training:category_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar documento | Riskora{% endblock %}
+{% block page_title %}Eliminar documento{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h3 class="section-title">Confirmar eliminación</h3>
+
+    <div class="list">
+        <div class="list-item">
+            <strong>{{ document.title }}</strong>
+            <div class="meta">
+                Empresa: {{ document.company }} ·
+                Categoría: {{ document.category }} ·
+                Estado: {{ document.get_status_display }}
+            </div>
+        </div>
+    </div>
+
+    <p style="margin-top:16px;">
+        Esta acción eliminará el registro del documento. Revísalo antes de continuar.
+    </p>
+
+    <form method="post" style="margin-top:18px;">
+        {% csrf_token %}
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button type="submit" class="hero-btn hero-btn-primary">Eliminar</button>
+            <a href="{% url 'documents:detail' document.pk %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

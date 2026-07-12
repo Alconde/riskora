@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard formación{% endblock %}
+
+{% block content %}
+{% include 'training/_training_header.html' with training_title='Dashboard de formación' training_description='Control operativo de competencia preventiva, renovaciones y alertas.' training_kpis=training_kpis %}
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">Caducidades próximas</h2>
+            <p class="training-section-text">Registros que requieren actuación en los próximos 30 días.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Trabajador</th>
+                    <th>Curso</th>
+                    <th>Caducidad</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in expiring_records %}
+                <tr>
+                    <td>{{ record.worker }}</td>
+                    <td>{{ record.course }}</td>
+                    <td>{{ record.expiry_date }}</td>
+                    <td><span class="badge {{ record.expiry_badge_class }}">{{ record.expiry_status_label }}</span></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4"><div class="empty-box">No hay registros próximos a caducar.</div></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">Necesidades formativas</h2>
+            <p class="training-section-text">Acciones pendientes generadas por puesto o renovación.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Trabajador</th>
+                    <th>Curso</th>
+                    <th>Prioridad</th>
+                    <th>Vencimiento</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for need in pending_needs %}
+                <tr>
+                    <td>{{ need.worker }}</td>
+                    <td>{{ need.course }}</td>
+                    <td><span class="badge {{ need.priority_badge_class }}">{{ need.priority_label }}</span></td>
+                    <td>{{ need.due_date|default:"-" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4"><div class="empty-box">No hay necesidades formativas pendientes.</div></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">Alertas abiertas</h2>
+            <p class="training-section-text">Seguimiento operativo y preventivo del módulo.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Trabajador</th>
+                    <th>Curso</th>
+                    <th>Fecha objetivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert in open_alerts %}
+                <tr>
+                    <td>{{ alert.title }}</td>
+                    <td>{{ alert.worker|default:"-" }}</td>
+                    <td>{{ alert.course|default:"-" }}</td>
+                    <td>{{ alert.due_date|default:"-" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4"><div class="empty-box">No hay alertas abiertas.</div></td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+{% endblock %}

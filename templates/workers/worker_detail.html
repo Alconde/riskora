@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ worker.first_name }} {{ worker.last_name }} | Riskora{% endblock %}
+{% block page_title %}Detalle de trabajador{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:6px;">
+                {{ worker.first_name }} {{ worker.last_name }}
+            </h3>
+            <div class="meta">
+                Empresa:
+                {{ worker.company.trade_name|default:worker.company.legal_name }} ·
+                Centro: {{ worker.work_center.name|default:"-" }}
+            </div>
+        </div>
+        <a href="{% url 'worker-update' worker.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+            Editar trabajador
+        </a>
+    </div>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Datos personales</h3>
+        <div class="list">
+            <div class="list-item"><strong>Nombre</strong><div class="meta">{{ worker.first_name }}</div></div>
+            <div class="list-item"><strong>Apellidos</strong><div class="meta">{{ worker.last_name }}</div></div>
+            <div class="list-item"><strong>DNI / NIE</strong><div class="meta">{{ worker.national_id|default:"-" }}</div></div>
+            <div class="list-item"><strong>Fecha de nacimiento</strong><div class="meta">{{ worker.birth_date|default:"-" }}</div></div>
+            <div class="list-item"><strong>Email</strong><div class="meta">{{ worker.email|default:"-" }}</div></div>
+            <div class="list-item"><strong>Teléfono</strong><div class="meta">{{ worker.phone|default:"-" }}</div></div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Datos laborales</h3>
+        <div class="list">
+            <div class="list-item"><strong>Empresa</strong><div class="meta">{{ worker.company.trade_name|default:worker.company.legal_name }}</div></div>
+            <div class="list-item"><strong>Centro de trabajo</strong><div class="meta">{{ worker.work_center.name|default:"-" }}</div></div>
+            <div class="list-item"><strong>Puesto</strong><div class="meta">{{ worker.job_position|default:"-" }}</div></div>
+            <div class="list-item"><strong>Código empleado</strong><div class="meta">{{ worker.employee_code|default:"-" }}</div></div>
+            <div class="list-item"><strong>Nº Seguridad Social</strong><div class="meta">{{ worker.social_security_number|default:"-" }}</div></div>
+            <div class="list-item"><strong>Fecha de alta</strong><div class="meta">{{ worker.hire_date|default:"-" }}</div></div>
+            <div class="list-item"><strong>Estado laboral</strong><div class="meta">{{ worker.get_employment_status_display|default:worker.employment_status }}</div></div>
+        </div>
+    </section>
+</div>
+
+<div class="card" style="margin-top:18px;">
+    <h3 class="section-title">Condiciones PRL</h3>
+    <div class="list">
+        <div class="list-item">
+            <strong>Especialmente sensible</strong>
+            <div class="meta">{% if worker.especially_sensitive %}Sí{% else %}No{% endif %}</div>
+        </div>
+        <div class="list-item">
+            <strong>Trabajador temporal / ETT</strong>
+            <div class="meta">{% if worker.temporary_worker %}Sí{% else %}No{% endif %}</div>
+        </div>
+        <div class="list-item">
+            <strong>Observaciones</strong>
+            <div class="meta">{{ worker.notes|default:"Sin observaciones." }}</div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top:18px;">
+    <a href="{% url 'worker-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

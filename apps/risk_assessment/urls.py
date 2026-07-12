@@ -1,0 +1,61 @@
+from django.urls import path
+
+from apps.risk_assessment.views import (
+    EvaluacionRiesgosListView,
+    EvaluacionRiesgosDetailView,
+    EvaluacionRiesgosCreateView,
+    EvaluacionRiesgosUpdateView,
+    EvaluacionRiesgosDeleteView,
+    ItemEvaluacionCreateView,
+    ItemEvaluacionUpdateView,
+    ItemEvaluacionDeleteView,
+    calcular_riesgo_ajax,
+)
+
+urlpatterns = [
+    path(
+        '',
+        EvaluacionRiesgosListView.as_view(),
+        name='evaluacion-list',
+    ),
+    path(
+        'nueva/',
+        EvaluacionRiesgosCreateView.as_view(),
+        name='evaluacion-create',
+    ),
+    path(
+        '<int:pk>/',
+        EvaluacionRiesgosDetailView.as_view(),
+        name='evaluacion-detail',
+    ),
+    path(
+        '<int:pk>/editar/',
+        EvaluacionRiesgosUpdateView.as_view(),
+        name='evaluacion-update',
+    ),
+    path(
+        '<int:pk>/eliminar/',
+        EvaluacionRiesgosDeleteView.as_view(),
+        name='evaluacion-delete',
+    ),
+    path(
+        '<int:evaluacion_pk>/items/nuevo/',
+        ItemEvaluacionCreateView.as_view(),
+        name='item-create',
+    ),
+    path(
+        'items/<int:pk>/editar/',
+        ItemEvaluacionUpdateView.as_view(),
+        name='item-update',
+    ),
+    path(
+        'items/<int:pk>/eliminar/',
+        ItemEvaluacionDeleteView.as_view(),
+        name='item-delete',
+    ),
+    path(
+        'api/calcular-riesgo/',
+        calcular_riesgo_ajax,
+        name='calcular-riesgo-ajax',
+    ),
+]

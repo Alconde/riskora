@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}Documentos | Riskora{% endblock %}
+{% block page_title %}Documentos{% endblock %}
+
+{% block content %}
+<div class="grid" style="margin-bottom: 18px; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Total documentos</div>
+        <a href="{% url 'documents:create' %}" class="hero-btn hero-btn-primary">Nuevo documento</a>
+        <div class="kpi-value">{{ documents_total }}</div>
+    </div>
+
+    <div class="card kpi-card">
+        <div class="kpi-label">Vigentes</div>
+        <div class="kpi-value">{{ documents_valid }}</div>
+    </div>
+
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Caducados</div>
+        <div class="kpi-value">{{ documents_expired }}</div>
+    </div>
+
+    <div class="card kpi-card kpi-card-warning">
+        <div class="kpi-label">Vencen en 30 días</div>
+        <div class="kpi-value">{{ documents_expiring }}</div>
+    </div>
+
+    <div class="card kpi-card">
+        <div class="kpi-label">Confidenciales</div>
+        <div class="kpi-value">{{ documents_confidential }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title">Filtros</h3>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+        <a href="{% url 'documents:list' %}" class="hero-btn hero-btn-secondary">Todos</a>
+        <a href="{% url 'documents:list' %}?expired=1" class="hero-btn hero-btn-secondary">Caducados</a>
+        <a href="{% url 'documents:list' %}?expiring=1" class="hero-btn hero-btn-secondary">Vencen pronto</a>
+        <a href="{% url 'documents:list' %}?confidential=1" class="hero-btn hero-btn-secondary">Confidenciales</a>
+        <a href="{% url 'documents:list' %}?status=valid" class="hero-btn hero-btn-secondary">Vigentes</a>
+    </div>
+
+    <form method="get" class="grid" style="grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px;">
+        <div>
+            <label for="id_q">Buscar</label>
+            <input
+                type="text"
+                name="q"
+                id="id_q"
+                class="form-control"
+                value="{{ filters.q|default:'' }}"
+                placeholder="Título, código o texto"
+            >
+        </div>
+
+        <div>
+            <label for="id_company">Empresa</label>
+            <select name="company" id="id_company" class="form-control">
+                <option value="">Todas</option>
+                {% for company in companies %}
+                    <option value="{{ company.pk }}" {% if filters.company == company.pk|stringformat:"s" %}selected{% endif %}>
+                        {{ company }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="id_status">Estado</label>
+            <select name="status" id="id_status" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if filters.status == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="id_category">Categoría</label>
+            <select name="category" id="id_category" class="form-control">
+                <option value="">Todas</option>
+                {% for category in categories %}
+                    <option value="{{ category.pk }}" {% if filters.category == category.pk|stringformat:"s" %}selected{% endif %}>
+                        {{ category }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="id_expired">Caducados</label>
+            <select name="expired" id="id_expired" class="form-control">
+                <option value="">No filtrar</option>
+                <option value="1" {% if filters.expired == '1' %}selected{% endif %}>Sí</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="id_expiring">Próx. 30 días</label>
+            <select name="expiring" id="id_expiring" class="form-control">
+                <option value="">No filtrar</option>
+                <option value="1" {% if filters.expiring == '1' %}selected{% endif %}>Sí</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="id_confidential">Confidencial</label>
+            <select name="confidential" id="id_confidential" class="form-control">
+                <option value="">No filtrar</option>
+                <option value="1" {% if filters.confidential == '1' %}selected{% endif %}>Sí</option>
+            </select>
+        </div>
+
+        <div style="grid-column: 1 / -1; display: flex; gap: 10px; margin-top: 6px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Filtrar</button>
+            <a href="{% url 'documents:list' %}" class="hero-btn hero-btn-secondary">Limpiar</a>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <h3 class="section-title">Repositorio documental</h3>
+    <p class="meta" style="margin-bottom:14px;">
+        Controla vigencia, estado, confidencialidad y trazabilidad básica de la documentación preventiva.
+    </p>
+
+    <div class="list">
+        {% for document in documents %}
+            <div class="list-item">
+                <strong>
+                    <a href="{% url 'documents:detail' document.pk %}">
+                        {{ document.title }}
+                    </a>
+                </strong>
+
+                <div class="meta">
+                    Empresa: {{ document.company }} ·
+                    Categoría: {{ document.category }} ·
+                    Estado: {{ document.get_status_display }} ·
+                    Versión: {{ document.version }} ·
+                    Código: {{ document.code|default:"-" }} ·
+                    Caduca: {{ document.expiry_date|default:"-" }}
+                </div>
+
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+                    {% if document.is_confidential %}
+                        <span class="badge badge-danger">Confidencial</span>
+                    {% endif %}
+
+                    {% if document.status == 'expired' %}
+                        <span class="badge badge-danger">Caducado</span>
+                    {% elif document.status == 'valid' %}
+                        <span class="badge badge-success">Vigente</span>
+                    {% else %}
+                        <span class="badge badge-warning">{{ document.get_status_display }}</span>
+                    {% endif %}
+
+                    {% if document.expiry_date and document.expiry_date < today %}
+                        <span class="badge badge-danger">Fuera de vigencia</span>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">
+                No se han encontrado documentos con los filtros seleccionados.
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+        <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;">
+            {% if page_obj.has_previous %}
+                <a href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}" class="hero-btn hero-btn-secondary">
+                    Anterior
+                </a>
+            {% endif %}
+
+            <span class="hero-btn hero-btn-secondary" style="pointer-events:none;">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}" class="hero-btn hero-btn-secondary">
+                    Siguiente
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

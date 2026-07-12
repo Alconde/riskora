@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Puestos de trabajo | Riskora{% endblock %}
+{% block page_title %}Puestos de trabajo{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:6px;">Listado de puestos</h3>
+            <div class="meta">Puestos de trabajo definidos por empresa.</div>
+        </div>
+        <a href="{% url 'jobposition-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+            Nuevo puesto
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for position in positions %}
+            <div class="list-item">
+                <strong>
+                    <a href="{% url 'jobposition-detail' position.pk %}" style="text-decoration:none;color:#1f2937;">
+                        {{ position.name }}
+                    </a>
+                </strong>
+                <div class="meta">
+                    Empresa: {{ position.company.trade_name|default:position.company.legal_name }} ·
+                    Departamento: {{ position.department|default:"-" }}
+                </div>
+                <span class="badge badge-success">
+                    {{ position.get_status_display|default:position.status }}
+                </span>
+            </div>
+        {% empty %}
+            <div class="list-item">
+                No hay puestos registrados todavía.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

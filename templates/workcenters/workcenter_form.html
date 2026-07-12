@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar centro{% else %}Nuevo centro{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar centro{% else %}Nuevo centro{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 1000px;">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label for="{{ form.company.id_for_label }}">Empresa</label>
+                {{ form.company }}
+                {% if form.company.errors %}<div style="color:#b91c1c;">{{ form.company.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.name.id_for_label }}">Nombre del centro</label>
+                {{ form.name }}
+                {% if form.name.errors %}<div style="color:#b91c1c;">{{ form.name.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.code.id_for_label }}">Código</label>
+                {{ form.code }}
+                {% if form.code.errors %}<div style="color:#b91c1c;">{{ form.code.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.activity.id_for_label }}">Actividad</label>
+                {{ form.activity }}
+                {% if form.activity.errors %}<div style="color:#b91c1c;">{{ form.activity.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.worker_count.id_for_label }}">Número de trabajadores</label>
+                {{ form.worker_count }}
+                {% if form.worker_count.errors %}<div style="color:#b91c1c;">{{ form.worker_count.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.risk_level.id_for_label }}">Nivel de riesgo</label>
+                {{ form.risk_level }}
+                {% if form.risk_level.errors %}<div style="color:#b91c1c;">{{ form.risk_level.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.postal_code.id_for_label }}">Código postal</label>
+                {{ form.postal_code }}
+                {% if form.postal_code.errors %}<div style="color:#b91c1c;">{{ form.postal_code.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.city.id_for_label }}">Ciudad</label>
+                {{ form.city }}
+                {% if form.city.errors %}<div style="color:#b91c1c;">{{ form.city.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.province.id_for_label }}">Provincia</label>
+                {{ form.province }}
+                {% if form.province.errors %}<div style="color:#b91c1c;">{{ form.province.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.address.id_for_label }}">Dirección</label>
+                {{ form.address }}
+                {% if form.address.errors %}<div style="color:#b91c1c;">{{ form.address.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.contact_person.id_for_label }}">Persona de contacto</label>
+                {{ form.contact_person }}
+                {% if form.contact_person.errors %}<div style="color:#b91c1c;">{{ form.contact_person.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.contact_phone.id_for_label }}">Teléfono de contacto</label>
+                {{ form.contact_phone }}
+                {% if form.contact_phone.errors %}<div style="color:#b91c1c;">{{ form.contact_phone.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.contact_email.id_for_label }}">Email de contacto</label>
+                {{ form.contact_email }}
+                {% if form.contact_email.errors %}<div style="color:#b91c1c;">{{ form.contact_email.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.notes.id_for_label }}">Observaciones</label>
+                {{ form.notes }}
+                {% if form.notes.errors %}<div style="color:#b91c1c;">{{ form.notes.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;display:flex;align-items:center;gap:8px;">
+                {{ form.is_active }}
+                <label for="{{ form.is_active.id_for_label }}">Centro activo</label>
+                {% if form.is_active.errors %}<div style="color:#b91c1c;">{{ form.is_active.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div style="margin-top:24px;display:flex;gap:12px;">
+            <button type="submit" style="background:#1d4ed8;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
+                Guardar
+            </button>
+            <a href="{% url 'workcenter-list' %}" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

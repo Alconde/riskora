@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar evaluación | Riskora{% endblock %}
+{% block page_title %}Eliminar evaluación de riesgos{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:600px;">
+    <h3 class="section-title" style="margin-bottom:12px;color:#dc2626;">Confirmar eliminación</h3>
+    <p style="color:#475569;margin-bottom:16px;">
+        ¿Estás seguro de que deseas eliminar la evaluación de riesgos <strong>{{ object }}</strong>?
+    </p>
+    <p style="color:#991b1b;font-size:13px;margin-bottom:20px;">
+        Esta acción eliminará permanentemente la evaluación y todos sus items asociados.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:flex;gap:12px;">
+            <button type="submit" style="background:#dc2626;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
+                Eliminar
+            </button>
+            <a href="{% url 'evaluacion-detail' object.pk %}" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

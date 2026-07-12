@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}Registros de formación{% endblock %}
+
+{% block content %}
+{% include 'training/_training_header.html' with training_title='Registros de formación' training_description='Seguimiento individual de formación impartida, caducidades, renovaciones y evidencias.' training_kpis=training_kpis %}
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">Histórico de registros</h2>
+            <p class="training-section-text">Filtra, revisa y actúa sobre vigencias y trazabilidad formativa.</p>
+        </div>
+        <div class="actions" style="margin-bottom:0;">
+            <a href="{% url 'training:record_create' %}" class="btn btn-primary">Nuevo registro</a>
+        </div>
+    </div>
+
+    <form method="get">
+        <div class="filters-grid">
+            <input type="text" name="q" value="{{ filters.q }}" placeholder="Buscar trabajador, curso o certificado">
+
+            <select name="course">
+                <option value="">Todos los cursos</option>
+                {% for course in courses %}
+                <option value="{{ course.id }}" {% if filters.course == course.id|stringformat:"s" %}selected{% endif %}>
+                    {{ course.name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <select name="company">
+                <option value="">Todas las empresas</option>
+                {% for company in companies %}
+                <option value="{{ company.id }}" {% if filters.company == company.id|stringformat:"s" %}selected{% endif %}>
+                    {{ company.legal_name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <select name="status">
+                <option value="">Todos los estados</option>
+                <option value="planned" {% if filters.status == 'planned' %}selected{% endif %}>Planificado</option>
+                <option value="completed" {% if filters.status == 'completed' %}selected{% endif %}>Completado</option>
+                <option value="expired" {% if filters.status == 'expired' %}selected{% endif %}>Caducado</option>
+                <option value="cancelled" {% if filters.status == 'cancelled' %}selected{% endif %}>Cancelado</option>
+            </select>
+
+            <select name="expiry_state">
+                <option value="">Toda la vigencia</option>
+                <option value="valid" {% if filters.expiry_state == 'valid' %}selected{% endif %}>Vigentes</option>
+                <option value="expiring" {% if filters.expiry_state == 'expiring' %}selected{% endif %}>Caducan pronto</option>
+                <option value="expired" {% if filters.expiry_state == 'expired' %}selected{% endif %}>Caducados</option>
+                <option value="no_expiry" {% if filters.expiry_state == 'no_expiry' %}selected{% endif %}>Sin caducidad</option>
+            </select>
+
+            <button type="submit" class="btn">Filtrar</button>
+            <a href="{% url 'training:record_list' %}" class="btn btn-secondary">Limpiar</a>
+        </div>
+    </form>
+
+    {% if filters.q or filters.course or filters.company or filters.status or filters.expiry_state %}
+    <div class="filter-chips">
+        {% if filters.q %}<div class="filter-chip">Búsqueda: {{ filters.q }}</div>{% endif %}
+        {% if filters.course %}<div class="filter-chip">Curso aplicado</div>{% endif %}
+        {% if filters.company %}<div class="filter-chip">Empresa aplicada</div>{% endif %}
+        {% if filters.status %}<div class="filter-chip">Estado: {{ filters.status }}</div>{% endif %}
+        {% if filters.expiry_state == 'valid' %}<div class="filter-chip">Vigencia: Vigentes</div>{% endif %}
+        {% if filters.expiry_state == 'expiring' %}<div class="filter-chip">Vigencia: Caducan pronto</div>{% endif %}
+        {% if filters.expiry_state == 'expired' %}<div class="filter-chip">Vigencia: Caducados</div>{% endif %}
+        {% if filters.expiry_state == 'no_expiry' %}<div class="filter-chip">Vigencia: Sin caducidad</div>{% endif %}
+        <a href="{% url 'training:record_list' %}" class="filter-chip filter-chip-clear">Quitar filtros</a>
+    </div>
+    {% endif %}
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Trabajador</th>
+                    <th>Curso</th>
+                    <th>Estado</th>
+                    <th>Realización</th>
+                    <th>Vigencia</th>
+                    <th>Certificado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>
+                        <div class="meta-stack">
+                            <div class="meta-main">{{ record.worker }}</div>
+                            <div class="meta-sub">{{ record.company|default:"-" }}</div>
+                        </div>
+                    </td>
+                    <td>{{ record.course }}</td>
+                    <td>
+                        {% if record.status == 'completed' %}
+                            <span class="badge badge-success">{{ record.get_status_display }}</span>
+                        {% elif record.status == 'planned' %}
+                            <span class="badge badge-info">{{ record.get_status_display }}</span>
+                        {% elif record.status == 'expired' %}
+                            <span class="badge badge-danger">{{ record.get_status_display }}</span>
+                        {% else %}
+                            <span class="badge badge-warning">{{ record.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ record.completed_date|default:"-" }}</td>
+                    <td>
+                        <div class="meta-stack">
+                            <div>
+                                <span class="badge {{ record.expiry_badge_class }}">{{ record.expiry_status_label }}</span>
+                            </div>
+                            <div class="meta-sub">
+                                {% if record.expiry_date %}
+                                    {{ record.expiry_date }} · {{ record.expiry_help_text }}
+                                {% else %}
+                                    {{ record.expiry_help_text }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ record.certificate_number|default:"-" }}</td>
+                    <td>
+                        <div class="actions" style="margin-bottom:0;">
+                            <a href="{% url 'training:record_detail' record.pk %}" class="btn">Ver</a>
+                            <a href="{% url 'training:record_update' record.pk %}" class="btn">Editar</a>
+                            <a href="{% url 'training:record_delete' record.pk %}" class="btn btn-danger">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-box">No hay registros con los filtros actuales.</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if is_paginated %}
+    <div class="pagination-bar">
+        <div class="pagination-info">
+            Mostrando {{ page_obj.start_index }}–{{ page_obj.end_index }} de {{ page_obj.paginator.count }} resultados
+        </div>
+
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page=1">«</a>
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}">‹</a>
+            {% endif %}
+
+            <span class="page-link is-active">{{ page_obj.number }}</span>
+
+            {% if page_obj.has_next %}
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}">›</a>
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.paginator.num_pages }}">»</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+</div>
+{% endblock %}

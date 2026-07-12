@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar evaluación{% else %}Nueva evaluación{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar evaluación de riesgos{% else %}Nueva evaluación de riesgos{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 1000px;">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label for="{{ form.empresa.id_for_label }}">Empresa</label>
+                {{ form.empresa }}
+                {% if form.empresa.errors %}<div style="color:#b91c1c;">{{ form.empresa.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.centro_trabajo.id_for_label }}">Centro de trabajo</label>
+                {{ form.centro_trabajo }}
+                {% if form.centro_trabajo.errors %}<div style="color:#b91c1c;">{{ form.centro_trabajo.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.titulo.id_for_label }}">Título de la evaluación</label>
+                {{ form.titulo }}
+                {% if form.titulo.errors %}<div style="color:#b91c1c;">{{ form.titulo.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.fecha_evaluacion.id_for_label }}">Fecha de evaluación</label>
+                {{ form.fecha_evaluacion }}
+                {% if form.fecha_evaluacion.errors %}<div style="color:#b91c1c;">{{ form.fecha_evaluacion.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.fecha_proxima_revision.id_for_label }}">Próxima revisión</label>
+                {{ form.fecha_proxima_revision }}
+                {% if form.fecha_proxima_revision.errors %}<div style="color:#b91c1c;">{{ form.fecha_proxima_revision.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.metodologia.id_for_label }}">Método de evaluación</label>
+                {{ form.metodologia }}
+                {% if form.metodologia.errors %}<div style="color:#b91c1c;">{{ form.metodologia.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.revisado_por.id_for_label }}">Revisado por</label>
+                {{ form.revisado_por }}
+                {% if form.revisado_por.errors %}<div style="color:#b91c1c;">{{ form.revisado_por.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.observaciones.id_for_label }}">Observaciones</label>
+                {{ form.observaciones }}
+                {% if form.observaciones.errors %}<div style="color:#b91c1c;">{{ form.observaciones.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div style="margin-top:24px;display:flex;gap:12px;">
+            <button type="submit" style="background:#1d4ed8;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
+                Guardar
+            </button>
+            <a href="{% url 'evaluacion-list' %}" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

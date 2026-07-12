@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Empresas | Riskora{% endblock %}
+{% block page_title %}Empresas{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Listado de empresas</h3>
+            <div class="meta">Gestión de empresas cliente y entidades gestionadas.</div>
+        </div>
+        <a href="{% url 'company-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+            Nueva empresa
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for company in companies %}
+            <div class="list-item">
+                <strong>
+                    <a href="{% url 'company-detail' company.pk %}" style="text-decoration:none;color:#1f2937;">
+                        {{ company.trade_name|default:company.legal_name }}
+                    </a>
+                </strong>
+                <div class="meta">
+                    Razón social: {{ company.legal_name|default:"-" }} · CIF: {{ company.tax_id|default:"-" }} · Provincia: {{ company.province|default:"-" }}
+                </div>
+
+                <span class="badge badge-success">
+                    {{ company.get_status_display|default:company.status }}
+                </span>
+            </div>
+        {% empty %}
+            <div class="list-item">
+                No hay empresas registradas todavía.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

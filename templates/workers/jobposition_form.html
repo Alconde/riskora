@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar puesto{% else %}Nuevo puesto{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar puesto{% else %}Nuevo puesto{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 1000px;">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label for="{{ form.company.id_for_label }}">Empresa</label>
+                {{ form.company }}
+                {% if form.company.errors %}<div style="color:#b91c1c;">{{ form.company.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.name.id_for_label }}">Nombre del puesto</label>
+                {{ form.name }}
+                {% if form.name.errors %}<div style="color:#b91c1c;">{{ form.name.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.department.id_for_label }}">Departamento</label>
+                {{ form.department }}
+                {% if form.department.errors %}<div style="color:#b91c1c;">{{ form.department.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.status.id_for_label }}">Estado</label>
+                {{ form.status }}
+                {% if form.status.errors %}<div style="color:#b91c1c;">{{ form.status.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.description.id_for_label }}">Descripción</label>
+                {{ form.description }}
+                {% if form.description.errors %}<div style="color:#b91c1c;">{{ form.description.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.notes.id_for_label }}">Observaciones</label>
+                {{ form.notes }}
+                {% if form.notes.errors %}<div style="color:#b91c1c;">{{ form.notes.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div style="margin-top:24px;display:flex;gap:12px;">
+            <button type="submit" style="background:#1d4ed8;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
+                Guardar
+            </button>
+            <a href="{% url 'jobposition-list' %}" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

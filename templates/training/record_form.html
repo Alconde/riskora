@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Formulario registro{% endblock %}
+
+{% block content %}
+{% include 'training/_training_header.html' with training_title='Registros de formación' training_description='Registra ejecución, resultados, renovación y evidencia formativa individual.' %}
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">
+                {% if object %}Editar registro{% else %}Nuevo registro{% endif %}
+            </h2>
+            <p class="training-section-text">
+                Documenta la realización de la formación, fechas, certificado y estado de vigencia.
+            </p>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-grid">
+            {% for field in form %}
+                <div class="form-group {% if field.name == 'notes' %}form-group-full{% endif %}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="actions" style="margin-top:20px;">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% url 'training:record_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+</div>
+{% endblock %}

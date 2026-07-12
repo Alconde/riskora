@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Tarea | Riskora{% endblock %}
+{% block page_title %}Tarea{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title">{{ task.title }}</h3>
+    <div class="meta">
+        Empresa: {{ task.company }} ·
+        Estado: {{ task.get_status_display }} ·
+        Prioridad: {{ task.get_priority_display }} ·
+        Asignada a: {{ task.assigned_to|default:"Sin asignar" }} ·
+        Vence: {{ task.due_date|default:"-" }}
+    </div>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Detalle</h3>
+        <div class="list">
+            <div class="list-item">
+                <strong>Descripción</strong>
+                <div class="meta">{{ task.description|default:"Sin descripción" }}</div>
+            </div>
+
+            <div class="list-item">
+                <strong>Observaciones</strong>
+                <div class="meta">{{ task.notes|default:"Sin observaciones" }}</div>
+            </div>
+
+            <div class="list-item">
+                <strong>Creada por</strong>
+                <div class="meta">{{ task.created_by|default:"-" }}</div>
+            </div>
+
+            <div class="list-item">
+                <strong>Creada el</strong>
+                <div class="meta">{{ task.created_at|date:"d/m/Y H:i" }}</div>
+            </div>
+
+            <div class="list-item">
+                <strong>Actualizada el</strong>
+                <div class="meta">{{ task.updated_at|date:"d/m/Y H:i" }}</div>
+            </div>
+
+            {% if task.completed_at %}
+            <div class="list-item">
+                <strong>Completada el</strong>
+                <div class="meta">{{ task.completed_at|date:"d/m/Y H:i" }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}

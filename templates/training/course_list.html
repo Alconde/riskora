@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Cursos de formación{% endblock %}
+
+{% block content %}
+{% include 'training/_training_header.html' with training_title='Cursos de formación' training_description='Catálogo de cursos preventivos, reciclajes, acciones obligatorias y formación asociada a puestos.' training_kpis=training_kpis %}
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">Listado de cursos</h2>
+            <p class="training-section-text">Consulta, filtra y mantén actualizado el catálogo formativo.</p>
+        </div>
+        <div class="actions" style="margin-bottom:0;">
+            <a href="{% url 'training:course_create' %}" class="btn btn-primary">Nuevo curso</a>
+        </div>
+    </div>
+
+    <form method="get">
+        <div class="filters-grid">
+            <input type="text" name="q" value="{{ filters.q }}" placeholder="Buscar por nombre, código o descripción">
+
+            <select name="category">
+                <option value="">Todas las categorías</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}" {% if filters.category == category.id|stringformat:"s" %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <select name="status">
+                <option value="">Todos los estados</option>
+                <option value="draft" {% if filters.status == 'draft' %}selected{% endif %}>Borrador</option>
+                <option value="active" {% if filters.status == 'active' %}selected{% endif %}>Activo</option>
+                <option value="inactive" {% if filters.status == 'inactive' %}selected{% endif %}>Inactivo</option>
+            </select>
+
+            <select name="modality">
+                <option value="">Todas las modalidades</option>
+                <option value="presential" {% if filters.modality == 'presential' %}selected{% endif %}>Presencial</option>
+                <option value="online" {% if filters.modality == 'online' %}selected{% endif %}>Online</option>
+                <option value="mixed" {% if filters.modality == 'mixed' %}selected{% endif %}>Mixta</option>
+            </select>
+
+            <button type="submit" name="renewal" value="1" class="btn">Con renovación</button>
+            <a href="{% url 'training:course_list' %}" class="btn btn-secondary">Limpiar</a>
+        </div>
+    </form>
+
+    {% if filters.q or filters.category or filters.status or filters.modality or filters.renewal %}
+    <div class="filter-chips">
+        {% if filters.q %}<div class="filter-chip">Búsqueda: {{ filters.q }}</div>{% endif %}
+        {% if filters.category %}<div class="filter-chip">Categoría aplicada</div>{% endif %}
+        {% if filters.status %}<div class="filter-chip">Estado: {{ filters.status }}</div>{% endif %}
+        {% if filters.modality %}<div class="filter-chip">Modalidad: {{ filters.modality }}</div>{% endif %}
+        {% if filters.renewal %}<div class="filter-chip">Con renovación</div>{% endif %}
+        <a href="{% url 'training:course_list' %}" class="filter-chip filter-chip-clear">Quitar filtros</a>
+    </div>
+    {% endif %}
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Curso</th>
+                    <th>Categoría</th>
+                    <th>Modalidad</th>
+                    <th>Duración</th>
+                    <th>Vigencia</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td>
+                        <div class="meta-stack">
+                            <div class="meta-main">{{ course.name }}</div>
+                            <div class="meta-sub">{{ course.company|default:"General" }}</div>
+                        </div>
+                    </td>
+                    <td>{{ course.category|default:"-" }}</td>
+                    <td>
+                        <span class="badge badge-info">{{ course.get_modality_display|default:"-" }}</span>
+                    </td>
+                    <td>{{ course.duration_hours|default:"-" }} h</td>
+                    <td>
+                        {% if course.validity_value %}
+                            <span class="badge badge-neutral">{{ course.validity_value }} {{ course.get_validity_unit_display }}</span>
+                        {% else %}
+                            <span class="badge badge-neutral">Sin vigencia</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if course.status == 'active' %}
+                            <span class="badge badge-success">{{ course.get_status_display }}</span>
+                        {% elif course.status == 'draft' %}
+                            <span class="badge badge-warning">{{ course.get_status_display }}</span>
+                        {% else %}
+                            <span class="badge badge-danger">{{ course.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="actions" style="margin-bottom:0;">
+                            <a href="{% url 'training:course_detail' course.pk %}" class="btn">Ver</a>
+                            <a href="{% url 'training:course_update' course.pk %}" class="btn">Editar</a>
+                            <a href="{% url 'training:course_delete' course.pk %}" class="btn btn-danger">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-box">No hay cursos registrados con los filtros actuales.</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if is_paginated %}
+    <div class="pagination-bar">
+        <div class="pagination-info">
+            Mostrando {{ page_obj.start_index }}–{{ page_obj.end_index }} de {{ page_obj.paginator.count }} resultados
+        </div>
+
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page=1">«</a>
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}">‹</a>
+            {% endif %}
+
+            <span class="page-link is-active">{{ page_obj.number }}</span>
+
+            {% if page_obj.has_next %}
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}">›</a>
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.paginator.num_pages }}">»</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+</div>
+{% endblock %}

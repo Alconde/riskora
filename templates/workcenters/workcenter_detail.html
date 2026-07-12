@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ center.name }} | Riskora{% endblock %}
+{% block page_title %}Detalle de centro{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:6px;">{{ center.name }}</h3>
+            <div class="meta">
+                Empresa:
+                <a href="{% url 'company-detail' center.company.pk %}" style="color:#1d4ed8;text-decoration:none;">
+                    {{ center.company.trade_name|default:center.company.legal_name }}
+                </a>
+            </div>
+        </div>
+        <a href="{% url 'workcenter-update' center.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+            Editar centro
+        </a>
+    </div>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Datos generales</h3>
+        <div class="list">
+            <div class="list-item"><strong>Nombre</strong><div class="meta">{{ center.name }}</div></div>
+            <div class="list-item"><strong>Código</strong><div class="meta">{{ center.code|default:"-" }}</div></div>
+            <div class="list-item"><strong>Actividad</strong><div class="meta">{{ center.activity|default:"-" }}</div></div>
+            <div class="list-item"><strong>Número de trabajadores</strong><div class="meta">{{ center.worker_count|default:"-" }}</div></div>
+            <div class="list-item"><strong>Nivel de riesgo</strong><div class="meta">{{ center.risk_level|default:"-" }}</div></div>
+            <div class="list-item"><strong>Estado</strong>
+                {% if center.is_active %}
+                    <span class="badge badge-success">Activo</span>
+                {% else %}
+                    <span class="badge badge-danger">Inactivo</span>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Ubicación y contacto</h3>
+        <div class="list">
+            <div class="list-item"><strong>Dirección</strong><div class="meta">{{ center.address|default:"-" }}</div></div>
+            <div class="list-item"><strong>Código postal</strong><div class="meta">{{ center.postal_code|default:"-" }}</div></div>
+            <div class="list-item"><strong>Ciudad</strong><div class="meta">{{ center.city|default:"-" }}</div></div>
+            <div class="list-item"><strong>Provincia</strong><div class="meta">{{ center.province|default:"-" }}</div></div>
+            <div class="list-item"><strong>Contacto</strong><div class="meta">{{ center.contact_person|default:"-" }}</div></div>
+            <div class="list-item"><strong>Teléfono</strong><div class="meta">{{ center.contact_phone|default:"-" }}</div></div>
+            <div class="list-item"><strong>Email</strong><div class="meta">{{ center.contact_email|default:"-" }}</div></div>
+        </div>
+    </section>
+</div>
+
+<div class="card" style="margin-top:18px;">
+    <h3 class="section-title">Observaciones</h3>
+    <div class="meta">{{ center.notes|default:"Sin observaciones." }}</div>
+</div>
+
+<div style="margin-top:18px;">
+    <a href="{% url 'workcenter-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Centros de trabajo | Riskora{% endblock %}
+{% block page_title %}Centros de trabajo{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:6px;">Listado de centros</h3>
+            <div class="meta">Centros asociados a las empresas gestionadas.</div>
+        </div>
+        <a href="{% url 'workcenter-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+            Nuevo centro
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for center in centers %}
+            <div class="list-item">
+                <strong>
+                    <a href="{% url 'workcenter-detail' center.pk %}" style="text-decoration:none;color:#1f2937;">
+                        {{ center.name }} ({{ center.company.trade_name|default:center.company.legal_name }})
+                    </a>
+                </strong>
+                <div class="meta">
+                    Código: {{ center.code|default:"-" }} · Ciudad: {{ center.city|default:"-" }} · Provincia: {{ center.province|default:"-" }}
+                </div>
+                {% if center.is_active %}
+                    <span class="badge badge-success">Activo</span>
+                {% else %}
+                    <span class="badge badge-danger">Inactivo</span>
+                {% endif %}
+                {% if center.risk_level %}
+                    <span class="badge badge-warning">Riesgo: {{ center.risk_level }}</span>
+                {% endif %}
+            </div>
+        {% empty %}
+            <div class="list-item">
+                No hay centros registrados todavía.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

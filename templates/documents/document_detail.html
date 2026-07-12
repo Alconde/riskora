@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ document.title }} | Riskora{% endblock %}
+{% block page_title %}Detalle de documento{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:18px; flex-wrap:wrap;">
+    <div>
+        <h2 style="margin:0 0 8px 0;">{{ document.title }}</h2>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            {% if document.is_confidential %}
+                <span class="badge badge-danger">Confidencial</span>
+            {% endif %}
+
+            {% if document.status == 'expired' %}
+                <span class="badge badge-danger">Caducado</span>
+            {% elif document.status == 'valid' %}
+                <span class="badge badge-success">Vigente</span>
+            {% elif document.status == 'draft' %}
+                <span class="badge badge-warning">Borrador</span>
+            {% elif document.status == 'revoked' %}
+                <span class="badge badge-danger">Revocado</span>
+            {% elif document.status == 'archived' %}
+                <span class="badge badge-warning">Archivado</span>
+            {% else %}
+                <span class="badge badge-warning">{{ document.get_status_display }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a href="{% url 'documents:list' %}" class="hero-btn hero-btn-secondary">Volver al listado</a>
+        {% if document.file %}
+            <a href="{{ document.file.url }}" class="hero-btn hero-btn-primary" target="_blank" rel="noopener noreferrer">
+                Abrir archivo
+            </a>
+        {% endif %}
+        <a href="{% url 'documents:update' document.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+        <a href="{% url 'documents:delete' document.pk %}" class="hero-btn hero-btn-secondary">Eliminar</a>
+    </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 2fr 1fr; gap: 18px;">
+    <div style="display:grid; gap:18px;">
+        <section class="card">
+            <h3 class="section-title">Información general</h3>
+
+            <div class="list">
+                <div class="list-item">
+                    <strong>Empresa</strong>
+                    <div class="meta">{{ document.company }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Categoría</strong>
+                    <div class="meta">{{ document.category }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Ámbito de categoría</strong>
+                    <div class="meta">{{ document.category.get_scope_display }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Estado</strong>
+                    <div class="meta">{{ document.get_status_display }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Versión</strong>
+                    <div class="meta">{{ document.version|default:"-" }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Código documental</strong>
+                    <div class="meta">{{ document.code|default:"-" }}</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3 class="section-title">Contenido y notas</h3>
+
+            <div class="list">
+                <div class="list-item">
+                    <strong>Descripción</strong>
+                    <div class="meta">
+                        {% if document.description %}
+                            {{ document.description|linebreaksbr }}
+                        {% else %}
+                            Sin descripción registrada.
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Observaciones</strong>
+                    <div class="meta">
+                        {% if document.notes %}
+                            {{ document.notes|linebreaksbr }}
+                        {% else %}
+                            Sin observaciones.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3 class="section-title">Archivo asociado</h3>
+
+            <div class="list">
+                <div class="list-item">
+                    <strong>Archivo</strong>
+                    <div class="meta">
+                        {% if document.file %}
+                            <a href="{{ document.file.url }}" target="_blank" rel="noopener noreferrer">
+                                {{ document.file.name }}
+                            </a>
+                        {% else %}
+                            No hay archivo adjunto.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div style="display:grid; gap:18px;">
+        <section class="card">
+            <h3 class="section-title">Control documental</h3>
+
+            <div class="list">
+                <div class="list-item">
+                    <strong>Fecha de emisión</strong>
+                    <div class="meta">{{ document.issue_date|default:"-" }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Fecha de revisión</strong>
+                    <div class="meta">{{ document.review_date|default:"-" }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Fecha de caducidad</strong>
+                    <div class="meta">{{ document.expiry_date|default:"-" }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Confidencialidad</strong>
+                    <div class="meta">
+                        {% if document.is_confidential %}
+                            Sí
+                        {% else %}
+                            No
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3 class="section-title">Trazabilidad</h3>
+
+            <div class="list">
+                <div class="list-item">
+                    <strong>Subido por</strong>
+                    <div class="meta">{{ document.uploaded_by|default:"-" }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Creado el</strong>
+                    <div class="meta">{{ document.created_at|date:"d/m/Y H:i" }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Actualizado el</strong>
+                    <div class="meta">{{ document.updated_at|date:"d/m/Y H:i" }}</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3 class="section-title">Objeto relacionado</h3>
+
+            <div class="list">
+                <div class="list-item">
+                    <strong>Tipo de objeto</strong>
+                    <div class="meta">{{ document.content_type|default:"-" }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>ID relacionado</strong>
+                    <div class="meta">{{ document.object_id|default:"-" }}</div>
+                </div>
+
+                <div class="list-item">
+                    <strong>Objeto vinculado</strong>
+                    <div class="meta">{{ document.content_object|default:"-" }}</div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

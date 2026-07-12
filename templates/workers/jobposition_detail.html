@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ position.name }} | Riskora{% endblock %}
+{% block page_title %}Detalle de puesto{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:6px;">{{ position.name }}</h3>
+            <div class="meta">
+                Empresa: {{ position.company.trade_name|default:position.company.legal_name }}
+            </div>
+        </div>
+        <a href="{% url 'jobposition-update' position.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+            Editar puesto
+        </a>
+    </div>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Datos generales</h3>
+        <div class="list">
+            <div class="list-item"><strong>Nombre</strong><div class="meta">{{ position.name }}</div></div>
+            <div class="list-item"><strong>Empresa</strong><div class="meta">{{ position.company.trade_name|default:position.company.legal_name }}</div></div>
+            <div class="list-item"><strong>Departamento</strong><div class="meta">{{ position.department|default:"-" }}</div></div>
+            <div class="list-item"><strong>Estado</strong><div class="meta">{{ position.get_status_display|default:position.status }}</div></div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Descripción</h3>
+        <div class="meta">{{ position.description|default:"Sin descripción." }}</div>
+    </section>
+</div>
+
+<div class="card" style="margin-top:18px;">
+    <h3 class="section-title">Observaciones</h3>
+    <div class="meta">{{ position.notes|default:"Sin observaciones." }}</div>
+</div>
+
+<div style="margin-top:18px;">
+    <a href="{% url 'jobposition-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

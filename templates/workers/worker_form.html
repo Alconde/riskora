@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar trabajador{% else %}Nuevo trabajador{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar trabajador{% else %}Nuevo trabajador{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 1000px;">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label for="{{ form.company.id_for_label }}">Empresa</label>
+                {{ form.company }}
+                {% if form.company.errors %}<div style="color:#b91c1c;">{{ form.company.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.work_center.id_for_label }}">Centro de trabajo</label>
+                {{ form.work_center }}
+                {% if form.work_center.errors %}<div style="color:#b91c1c;">{{ form.work_center.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.job_position.id_for_label }}">Puesto</label>
+                {{ form.job_position }}
+                {% if form.job_position.errors %}<div style="color:#b91c1c;">{{ form.job_position.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.user.id_for_label }}">Usuario vinculado</label>
+                {{ form.user }}
+                {% if form.user.errors %}<div style="color:#b91c1c;">{{ form.user.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.first_name.id_for_label }}">Nombre</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}<div style="color:#b91c1c;">{{ form.first_name.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.last_name.id_for_label }}">Apellidos</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}<div style="color:#b91c1c;">{{ form.last_name.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.national_id.id_for_label }}">DNI / NIE</label>
+                {{ form.national_id }}
+                {% if form.national_id.errors %}<div style="color:#b91c1c;">{{ form.national_id.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.employee_code.id_for_label }}">Código empleado</label>
+                {{ form.employee_code }}
+                {% if form.employee_code.errors %}<div style="color:#b91c1c;">{{ form.employee_code.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.social_security_number.id_for_label }}">Nº Seguridad Social</label>
+                {{ form.social_security_number }}
+                {% if form.social_security_number.errors %}<div style="color:#b91c1c;">{{ form.social_security_number.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.employment_status.id_for_label }}">Estado laboral</label>
+                {{ form.employment_status }}
+                {% if form.employment_status.errors %}<div style="color:#b91c1c;">{{ form.employment_status.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.birth_date.id_for_label }}">Fecha de nacimiento</label>
+                {{ form.birth_date }}
+                {% if form.birth_date.errors %}<div style="color:#b91c1c;">{{ form.birth_date.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.hire_date.id_for_label }}">Fecha de alta</label>
+                {{ form.hire_date }}
+                {% if form.hire_date.errors %}<div style="color:#b91c1c;">{{ form.hire_date.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}<div style="color:#b91c1c;">{{ form.email.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.phone.id_for_label }}">Teléfono</label>
+                {{ form.phone }}
+                {% if form.phone.errors %}<div style="color:#b91c1c;">{{ form.phone.errors }}</div>{% endif %}
+            </div>
+
+            <div style="display:flex;align-items:center;gap:8px;">
+                {{ form.especially_sensitive }}
+                <label for="{{ form.especially_sensitive.id_for_label }}">Especialmente sensible</label>
+                {% if form.especially_sensitive.errors %}<div style="color:#b91c1c;">{{ form.especially_sensitive.errors }}</div>{% endif %}
+            </div>
+
+            <div style="display:flex;align-items:center;gap:8px;">
+                {{ form.temporary_worker }}
+                <label for="{{ form.temporary_worker.id_for_label }}">Trabajador temporal / ETT</label>
+                {% if form.temporary_worker.errors %}<div style="color:#b91c1c;">{{ form.temporary_worker.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <label for="{{ form.notes.id_for_label }}">Observaciones</label>
+                {{ form.notes }}
+                {% if form.notes.errors %}<div style="color:#b91c1c;">{{ form.notes.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div style="margin-top:24px;display:flex;gap:12px;">
+            <button type="submit" style="background:#1d4ed8;color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;">
+                Guardar
+            </button>
+            <a href="{% url 'worker-list' %}" style="padding:10px 16px;border-radius:10px;border:1px solid #dfe5ee;text-decoration:none;color:#1f2937;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const companySelect = document.getElementById('{{ form.company.id_for_label }}');
+    const workCenterSelect = document.getElementById('{{ form.work_center.id_for_label }}');
+    const jobPositionSelect = document.getElementById('{{ form.job_position.id_for_label }}');
+
+    function resetSelect(selectElement, placeholder) {
+        selectElement.innerHTML = `<option value="">${placeholder}</option>`;
+    }
+
+    function loadOptions(url, targetSelect, placeholder) {
+        const companyId = companySelect.value;
+
+        resetSelect(targetSelect, placeholder);
+
+        if (!companyId) return;
+
+        fetch(`${url}?company_id=${companyId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.results.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = item.name;
+                    targetSelect.appendChild(option);
+                });
+            });
+    }
+
+    companySelect.addEventListener('change', function () {
+        loadOptions("{% url 'ajax-load-workcenters' %}", workCenterSelect, 'Seleccione un centro');
+        loadOptions("{% url 'ajax-load-jobpositions' %}", jobPositionSelect, 'Seleccione un puesto');
+    });
+});
+</script>
+{% endblock %}

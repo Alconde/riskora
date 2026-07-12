@@ -1,0 +1,21 @@
+{% extends 'training/base_training.html' %}
+
+{% block title %}Eliminar curso{% endblock %}
+
+{% block training_content %}
+<div class="confirm-box">
+    <h2 class="confirm-title">Eliminar curso</h2>
+    <p class="confirm-text">
+        ¿Seguro que quieres eliminar el curso <strong>{{ object }}</strong>?
+        Revisa antes si existen registros formativos vinculados o renovaciones dependientes.
+    </p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="actions">
+        <button type="submit" class="btn btn-danger">Confirmar eliminación</button>
+        <a href="{% url 'training:course_list' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

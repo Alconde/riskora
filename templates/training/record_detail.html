@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalle registro{% endblock %}
+
+{% block content %}
+{% include 'training/_training_header.html' with training_title='Registros de formación' training_description='Consulta detallada de ejecución, resultado y vigencia del registro formativo.' %}
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">{{ record.worker }} · {{ record.course }}</h2>
+            <p class="training-section-text">Ficha individual del registro de formación.</p>
+        </div>
+        <div class="actions" style="margin-bottom:0;">
+            <a href="{% url 'training:record_update' record.pk %}" class="btn">Editar</a>
+            <a href="{% url 'training:record_delete' record.pk %}" class="btn btn-danger">Eliminar</a>
+            <a href="{% url 'training:record_list' %}" class="btn btn-secondary">Volver</a>
+        </div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="detail-label">Trabajador</div>
+            <div class="detail-value">{{ record.worker }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Empresa</div>
+            <div class="detail-value">{{ record.company|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Curso</div>
+            <div class="detail-value">{{ record.course }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Estado</div>
+            <div class="detail-value">{{ record.get_status_display|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Fecha planificada</div>
+            <div class="detail-value">{{ record.planned_date|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Fecha realización</div>
+            <div class="detail-value">{{ record.completed_date|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Caducidad</div>
+            <div class="detail-value">{{ record.expiry_date|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Formador</div>
+            <div class="detail-value">{{ record.trainer_name|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Entidad formadora</div>
+            <div class="detail-value">{{ record.training_entity|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Certificado</div>
+            <div class="detail-value">{{ record.certificate_number|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Asistencia</div>
+            <div class="detail-value">{{ record.attendance_percentage|default:"-" }} %</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Calificación</div>
+            <div class="detail-value">{{ record.score|default:"-" }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Observaciones</div>
+            <div class="detail-value">{{ record.notes|default:"Sin observaciones" }}</div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Trabajadores | Riskora{% endblock %}
+{% block page_title %}Trabajadores{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:6px;">Listado de trabajadores</h3>
+            <div class="meta">Trabajadores registrados por empresa y centro de trabajo.</div>
+        </div>
+        <a href="{% url 'worker-create' %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+            Nuevo trabajador
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for worker in workers %}
+            <div class="list-item">
+                <strong>
+                    <a href="{% url 'worker-detail' worker.pk %}" style="text-decoration:none;color:#1f2937;">
+                        {{ worker.first_name }} {{ worker.last_name }}
+                    </a>
+                </strong>
+                <div class="meta">
+                    Empresa: {{ worker.company.trade_name|default:worker.company.legal_name }} ·
+                    Centro: {{ worker.work_center.name|default:"-" }} ·
+                    DNI/NIE: {{ worker.national_id|default:"-" }}
+                </div>
+
+                <span class="badge badge-success">
+                    {{ worker.get_employment_status_display|default:worker.employment_status }}
+                </span>
+
+                {% if worker.especially_sensitive %}
+                    <span class="badge badge-warning">Especialmente sensible</span>
+                {% endif %}
+
+                {% if worker.temporary_worker %}
+                    <span class="badge badge-danger">ETT / Temporal</span>
+                {% endif %}
+            </div>
+        {% empty %}
+            <div class="list-item">
+                No hay trabajadores registrados todavía.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

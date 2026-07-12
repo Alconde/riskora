@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ company.trade_name|default:company.legal_name }} | Riskora{% endblock %}
+{% block page_title %}Detalle de empresa{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">{{ company.trade_name|default:company.legal_name }}</h3>
+            <div class="meta">Razón social: {{ company.legal_name|default:"-" }}</div>
+        </div>
+        <a href="{% url 'company-update' company.pk %}" style="background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;">
+            Editar empresa
+        </a>
+    </div>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Datos generales</h3>
+        <div class="list">
+            <div class="list-item"><strong>Nombre comercial</strong><div class="meta">{{ company.trade_name|default:"-" }}</div></div>
+            <div class="list-item"><strong>Razón social</strong><div class="meta">{{ company.legal_name|default:"-" }}</div></div>
+            <div class="list-item"><strong>CIF / NIF</strong><div class="meta">{{ company.tax_id|default:"-" }}</div></div>
+            <div class="list-item"><strong>Estado</strong><div class="meta">{{ company.get_status_display|default:company.status }}</div></div>
+            <div class="list-item"><strong>Actividad</strong><div class="meta">{{ company.activity|default:"-" }}</div></div>
+            <div class="list-item"><strong>CNAE</strong><div class="meta">{{ company.cnae|default:"-" }}</div></div>
+            <div class="list-item"><strong>Tamaño de plantilla</strong><div class="meta">{{ company.workforce_size|default:"-" }}</div></div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Contacto y ubicación</h3>
+        <div class="list">
+            <div class="list-item"><strong>Email</strong><div class="meta">{{ company.email|default:"-" }}</div></div>
+            <div class="list-item"><strong>Teléfono</strong><div class="meta">{{ company.phone|default:"-" }}</div></div>
+            <div class="list-item"><strong>Web</strong><div class="meta">{{ company.website|default:"-" }}</div></div>
+            <div class="list-item"><strong>Dirección</strong><div class="meta">{{ company.address|default:"-" }}</div></div>
+            <div class="list-item"><strong>Código postal</strong><div class="meta">{{ company.postal_code|default:"-" }}</div></div>
+            <div class="list-item"><strong>Ciudad</strong><div class="meta">{{ company.city|default:"-" }}</div></div>
+            <div class="list-item"><strong>Provincia</strong><div class="meta">{{ company.province|default:"-" }}</div></div>
+            <div class="list-item"><strong>Comunidad autónoma</strong><div class="meta">{{ company.autonomous_community|default:"-" }}</div></div>
+            <div class="list-item"><strong>País</strong><div class="meta">{{ company.country|default:"-" }}</div></div>
+        </div>
+    </section>
+</div>
+
+<div class="card" style="margin-top: 18px;">
+    <h3 class="section-title">Observaciones</h3>
+    <div class="meta">{{ company.notes|default:"Sin observaciones." }}</div>
+</div>
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'company-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

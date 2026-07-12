@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Categorías de formación{% endblock %}
+
+{% block content %}
+{% include 'training/_training_header.html' with training_title='Categorías de formación' training_description='Clasifica y estructura el catálogo de acciones formativas del sistema.' training_kpis=training_kpis %}
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">Listado de categorías</h2>
+            <p class="training-section-text">
+                Busca, filtra y organiza las categorías del catálogo formativo.
+            </p>
+        </div>
+        <div class="actions" style="margin-bottom:0;">
+            <a href="{% url 'training:category_create' %}" class="btn btn-primary">Nueva categoría</a>
+        </div>
+    </div>
+
+    <form method="get">
+        <div class="filters-grid" style="grid-template-columns: 2fr 1fr auto auto;">
+            <input type="text" name="q" value="{{ filters.q }}" placeholder="Buscar por nombre o código">
+
+            <select name="is_active">
+                <option value="">Todos los estados</option>
+                <option value="1" {% if filters.is_active == '1' %}selected{% endif %}>Activas</option>
+                <option value="0" {% if filters.is_active == '0' %}selected{% endif %}>Inactivas</option>
+            </select>
+
+            <button type="submit" class="btn">Filtrar</button>
+            <a href="{% url 'training:category_list' %}" class="btn btn-secondary">Limpiar</a>
+        </div>
+    </form>
+
+    {% if filters.q or filters.is_active %}
+    <div class="filter-chips">
+        {% if filters.q %}
+            <div class="filter-chip">Búsqueda: {{ filters.q }}</div>
+        {% endif %}
+        {% if filters.is_active == '1' %}
+            <div class="filter-chip">Estado: Activas</div>
+        {% elif filters.is_active == '0' %}
+            <div class="filter-chip">Estado: Inactivas</div>
+        {% endif %}
+        <a href="{% url 'training:category_list' %}" class="filter-chip filter-chip-clear">Quitar filtros</a>
+    </div>
+    {% endif %}
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Categoría</th>
+                    <th>Código</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td>
+                        <div class="meta-stack">
+                            <div class="meta-main">{{ category.name }}</div>
+                            <div class="meta-sub">Clasificación de formación</div>
+                        </div>
+                    </td>
+                    <td>
+                        {% if category.code %}
+                            <span class="badge badge-neutral">{{ category.code }}</span>
+                        {% else %}
+                            <span class="badge badge-neutral">Sin código</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if category.is_active %}
+                            <span class="badge badge-success">Activa</span>
+                        {% else %}
+                            <span class="badge badge-danger">Inactiva</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="actions" style="margin-bottom:0;">
+                            <a href="{% url 'training:category_update' category.pk %}" class="btn">Editar</a>
+                            <a href="{% url 'training:category_delete' category.pk %}" class="btn btn-danger">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">
+                        <div class="empty-box">No hay categorías con los filtros actuales.</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if is_paginated %}
+    <div class="pagination-bar">
+        <div class="pagination-info">
+            Mostrando {{ page_obj.start_index }}–{{ page_obj.end_index }} de {{ page_obj.paginator.count }} resultados
+        </div>
+
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page=1">«</a>
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}">‹</a>
+            {% endif %}
+
+            <span class="page-link is-active">{{ page_obj.number }}</span>
+
+            {% if page_obj.has_next %}
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}">›</a>
+                <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.paginator.num_pages }}">»</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | Riskora{% endblock %}
+{% block page_title %}Dashboard PRL{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="hero-grid">
+        <div>
+            <div class="hero-eyebrow">
+                {% if active_company %}
+                    Empresa activa
+                {% else %}
+                    Control preventivo en tiempo real
+                {% endif %}
+            </div>
+
+            {% if active_company %}
+                <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+                    {% if active_company.logo %}
+                        <img
+                            src="{{ active_company.logo.url }}"
+                            alt="{{ active_company }}"
+                            style="width:54px; height:54px; object-fit:contain; border-radius:14px; background:#fff; padding:6px; border:1px solid rgba(255,255,255,0.18);"
+                        >
+                    {% else %}
+                        <div style="width:54px; height:54px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; background:linear-gradient(135deg,#22c55e,#60a5fa); color:#062814;">
+                            {{ active_company|slice:":1"|upper }}
+                        </div>
+                    {% endif %}
+
+                    <div>
+                        <h3 style="margin:0;">{{ active_company }}</h3>
+                        <p style="margin-top:8px;">
+                            Toda la información visible en este panel corresponde a la empresa identificada mediante tu sesión.
+                        </p>
+                    </div>
+                </div>
+            {% else %}
+                <h3>Centro de mando PRL con foco operativo y documental</h3>
+                <p>
+                    Supervisa vencimientos, formación, tareas y documentación preventiva desde un panel visual y accionable.
+                </p>
+            {% endif %}
+
+            <div class="hero-actions">
+                <a href="{% url 'documents:list' %}" class="hero-btn hero-btn-primary">Ver documentos</a>
+                <a href="{% url 'tasks:list' %}" class="hero-btn hero-btn-secondary">Ver tareas</a>
+            </div>
+        </div>
+
+        <div class="hero-side">
+            <div class="hero-mini">
+                <div class="hero-mini-label">Trabajadores</div>
+                <div class="hero-mini-value">{{ total_workers }}</div>
+            </div>
+            <div class="hero-mini">
+                <div class="hero-mini-label">Centros</div>
+                <div class="hero-mini-value">{{ total_workcenters }}</div>
+            </div>
+            <div class="hero-mini">
+                <div class="hero-mini-label">Documentos</div>
+                <div class="hero-mini-value">{{ total_documents }}</div>
+            </div>
+            <div class="hero-mini">
+                <div class="hero-mini-label">Alertas activas</div>
+                <div class="hero-mini-value">{{ active_alerts }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="module-grid">
+    <a href="{% url 'company-list' %}" class="module-card companies">
+        <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M4 20V7a2 2 0 0 1 2-2h8v15"></path>
+                <path d="M14 10h4a2 2 0 0 1 2 2v8"></path>
+                <path d="M8 9h2M8 13h2M8 17h2M14 14h2M14 18h2"></path>
+            </svg>
+        </div>
+        <div class="module-title">Empresas</div>
+        <div class="module-text">Gestiona clientes, razón social, CIF, estado y estructura preventiva.</div>
+        <div class="module-link">Entrar al módulo</div>
+    </a>
+
+    <a href="{% url 'workcenter-list' %}" class="module-card centers">
+        <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M3 20h18"></path>
+                <path d="M5 20v-8l7-4 7 4v8"></path>
+                <path d="M9 20v-4h6v4"></path>
+            </svg>
+        </div>
+        <div class="module-title">Centros</div>
+        <div class="module-text">Controla centros de trabajo, ubicaciones y organización operativa.</div>
+        <div class="module-link">Ver centros</div>
+    </a>
+
+    <a href="{% url 'worker-list' %}" class="module-card workers">
+        <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="10" cy="7" r="4"></circle>
+                <path d="M20 8v6"></path>
+                <path d="M17 11h6"></path>
+            </svg>
+        </div>
+        <div class="module-title">Trabajadores</div>
+        <div class="module-text">Accede a plantilla, sensibilidad especial, situación laboral y asignaciones.</div>
+        <div class="module-link">Gestionar trabajadores</div>
+    </a>
+
+    <a href="{% url 'jobposition-list' %}" class="module-card positions">
+        <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="3" y="7" width="18" height="12" rx="2"></rect>
+                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <path d="M3 12h18"></path>
+            </svg>
+        </div>
+        <div class="module-title">Puestos</div>
+        <div class="module-text">Organiza puestos, departamentos y necesidades preventivas por función.</div>
+        <div class="module-link">Abrir puestos</div>
+    </a>
+
+    <a href="{% url 'training:course_list' %}" class="module-card training">
+        <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M3 6.5 12 3l9 3.5-9 3.5-9-3.5Z"></path>
+                <path d="M7 9v4.5c0 1.7 2.2 3 5 3s5-1.3 5-3V9"></path>
+                <path d="M21 6.5v6"></path>
+            </svg>
+        </div>
+        <div class="module-title">Formación</div>
+        <div class="module-text">Controla cursos, registros formativos, renovaciones y seguimiento documental.</div>
+        <div class="module-link">Ir a formación</div>
+    </a>
+
+    <a href="{% url 'documents:list' %}" class="module-card docs">
+        <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"></path>
+                <path d="M14 3v5h5"></path>
+                <path d="M9 13h6M9 17h6"></path>
+            </svg>
+        </div>
+        <div class="module-title">Documentos</div>
+        <div class="module-text">Revisa documentación, caducidades, estados y evidencias preventivas.</div>
+        <div class="module-link">Ver documentación</div>
+    </a>
+
+    <a href="{% url 'tasks:list' %}" class="module-card tasks">
+        <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M9 11l3 3L22 4"></path>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+        </div>
+        <div class="module-title">Tareas</div>
+        <div class="module-text">Supervisa pendientes, prioridades y acciones correctivas en curso.</div>
+        <div class="module-link">Abrir tareas</div>
+    </a>
+
+    <a href="{% url 'tasks:list' %}" class="module-card tasks">
+        <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path>
+                <path d="M12 9v4"></path>
+                <path d="M12 17h.01"></path>
+            </svg>
+        </div>
+        <div class="module-title">Alertas</div>
+        <div class="module-text">Detecta incidencias, vencimientos y focos críticos antes de que escalen.</div>
+        <div class="module-link">Ver alertas</div>
+    </a>
+</div>
+
+<div class="grid">
+    <div class="card kpi-card">
+        <div class="kpi-label">Empresas</div>
+        <div class="kpi-value">{{ total_companies }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Centros</div>
+        <div class="kpi-value">{{ total_workcenters }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Puestos</div>
+        <div class="kpi-value">{{ total_positions }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Trabajadores</div>
+        <div class="kpi-value">{{ total_workers }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Documentos</div>
+        <div class="kpi-value">{{ total_documents }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Documentos caducados</div>
+        <div class="kpi-value">{{ expired_documents }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-warning">
+        <div class="kpi-label">Alertas activas</div>
+        <div class="kpi-value">{{ active_alerts }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Tareas pendientes</div>
+        <div class="kpi-value">{{ pending_tasks }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Alta prioridad</div>
+        <div class="kpi-value">{{ high_priority_tasks }}</div>
+    </div>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Próximos vencimientos</h3>
+        <div class="list">
+            {% for document in expiring_documents %}
+                <div class="list-item">
+                    <strong>
+                        <a href="{% url 'documents:detail' document.pk %}">
+                            {{ document.title }}
+                        </a>
+                    </strong>
+                    <div class="meta">
+                        Empresa: {{ document.company }} · Categoría: {{ document.category }} ·
+                        Caduca: {{ document.expiry_date|default:"-" }}
+                    </div>
+                    <span class="badge badge-warning">Vence pronto</span>
+                </div>
+            {% empty %}
+                <div class="list-item">No hay documentos próximos a vencer.</div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Formación a renovar</h3>
+        <div class="list">
+            {% for training in expiring_training_records %}
+                <div class="list-item">
+                    <strong>
+                        <a href="{% url 'training:record_detail' training.pk %}">
+                            {{ training.worker }}
+                        </a>
+                    </strong>
+                    <div class="meta">
+                        Curso: {{ training.course }} ·
+                        Empresa: {{ training.company|default:"-" }} ·
+                        Renovación: {{ training.expiry_date|default:"-" }}
+                    </div>
+                    <span class="badge badge-warning">Renovación próxima</span>
+                </div>
+            {% empty %}
+                <div class="list-item">No hay renovaciones de formación pendientes.</div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Últimas alertas</h3>
+        <div class="list">
+            {% for alert in recent_alerts %}
+                <div class="list-item">
+                    <strong>
+                        <a href="{% url 'tasks:alert_detail' alert.pk %}">
+                            {{ alert.title }}
+                        </a>
+                    </strong>
+                    <div class="meta">
+                        Empresa: {{ alert.company }} · Fecha objetivo: {{ alert.due_date|default:"-" }}
+                    </div>
+                    {% if alert.severity == 'danger' %}
+                        <span class="badge badge-danger">Crítica</span>
+                    {% elif alert.severity == 'warning' %}
+                        <span class="badge badge-warning">Aviso</span>
+                    {% else %}
+                        <span class="badge badge-success">Info</span>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <div class="list-item">No hay alertas recientes.</div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Acciones urgentes</h3>
+        <div class="list">
+            {% for task in urgent_tasks %}
+                <div class="list-item">
+                    <strong>
+                        <a href="{% url 'tasks:detail' task.pk %}">
+                            {{ task.title }}
+                        </a>
+                    </strong>
+                    <div class="meta">
+                        Empresa: {{ task.company }} · Estado: {{ task.get_status_display }} · Vence: {{ task.due_date|default:"-" }}
+                    </div>
+                    <span class="badge badge-danger">{{ task.get_priority_display }}</span>
+                </div>
+            {% empty %}
+                <div class="list-item">No hay acciones urgentes abiertas.</div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Últimos centros</h3>
+        <div class="list">
+            {% for center in recent_workcenters %}
+                <div class="list-item">
+                    <strong>{{ center.name }}</strong>
+                    <div class="meta">
+                        Empresa: {{ center.company }} · Ciudad: {{ center.city|default:"-" }} · Provincia: {{ center.province|default:"-" }}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="list-item">No hay centros recientes.</div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Últimos trabajadores</h3>
+        <div class="list">
+            {% for worker in recent_workers %}
+                <div class="list-item">
+                    <strong>{{ worker }}</strong>
+                    <div class="meta">
+                        Empresa: {{ worker.company }} · Centro: {{ worker.work_center|default:"-" }} · Puesto: {{ worker.job_position|default:"-" }}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="list-item">No hay trabajadores recientes.</div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Últimas tareas</h3>
+        <div class="list">
+            {% for task in recent_tasks %}
+                <div class="list-item">
+                    <strong>
+                        <a href="{% url 'tasks:detail' task.pk %}">
+                            {{ task.title }}
+                        </a>
+                    </strong>
+                    <div class="meta">
+                        Empresa: {{ task.company }} · Estado: {{ task.get_status_display }} · Vence: {{ task.due_date|default:"-" }}
+                    </div>
+                    {% if task.priority == 'critical' or task.priority == 'high' %}
+                        <span class="badge badge-danger">{{ task.get_priority_display }}</span>
+                    {% elif task.priority == 'medium' %}
+                        <span class="badge badge-warning">{{ task.get_priority_display }}</span>
+                    {% else %}
+                        <span class="badge badge-success">{{ task.get_priority_display }}</span>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <div class="list-item">No hay tareas recientes.</div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Estado de cumplimiento</h3>
+        <div class="list">
+            <div class="list-item">
+                <strong>Documentación al día</strong>
+                <div class="meta">Porcentaje estimado de documentación vigente y disponible.</div>
+                <span class="badge badge-success">{{ compliance_documents|default:"0%" }}</span>
+            </div>
+            <div class="list-item">
+                <strong>Formación vigente</strong>
+                <div class="meta">Cobertura formativa actualizada en la plantilla.</div>
+                <span class="badge badge-success">{{ compliance_training|default:"0%" }}</span>
+            </div>
+            <div class="list-item">
+                <strong>Acciones cerradas</strong>
+                <div class="meta">Seguimiento de acciones correctivas resueltas frente a abiertas.</div>
+                <span class="badge badge-warning">{{ compliance_actions|default:"0%" }}</span>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="sections">
+    <section class="card" style="grid-column: 1 / -1;">
+        <h3 class="section-title">Últimos documentos</h3>
+        <div class="list">
+            {% for document in recent_documents %}
+                <div class="list-item">
+                    <strong>
+                        <a href="{% url 'documents:detail' document.pk %}">
+                            {{ document.title }}
+                        </a>
+                    </strong>
+                    <div class="meta">
+                        Empresa: {{ document.company }} · Categoría: {{ document.category }} ·
+                        Estado: {{ document.get_status_display }} · Caduca: {{ document.expiry_date|default:"-" }}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="list-item">No hay documentos recientes.</div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

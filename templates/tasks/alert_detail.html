@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Alerta | Riskora{% endblock %}
+{% block page_title %}Alerta{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title">{{ alert.title }}</h3>
+    <div class="meta">
+        Empresa: {{ alert.company }} ·
+        Severidad: {{ alert.get_severity_display|default:alert.severity }} ·
+        Fecha objetivo: {{ alert.due_date|default:"-" }} ·
+        Estado: {% if alert.is_active %}Activa{% else %}Cerrada{% endif %}
+    </div>
+</div>
+
+<div class="sections">
+    <section class="card">
+        <h3 class="section-title">Detalle</h3>
+        <div class="list">
+            <div class="list-item">
+                <strong>Descripción</strong>
+                <div class="meta">{{ alert.description|default:"Sin descripción" }}</div>
+            </div>
+            <div class="list-item">
+                <strong>Creada</strong>
+                <div class="meta">{{ alert.created_at|date:"d/m/Y H:i" }}</div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

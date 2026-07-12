@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Formulario curso{% endblock %}
+
+{% block content %}
+{% include 'training/_training_header.html' with training_title='Cursos de formación' training_description='Diseña y mantiene el catálogo de formación preventiva del sistema.' %}
+
+<div class="training-card">
+    <div class="training-section-head">
+        <div>
+            <h2 class="training-section-title">
+                {% if object %}Editar curso{% else %}Nuevo curso{% endif %}
+            </h2>
+            <p class="training-section-text">
+                Completa la información formativa, organizativa y documental del curso.
+            </p>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-grid">
+            {% for field in form %}
+                <div class="form-group {% if field.name == 'description' or field.name == 'objective' or field.name == 'content' or field.name == 'notes' %}form-group-full{% endif %}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="actions" style="margin-top:20px;">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% url 'training:course_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+</div>
+{% endblock %}

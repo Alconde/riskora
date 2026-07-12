@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if object %}Editar documento{% else %}Nuevo documento{% endif %} | Riskora
+{% endblock %}
+
+{% block page_title %}
+    {% if object %}Editar documento{% else %}Nuevo documento{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h3 class="section-title">
+        {% if object %}
+            Editar documento
+        {% else %}
+            Crear documento
+        {% endif %}
+    </h3>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="list-item" style="margin-bottom: 16px;">
+                {% for error in form.non_field_errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+            <div>
+                <label for="{{ form.company.id_for_label }}">Empresa</label>
+                {{ form.company }}
+                {% if form.company.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.company.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.category.id_for_label }}">Categoría</label>
+                {{ form.category }}
+                {% if form.category.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.category.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div style="grid-column: 1 / -1;">
+                <label for="{{ form.title.id_for_label }}">Título</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.title.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div style="grid-column: 1 / -1;">
+                <label for="{{ form.description.id_for_label }}">Descripción</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.description.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div style="grid-column: 1 / -1;">
+                <label for="{{ form.file.id_for_label }}">Archivo</label>
+                {{ form.file }}
+                {% if object and object.file %}
+                    <div class="meta" style="margin-top: 6px;">
+                        Archivo actual:
+                        <a href="{{ object.file.url }}" target="_blank" rel="noopener noreferrer">
+                            {{ object.file.name }}
+                        </a>
+                    </div>
+                {% endif %}
+                {% if form.file.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.file.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.version.id_for_label }}">Versión</label>
+                {{ form.version }}
+                {% if form.version.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.version.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.code.id_for_label }}">Código documental</label>
+                {{ form.code }}
+                {% if form.code.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.code.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.issue_date.id_for_label }}">Fecha de emisión</label>
+                {{ form.issue_date }}
+                {% if form.issue_date.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.issue_date.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.review_date.id_for_label }}">Fecha de revisión</label>
+                {{ form.review_date }}
+                {% if form.review_date.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.review_date.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.expiry_date.id_for_label }}">Fecha de caducidad</label>
+                {{ form.expiry_date }}
+                {% if form.expiry_date.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.expiry_date.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.status.id_for_label }}">Estado</label>
+                {{ form.status }}
+                {% if form.status.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.status.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div style="grid-column: 1 / -1;">
+                <label for="{{ form.notes.id_for_label }}">Observaciones</label>
+                {{ form.notes }}
+                {% if form.notes.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.notes.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div style="grid-column: 1 / -1; display:flex; align-items:center; gap:10px;">
+                {{ form.is_confidential }}
+                <label for="{{ form.is_confidential.id_for_label }}" style="margin:0;">Documento confidencial</label>
+                {% if form.is_confidential.errors %}
+                    <div class="meta" style="color:#b91c1c;">{{ form.is_confidential.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="{% url 'documents:list' %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+
+            {% if object %}
+                <a href="{% url 'documents:detail' object.pk %}" class="hero-btn hero-btn-secondary">Volver al detalle</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %}Tareas | Riskora{% endblock %}
+{% block page_title %}Tareas{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title">Filtros</h3>
+
+    <form method="get" class="grid task-filters-grid" style="gap: 12px;">
+        <div>
+            <label for="id_q">Buscar</label>
+            <input
+                type="text"
+                name="q"
+                id="id_q"
+                class="form-control"
+                value="{{ filters.q|default:'' }}"
+                placeholder="Título, descripción u observaciones"
+            >
+        </div>
+
+        <div>
+            <label for="id_company">Empresa</label>
+            <select name="company" id="id_company" class="form-control">
+                <option value="">Todas</option>
+                {% for company in companies %}
+                    <option value="{{ company.pk }}" {% if filters.company == company.pk|stringformat:"s" %}selected{% endif %}>
+                        {{ company }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="id_status">Estado</label>
+            <select name="status" id="id_status" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if filters.status == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="id_priority">Prioridad</label>
+            <select name="priority" id="id_priority" class="form-control">
+                <option value="">Todas</option>
+                {% for value, label in priority_choices %}
+                    <option value="{{ value }}" {% if filters.priority == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="id_assigned">Solo asignadas a mí</label>
+            <select name="assigned" id="id_assigned" class="form-control">
+                <option value="">No filtrar</option>
+                <option value="1" {% if filters.assigned == '1' %}selected{% endif %}>Sí</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="id_overdue">Vencidas</label>
+            <select name="overdue" id="id_overdue" class="form-control">
+                <option value="">No filtrar</option>
+                <option value="1" {% if filters.overdue == '1' %}selected{% endif %}>Sí</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="id_due_soon">Próx. 7 días</label>
+            <select name="due_soon" id="id_due_soon" class="form-control">
+                <option value="">No filtrar</option>
+                <option value="1" {% if filters.due_soon == '1' %}selected{% endif %}>Sí</option>
+            </select>
+        </div>
+
+        <div style="grid-column: 1 / -1; display: flex; gap: 10px; margin-top: 6px; flex-wrap: wrap;">
+            <button type="submit" class="hero-btn hero-btn-primary">Filtrar</button>
+            <a href="{% url 'tasks:list' %}" class="hero-btn hero-btn-secondary">Limpiar</a>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
+        <h3 class="section-title" style="margin:0;">Listado de tareas</h3>
+        <div class="meta">
+            {{ page_obj.paginator.count }} tarea{{ page_obj.paginator.count|pluralize }}
+        </div>
+    </div>
+
+    <div class="list">
+        {% for task in tasks %}
+            <div class="list-item">
+                <div style="display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+                    <div>
+                        <strong>
+                            <a href="{% url 'tasks:detail' task.pk %}">
+                                {{ task.title }}
+                            </a>
+                        </strong>
+
+                        <div class="meta" style="margin-top: 6px;">
+                            Empresa: {{ task.company }} ·
+                            Estado: {{ task.get_status_display }} ·
+                            Prioridad: {{ task.get_priority_display }} ·
+                            Asignada a: {{ task.assigned_to|default:"Sin asignar" }} ·
+                            Vence: {{ task.due_date|default:"-" }}
+                        </div>
+
+                        {% if task.description %}
+                            <div class="meta" style="margin-top: 8px;">
+                                {{ task.description|truncatechars:160 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        {% if task.priority == 'critical' or task.priority == 'high' %}
+                            <span class="badge badge-danger">{{ task.get_priority_display }}</span>
+                        {% elif task.priority == 'medium' %}
+                            <span class="badge badge-warning">{{ task.get_priority_display }}</span>
+                        {% else %}
+                            <span class="badge badge-success">{{ task.get_priority_display }}</span>
+                        {% endif %}
+
+                        {% if task.status == 'completed' %}
+                            <span class="badge badge-success">Completada</span>
+                        {% elif task.status == 'cancelled' %}
+                            <span class="badge badge-warning">Cancelada</span>
+                        {% elif task.status == 'in_progress' %}
+                            <span class="badge badge-warning">En progreso</span>
+                        {% else %}
+                            <span class="badge badge-danger">Pendiente</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">
+                No se han encontrado tareas con los filtros seleccionados.
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+        <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;">
+            {% if page_obj.has_previous %}
+                <a href="?{% if filters.q %}q={{ filters.q|urlencode }}&{% endif %}{% if filters.company %}company={{ filters.company }}&{% endif %}{% if filters.status %}status={{ filters.status }}&{% endif %}{% if filters.priority %}priority={{ filters.priority }}&{% endif %}{% if filters.assigned %}assigned={{ filters.assigned }}&{% endif %}{% if filters.overdue %}overdue={{ filters.overdue }}&{% endif %}{% if filters.due_soon %}due_soon={{ filters.due_soon }}&{% endif %}page={{ page_obj.previous_page_number }}" class="hero-btn hero-btn-secondary">
+                    Anterior
+                </a>
+            {% endif %}
+
+            <span class="hero-btn hero-btn-secondary" style="pointer-events:none;">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?{% if filters.q %}q={{ filters.q|urlencode }}&{% endif %}{% if filters.company %}company={{ filters.company }}&{% endif %}{% if filters.status %}status={{ filters.status }}&{% endif %}{% if filters.priority %}priority={{ filters.priority }}&{% endif %}{% if filters.assigned %}assigned={{ filters.assigned }}&{% endif %}{% if filters.overdue %}overdue={{ filters.overdue }}&{% endif %}{% if filters.due_soon %}due_soon={{ filters.due_soon }}&{% endif %}page={{ page_obj.next_page_number }}" class="hero-btn hero-btn-secondary">
+                    Siguiente
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
