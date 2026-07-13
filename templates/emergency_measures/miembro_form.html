@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Anadir Miembro | Riskora{% endblock %}
+{% block page_title %}Anadir Miembro al Equipo{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:600px;">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div style="margin-bottom:16px;">
+            <label style="display:block;font-weight:600;margin-bottom:4px;">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<div class="meta" style="color:#dc2626;">{{ field.errors.0 }}</div>{% endif %}
+        </div>
+        {% endfor %}
+        <div class="flex gap-2">
+            <button type="submit" class="hero-btn">Anadir</button>
+            <a href="javascript:history.back()" class="hero-btn hero-btn--secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

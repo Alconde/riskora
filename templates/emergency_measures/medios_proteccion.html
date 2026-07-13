@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Medios de Proteccion | Riskora{% endblock %}
+{% block page_title %}Medios de Proteccion contra Incendios{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:16px;">
+    <a href="{% url 'emergency_measures:dashboard' %}" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);padding:8px 16px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">← Volver</a>
+</div>
+
+{% if medios_empresa %}
+<div class="section-title" style="margin-bottom:12px;">Medios activos en la empresa</div>
+<div class="list" style="margin-bottom:24px;">
+    {% for me in medios_empresa %}
+    <div class="list-item" style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="flex:1;">
+            <div style="font-weight:700;">{{ me.medio.nombre }}</div>
+            <div class="meta">Cantidad: {{ me.cantidad }}{% if me.ubicacion %} · Ubicacion: {{ me.ubicacion }}{% endif %}</div>
+            {% if me.notas %}<div class="meta" style="margin-top:4px;">{{ me.notas }}</div>{% endif %}
+        </div>
+        <div class="flex items-center gap-2">
+            <a href="{% url 'emergency_measures:medio-update' me.pk %}" class="hero-btn hero-btn--secondary" style="padding:6px 10px;font-size:12px;">Editar</a>
+            <a href="{% url 'emergency_measures:medio-delete' me.pk %}" class="hero-btn hero-btn--danger" style="padding:6px 10px;font-size:12px;">Quitar</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="meta" style="margin-bottom:20px;">No hay medios de proteccion seleccionados aun.</p>
+{% endif %}
+
+<div class="card" style="margin-bottom:20px;">
+    <div class="section-title" style="margin-bottom:12px;">Anadir medio de proteccion</div>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div style="margin-bottom:12px;">
+            <label style="display:block;font-weight:600;margin-bottom:4px;">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<div class="meta" style="color:#dc2626;">{{ field.errors.0 }}</div>{% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="hero-btn">Anadir</button>
+    </form>
+</div>
+
+{% if disponibles %}
+<div class="card">
+    <div class="section-title" style="margin-bottom:12px;">Catalogo disponible</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        {% for d in disponibles %}
+        <span class="badge badge-secondary" style="padding:8px 14px;font-size:12px;text-transform:none;letter-spacing:0;">{{ d.nombre }}</span>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

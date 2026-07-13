@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Entrega de Informacion | Riskora{% endblock %}
+{% block page_title %}Entrega de Informacion a Trabajadores{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:16px;">
+    <a href="{% url 'emergency_measures:dashboard' %}" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);padding:8px 16px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">← Volver</a>
+    <a href="{% url 'emergency_measures:entrega-create' %}" class="hero-btn" style="margin-left:8px;">+ Registrar Entrega</a>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
+    <div class="kpi-card"><div class="kpi-value">{{ total_entregas }}</div><div class="kpi-label">Entregas realizadas</div></div>
+    <div class="kpi-card"><div class="kpi-value">{{ total_workers }}</div><div class="kpi-label">Trabajadores totales</div></div>
+    <div class="kpi-card" style="border-left:3px solid {% if total_entregas >= total_workers %}#16a34a{% else %}#dc2626{% endif %};"><div class="kpi-value">{% widthratio total_entregas total_workers 100 %}%</div><div class="kpi-label">Cobertura</div></div>
+</div>
+
+{% if entregas %}
+<div class="list">
+    {% for e in entregas %}
+    <div class="list-item" style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="flex:1;">
+            <div style="font-weight:700;">{{ e.trabajador }}</div>
+            <div class="meta">{{ e.tipo_informacion }} · {{ e.fecha_entrega|date:"d/m/Y" }}{% if e.firma_trabajador %} · <span style="color:#16a34a;">Firmado</span>{% endif %}</div>
+        </div>
+        <div class="flex items-center gap-2">
+            {% if e.archivo %}<span class="badge badge-info" style="font-size:10px;">Archivo</span>{% endif %}
+            <a href="{% url 'emergency_measures:entrega-delete' e.pk %}" class="hero-btn hero-btn--danger" style="padding:6px 10px;font-size:12px;">Eliminar</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:6px;margin-top:20px;">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Anterior</a>{% endif %}
+    <span style="padding:6px 12px;">Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Siguiente</a>{% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<p class="meta" style="text-align:center;padding:40px 0;">No hay entregas de informacion registradas.</p>
+{% endif %}
+{% endblock %}

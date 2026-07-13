@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}Eliminar Medida | Riskora{% endblock %}
-{% block page_title %}Eliminar Medida de Emergencia{% endblock %}
+{% block title %}Eliminar | Riskora{% endblock %}
+{% block page_title %}Confirmar Eliminacion{% endblock %}
 
 {% block content %}
 <div class="card" style="max-width:500px;">
-    <p style="margin-bottom:16px;">¿Estás seguro de eliminar <strong>{{ object.titulo }}</strong>?</p>
+    <p style="margin-bottom:16px;">¿Estas seguro de eliminar este elemento?</p>
     <form method="post">
         {% csrf_token %}
         <div class="flex gap-2">
             <button type="submit" class="hero-btn hero-btn--danger">Eliminar</button>
-            <a href="{% url 'emergency_measures:list' %}" class="hero-btn hero-btn--secondary">Cancelar</a>
+            <a href="javascript:history.back()" class="hero-btn hero-btn--secondary">Cancelar</a>
         </div>
     </form>
 </div>

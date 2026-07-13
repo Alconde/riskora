@@ -1,68 +1,123 @@
 from django.db import models
 from django.conf import settings
 from apps.companies.models import Company
+from apps.workers.models import Worker
 
 
-class MedidaEmergencia(models.Model):
-    TIPO_CHOICES = [
-        ('plan', 'Plan de Emergencia'),
-        ('extintor', 'Extintor'),
-        ('evacuacion', 'Ruta de Evacuación'),
-        ('simulacro', 'Simulacro'),
-        ('protocolo', 'Protocolo de Actuación'),
-    ]
-
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='medidas_emergencia')
-    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
-    titulo = models.CharField(max_length=200)
+class MedioProteccionIncendios(models.Model):
+    nombre = models.CharField(max_length=200)
     descripcion = models.TextField(blank=True, default='')
-    ubicacion = models.CharField(max_length=200, blank=True, default='')
-    fecha = models.DateField(null=True, blank=True)
-    proximo_simulacro = models.DateField(null=True, blank=True)
-    responsable = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-        related_name='medidas_emergencia'
-    )
-    file = models.FileField(upload_to='medidas_emergencia/', blank=True)
+    icono = models.CharField(max_length=50, blank=True, default='')
     activo = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['nombre']
+        verbose_name = 'Medio de Protección contra Incendios'
+        verbose_name_plural = 'Medios de Protección contra Incendios'
+
+    def __str__(self):
+        return self.nombre
+
+
+class EmpresaMedioProteccion(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='medios_proteccion')
+    medio = models.ForeignKey(MedioProteccionIncendios, on_delete=models.CASCADE, related_name='empresas')
+    cantidad = models.PositiveIntegerField(default=1)
+    ubicacion = models.CharField(max_length=300, blank=True, default='')
+    notas = models.TextField(blank=True, default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Medio de Protección de la Empresa'
+        verbose_name_plural = 'Medios de Protección de la Empresa'
+        unique_together = ['company', 'medio']
+
+    def __str__(self):
+        return f"{self.medio.nombre} ({self.cantidad})"
+
+
+class PlanAutoproteccion(models.Model):
+    company = models.OneToOneField(Company, on_delete=models.CASCADE, related_name='plan_autoproteccion')
+    file_plan = models.FileField(upload_to='medidas_emergencia/plan/', blank=True)
+    file_plano = models.FileField(upload_to='medidas_emergencia/plano/', blank=True)
+    notas_plano = models.TextField(blank=True, default='')
+    fecha_revision = models.DateField(null=True, blank=True)
+    proxima_revision = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['tipo', 'titulo']
-        verbose_name = 'Medida de Emergencia'
-        verbose_name_plural = 'Medidas de Emergencia'
+        verbose_name = 'Plan de Autoprotección'
+        verbose_name_plural = 'Planes de Autoprotección'
 
     def __str__(self):
-        return f"{self.get_tipo_display()} — {self.titulo}"
+        return f"Plan de Autoprotección — {self.company}"
+
+
+class EquipoEmergencia(models.Model):
+    TIPO_CHOICES = [
+        ('jefe', 'Jefe de Emergencia'),
+        ('sustituto', 'Sustituto del Jefe'),
+        ('intervencion', 'Equipo de Intervención'),
+        ('primeros_auxilios', 'Equipo de Primeros Auxilios'),
+        ('evacuacion', 'Equipo de Evacuación'),
+        ('comunicaciones', 'Equipo de Comunicaciones'),
+    ]
+
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='equipos_emergencia')
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+    nombre = models.CharField(max_length=200, blank=True, default='')
+    designacion_file = models.FileField(upload_to='medidas_emergencia/designaciones/', blank=True)
+    formacion_file = models.FileField(upload_to='medidas_emergencia/formacion_equipos/', blank=True)
+    descripcion = models.TextField(blank=True, default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['tipo', 'nombre']
+        verbose_name = 'Equipo de Emergencia'
+        verbose_name_plural = 'Equipos de Emergencia'
+
+    def __str__(self):
+        return f"{self.get_tipo_display()} — {self.nombre or self.company}"
 
     @property
     def badge_color(self):
         return {
-            'plan': 'info',
-            'extintor': 'success',
-            'evacuacion': 'warning',
-            'simulacro': 'accent',
-            'protocolo': 'secondary',
+            'jefe': 'danger',
+            'sustituto': 'warning',
+            'intervencion': 'accent',
+            'primeros_auxilios': 'success',
+            'evacuacion': 'info',
+            'comunicaciones': 'secondary',
         }.get(self.tipo, 'secondary')
 
-    @property
-    def icon_svg(self):
-        icons = {
-            'plan': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14,2 14,8 20,8"/></svg>',
-            'extintor': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a5 5 0 0 1 5 5v2a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5Z"/><path d="M12 12v6"/><path d="M8 18h8"/></svg>',
-            'evacuacion': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="3"/><path d="M12 8v4l3 5"/><path d="M12 12l-3 5"/></svg>',
-            'simulacro': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12"/><path d="M12 6v6l4 2"/></svg>',
-            'protocolo': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12h6"/><path d="M9 16h6"/><path d="M17 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z"/></svg>',
-        }
-        return icons.get(self.tipo, '')
+
+class MiembroEquipoEmergencia(models.Model):
+    equipo = models.ForeignKey(EquipoEmergencia, on_delete=models.CASCADE, related_name='miembros')
+    trabajador = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name='equipos_emergencia')
+    rol = models.CharField(max_length=100, blank=True, default='')
+    designacion_file = models.FileField(upload_to='medidas_emergencia/miembros_designaciones/', blank=True)
+    formacion_file = models.FileField(upload_to='medidas_emergencia/miembros_formacion/', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Miembro del Equipo de Emergencia'
+        verbose_name_plural = 'Miembros de Equipos de Emergencia'
+        unique_together = ['equipo', 'trabajador']
+
+    def __str__(self):
+        return f"{self.trabajador} — {self.equipo.get_tipo_display()}"
 
 
-class HistorialSimulacro(models.Model):
-    medida = models.ForeignKey(MedidaEmergencia, on_delete=models.CASCADE, related_name='historial')
+class RegistroSimulacro(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='simulacros')
     fecha = models.DateField()
+    descripcion = models.TextField(blank=True, default='')
     participantes = models.PositiveIntegerField(default=0)
     observaciones = models.TextField(blank=True, default='')
+    duracion_minutos = models.PositiveIntegerField(null=True, blank=True)
+    archivo = models.FileField(upload_to='medidas_emergencia/simulacros/', blank=True)
     creado_por = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -70,8 +125,28 @@ class HistorialSimulacro(models.Model):
 
     class Meta:
         ordering = ['-fecha']
-        verbose_name = 'Historial de Simulacro'
-        verbose_name_plural = 'Historial de Simulacros'
+        verbose_name = 'Registro de Simulacro'
+        verbose_name_plural = 'Registros de Simulacros'
 
     def __str__(self):
-        return f"Simulacro {self.fecha} — {self.medida.titulo}"
+        return f"Simulacro {self.fecha}"
+
+
+class EntregaInformacionEmergencia(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='entregas_info_emergencia')
+    trabajador = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name='entregas_info_emergencia')
+    fecha_entrega = models.DateField()
+    tipo_informacion = models.CharField(max_length=200)
+    descripcion = models.TextField(blank=True, default='')
+    firma_trabajador = models.BooleanField(default=False)
+    archivo = models.FileField(upload_to='medidas_emergencia/entregas_info/', blank=True)
+    notas = models.TextField(blank=True, default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-fecha_entrega']
+        verbose_name = 'Entrega de Información de Emergencia'
+        verbose_name_plural = 'Entregas de Información de Emergencia'
+
+    def __str__(self):
+        return f"{self.trabajador} — {self.tipo_informacion} ({self.fecha_entrega})"

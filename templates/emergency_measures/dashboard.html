@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Medidas de Emergencia | Riskora{% endblock %}
+{% block page_title %}Medidas de Emergencia{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
+    <a href="{% url 'emergency_measures:plan-autoproteccion' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #0f766e;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#0f766e;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14,2 14,8 20,8"/></svg>
+            <div style="font-weight:700;font-size:15px;">Plan de Autoproteccion</div>
+            <div class="meta" style="margin-top:4px;">{% if plan %}Doc subido{% else %}Pendiente{% endif %}</div>
+        </div>
+    </a>
+
+    <a href="{% url 'emergency_measures:medios-proteccion' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #dc2626;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#dc2626;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a5 5 0 0 1 5 5v2a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5Z"/><path d="M12 12v6"/><path d="M8 18h8"/></svg>
+            <div style="font-weight:700;font-size:15px;">Medios de Proteccion</div>
+            <div class="meta" style="margin-top:4px;">{{ total_medios }} medio{{ total_medios|pluralize }}</div>
+        </div>
+    </a>
+
+    <a href="{% url 'emergency_measures:equipos' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #7c3aed;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#7c3aed;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 8v6"/><path d="M17 11h6"/></svg>
+            <div style="font-weight:700;font-size:15px;">Equipos de Emergencia</div>
+            <div class="meta" style="margin-top:4px;">{{ total_equipos }} equipo{{ total_equipos|pluralize }}</div>
+        </div>
+    </a>
+
+    <a href="{% url 'emergency_measures:simulacros' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #d97706;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#d97706;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12"/><path d="M12 6v6l4 2"/></svg>
+            <div style="font-weight:700;font-size:15px;">Simulacros</div>
+            <div class="meta" style="margin-top:4px;">{{ total_simulacros }} registro{{ total_simulacros|pluralize }}</div>
+        </div>
+    </a>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px;">
+    <a href="{% url 'emergency_measures:entregas-info' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #2563eb;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#2563eb;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+            <div style="font-weight:700;font-size:15px;">Entrega de Informacion</div>
+            <div class="meta" style="margin-top:4px;">{{ total_entregas }} entrega{{ total_entregas|pluralize }}{% if entregas_pendientes > 0 %} · <span style="color:#dc2626;">{{ entregas_pendientes }} pendiente{{ entregas_pendientes|pluralize }}</span>{% endif %}</div>
+        </div>
+    </a>
+
+    <div class="card" style="border-left:3px solid #16a34a;">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#16a34a;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="3"/><path d="M12 8v4l3 5"/><path d="M12 12l-3 5"/></svg>
+            <div style="font-weight:700;font-size:15px;">Plano de Emergencia</div>
+            <div class="meta" style="margin-top:4px;">{% if plan and plan.file_plano %}Plano subido{% else %}Sin plano{% endif %}</div>
+        </div>
+    </div>
+</div>
+
+{% if equipos %}
+<div class="section-title" style="margin-bottom:12px;">Equipos asignados</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+    {% for e in equipos %}
+    <a href="{% url 'emergency_measures:equipo-detail' e.pk %}" class="card" style="text-decoration:none;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:14px;">
+            <span class="badge badge-{{ e.badge_color }}">{{ e.get_tipo_display }}</span>
+            <div style="font-weight:700;margin-top:8px;">{{ e.nombre|default:e.get_tipo_display }}</div>
+            <div class="meta">{{ e.miembros.count }} miembro{{ e.miembros.count|pluralize }}</div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Plan de Autoproteccion | Riskora{% endblock %}
+{% block page_title %}Plan de Autoproteccion{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:16px;">
+    <a href="{% url 'emergency_measures:dashboard' %}" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);padding:8px 16px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">← Volver</a>
+</div>
+
+<div class="card" style="margin-bottom:20px;">
+    <div class="section-title" style="margin-bottom:16px;">Documento del Plan de Emergencia / Autoproteccion</div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div style="margin-bottom:16px;">
+            <label style="display:block;font-weight:600;margin-bottom:4px;">Plan de Autoproteccion (documento)</label>
+            {% if plan.file_plan %}
+            <div style="margin-bottom:8px;"><a href="{{ plan.file_plan.url }}" target="_blank" class="hero-btn hero-btn--secondary" style="padding:8px 14px;font-size:13px;">Documento actual</a></div>
+            {% endif %}
+            {{ form.file_plan }}
+        </div>
+
+        <div style="margin-bottom:16px;">
+            <label style="display:block;font-weight:600;margin-bottom:4px;">Plano de Emergencia (evacuacion + medios)</label>
+            {% if plan.file_plano %}
+            <div style="margin-bottom:8px;"><a href="{{ plan.file_plano.url }}" target="_blank" class="hero-btn hero-btn--secondary" style="padding:8px 14px;font-size:13px;">Plano actual</a></div>
+            {% endif %}
+            {{ form.file_plano }}
+        </div>
+
+        <div style="margin-bottom:16px;">
+            <label style="display:block;font-weight:600;margin-bottom:4px;">Notas sobre el plano</label>
+            {{ form.notas_plano }}
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+                <label style="display:block;font-weight:600;margin-bottom:4px;">Fecha de revision</label>
+                {{ form.fecha_revision }}
+            </div>
+            <div>
+                <label style="display:block;font-weight:600;margin-bottom:4px;">Proxima revision</label>
+                {{ form.proxima_revision }}
+            </div>
+        </div>
+
+        <button type="submit" class="hero-btn">Guardar cambios</button>
+    </form>
+</div>
+{% endblock %}
