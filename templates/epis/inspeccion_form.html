@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar inspeccion{% else %}Nueva inspeccion{% endif %} EPI | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar inspeccion EPI{% else %}Nueva inspeccion EPI{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">EPI *</label>
+                {{ form.epi }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Entrega asociada</label>
+                {{ form.entrega }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha *</label>
+                {{ form.fecha }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Resultado *</label>
+                {{ form.resultado }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Inspeccionado por</label>
+                {{ form.inspeccionado_por }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Observaciones</label>
+                {{ form.observaciones }}
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            {% if object %}
+            <a href="{% url 'epis:inspeccion-detail' object.pk %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+            {% else %}
+            <a href="{% url 'epis:inspeccion-list' %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+            {% endif %}
+            <a href="{% url 'epis:dashboard' %}" class="hero-btn" style="background:rgba(220,38,38,0.08);color:#dc2626;border:1px solid rgba(220,38,38,0.2);">Descartar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar entrega{% else %}Nueva entrega{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar entrega{% else %}Nueva entrega{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">EPI *</label>
+                {{ form.epi }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Trabajador *</label>
+                {{ form.trabajador }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de entrega *</label>
+                {{ form.fecha_entrega }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de caducidad</label>
+                {{ form.fecha_caducidad }}
+            </div>
+            {% if object %}
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Estado</label>
+                {{ form.estado }}
+            </div>
+            {% endif %}
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Firma del trabajador</label>
+                {{ form.firma_trabajador }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Motivo de devolucion</label>
+                {{ form.motivo_devolucion }}
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            {% if object %}
+            <a href="{% url 'epis:entrega-detail' object.pk %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+            {% else %}
+            <a href="{% url 'epis:entrega-list' %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+            {% endif %}
+            <a href="{% url 'epis:dashboard' %}" class="hero-btn" style="background:rgba(220,38,38,0.08);color:#dc2626;border:1px solid rgba(220,38,38,0.2);">Descartar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

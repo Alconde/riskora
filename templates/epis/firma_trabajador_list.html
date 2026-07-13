@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Firmas de entrega EPI | Riskora{% endblock %}
+{% block page_title %}Estado de firmas por trabajador{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Firmas de entrega de EPI</h3>
+            <div class="meta">Estado del acuse de firma para cada trabajador con EPI asignado.</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'epis:firma-create' %}" class="hero-btn hero-btn-primary" style="font-size:13px;">Nueva firma</a>
+            <a href="{% url 'epis:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);font-size:13px;">Volver al dashboard</a>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for item in trabajadores_data %}
+            <div class="list-item">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                        <strong>{{ item.trabajador.last_name }}, {{ item.trabajador.first_name }}</strong>
+                        <div class="meta">
+                            {% if item.entrega %}
+                                EPI: {{ item.entrega.epi.marca }} {{ item.entrega.epi.modelo }} . Entregado: {{ item.entrega.fecha_entrega }}
+                            {% else %}
+                                Sin EPI asignado
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        {% if item.entrega %}
+                            {% if item.firma %}
+                                <span class="badge {{ item.firma.badge_estado_firma }}">{{ item.firma.get_estado_firma_display }}</span>
+                                {% if item.firma.archivo_firmado %}
+                                    <a href="{{ item.firma.archivo_firmado.url }}" target="_blank" style="font-size:11px;color:#1d4ed8;">Ver PDF</a>
+                                {% endif %}
+                                {% if item.firma.estado_firma == 'pendiente' %}
+                                    <a href="{% url 'epis:firma-upload' item.firma.pk %}" style="font-size:11px;color:#16a34a;">Subir firmado</a>
+                                {% endif %}
+                            {% else %}
+                                <span class="badge badge-warning">Sin registro</span>
+                            {% endif %}
+                        {% else %}
+                            <span class="badge badge-secondary">No aplica</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay trabajadores registrados en esta empresa.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

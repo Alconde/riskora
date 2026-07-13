@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar EPI{% else %}Nuevo EPI{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar EPI{% else %}Nuevo EPI{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Tipo de EPI (catalogo de mercado) *</label>
+                {{ form.catalogo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Marca *</label>
+                {{ form.marca }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Modelo *</label>
+                {{ form.modelo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Numero de serie</label>
+                {{ form.numero_serie }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Vida util (meses) *</label>
+                {{ form.vida_util_meses }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Precio unitario</label>
+                {{ form.precio }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Proveedor</label>
+                {{ form.proveedor }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de compra</label>
+                {{ form.fecha_compra }}
+            </div>
+            {% if object %}
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Estado</label>
+                {{ form.estado }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Activo</label>
+                {{ form.activo }}
+            </div>
+            {% endif %}
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            {% if object %}
+            <a href="{% url 'epis:epi-detail' object.pk %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+            {% else %}
+            <a href="{% url 'epis:epi-list' %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+            {% endif %}
+            <a href="{% url 'epis:dashboard' %}" class="hero-btn" style="background:rgba(220,38,38,0.08);color:#dc2626;border:1px solid rgba(220,38,38,0.2);">Descartar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

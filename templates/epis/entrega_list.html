@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Entregas EPI | Riskora{% endblock %}
+{% block page_title %}Entregas de EPI{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Entregas de EPI</h3>
+            <div class="meta">Historial de entregas a trabajadores.</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a href="{% url 'epis:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'epis:entrega-create' %}" class="hero-btn hero-btn-primary">Nueva entrega</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Total entregas</div>
+        <div class="kpi-value">{{ stats.ent_total }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Activas</div>
+        <div class="kpi-value">{{ stats.ent_activas }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Caducadas</div>
+        <div class="kpi-value">{{ stats.ent_caducadas }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <form method="get" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Buscar</label>
+            <input type="text" name="q" value="{{ filters.q|default:'' }}" placeholder="EPI, trabajador..." class="form-control">
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Estado</label>
+            <select name="estado" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in estado_choices %}
+                    <option value="{{ value }}" {% if filters.estado == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="hero-btn hero-btn-primary" style="height:38px;">Filtrar</button>
+        <a href="{% url 'epis:entrega-list' %}" class="hero-btn hero-btn-secondary" style="height:38px;">Limpiar</a>
+    </form>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for ent in entregas %}
+            <div class="list-item">
+                <strong><a href="{% url 'epis:entrega-detail' ent.pk %}">{{ ent.epi.marca }} {{ ent.epi.modelo }} → {{ ent.trabajador }}</a></strong>
+                <div class="meta">
+                    Entregado: {{ ent.fecha_entrega }} . Caduca: {{ ent.fecha_caducidad|default:"-" }} . {% if ent.firma_trabajador %}Firmado{% else %}Sin firma{% endif %}
+                </div>
+                <div style="display:flex;gap:8px;margin-top:6px;">
+                    <span class="badge {{ ent.badge_estado }}">{{ ent.get_estado_display }}</span>
+                    {% if ent.esta_caducada %}<span class="badge badge-danger">Caducado</span>{% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay entregas registradas.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:8px;margin-top:18px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Anterior</a>
+    {% endif %}
+    <span style="padding:10px;color:#64748b;">Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Siguiente</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

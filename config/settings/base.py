@@ -38,6 +38,7 @@ LOCAL_APPS = [
     'apps.corrective_actions.apps.CorrectiveActionsConfig',
     'apps.inspections.apps.InspectionsConfig',
     'apps.incidents.apps.IncidentsConfig',
+    'apps.epis.apps.EpisConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

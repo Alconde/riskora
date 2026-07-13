@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Subir acuse firmado | Riskora{% endblock %}
+{% block page_title %}Subir acuse firmado{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="margin-bottom:16px;">
+        <p class="meta">Trabajador: <strong>{{ object.trabajador }}</strong> . EPI: <strong>{{ object.entrega.epi }}</strong></p>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Acuse firmado (PDF) *</label>
+                {{ form.archivo_firmado }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de firma *</label>
+                {{ form.fecha_firma }}
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Subir y marcar como firmado</button>
+            <a href="{% url 'epis:dashboard' %}" class="hero-btn" style="background:rgba(220,38,38,0.08);color:#dc2626;border:1px solid rgba(220,38,38,0.2);">Descartar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

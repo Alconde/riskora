@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ epi.marca }} {{ epi.modelo }} | Riskora{% endblock %}
+{% block page_title %}{{ epi.marca }} {{ epi.modelo }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <div class="meta">
+                {{ epi.catalogo.get_categoria_display }} . {{ epi.catalogo.nombre }} . {{ epi.catalogo.norma_eu }} . {% if epi.numero_serie %}S/N: {{ epi.numero_serie }}{% endif %}
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'epis:epi-update' epi.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'epis:epi-delete' epi.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Estado</div>
+        <span class="badge {{ epi.badge_estado }}">{{ epi.get_estado_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Vida util</div>
+        <div class="kpi-value">{{ epi.vida_util_meses }} meses</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Precio</div>
+        <div class="kpi-value">{{ epi.precio }} &euro;</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Total entregas</div>
+        <div class="kpi-value">{{ epi.total_entregas }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:8px;">Riesgos que protege</h3>
+    <p style="font-size:13px;color:#475569;">{{ epi.catalogo.riesgos_proteccion }}</p>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:8px;">Norma UNE / EN</h3>
+    <p style="font-size:13px;color:#0f766e;font-weight:600;">{{ epi.catalogo.norma_eu }}</p>
+</div>
+
+{% if epi.entrega_activa %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:8px;">Entrega actual</h3>
+    <div class="list">
+        <div class="list-item">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                    <strong>{{ epi.entrega_activa.trabajador }}</strong>
+                    <div class="meta">Entregado: {{ epi.entrega_activa.fecha_entrega }} . Caduca: {{ epi.entrega_activa.fecha_caducidad|default:"-" }}</div>
+                </div>
+                <a href="{% url 'epis:entrega-detail' epi.entrega_activa.pk %}" style="font-size:11px;color:#1d4ed8;">Ver detalle</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if epi.inspecciones.all %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:8px;">Inspecciones recientes</h3>
+    <div class="list">
+        {% for insp in epi.inspecciones.all|slice:":5" %}
+            <div class="list-item">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                        <strong>{{ insp.fecha }}</strong>
+                        <div class="meta">{{ insp.get_resultado_display }} . {{ insp.observaciones|default:"Sin observaciones" }}</div>
+                    </div>
+                    <span class="badge {{ insp.badge_resultado }}">{{ insp.get_resultado_display }}</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'epis:dashboard' %}" style="text-decoration:none;color:#0f766e;font-weight:600;">← Volver al dashboard</a>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Inspeccion EPI | Riskora{% endblock %}
+{% block page_title %}Inspeccion: {{ inspeccion.epi }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <div class="meta">
+                EPI: {{ inspeccion.epi.marca }} {{ inspeccion.epi.modelo }} . Fecha: {{ inspeccion.fecha }} . Por: {{ inspeccion.inspeccionado_por|default:"-" }}
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'epis:inspeccion-update' inspeccion.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'epis:inspeccion-delete' inspeccion.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Resultado</div>
+        <span class="badge {{ inspeccion.badge_resultado }}">{{ inspeccion.get_resultado_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Tipo de EPI</div>
+        <div class="kpi-value" style="font-size:14px;">{{ inspeccion.epi.catalogo.get_categoria_display }}</div>
+    </div>
+</div>
+
+{% if inspeccion.observaciones %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Observaciones</h3>
+    <p>{{ inspeccion.observaciones|linebreaksbr }}</p>
+</div>
+{% endif %}
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'epis:dashboard' %}" style="text-decoration:none;color:#0f766e;font-weight:600;">← Volver al dashboard</a>
+</div>
+{% endblock %}

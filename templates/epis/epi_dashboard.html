@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestion de EPIs | Riskora{% endblock %}
+{% block page_title %}Gestion de EPIs{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Total EPIs</div>
+        <div class="kpi-value">{{ stats.epi_total }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Asignados</div>
+        <div class="kpi-value">{{ stats.epi_asignados }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Caducadas</div>
+        <div class="kpi-value">{{ stats.ent_caducadas }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Firmas pendientes</div>
+        <div class="kpi-value">{{ firmas_pendientes|default:"0" }}</div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
+    <a href="{% url 'epis:catalogo-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 2 7l10 5 10-5-10-5Z"></path><path d="m2 17 10 5 10-5"></path><path d="m2 12 10 5 10-5"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Catalogo de mercado</h3>
+            <div class="meta">EPIs disponibles con riesgos y norma EU</div>
+        </div>
+    </a>
+
+    <a href="{% url 'epis:epi-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Mi inventario</h3>
+            <div class="meta">EPIs registrados por la empresa</div>
+        </div>
+    </a>
+
+    <a href="{% url 'epis:entrega-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Entregas</h3>
+            <div class="meta">Asignaciones a trabajadores</div>
+        </div>
+    </a>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
+    <a href="{% url 'epis:inspeccion-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path><rect x="9" y="3" width="6" height="4" rx="2"></rect><path d="M9 14l2 2 4-4"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Inspecciones</h3>
+            <div class="meta">Control de estado</div>
+        </div>
+    </a>
+
+    <a href="{% url 'epis:firma-trabajador-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Firmas</h3>
+            <div class="meta">Acuses de entrega</div>
+        </div>
+    </a>
+
+    <a href="{% url 'epis:registro-pdf' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"></path><path d="M14 3v5h5"></path><path d="M10 12h4M10 16h4M10 8h2"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Registro PDF</h3>
+            <div class="meta">Descargar registro de entregas</div>
+        </div>
+    </a>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <h3 class="section-title" style="margin:0;">Procedimiento de entrega</h3>
+            {% if procedimiento %}
+                <a href="{{ procedimiento.archivo.url }}" class="hero-btn hero-btn-secondary" style="font-size:12px;" target="_blank">Descargar v{{ procedimiento.version }}</a>
+            {% endif %}
+        </div>
+        {% if procedimiento %}
+            <p class="meta">{{ procedimiento.titulo }} - Version {{ procedimiento.version }}</p>
+            <a href="{% url 'epis:procedimiento-update' procedimiento.pk %}" style="font-size:12px;color:#1d4ed8;">Actualizar procedimiento</a>
+        {% else %}
+            <p class="meta">No hay procedimiento de entrega registrado.</p>
+            <a href="{% url 'epis:procedimiento-create' %}" class="hero-btn hero-btn-primary" style="font-size:12px;">Subir procedimiento</a>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3 class="section-title" style="margin-bottom:12px;">Ultimas entregas</h3>
+        <div class="list">
+            {% for ent in ultimas_entregas %}
+                <div class="list-item" style="padding:8px 0;">
+                    <div style="display:flex;justify-content:space-between;">
+                        <strong style="font-size:13px;">{{ ent.trabajador }}</strong>
+                        <span style="font-size:11px;color:#64748b;">{{ ent.fecha_entrega }}</span>
+                    </div>
+                    <div class="meta" style="font-size:11px;">{{ ent.epi.marca }} {{ ent.epi.modelo }}</div>
+                </div>
+            {% empty %}
+                <div class="list-item" style="font-size:13px;">No hay entregas recientes.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

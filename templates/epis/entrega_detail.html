@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Entrega EPI | Riskora{% endblock %}
+{% block page_title %}Entrega: {{ entrega.epi }} → {{ entrega.trabajador }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <div class="meta">
+                Entregado: {{ entrega.fecha_entrega }} . Caduca: {{ entrega.fecha_caducidad|default:"-" }} . Por: {{ entrega.entregado_por|default:"-" }}
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'epis:entrega-update' entrega.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'epis:entrega-delete' entrega.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Estado</div>
+        <span class="badge {{ entrega.badge_estado }}">{{ entrega.get_estado_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Dias hasta caducidad</div>
+        <div class="kpi-value">{% if entrega.dias_hasta_caducidad is not None %}{{ entrega.dias_hasta_caducidad }}{% else %}-{% endif %}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Firma</div>
+        <div class="kpi-value" style="font-size:14px;">{% if entrega.firma_trabajador %}Si{% else %}No{% endif %}</div>
+    </div>
+</div>
+
+{% if entrega.motivo_devolucion %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Motivo de devolucion</h3>
+    <p>{{ entrega.motivo_devolucion|linebreaksbr }}</p>
+</div>
+{% endif %}
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'epis:dashboard' %}" style="text-decoration:none;color:#0f766e;font-weight:600;">← Volver al dashboard</a>
+</div>
+{% endblock %}

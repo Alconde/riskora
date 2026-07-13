@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Inventario EPIs | Riskora{% endblock %}
+{% block page_title %}Inventario de EPIs{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Inventario de EPIs</h3>
+            <div class="meta">Equipos de proteccion individual registrados por la empresa.</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a href="{% url 'epis:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'epis:epi-create' %}" class="hero-btn hero-btn-primary">Nuevo EPI</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Total EPIs</div>
+        <div class="kpi-value">{{ stats.epi_total }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Disponibles</div>
+        <div class="kpi-value">{{ stats.epi_disponibles }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Asignados</div>
+        <div class="kpi-value">{{ stats.epi_asignados }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Por caducar (30d)</div>
+        <div class="kpi-value">{{ stats.ent_por_caducar }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <form method="get" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Buscar</label>
+            <input type="text" name="q" value="{{ filters.q|default:'' }}" placeholder="Marca, modelo..." class="form-control">
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Estado</label>
+            <select name="estado" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in estado_choices %}
+                    <option value="{{ value }}" {% if filters.estado == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Tipo de EPI</label>
+            <select name="catalogo" class="form-control">
+                <option value="">Todos</option>
+                {% for c in catalogo_items %}
+                    <option value="{{ c.pk }}" {% if filters.catalogo == c.pk|stringformat:"d" %}selected{% endif %}>{{ c.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="hero-btn hero-btn-primary" style="height:38px;">Filtrar</button>
+        <a href="{% url 'epis:epi-list' %}" class="hero-btn hero-btn-secondary" style="height:38px;">Limpiar</a>
+    </form>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for epi in epis %}
+            <div class="list-item">
+                <strong><a href="{% url 'epis:epi-detail' epi.pk %}">{{ epi.marca }} {{ epi.modelo }}</a></strong>
+                <div class="meta">
+                    {{ epi.catalogo.get_categoria_display }} . {{ epi.catalogo.nombre }} . {{ epi.catalogo.norma_eu }} . {% if epi.numero_serie %}S/N: {{ epi.numero_serie }} .{% endif %} Vida util: {{ epi.vida_util_meses }} meses
+                </div>
+                <div style="display:flex;gap:8px;margin-top:6px;">
+                    <span class="badge {{ epi.badge_estado }}">{{ epi.get_estado_display }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay EPIs registrados en el inventario.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:8px;margin-top:18px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Anterior</a>
+    {% endif %}
+    <span style="padding:10px;color:#64748b;">Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Siguiente</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

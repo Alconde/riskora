@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar procedimiento{% else %}Subir procedimiento{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar procedimiento de entrega{% else %}Subir procedimiento de entrega{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Titulo *</label>
+                {{ form.titulo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Version</label>
+                {{ form.version }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Activo</label>
+                {{ form.activo }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Descripcion</label>
+                {{ form.descripcion }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Archivo del procedimiento *</label>
+                {{ form.archivo }}
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="{% url 'epis:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
