@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Evaluación de Riesgos | Riskora{% endblock %}
+{% block page_title %}Evaluación de Riesgos{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+    <a href="{% url 'risk_assessment:riesgos-evitables' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #dc2626;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#dc2626;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/></svg>
+            <div style="font-weight:700;font-size:15px;">Riesgos Evitables</div>
+            <div class="meta" style="margin-top:4px;">Deficiencias detectadas en visitas/inspecciones</div>
+            <div style="margin-top:8px;"><span class="badge badge-danger">{{ total_evitables }} items</span></div>
+        </div>
+    </a>
+
+    <a href="{% url 'risk_assessment:riesgos-monitorizables' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #d97706;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#d97706;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12"/><path d="M12 6v6l4 2"/></svg>
+            <div style="font-weight:700;font-size:15px;">Riesgos Monitorizables</div>
+            <div class="meta" style="margin-top:4px;">Mantenimientos, formación, inspecciones periódicas</div>
+            <div style="margin-top:8px;"><span class="badge badge-warning">{{ total_monitorizables }} items</span></div>
+        </div>
+    </a>
+
+    <a href="{% url 'risk_assessment:riesgos-no-evitables' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #7c3aed;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#7c3aed;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            <div style="font-weight:700;font-size:15px;">Riesgos No Evitables</div>
+            <div class="meta" style="margin-top:4px;">Por puesto de trabajo — medidas preventivas</div>
+            <div style="margin-top:8px;"><span class="badge badge-accent">{{ total_no_evitables }} items</span></div>
+        </div>
+    </a>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+    <a href="{% url 'risk_assessment:informes-higienico' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #2563eb;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#2563eb;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14,2 14,8 20,8"/></svg>
+            <div style="font-weight:700;font-size:15px;">Riesgos Higiénicos</div>
+            <div class="meta" style="margin-top:4px;">Informes de riesgos higiénicos</div>
+            <div style="margin-top:8px;"><span class="badge badge-info">{{ informes_higienico }} informe{{ informes_higienico|pluralize }}</span></div>
+        </div>
+    </a>
+
+    <a href="{% url 'risk_assessment:informes-psicosocial' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #0f766e;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#0f766e;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/></svg>
+            <div style="font-weight:700;font-size:15px;">Riesgos Psicosociales</div>
+            <div class="meta" style="margin-top:4px;">Informes de riesgos psicosociales</div>
+            <div style="margin-top:8px;"><span class="badge badge-info">{{ informes_psicosocial }} informe{{ informes_psicosocial|pluralize }}</span></div>
+        </div>
+    </a>
+
+    <a href="{% url 'risk_assessment:informes-ergonomico' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:3px solid #db2777;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+        <div style="padding:16px;">
+            <svg style="width:32px;height:32px;color:#db2777;margin-bottom:8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"/></svg>
+            <div style="font-weight:700;font-size:15px;">Riesgos Ergonómicos</div>
+            <div class="meta" style="margin-top:4px;">Informes de riesgos ergonómicos</div>
+            <div style="margin-top:8px;"><span class="badge badge-info">{{ informes_ergonomico }} informe{{ informes_ergonomico|pluralize }}</span></div>
+        </div>
+    </a>
+</div>
+
+<div style="display:flex;gap:10px;">
+    <a href="{% url 'risk_assessment:evaluacion-list' %}" class="hero-btn hero-btn--secondary" style="padding:10px 16px;">Ver todas las evaluaciones</a>
+    <a href="{% url 'risk_assessment:evaluacion-create' %}" class="hero-btn" style="padding:10px 16px;">+ Nueva Evaluación</a>
+</div>
+{% endblock %}

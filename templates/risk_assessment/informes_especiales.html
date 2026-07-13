@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}{{ tipo_label }} | Riskora{% endblock %}
+{% block page_title %}{{ tipo_label }}{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:16px;">
+    <a href="{% url 'risk_assessment:dashboard' %}" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);padding:8px 16px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">← Volver</a>
+    <a href="{% url 'risk_assessment:informe-create' %}?tipo={{ tipo_informe }}" class="hero-btn" style="margin-left:8px;">+ Subir Informe</a>
+</div>
+
+<div class="flex items-center gap-2" style="margin-bottom:20px;">
+    <a href="{% url 'risk_assessment:informes-higienico' %}" class="badge {% if tipo_informe == 'higienico' %}badge-info{% endif %}" style="text-decoration:none;">Higiénicos</a>
+    <a href="{% url 'risk_assessment:informes-psicosocial' %}" class="badge {% if tipo_informe == 'psicosocial' %}badge-info{% endif %}" style="text-decoration:none;">Psicosociales</a>
+    <a href="{% url 'risk_assessment:informes-ergonomico' %}" class="badge {% if tipo_informe == 'ergonomico' %}badge-info{% endif %}" style="text-decoration:none;">Ergonómicos</a>
+</div>
+
+{% if informes %}
+<div class="list">
+    {% for inf in informes %}
+    <div class="list-item" style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="flex:1;">
+            <div style="font-weight:700;">{{ inf.titulo }}</div>
+            <div class="meta">{% if inf.fecha %}{{ inf.fecha|date:"d/m/Y" }} · {% endif %}{% if inf.descripcion %}{{ inf.descripcion|truncatewords:15 }}{% endif %}</div>
+        </div>
+        <div class="flex items-center gap-2">
+            {% if inf.file %}<a href="{{ inf.file.url }}" target="_blank" class="hero-btn hero-btn--secondary" style="padding:6px 10px;font-size:12px;">Ver</a>{% endif %}
+            <a href="{% url 'risk_assessment:informe-delete' inf.pk %}" class="hero-btn hero-btn--danger" style="padding:6px 10px;font-size:12px;">Eliminar</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:6px;margin-top:20px;">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Anterior</a>{% endif %}
+    <span style="padding:6px 12px;">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Siguiente</a>{% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<p class="meta" style="text-align:center;padding:40px 0;">No hay informes de {{ tipo_label|lower }} registrados.</p>
+{% endif %}
+{% endblock %}

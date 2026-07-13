@@ -4,6 +4,7 @@ from apps.risk_assessment.models import (
     EvaluacionRiesgos,
     ItemEvaluacionRiesgos,
     TipoPeligro,
+    InformeRiesgoEspecial,
 )
 
 
@@ -42,6 +43,7 @@ class ItemEvaluacionRiesgosForm(forms.ModelForm):
     class Meta:
         model = ItemEvaluacionRiesgos
         fields = [
+            'tipo_riesgo',
             'puesto_trabajo',
             'tipo_peligro',
             'factor_riesgo_condicion',
@@ -50,11 +52,13 @@ class ItemEvaluacionRiesgosForm(forms.ModelForm):
             'probabilidad',
             'severidad',
             'medidas_propuestas',
+            'frecuencia',
             'responsable_medida',
             'fecha_limite_implementacion',
             'estado_implementacion',
         ]
         widgets = {
+            'tipo_riesgo': forms.Select(attrs={'class': 'form-control'}),
             'puesto_trabajo': forms.Select(attrs={'class': 'form-control'}),
             'tipo_peligro': forms.Select(attrs={'class': 'form-control'}),
             'factor_riesgo_condicion': forms.TextInput(
@@ -68,6 +72,9 @@ class ItemEvaluacionRiesgosForm(forms.ModelForm):
             'severidad': forms.Select(attrs={'class': 'form-control'}),
             'medidas_propuestas': forms.Textarea(
                 attrs={'class': 'form-control', 'rows': 2}
+            ),
+            'frecuencia': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Ej: Mensual, Trimestral, Anual'}
             ),
             'responsable_medida': forms.Select(attrs={'class': 'form-control'}),
             'fecha_limite_implementacion': forms.DateInput(
@@ -92,3 +99,14 @@ class ItemEvaluacionRiesgosForm(forms.ModelForm):
                 id__in=user_ids
             )
         self.fields['tipo_peligro'].queryset = TipoPeligro.objects.filter(activo=True)
+
+
+class InformeRiesgoEspecialForm(forms.ModelForm):
+    class Meta:
+        model = InformeRiesgoEspecial
+        fields = ['tipo', 'titulo', 'descripcion', 'file', 'fecha']
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }

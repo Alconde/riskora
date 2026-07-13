@@ -38,6 +38,20 @@
             </div>
 
             <div>
+                <label for="{{ form.tipo_riesgo.id_for_label }}">Tipo de riesgo</label>
+                {{ form.tipo_riesgo }}
+                {% if form.tipo_riesgo.errors %}<div style="color:#b91c1c;">{{ form.tipo_riesgo.errors }}</div>{% endif %}
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">Evitable, monitorizable o no evitable</div>
+            </div>
+
+            <div>
+                <label for="{{ form.frecuencia.id_for_label }}">Frecuencia de exposición</label>
+                {{ form.frecuencia }}
+                {% if form.frecuencia.errors %}<div style="color:#b91c1c;">{{ form.frecuencia.errors }}</div>{% endif %}
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">Ocasional, continua, intermitente</div>
+            </div>
+
+            <div>
                 <label for="{{ form.tipo_peligro.id_for_label }}">Tipo de peligro (categoría)</label>
                 {{ form.tipo_peligro }}
                 {% if form.tipo_peligro.errors %}<div style="color:#b91c1c;">{{ form.tipo_peligro.errors }}</div>{% endif %}

@@ -2,31 +2,165 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.urls import reverse_lazy
 from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView,
-    FormView,
+    TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView,
 )
 import io
 
 from apps.risk_assessment.forms import (
-    EvaluacionRiesgosForm,
-    ItemEvaluacionRiesgosForm,
+    EvaluacionRiesgosForm, ItemEvaluacionRiesgosForm, InformeRiesgoEspecialForm,
 )
 from apps.risk_assessment.models import (
-    EvaluacionRiesgos,
-    ItemEvaluacionRiesgos,
-    TipoPeligro,
+    EvaluacionRiesgos, ItemEvaluacionRiesgos, TipoPeligro, InformeRiesgoEspecial,
 )
-from apps.risk_assessment.services import (
-    calcular_grado_riesgo,
-    calcular_estadisticas_evaluacion,
-)
+from apps.risk_assessment.services import calcular_grado_riesgo, calcular_estadisticas_evaluacion
 from apps.companies.models import Company
 from apps.core.mixins import CompanyScopedMixin
 
+
+# ---------------------------------------------------------------------------
+# Dashboard
+# ---------------------------------------------------------------------------
+
+class EvaluacionDashboardView(LoginRequiredMixin, CompanyScopedMixin, TemplateView):
+    template_name = 'risk_assessment/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        empresa = self.get_active_company()
+        if empresa:
+            items = ItemEvaluacionRiesgos.objects.filter(evaluacion__empresa=empresa)
+            ctx['total_evitables'] = items.filter(tipo_riesgo='evitable').count()
+            ctx['total_monitorizables'] = items.filter(tipo_riesgo='monitorizable').count()
+            ctx['total_no_evitables'] = items.filter(tipo_riesgo='no_evitable').count()
+            ctx['total_evaluaciones'] = EvaluacionRiesgos.objects.filter(empresa=empresa).count()
+            ctx['informes_higienico'] = InformeRiesgoEspecial.objects.filter(company=empresa, tipo='higienico').count()
+            ctx['informes_psicosocial'] = InformeRiesgoEspecial.objects.filter(company=empresa, tipo='psicosocial').count()
+            ctx['informes_ergonomico'] = InformeRiesgoEspecial.objects.filter(company=empresa, tipo='ergonomico').count()
+        return ctx
+
+
+# ---------------------------------------------------------------------------
+# Listas filtradas por tipo de riesgo
+# ---------------------------------------------------------------------------
+
+class RiesgosPorTipoListView(LoginRequiredMixin, CompanyScopedMixin, ListView):
+    model = ItemEvaluacionRiesgos
+    template_name = 'risk_assessment/riesgos_lista.html'
+    context_object_name = 'items'
+    paginate_by = 30
+
+    tipo_riesgo = 'evitable'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        empresa = self.get_active_company()
+        if empresa:
+            qs = qs.filter(evaluacion__empresa=empresa, tipo_riesgo=self.tipo_riesgo)
+        else:
+            qs = qs.none()
+        return qs.select_related('evaluacion', 'puesto_trabajo', 'tipo_peligro', 'responsable_medida')
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['tipo_riesgo'] = self.tipo_riesgo
+        ctx['tipo_label'] = dict(ItemEvaluacionRiesgos.TipoRiesgo.choices).get(self.tipo_riesgo, '')
+        empresa = self.get_active_company()
+        if empresa:
+            all_items = ItemEvaluacionRiesgos.objects.filter(evaluacion__empresa=empresa)
+            ctx['total_evitables'] = all_items.filter(tipo_riesgo='evitable').count()
+            ctx['total_monitorizables'] = all_items.filter(tipo_riesgo='monitorizable').count()
+            ctx['total_no_evitables'] = all_items.filter(tipo_riesgo='no_evitable').count()
+        return ctx
+
+
+class RiesgosEvitablesView(RiesgosPorTipoListView):
+    tipo_riesgo = 'evitable'
+
+
+class RiesgosMonitorizablesView(RiesgosPorTipoListView):
+    tipo_riesgo = 'monitorizable'
+
+
+class RiesgosNoEvitablesView(RiesgosPorTipoListView):
+    tipo_riesgo = 'no_evitable'
+
+
+# ---------------------------------------------------------------------------
+# Informes especiales (higiénico, psicosocial, ergonómico)
+# ---------------------------------------------------------------------------
+
+class InformesEspecialesListView(LoginRequiredMixin, CompanyScopedMixin, ListView):
+    model = InformeRiesgoEspecial
+    template_name = 'risk_assessment/informes_especiales.html'
+    context_object_name = 'informes'
+    paginate_by = 20
+
+    tipo_informe = 'higienico'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        empresa = self.get_active_company()
+        if empresa:
+            qs = qs.filter(company=empresa, tipo=self.tipo_informe)
+        else:
+            qs = qs.none()
+        return qs
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['tipo_informe'] = self.tipo_informe
+        ctx['tipo_label'] = dict(InformeRiesgoEspecial.TIPO_CHOICES).get(self.tipo_informe, '')
+        return ctx
+
+
+class InformesHigienicoView(InformesEspecialesListView):
+    tipo_informe = 'higienico'
+
+
+class InformesPsicosocialView(InformesEspecialesListView):
+    tipo_informe = 'psicosocial'
+
+
+class InformesErgonomicoView(InformesEspecialesListView):
+    tipo_informe = 'ergonomico'
+
+
+class InformeEspecialCreateView(LoginRequiredMixin, CompanyScopedMixin, CreateView):
+    model = InformeRiesgoEspecial
+    form_class = InformeRiesgoEspecialForm
+    template_name = 'risk_assessment/informe_especial_form.html'
+
+    def get_success_url(self):
+        tipo = self.object.tipo
+        url_map = {
+            'higienico': 'risk_assessment:informes-higienico',
+            'psicosocial': 'risk_assessment:informes-psicosocial',
+            'ergonomico': 'risk_assessment:informes-ergonomico',
+        }
+        return reverse_lazy(url_map.get(tipo, 'risk_assessment:dashboard'))
+
+    def form_valid(self, form):
+        form.instance.company = self.get_active_company()
+        return super().form_valid(form)
+
+
+class InformeEspecialDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
+    model = InformeRiesgoEspecial
+    template_name = 'risk_assessment/confirm_delete_simple.html'
+
+    def get_success_url(self):
+        tipo = self.object.tipo
+        url_map = {
+            'higienico': 'risk_assessment:informes-higienico',
+            'psicosocial': 'risk_assessment:informes-psicosocial',
+            'ergonomico': 'risk_assessment:informes-ergonomico',
+        }
+        return reverse_lazy(url_map.get(tipo, 'risk_assessment:dashboard'))
+
+
+# ---------------------------------------------------------------------------
+# Evaluaciones (CRUD original)
+# ---------------------------------------------------------------------------
 
 class EvaluacionRiesgosListView(LoginRequiredMixin, CompanyScopedMixin, ListView):
     model = EvaluacionRiesgos
@@ -88,6 +222,9 @@ class EvaluacionRiesgosDetailView(LoginRequiredMixin, CompanyScopedMixin, Detail
         context['item_form'] = ItemEvaluacionRiesgosForm(
             empresa=self.object.empresa
         )
+        context['items_evitables'] = items.filter(tipo_riesgo='evitable')
+        context['items_monitorizables'] = items.filter(tipo_riesgo='monitorizable')
+        context['items_no_evitables'] = items.filter(tipo_riesgo='no_evitable')
         return context
 
 
@@ -159,7 +296,7 @@ class ItemEvaluacionCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy(
-            'evaluacion-detail', kwargs={'pk': self.kwargs['evaluacion_pk']}
+            'risk_assessment:evaluacion-detail', kwargs={'pk': self.kwargs['evaluacion_pk']}
         )
 
 
@@ -176,7 +313,7 @@ class ItemEvaluacionUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy(
-            'evaluacion-detail',
+            'risk_assessment:evaluacion-detail',
             kwargs={'pk': self.object.evaluacion.pk},
         )
 
@@ -188,7 +325,7 @@ class ItemEvaluacionDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy(
-            'evaluacion-detail',
+            'risk_assessment:evaluacion-detail',
             kwargs={'pk': self.object.evaluacion.pk},
         )
 
@@ -221,7 +358,6 @@ ENCabezado_EXCEL = [
 
 
 def _obtener_opciones_riesgo():
-    """Devuelve dict {valor: etiqueta} de las opciones de riesgo."""
     return dict(ItemEvaluacionRiesgos.RIESGO_CHOICES)
 
 
@@ -232,7 +368,6 @@ def _obtener_opciones_prob_sev():
 
 
 def exportar_excel(request, evaluacion_pk):
-    """Exporta los items de una evaluación a un archivo Excel."""
     from openpyxl import Workbook
     from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
@@ -245,18 +380,14 @@ def exportar_excel(request, evaluacion_pk):
     ws = wb.active
     ws.title = 'Evaluación de Riesgos'
 
-    # Estilos
     header_font = Font(name='Arial', bold=True, size=11, color='FFFFFF')
     header_fill = PatternFill(start_color='0F172A', end_color='0F172A', fill_type='solid')
     header_align = Alignment(horizontal='center', vertical='center', wrap_text=True)
     thin_border = Border(
-        left=Side(style='thin'),
-        right=Side(style='thin'),
-        top=Side(style='thin'),
-        bottom=Side(style='thin'),
+        left=Side(style='thin'), right=Side(style='thin'),
+        top=Side(style='thin'), bottom=Side(style='thin'),
     )
 
-    # Cabecera info
     ws.merge_cells('A1:H1')
     ws['A1'] = evaluacion.titulo
     ws['A1'].font = Font(name='Arial', bold=True, size=14)
@@ -268,7 +399,6 @@ def exportar_excel(request, evaluacion_pk):
     ws['A2'].font = Font(name='Arial', size=10, color='64748B')
     ws.row_dimensions[3].height = 6
 
-    # Cabeceras columna
     for col_num, header in enumerate(ENCabezado_EXCEL, 1):
         cell = ws.cell(row=4, column=col_num, value=header)
         cell.font = header_font
@@ -276,7 +406,6 @@ def exportar_excel(request, evaluacion_pk):
         cell.alignment = header_align
         cell.border = thin_border
 
-    # Datos
     prob_labels, sev_labels = _obtener_opciones_prob_sev()
     riesgo_opciones = _obtener_opciones_riesgo()
 
@@ -296,28 +425,23 @@ def exportar_excel(request, evaluacion_pk):
             cell.border = thin_border
             cell.alignment = Alignment(vertical='top', wrap_text=True)
 
-    # Columnas auto-anchura
     col_widths = [25, 25, 40, 30, 35, 15, 15, 35]
     for i, width in enumerate(col_widths, 1):
         ws.column_dimensions[chr(64 + i)].width = width
 
-    # Guardar en buffer
     buffer = io.BytesIO()
     wb.save(buffer)
     buffer.seek(0)
 
     filename = f'evaluacion_riesgos_{evaluacion.pk}.xlsx'
     response = FileResponse(
-        buffer,
-        as_attachment=True,
-        filename=filename,
+        buffer, as_attachment=True, filename=filename,
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     )
     return response
 
 
 def importar_excel(request, evaluacion_pk):
-    """Importa items de evaluación desde un archivo Excel."""
     from openpyxl import load_workbook
 
     evaluacion = EvaluacionRiesgos.objects.get(pk=evaluacion_pk)
@@ -333,22 +457,11 @@ def importar_excel(request, evaluacion_pk):
         wb = load_workbook(archivo, read_only=True)
         ws = wb.active
 
-        # Mapear puestos de trabajo existentes
         from apps.workers.models import JobPosition
-        puestos = {
-            p.name: p
-            for p in JobPosition.objects.filter(company=evaluacion.empresa)
-        }
-
-        # Mapear tipos de peligro
-        tipos = {
-            t.nombre: t
-            for t in TipoPeligro.objects.filter(activo=True)
-        }
-
+        puestos = {p.name: p for p in JobPosition.objects.filter(company=evaluacion.empresa)}
+        tipos = {t.nombre: t for t in TipoPeligro.objects.filter(activo=True)}
         riesgo_opciones_inv = {v.lower(): k for k, v in _obtener_opciones_riesgo().items()}
 
-        # Buscar la fila de cabecera
         start_row = 1
         for row in ws.iter_rows(min_row=1, max_row=10, max_col=1):
             for cell in row:
@@ -372,39 +485,29 @@ def importar_excel(request, evaluacion_pk):
             severidad = row[6]
             medidas_propuestas = str(row[7]).strip() if row[7] else ''
 
-            # Validaciones
             if not factor_riesgo:
                 errores.append(f'Fila {row_num + start_row}: falta factor de riesgo')
                 continue
-
             if not probabilidad or not severidad:
                 errores.append(f'Fila {row_num + start_row}: falta probabilidad o severidad')
                 continue
-
             try:
                 probabilidad = int(probabilidad)
                 severidad = int(severidad)
             except (ValueError, TypeError):
                 errores.append(f'Fila {row_num + start_row}: probabilidad/severidad no son números')
                 continue
-
             if probabilidad not in (1, 2, 3) or severidad not in (1, 2, 3):
                 errores.append(f'Fila {row_num + start_row}: probabilidad/severidad fuera de rango (1-3)')
                 continue
 
-            # Buscar puesto de trabajo
             puesto = puestos.get(puesto_nombre)
             if not puesto:
                 errores.append(f'Fila {row_num + start_row}: puesto "{puesto_nombre}" no encontrado')
                 continue
 
-            # Buscar tipo de peligro
             tipo_peligro = tipos.get(tipo_nombre) if tipo_nombre else None
-
-            # Mapear riesgo
             riesgo_valor = riesgo_opciones_inv.get(riesgo_texto, '')
-
-            # Calcular riesgo
             resultado = calcular_grado_riesgo(probabilidad, severidad)
 
             ItemEvaluacionRiesgos.objects.create(
@@ -438,7 +541,6 @@ def importar_excel(request, evaluacion_pk):
 
 
 def plantilla_excel(request):
-    """Descarga una plantilla Excel vacía para importar."""
     from openpyxl import Workbook
     from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
@@ -446,15 +548,12 @@ def plantilla_excel(request):
     ws = wb.active
     ws.title = 'Plantilla Evaluación'
 
-    # Cabecera info
     ws.merge_cells('A1:H1')
     ws['A1'] = 'Plantilla de Importación - Evaluación de Riesgos'
     ws['A1'].font = Font(name='Arial', bold=True, size=14)
     ws.merge_cells('A2:H2')
     ws['A2'] = 'Rellena esta plantilla y sube el archivo en la evaluación correspondiente.'
     ws['A2'].font = Font(name='Arial', size=10, color='64748B')
-
-    # Instrucciones
     ws.merge_cells('A3:H3')
     ws['A3'] = (
         'Probabilidad: 1=Baja, 2=Media, 3=Alta  |  '
@@ -463,7 +562,6 @@ def plantilla_excel(request):
     ws['A3'].font = Font(name='Arial', size=9, italic=True, color='64748B')
     ws.row_dimensions[4].height = 6
 
-    # Cabeceras
     header_font = Font(name='Arial', bold=True, size=11, color='FFFFFF')
     header_fill = PatternFill(start_color='0F172A', end_color='0F172A', fill_type='solid')
     header_align = Alignment(horizontal='center', vertical='center', wrap_text=True)
@@ -479,15 +577,9 @@ def plantilla_excel(request):
         cell.alignment = header_align
         cell.border = thin_border
 
-    # Fila de ejemplo
     ejemplo = [
-        'Soldador',
-        'Ruido',
-        'Ruido continuo en zona de soldadura',
-        'Sordera',
-        'Tapones auditivos',
-        3,
-        2,
+        'Soldador', 'Ruido', 'Ruido continuo en zona de soldadura',
+        'Sordera', 'Tapones auditivos', 3, 2,
         'Instalar cabinas de soldadura con insonorización',
     ]
     for col_num, value in enumerate(ejemplo, 1):
@@ -495,7 +587,6 @@ def plantilla_excel(request):
         cell.border = thin_border
         cell.font = Font(name='Arial', size=10, color='94A3B8')
 
-    # Columnas
     col_widths = [25, 25, 40, 30, 35, 15, 15, 35]
     for i, width in enumerate(col_widths, 1):
         ws.column_dimensions[chr(64 + i)].width = width
@@ -505,9 +596,7 @@ def plantilla_excel(request):
     buffer.seek(0)
 
     response = FileResponse(
-        buffer,
-        as_attachment=True,
-        filename='plantilla_evaluacion_riesgos.xlsx',
+        buffer, as_attachment=True, filename='plantilla_evaluacion_riesgos.xlsx',
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     )
     return response

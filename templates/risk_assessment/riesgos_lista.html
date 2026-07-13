@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}{{ tipo_label }} | Riskora{% endblock %}
+{% block page_title %}{{ tipo_label }}{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:16px;">
+    <a href="{% url 'risk_assessment:dashboard' %}" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);padding:8px 16px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">← Volver</a>
+</div>
+
+<div class="flex items-center gap-2" style="margin-bottom:20px;">
+    <a href="{% url 'risk_assessment:riesgos-evitables' %}" class="badge {% if tipo_riesgo == 'evitable' %}badge-danger{% endif %}" style="text-decoration:none;">Evitables ({{ total_evitables }})</a>
+    <a href="{% url 'risk_assessment:riesgos-monitorizables' %}" class="badge {% if tipo_riesgo == 'monitorizable' %}badge-warning{% endif %}" style="text-decoration:none;">Monitorizables ({{ total_monitorizables }})</a>
+    <a href="{% url 'risk_assessment:riesgos-no-evitables' %}" class="badge {% if tipo_riesgo == 'no_evitable' %}badge-accent{% endif %}" style="text-decoration:none;">No Evitables ({{ total_no_evitables }})</a>
+</div>
+
+{% if items %}
+<div class="list">
+    {% for item in items %}
+    <div class="list-item">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div style="flex:1;">
+                <div style="font-weight:700;">{{ item.factor_riesgo_condicion|default:"Sin descripción" }}</div>
+                <div class="meta">
+                    {{ item.puesto_trabajo }} · {{ item.evaluacion.titulo }}
+                    {% if item.tipo_peligro %} · {{ item.tipo_peligro }}{% endif %}
+                </div>
+                {% if item.medidas_propuestas %}
+                <div class="meta" style="margin-top:4px;">Medidas: {{ item.medidas_propuestas|truncatewords:20 }}</div>
+                {% endif %}
+                {% if tipo_riesgo == 'monitorizable' and item.frecuencia %}
+                <div class="meta" style="margin-top:4px;">Frecuencia: {{ item.frecuencia }}</div>
+                {% endif %}
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="badge badge-{{ item.nivel_riesgo }}">{{ item.get_nivel_riesgo_display }}</span>
+                <a href="{% url 'risk_assessment:item-update' item.pk %}" class="hero-btn hero-btn--secondary" style="padding:4px 8px;font-size:11px;">Editar</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:6px;margin-top:20px;">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Anterior</a>{% endif %}
+    <span style="padding:6px 12px;">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Siguiente</a>{% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<p class="meta" style="text-align:center;padding:40px 0;">No hay riesgos {{ tipo_label|lower }} registrados.</p>
+{% endif %}
+{% endblock %}

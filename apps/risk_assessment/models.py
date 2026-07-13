@@ -192,11 +192,29 @@ class ItemEvaluacionRiesgos(models.Model):
         ALTO = 'alto', 'Alto'
         MUY_ALTO = 'muy_alto', 'Muy alto'
 
+    class TipoRiesgo(models.TextChoices):
+        EVITABLE = 'evitable', 'Riesgo Evitable'
+        MONITORIZABLE = 'monitorizable', 'Riesgo Monitorizable'
+        NO_EVITABLE = 'no_evitable', 'Riesgo No Evitable'
+
     evaluacion = models.ForeignKey(
         EvaluacionRiesgos,
         on_delete=models.CASCADE,
         related_name='items',
         verbose_name='evaluación',
+    )
+    tipo_riesgo = models.CharField(
+        'tipo de riesgo',
+        max_length=20,
+        choices=TipoRiesgo.choices,
+        default=TipoRiesgo.EVITABLE,
+    )
+    frecuencia = models.CharField(
+        'frecuencia de control',
+        max_length=100,
+        blank=True,
+        default='',
+        help_text='Para riesgos monitorizables: ej. mensual, trimestral, anual',
     )
     puesto_trabajo = models.ForeignKey(
         'workers.JobPosition',
@@ -346,3 +364,32 @@ class NivelRiesgoReferencia(models.Model):
 
     def __str__(self):
         return f'GR {self.grado} - {self.etiqueta}'
+
+
+class InformeRiesgoEspecial(models.Model):
+    TIPO_CHOICES = [
+        ('higienico', 'Riesgos Higiénicos'),
+        ('psicosocial', 'Riesgos Psicosociales'),
+        ('ergonomico', 'Riesgos Ergonómicos'),
+    ]
+
+    company = models.ForeignKey(
+        'companies.Company',
+        on_delete=models.CASCADE,
+        related_name='informes_riesgos_especiales',
+    )
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField(blank=True, default='')
+    file = models.FileField(upload_to='evaluacion_riesgos/especiales/')
+    fecha = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-fecha', '-created_at']
+        verbose_name = 'Informe de Riesgo Especial'
+        verbose_name_plural = 'Informes de Riesgos Especiales'
+
+    def __str__(self):
+        return f"{self.get_tipo_display()} — {self.titulo}"

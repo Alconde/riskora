@@ -3,6 +3,15 @@ from django.urls import path
 app_name = 'risk_assessment'
 
 from apps.risk_assessment.views import (
+    EvaluacionDashboardView,
+    RiesgosEvitablesView,
+    RiesgosMonitorizablesView,
+    RiesgosNoEvitablesView,
+    InformesHigienicoView,
+    InformesPsicosocialView,
+    InformesErgonomicoView,
+    InformeEspecialCreateView,
+    InformeEspecialDeleteView,
     EvaluacionRiesgosListView,
     EvaluacionRiesgosDetailView,
     EvaluacionRiesgosCreateView,
@@ -18,64 +27,25 @@ from apps.risk_assessment.views import (
 )
 
 urlpatterns = [
-    path(
-        '',
-        EvaluacionRiesgosListView.as_view(),
-        name='evaluacion-list',
-    ),
-    path(
-        'nueva/',
-        EvaluacionRiesgosCreateView.as_view(),
-        name='evaluacion-create',
-    ),
-    path(
-        '<int:pk>/',
-        EvaluacionRiesgosDetailView.as_view(),
-        name='evaluacion-detail',
-    ),
-    path(
-        '<int:pk>/editar/',
-        EvaluacionRiesgosUpdateView.as_view(),
-        name='evaluacion-update',
-    ),
-    path(
-        '<int:pk>/eliminar/',
-        EvaluacionRiesgosDeleteView.as_view(),
-        name='evaluacion-delete',
-    ),
-    path(
-        '<int:evaluacion_pk>/items/nuevo/',
-        ItemEvaluacionCreateView.as_view(),
-        name='item-create',
-    ),
-    path(
-        'items/<int:pk>/editar/',
-        ItemEvaluacionUpdateView.as_view(),
-        name='item-update',
-    ),
-    path(
-        'items/<int:pk>/eliminar/',
-        ItemEvaluacionDeleteView.as_view(),
-        name='item-delete',
-    ),
-    path(
-        'api/calcular-riesgo/',
-        calcular_riesgo_ajax,
-        name='calcular-riesgo-ajax',
-    ),
-    path(
-        '<int:evaluacion_pk>/exportar/',
-        exportar_excel,
-        name='evaluacion-exportar',
-    ),
-    path(
-        '<int:evaluacion_pk>/importar/',
-        importar_excel,
-        name='evaluacion-importar',
-    ),
-    path(
-        'plantilla/',
-        plantilla_excel,
-        name='evaluacion-plantilla',
-    ),
+    path('', EvaluacionDashboardView.as_view(), name='dashboard'),
+    path('riesgos/evitables/', RiesgosEvitablesView.as_view(), name='riesgos-evitables'),
+    path('riesgos/monitorizables/', RiesgosMonitorizablesView.as_view(), name='riesgos-monitorizables'),
+    path('riesgos/no-evitables/', RiesgosNoEvitablesView.as_view(), name='riesgos-no-evitables'),
+    path('informes/higienico/', InformesHigienicoView.as_view(), name='informes-higienico'),
+    path('informes/psicosocial/', InformesPsicosocialView.as_view(), name='informes-psicosocial'),
+    path('informes/ergonomico/', InformesErgonomicoView.as_view(), name='informes-ergonomico'),
+    path('informes/nuevo/', InformeEspecialCreateView.as_view(), name='informe-create'),
+    path('informes/<int:pk>/eliminar/', InformeEspecialDeleteView.as_view(), name='informe-delete'),
+    path('evaluaciones/', EvaluacionRiesgosListView.as_view(), name='evaluacion-list'),
+    path('evaluaciones/nueva/', EvaluacionRiesgosCreateView.as_view(), name='evaluacion-create'),
+    path('evaluaciones/<int:pk>/', EvaluacionRiesgosDetailView.as_view(), name='evaluacion-detail'),
+    path('evaluaciones/<int:pk>/editar/', EvaluacionRiesgosUpdateView.as_view(), name='evaluacion-update'),
+    path('evaluaciones/<int:pk>/eliminar/', EvaluacionRiesgosDeleteView.as_view(), name='evaluacion-delete'),
+    path('evaluaciones/<int:evaluacion_pk>/items/nuevo/', ItemEvaluacionCreateView.as_view(), name='item-create'),
+    path('items/<int:pk>/editar/', ItemEvaluacionUpdateView.as_view(), name='item-update'),
+    path('items/<int:pk>/eliminar/', ItemEvaluacionDeleteView.as_view(), name='item-delete'),
+    path('api/calcular-riesgo/', calcular_riesgo_ajax, name='calcular-riesgo-ajax'),
+    path('evaluaciones/<int:evaluacion_pk>/exportar/', exportar_excel, name='evaluacion-exportar'),
+    path('evaluaciones/<int:evaluacion_pk>/importar/', importar_excel, name='evaluacion-importar'),
+    path('plantilla/', plantilla_excel, name='evaluacion-plantilla'),
 ]
