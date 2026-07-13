@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.db.models import Q
 
 from apps.core.mixins import CompanyScopedMixin
@@ -11,8 +11,45 @@ from .forms import (
 )
 from .services import (
     generar_codigo_accidente, generar_codigo_incidente,
-    generar_nc_desde_accidente,
+    generar_nc_desde_accidente, calcular_estadisticas_accidentes,
 )
+
+
+# =========================================================
+# DASHBOARD
+# =========================================================
+
+
+class IncidentsDashboardView(LoginRequiredMixin, CompanyScopedMixin, TemplateView):
+    template_name = 'incidents/dashboard.html'
+    login_url = '/login/'
+    company_field_name = 'empresa'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        empresa = self.get_active_company()
+        stats = calcular_estadisticas_accidentes(empresa)
+        context['stats'] = stats
+
+        if empresa:
+            from django.db.models import Count
+            context['total_causas'] = CausaAccidente.objects.filter(
+                Q(empresa=empresa) | Q(empresa__isnull=True), activa=True
+            ).count()
+            context['ultimos_accidentes'] = Accidente.objects.filter(
+                empresa=empresa
+            ).select_related('centro_trabajo')[:5]
+            context['ultimos_incidentes'] = Incidente.objects.filter(
+                empresa=empresa
+            ).select_related('centro_trabajo')[:5]
+        else:
+            context['total_causas'] = CausaAccidente.objects.filter(
+                empresa__isnull=True, activa=True
+            ).count()
+            context['ultimos_accidentes'] = []
+            context['ultimos_incidentes'] = []
+
+        return context
 
 
 # =========================================================

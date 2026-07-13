@@ -10,7 +10,10 @@
             <h3 class="section-title" style="margin-bottom: 6px;">Listado de accidentes</h3>
             <div class="meta">Registro de accidentes de trabajo e in itinere.</div>
         </div>
-        <a href="{% url 'incidents:accidente-create' %}" class="hero-btn hero-btn-primary">Nuevo accidente</a>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a href="{% url 'incidents:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'incidents:accidente-create' %}" class="hero-btn hero-btn-primary">Nuevo accidente</a>
+        </div>
     </div>
 </div>
 

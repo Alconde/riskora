@@ -10,7 +10,10 @@
             <h3 class="section-title" style="margin-bottom: 6px;">Catalogo de causas</h3>
             <div class="meta">Causas inmediatas, basicas y organizativas de accidentes.</div>
         </div>
-        <a href="{% url 'incidents:causa-create' %}" class="hero-btn hero-btn-primary">Nueva causa</a>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a href="{% url 'incidents:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'incidents:causa-create' %}" class="hero-btn hero-btn-primary">Nueva causa</a>
+        </div>
     </div>
 </div>
 

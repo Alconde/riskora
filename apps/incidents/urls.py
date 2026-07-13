@@ -5,17 +5,20 @@ from . import views
 app_name = 'incidents'
 
 urlpatterns = [
+    # Dashboard
+    path('', views.IncidentsDashboardView.as_view(), name='dashboard'),
+
     # Accidentes
-    path('', views.AccidenteListView.as_view(), name='accidente-list'),
-    path('nuevo/', views.AccidenteCreateView.as_view(), name='accidente-create'),
-    path('<int:pk>/', views.AccidenteDetailView.as_view(), name='accidente-detail'),
-    path('<int:pk>/editar/', views.AccidenteUpdateView.as_view(), name='accidente-update'),
-    path('<int:pk>/eliminar/', views.AccidenteDeleteView.as_view(), name='accidente-delete'),
-    path('<int:accidente_pk>/nc/', views.AccidenteNCView.as_view(), name='accidente-nc'),
+    path('accidentes/', views.AccidenteListView.as_view(), name='accidente-list'),
+    path('accidentes/nuevo/', views.AccidenteCreateView.as_view(), name='accidente-create'),
+    path('accidentes/<int:pk>/', views.AccidenteDetailView.as_view(), name='accidente-detail'),
+    path('accidentes/<int:pk>/editar/', views.AccidenteUpdateView.as_view(), name='accidente-update'),
+    path('accidentes/<int:pk>/eliminar/', views.AccidenteDeleteView.as_view(), name='accidente-delete'),
+    path('accidentes/<int:accidente_pk>/nc/', views.AccidenteNCView.as_view(), name='accidente-nc'),
 
     # Investigacion
     path(
-        '<int:accidente_pk>/investigacion/nueva/',
+        'accidentes/<int:accidente_pk>/investigacion/nueva/',
         views.InvestigacionCreateView.as_view(),
         name='investigacion-create',
     ),

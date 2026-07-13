@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Investigacion de Accidentes | Riskora{% endblock %}
+{% block page_title %}Investigacion de Accidentes{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Total accidentes</div>
+        <div class="kpi-value">{{ stats.acc_total }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Abiertos</div>
+        <div class="kpi-value">{{ stats.acc_abiertos }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-warning">
+        <div class="kpi-label">En investigacion</div>
+        <div class="kpi-value">{{ stats.acc_en_investigacion }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Total incidentes</div>
+        <div class="kpi-value">{{ stats.inc_total }}</div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
+    <a href="{% url 'incidents:accidente-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#be123c;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Accidentes</h3>
+            <div class="meta">Registro e investigacion de accidentes</div>
+        </div>
+    </a>
+
+    <a href="{% url 'incidents:incidente-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#dc2626;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Incidentes</h3>
+            <div class="meta">Near-misses y cuasi-accidentes</div>
+        </div>
+    </a>
+
+    <a href="{% url 'incidents:causa-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#9333ea;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24A2.5 2.5 0 0 1 9.5 2Z"></path><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24A2.5 2.5 0 0 0 14.5 2Z"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Causas</h3>
+            <div class="meta">Catalogo de causas de accidentes</div>
+        </div>
+    </a>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="card">
+        <h3 class="section-title" style="margin-bottom:12px;">Ultimos accidentes</h3>
+        <div class="list">
+            {% for acc in ultimos_accidentes %}
+                <div class="list-item" style="padding:8px 0;">
+                    <div style="display:flex;justify-content:space-between;">
+                        <strong style="font-size:13px;">
+                            <a href="{% url 'incidents:accidente-detail' acc.pk %}" style="color:#be123c;text-decoration:none;">{{ acc.codigo }}</a>
+                        </strong>
+                        <span class="badge {{ acc.badge_estado }}">{{ acc.get_estado_display }}</span>
+                    </div>
+                    <div class="meta" style="font-size:11px;">{{ acc.titulo|truncatewords:8 }} &middot; {{ acc.centro_trabajo }}</div>
+                </div>
+            {% empty %}
+                <div class="list-item" style="font-size:13px;">No hay accidentes registrados.</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 class="section-title" style="margin-bottom:12px;">Ultimos incidentes</h3>
+        <div class="list">
+            {% for inc in ultimos_incidentes %}
+                <div class="list-item" style="padding:8px 0;">
+                    <div style="display:flex;justify-content:space-between;">
+                        <strong style="font-size:13px;">
+                            <a href="{% url 'incidents:incidente-detail' inc.pk %}" style="color:#dc2626;text-decoration:none;">{{ inc.codigo }}</a>
+                        </strong>
+                        <span class="badge {{ inc.badge_estado }}">{{ inc.get_estado_display }}</span>
+                    </div>
+                    <div class="meta" style="font-size:11px;">{{ inc.titulo|truncatewords:8 }} &middot; {{ inc.centro_trabajo }}</div>
+                </div>
+            {% empty %}
+                <div class="list-item" style="font-size:13px;">No hay incidentes registrados.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
