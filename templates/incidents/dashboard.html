@@ -23,7 +23,7 @@
     </div>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
     <a href="{% url 'incidents:accidente-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
         <div style="text-align:center;padding:20px;">
             <svg style="width:36px;height:36px;margin:0 auto 10px;color:#be123c;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path></svg>
@@ -47,9 +47,38 @@
             <div class="meta">Catalogo de causas de accidentes</div>
         </div>
     </a>
+
+    <a href="{% url 'epps:dashboard' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#7c3aed;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">EEPP</h3>
+            <div class="meta">Enfermedades profesionales</div>
+        </div>
+    </a>
 </div>
 
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <h3 class="section-title">Procedimiento de investigacion</h3>
+            <a href="{% url 'incidents:investigacion-blanco-pdf' %}" target="_blank" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);font-size:12px;padding:6px 12px;">Imprimir en blanco</a>
+        </div>
+        {% if procedimiento %}
+            <div style="font-size:13px;">
+                <strong>{{ procedimiento.titulo }}</strong>
+                <span class="badge">v{{ procedimiento.version }}</span>
+                <p style="margin:6px 0 0;color:#64748b;">{{ procedimiento.descripcion|truncatewords:20 }}</p>
+                {% if procedimiento.archivo %}
+                    <a href="{{ procedimiento.archivo.url }}" target="_blank" style="font-size:12px;color:#0f766e;">Descargar archivo</a>
+                {% endif %}
+                <a href="{% url 'incidents:procedimiento-update' procedimiento.pk %}" style="font-size:12px;color:#0f766e;margin-left:10px;">Actualizar</a>
+            </div>
+        {% else %}
+            <p style="font-size:13px;color:#64748b;">No hay procedimiento registrado.</p>
+            <a href="{% url 'incidents:procedimiento-create' %}" class="hero-btn hero-btn-primary" style="font-size:12px;padding:6px 14px;">Subir procedimiento</a>
+        {% endif %}
+    </div>
+
     <div class="card">
         <h3 class="section-title" style="margin-bottom:12px;">Ultimos accidentes</h3>
         <div class="list">

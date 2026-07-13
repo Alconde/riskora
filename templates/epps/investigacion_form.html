@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}{% if object %}Editar investigacion{% else %}Nueva investigacion{% endif %} | Riskora{% endblock %}
-{% block page_title %}{% if object %}Editar investigacion{% else %}Nueva investigacion{% endif %}{% endblock %}
+{% block title %}{% if object %}Editar investigacion{% else %}Nueva investigacion{% endif %} - EEPP | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar investigacion EEPP{% else %}Investigar EEPP: {{ enfermedad.codigo }}{% endif %}{% endblock %}
 
 {% block content %}
 <form method="post">
     {% csrf_token %}
 
     <div class="card" style="margin-bottom:14px;">
-        <h3 class="section-title" style="margin-bottom:12px;">Datos del accidente / Trabajador</h3>
+        <h3 class="section-title" style="margin-bottom:12px;">Datos de la enfermedad / Trabajador</h3>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
             <div>
                 <label style="font-size:13px;font-weight:600;color:#475569;">Puesto de trabajo</label>

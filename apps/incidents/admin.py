@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Accidente, InvestigacionAccidente, CausaAccidente, Incidente
+from .models import Accidente, InvestigacionAccidente, CausaAccidente, Incidente, ProcedimientoInvestigacion
 
 
 @admin.register(CausaAccidente)
@@ -21,9 +21,9 @@ class AccidenteAdmin(admin.ModelAdmin):
 
 @admin.register(InvestigacionAccidente)
 class InvestigacionAccidenteAdmin(admin.ModelAdmin):
-    list_display = ['accidente', 'metodologia', 'estado', 'investigador', 'fecha_inicio']
+    list_display = ['accidente', 'metodologia', 'estado', 'investigador', 'revisor', 'fecha_inicio']
     list_filter = ['estado', 'metodologia']
-    raw_id_fields = ['accidente', 'investigador']
+    raw_id_fields = ['accidente', 'investigador', 'responsable', 'revisor']
 
 
 @admin.register(Incidente)
@@ -33,3 +33,11 @@ class IncidenteAdmin(admin.ModelAdmin):
     search_fields = ['codigo', 'titulo', 'descripcion', 'empresa__legal_name']
     readonly_fields = ['created_at', 'updated_at']
     raw_id_fields = ['empresa', 'centro_trabajo', 'trabajador_reports', 'creado_por']
+
+
+@admin.register(ProcedimientoInvestigacion)
+class ProcedimientoInvestigacionAdmin(admin.ModelAdmin):
+    list_display = ['titulo', 'version', 'empresa', 'activo', 'subido_por', 'created_at']
+    list_filter = ['activo', 'empresa']
+    search_fields = ['titulo']
+    raw_id_fields = ['empresa', 'subido_por']

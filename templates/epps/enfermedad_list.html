@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Enfermedades Profesionales | Riskora{% endblock %}
+{% block page_title %}Enfermedades Profesionales{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="{% url 'epps:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'epps:enfermedad-create' %}" class="hero-btn hero-btn-primary">Nueva EEPP</a>
+        </div>
+        <form method="get" style="display:flex;gap:6px;flex-wrap:wrap;">
+            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar..." style="padding:8px 12px;border:1px solid #dbe4ef;border-radius:8px;font-size:13px;width:180px;">
+            <select name="estado" style="padding:8px;border:1px solid #dbe4ef;border-radius:8px;font-size:13px;">
+                <option value="">Todos los estados</option>
+                <option value="abierto" {% if request.GET.estado == 'abierto' %}selected{% endif %}>Abierto</option>
+                <option value="en_investigacion" {% if request.GET.estado == 'en_investigacion' %}selected{% endif %}>En investigacion</option>
+                <option value="cerrado" {% if request.GET.estado == 'cerrado' %}selected{% endif %}>Cerrado</option>
+            </select>
+            <select name="agente" style="padding:8px;border:1px solid #dbe4ef;border-radius:8px;font-size:13px;">
+                <option value="">Todos los agentes</option>
+                <option value="quimico" {% if request.GET.agente == 'quimico' %}selected{% endif %}>Quimico</option>
+                <option value="biologico" {% if request.GET.agente == 'biologico' %}selected{% endif %}>Biologico</option>
+                <option value="fisico" {% if request.GET.agente == 'fisico' %}selected{% endif %}>Fisico</option>
+                <option value="ergonomico" {% if request.GET.agente == 'ergonomico' %}selected{% endif %}>Ergonomico</option>
+                <option value="psicosocial" {% if request.GET.agente == 'psicosocial' %}selected{% endif %}>Psicosocial</option>
+            </select>
+            <button type="submit" class="hero-btn hero-btn-primary" style="font-size:12px;">Buscar</button>
+            <a href="{% url 'epps:enfermedad-list' %}" class="hero-btn hero-btn-secondary" style="height:38px;">Limpiar</a>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for eepp in enfermedades %}
+            <div class="list-item">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                        <strong style="font-size:14px;">
+                            <a href="{% url 'epps:enfermedad-detail' eepp.pk %}" style="color:#7c3aed;text-decoration:none;">{{ eepp.codigo }}</a>
+                        </strong>
+                        <span style="font-size:13px;color:#475569;margin-left:8px;">{{ eepp.titulo }}</span>
+                    </div>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        <span class="badge {{ eepp.badge_estado }}">{{ eepp.get_estado_display }}</span>
+                        <span class="badge {{ eepp.badge_gravedad }}">{{ eepp.get_gravedad_display }}</span>
+                    </div>
+                </div>
+                <div class="meta" style="font-size:12px;margin-top:4px;">
+                    {{ eepp.get_agente_causante_display }} &middot; {{ eepp.centro_trabajo }} &middot; {{ eepp.fecha_diagnostico }}
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item" style="font-size:13px;">No se encontraron enfermedades profesionales.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

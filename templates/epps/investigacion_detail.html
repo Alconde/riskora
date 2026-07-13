@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %}Investigacion - {{ investigacion.accidente.codigo }} | Riskora{% endblock %}
-{% block page_title %}Investigacion: {{ investigacion.accidente.codigo }}{% endblock %}
+{% block title %}Investigacion EEPP - {{ investigacion.enfermedad.codigo }} | Riskora{% endblock %}
+{% block page_title %}Investigacion EEPP: {{ investigacion.enfermedad.codigo }}{% endblock %}
 
 {% block content %}
-<div class="card" style="margin-bottom: 18px;">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
         <div>
             <div class="meta">
-                Accidente: {{ investigacion.accidente.codigo }} - {{ investigacion.accidente.titulo }} . Investigador: {{ investigacion.investigador|default:"-" }}
+                EEPP: {{ investigacion.enfermedad.codigo }} - {{ investigacion.enfermedad.titulo }} . Investigador: {{ investigacion.investigador|default:"-" }}
             </div>
         </div>
         <div style="display:flex;gap:8px;">
-            <a href="{% url 'incidents:investigacion-update' investigacion.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
-            <a href="{% url 'incidents:investigacion-pdf' investigacion.pk %}" target="_blank" class="hero-btn hero-btn-primary">Descargar PDF</a>
-            <a href="{% url 'incidents:accidente-detail' investigacion.accidente.pk %}" class="hero-btn hero-btn-secondary">Volver al accidente</a>
+            <a href="{% url 'epps:investigacion-update' investigacion.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'epps:investigacion-pdf' investigacion.pk %}" target="_blank" class="hero-btn hero-btn-primary">Descargar PDF</a>
+            <a href="{% url 'epps:enfermedad-detail' investigacion.enfermedad.pk %}" class="hero-btn hero-btn-secondary">Volver a la EEPP</a>
         </div>
     </div>
 </div>
@@ -63,14 +63,14 @@
 </div>
 
 {% if investigacion.descripcion_ideal %}
-<div class="card" style="margin-bottom: 14px;">
+<div class="card" style="margin-bottom:14px;">
     <h3 class="section-title" style="margin-bottom:12px;">Descripcion ideal (que deberia haber pasado)</h3>
     <p style="font-size:13px;">{{ investigacion.descripcion_ideal|linebreaksbr }}</p>
 </div>
 {% endif %}
 
 {% if investigacion.descripcion_real %}
-<div class="card" style="margin-bottom: 14px;">
+<div class="card" style="margin-bottom:14px;">
     <h3 class="section-title" style="margin-bottom:12px;">Descripcion real (que realmente paso)</h3>
     <p style="font-size:13px;">{{ investigacion.descripcion_real|linebreaksbr }}</p>
 </div>
@@ -92,20 +92,20 @@
 </div>
 
 {% if investigacion.causas_organizativas %}
-<div class="card" style="margin-bottom: 14px;">
+<div class="card" style="margin-bottom:14px;">
     <h3 class="section-title" style="margin-bottom:12px;">Causas organizativas</h3>
     <p style="font-size:13px;">{{ investigacion.causas_organizativas|linebreaksbr }}</p>
 </div>
 {% endif %}
 
 {% if investigacion.conclusiones %}
-<div class="card" style="margin-bottom: 14px;">
+<div class="card" style="margin-bottom:14px;">
     <h3 class="section-title" style="margin-bottom:12px;">Conclusiones</h3>
     <p style="font-size:13px;">{{ investigacion.conclusiones|linebreaksbr }}</p>
 </div>
 {% endif %}
 
-<div class="card" style="margin-bottom: 14px;">
+<div class="card" style="margin-bottom:14px;">
     <h3 class="section-title" style="margin-bottom:12px;">Firma</h3>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:13px;">
         <div><strong>Revisor:</strong> {{ investigacion.revisor.get_full_name|default:investigacion.revisor|default:"-" }}</div>
@@ -114,7 +114,7 @@
     </div>
 </div>
 
-<div style="margin-top: 18px;">
-    <a href="{% url 'incidents:accidente-detail' investigacion.accidente.pk %}" style="text-decoration:none;color:#1d4ed8;">← Volver al accidente</a>
+<div style="margin-top:18px;">
+    <a href="{% url 'epps:enfermedad-detail' investigacion.enfermedad.pk %}" style="text-decoration:none;color:#1d4ed8;">← Volver a la EEPP</a>
 </div>
 {% endblock %}

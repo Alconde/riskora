@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar procedimiento{% else %}Nuevo procedimiento{% endif %} - EEPP | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar procedimiento de investigacion EEPP{% else %}Subir procedimiento de investigacion EEPP{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Titulo *</label>
+                {{ form.titulo }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Descripcion</label>
+                {{ form.descripcion }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Version</label>
+                {{ form.version }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Archivo</label>
+                {{ form.archivo }}
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                {{ form.activo }}
+                <label style="font-size:13px;font-weight:600;color:#475569;">Activo</label>
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="{% url 'epps:dashboard' %}" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);text-decoration:none;padding:10px 20px;border-radius:8px;font-size:13px;">Volver al dashboard</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

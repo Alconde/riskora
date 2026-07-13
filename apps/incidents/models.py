@@ -190,6 +190,33 @@ class Accidente(models.Model):
 
 class InvestigacionAccidente(models.Model):
 
+    RIESGO_CHOICES = [
+        ('', '--- Seleccionar ---'),
+        ('caidas_mismo_nivel', 'Caídas al mismo nivel'),
+        ('caidas_distinto_nivel', 'Caídas a distinto nivel'),
+        ('caida_objetos', 'Caída de objetos'),
+        ('proyeccion_fragmentos', 'Proyección de fragmentos y/o partículas'),
+        ('atrapamientos', 'Atrapamientos'),
+        ('golpes', 'Golpes contra objetos'),
+        ('cortes', 'Cortes y cortaduras'),
+        ('quemaduras', 'Quemaduras'),
+        ('electrocucion', 'Electrocución'),
+        ('explosion', 'Explosión'),
+        ('incendio', 'Incendio'),
+        ('intoxicacion', 'Intoxicación'),
+        ('asfixia', 'Asfixia'),
+        ('ahogamiento', 'Ahogamiento'),
+        ('sordera', 'Pérdida auditiva'),
+        ('lesiones_osteomusculares', 'Lesiones osteomusculares'),
+        ('enfermedad_profesional', 'Enfermedad profesional'),
+        ('ergonomico', 'Riesgo ergonómico'),
+        ('psicosocial', 'Riesgo psicosocial'),
+        ('biologico', 'Riesgo biológico'),
+        ('radiacion', 'Exposición a radiaciones'),
+        ('derrame_sustancias', 'Derrame de sustancias'),
+        ('otro', 'Otro'),
+    ]
+
     class Metodologia(models.TextChoices):
         CINCO_PORQUES = '_5_porques', '5 Porques'
         ISHIKAWA = 'ishikawa', 'Ishikawa (Espina de pez)'
@@ -212,6 +239,50 @@ class InvestigacionAccidente(models.Model):
         choices=Metodologia.choices,
         default=Metodologia.CINCO_PORQUES,
         verbose_name='metodologia de analisis',
+    )
+    puesto_trabajo = models.CharField(
+        max_length=200, blank=True, verbose_name='puesto de trabajo'
+    )
+    horas_trabajador = models.PositiveIntegerField(
+        null=True, blank=True, verbose_name='horas trabajadas (1-8)'
+    )
+    hora_dia = models.TimeField(
+        null=True, blank=True, verbose_name='hora del dia'
+    )
+    edad = models.PositiveIntegerField(
+        null=True, blank=True, verbose_name='edad del trabajador'
+    )
+    tiempo_puesto = models.CharField(
+        max_length=100, blank=True, verbose_name='tiempo en el puesto de trabajo'
+    )
+    acto_condicion_detectada = models.TextField(
+        blank=True, verbose_name='acto o condicion detectada'
+    )
+    riesgo_identificado = models.CharField(
+        max_length=40,
+        choices=RIESGO_CHOICES,
+        blank=True,
+        verbose_name='riesgo identificado',
+    )
+    medidas_preventivas = models.TextField(
+        blank=True, verbose_name='medidas preventivas propuestas'
+    )
+    plazo = models.DateField(
+        null=True, blank=True, verbose_name='plazo de implantacion'
+    )
+    responsable = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='investigaciones_responsable',
+        verbose_name='responsable de medidas',
+    )
+    coste = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0, verbose_name='coste estimado'
+    )
+    riesgo_en_er = models.BooleanField(
+        default=False, verbose_name='riesgo en evaluacion de riesgos'
     )
     descripcion_ideal = models.TextField(
         blank=True, verbose_name='descripcion de lo que deberia haber pasado'
@@ -243,6 +314,17 @@ class InvestigacionAccidente(models.Model):
         related_name='investigaciones_accidente',
         verbose_name='investigador',
     )
+    revisor = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='investigaciones_revisadas',
+        verbose_name='revisor',
+    )
+    fecha_firma = models.DateField(
+        null=True, blank=True, verbose_name='fecha de firma'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -261,6 +343,40 @@ class InvestigacionAccidente(models.Model):
             'completada': 'badge-success',
         }
         return mapping.get(self.estado, 'badge-secondary')
+
+
+class ProcedimientoInvestigacion(models.Model):
+    empresa = models.ForeignKey(
+        'companies.Company',
+        on_delete=models.CASCADE,
+        related_name='procedimientos_investigacion',
+        verbose_name='empresa',
+    )
+    titulo = models.CharField(max_length=200, verbose_name='titulo')
+    descripcion = models.TextField(blank=True, verbose_name='descripcion')
+    archivo = models.FileField(
+        upload_to='incidentes/procedimientos/',
+        verbose_name='archivo del procedimiento',
+    )
+    version = models.CharField(max_length=20, default='1.0', verbose_name='version')
+    activo = models.BooleanField(default=True, verbose_name='activo')
+    subido_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='procedimientos_investigacion',
+        verbose_name='subido por',
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'procedimiento de investigacion'
+        verbose_name_plural = 'procedimientos de investigacion'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.titulo} v{self.version}'
 
 
 class Incidente(models.Model):

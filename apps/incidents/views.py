@@ -1,13 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.http import HttpResponse
 from django.db.models import Q
 
 from apps.core.mixins import CompanyScopedMixin
-from .models import Accidente, InvestigacionAccidente, CausaAccidente, Incidente
+from .models import Accidente, InvestigacionAccidente, CausaAccidente, Incidente, ProcedimientoInvestigacion
 from .forms import (
     AccidenteForm, InvestigacionAccidenteForm,
-    CausaAccidenteForm, IncidenteForm,
+    CausaAccidenteForm, IncidenteForm, ProcedimientoInvestigacionForm,
 )
 from .services import (
     generar_codigo_accidente, generar_codigo_incidente,
@@ -32,7 +33,9 @@ class IncidentsDashboardView(LoginRequiredMixin, CompanyScopedMixin, TemplateVie
         context['stats'] = stats
 
         if empresa:
-            from django.db.models import Count
+            context['procedimiento'] = ProcedimientoInvestigacion.objects.filter(
+                empresa=empresa, activo=True
+            ).order_by('-created_at').first()
             context['total_causas'] = CausaAccidente.objects.filter(
                 Q(empresa=empresa) | Q(empresa__isnull=True), activa=True
             ).count()
@@ -43,6 +46,7 @@ class IncidentsDashboardView(LoginRequiredMixin, CompanyScopedMixin, TemplateVie
                 empresa=empresa
             ).select_related('centro_trabajo')[:5]
         else:
+            context['procedimiento'] = None
             context['total_causas'] = CausaAccidente.objects.filter(
                 empresa__isnull=True, activa=True
             ).count()
@@ -50,6 +54,56 @@ class IncidentsDashboardView(LoginRequiredMixin, CompanyScopedMixin, TemplateVie
             context['ultimos_incidentes'] = []
 
         return context
+
+
+class ProcedimientoInvestigacionCreateView(LoginRequiredMixin, CompanyScopedMixin, CreateView):
+    model = ProcedimientoInvestigacion
+    form_class = ProcedimientoInvestigacionForm
+    template_name = 'incidents/procedimiento_form.html'
+    login_url = '/login/'
+    company_field_name = 'empresa'
+
+    def form_valid(self, form):
+        empresa = self.get_active_company()
+        if empresa:
+            form.instance.empresa = empresa
+        form.instance.subido_por = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('incidents:dashboard')
+
+
+class ProcedimientoInvestigacionUpdateView(LoginRequiredMixin, CompanyScopedMixin, UpdateView):
+    model = ProcedimientoInvestigacion
+    form_class = ProcedimientoInvestigacionForm
+    template_name = 'incidents/procedimiento_form.html'
+    login_url = '/login/'
+    company_field_name = 'empresa'
+
+    def get_success_url(self):
+        return reverse_lazy('incidents:dashboard')
+
+
+def imprimir_investigacion_blanco(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="formulario_investigacion_blanco.pdf"'
+    from .services import generar_pdf_investigacion_blanco
+    generar_pdf_investigacion_blanco(response)
+    return response
+
+
+def descargar_investigacion_pdf(request, pk):
+    investigacion = InvestigacionAccidente.objects.select_related(
+        'accidente', 'accidente__empresa', 'accidente__centro_trabajo',
+        'accidente__trabajador_afectado', 'investigador', 'revisor', 'responsable',
+    ).get(pk=pk)
+    response = HttpResponse(content_type='application/pdf')
+    filename = f'investigacion_{investigacion.accidente.codigo}.pdf'
+    response['Content-Disposition'] = f'inline; filename="{filename}"'
+    from .services import generar_pdf_investigacion
+    generar_pdf_investigacion(investigacion, response)
+    return response
 
 
 # =========================================================

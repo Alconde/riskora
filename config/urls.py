@@ -18,7 +18,9 @@ urlpatterns = [
     path('nc/', include('apps.corrective_actions.urls', namespace='corrective_actions')),
     path('inspecciones/', include('apps.inspections.urls', namespace='inspecciones')),
     path('seguridad/', include('apps.incidents.urls', namespace='incidents')),
+    path('eepp/', include('apps.epps.urls', namespace='epps')),
     path('epis/', include('apps.epis.urls', namespace='epis')),
+    path('equipos/', include('apps.work_equipment.urls', namespace='work_equipment')),
 ]
 
 if settings.DEBUG:

@@ -32,6 +32,8 @@ urlpatterns = [
         views.InvestigacionDetailView.as_view(),
         name='investigacion-detail',
     ),
+    path('investigacion/imprimir-blanco/', views.imprimir_investigacion_blanco, name='investigacion-blanco-pdf'),
+    path('investigacion/<int:pk>/pdf/', views.descargar_investigacion_pdf, name='investigacion-pdf'),
 
     # Causas
     path('causas/', views.CausaListView.as_view(), name='causa-list'),
@@ -45,4 +47,8 @@ urlpatterns = [
     path('incidentes/<int:pk>/', views.IncidenteDetailView.as_view(), name='incidente-detail'),
     path('incidentes/<int:pk>/editar/', views.IncidenteUpdateView.as_view(), name='incidente-update'),
     path('incidentes/<int:pk>/eliminar/', views.IncidenteDeleteView.as_view(), name='incidente-delete'),
+
+    # Procedimiento
+    path('procedimiento/nuevo/', views.ProcedimientoInvestigacionCreateView.as_view(), name='procedimiento-create'),
+    path('procedimiento/<int:pk>/editar/', views.ProcedimientoInvestigacionUpdateView.as_view(), name='procedimiento-update'),
 ]

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ enfermedad.codigo }} - {{ enfermedad.titulo }} | Riskora{% endblock %}
+{% block page_title %}{{ enfermedad.codigo }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <div class="meta">{{ enfermedad.titulo }}</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'epps:enfermedad-update' enfermedad.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'epps:enfermedad-delete' enfermedad.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Estado</div>
+        <span class="badge {{ enfermedad.badge_estado }}">{{ enfermedad.get_estado_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Gravedad</div>
+        <span class="badge {{ enfermedad.badge_gravedad }}">{{ enfermedad.get_gravedad_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Agente causante</div>
+        <div class="kpi-value" style="font-size:14px;">{{ enfermedad.get_agente_causante_display }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Fecha diagnostico</div>
+        <div class="kpi-value" style="font-size:14px;">{{ enfermedad.fecha_diagnostico }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:14px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Datos de la enfermedad</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:13px;">
+        <div><strong>Centro:</strong> {{ enfermedad.centro_trabajo }}</div>
+        <div><strong>Trabajador:</strong> {{ enfermedad.trabajador_afectado|default:"-" }}</div>
+        <div><strong>Parte del cuerpo:</strong> {{ enfermedad.parte_cuerpo|default:"-" }}</div>
+        <div><strong>Tipo exposicion:</strong> {{ enfermedad.tipo_exposicion|default:"-" }}</div>
+        <div><strong>Duracion exposicion:</strong> {{ enfermedad.duracion_exposicion|default:"-" }}</div>
+        <div><strong>Notif. salud:</strong> {% if enfermedad.notify_salud %}Si{% else %}No{% endif %}</div>
+    </div>
+    <div style="font-size:13px;margin-top:10px;">
+        <strong>Descripcion:</strong>
+        <p>{{ enfermedad.descripcion|linebreaksbr }}</p>
+    </div>
+    {% if enfermedad.testigos %}
+    <div style="font-size:13px;margin-top:6px;">
+        <strong>Testigos:</strong> {{ enfermedad.testigos }}
+    </div>
+    {% endif %}
+</div>
+
+<div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3 class="section-title">Investigacion</h3>
+        {% if enfermedad.tiene_investigacion %}
+            <a href="{% url 'epps:investigacion-detail' enfermedad.investigacion.pk %}" class="hero-btn hero-btn-secondary" style="font-size:13px;">Ver investigacion</a>
+        {% else %}
+            <a href="{% url 'epps:investigacion-create' enfermedad.pk %}" class="hero-btn hero-btn-primary" style="font-size:13px;">Iniciar investigacion</a>
+        {% endif %}
+    </div>
+    {% if not enfermedad.tiene_investigacion %}
+        <p style="font-size:13px;color:#64748b;margin-top:8px;">No hay investigacion registrada para esta enfermedad.</p>
+    {% endif %}
+</div>
+
+<div style="margin-top:18px;">
+    <a href="{% url 'epps:enfermedad-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

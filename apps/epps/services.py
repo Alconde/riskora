@@ -1,115 +1,55 @@
 from django.db import models
 
 
-def generar_codigo_accidente(empresa):
+def generar_codigo_eepp(empresa):
     from django.utils import timezone
     year = timezone.localdate().year
-    from .models import Accidente
+    from .models import EnfermedadProfesional
     count = (
-        Accidente.objects.filter(empresa=empresa, fecha__year=year).count() + 1
+        EnfermedadProfesional.objects.filter(
+            empresa=empresa, fecha_diagnostico__year=year
+        ).count() + 1
     )
-    return f'ACC-{year}-{count:03d}'
+    return f'EEPP-{year}-{count:03d}'
 
 
-def generar_codigo_incidente(empresa):
-    from django.utils import timezone
-    year = timezone.localdate().year
-    from .models import Incidente
-    count = (
-        Incidente.objects.filter(empresa=empresa, fecha__year=year).count() + 1
-    )
-    return f'INC-{year}-{count:03d}'
+def calcular_estadisticas_eepp(empresa=None):
+    from .models import EnfermedadProfesional
 
-
-def generar_nc_desde_accidente(accidente, user, form_data=None):
-    from apps.corrective_actions.models import NoConformidad
-    from apps.corrective_actions.services import generar_codigo_nc
-
-    titulo = (form_data or {}).get('titulo') or f'NC desde accidente {accidente.codigo}: {accidente.titulo}'
-    descripcion = (form_data or {}).get('descripcion') or (
-        f'Accidente de trabajo:\n\n'
-        f'{accidente.descripcion}\n\n'
-        f'Tipo: {accidente.get_tipo_display()}\n'
-        f'Gravedad: {accidente.get_gravedad_display()}\n'
-        f'Lesion: {accidente.get_tipo_lesion_display()}\n'
-        f'Parte del cuerpo: {accidente.parte_cuerpo or "No especificada"}'
-    )
-    gravedad = (form_data or {}).get('gravedad') or _mapear_gravedad_nc(accidente.gravedad)
-    fecha_limite = (form_data or {}).get('fecha_limite_resolucion') or accidente.fecha.date()
-
-    nc = NoConformidad.objects.create(
-        empresa=accidente.empresa,
-        codigo=generar_codigo_nc(accidente.empresa),
-        titulo=titulo,
-        descripcion=descripcion,
-        fuente='accidente',
-        gravedad=gravedad,
-        estado='en_investigacion',
-        detectado_por=user,
-        fecha_deteccion=accidente.fecha.date(),
-        centro_trabajo=accidente.centro_trabajo,
-        trabajador=accidente.trabajador_afectado,
-        ubicacion=accidente.ubicacion,
-        creado_por=user,
-        fecha_limite_resolucion=fecha_limite,
-    )
-    accidente.nc_generada = nc
-    accidente.save(update_fields=['nc_generada'])
-    return nc
-
-
-def _mapear_gravedad_nc(gravedad_accidente):
-    mapping = {
-        'sin_baja': 'menor',
-        'baja_temporal': 'moderada',
-        'baja_permanente': 'importante',
-        'mortal': 'critica',
-    }
-    return mapping.get(gravedad_accidente, 'moderada')
-
-
-def calcular_estadisticas_accidentes(empresa=None):
-    from .models import Accidente, Incidente
-
-    acc_qs = Accidente.objects.all()
-    inc_qs = Incidente.objects.all()
+    qs = EnfermedadProfesional.objects.all()
     if empresa:
-        acc_qs = acc_qs.filter(empresa=empresa)
-        inc_qs = inc_qs.filter(empresa=empresa)
+        qs = qs.filter(empresa=empresa)
 
-    total_acc = acc_qs.count()
-    abiertos = acc_qs.filter(estado='abierto').count()
-    en_investigacion = acc_qs.filter(estado='en_investigacion').count()
-    cerrados = acc_qs.filter(estado='cerrado').count()
-    mortales = acc_qs.filter(gravedad='mortal').count()
-    con_baja = acc_qs.filter(
-        gravedad__in=['baja_temporal', 'baja_permanente']
-    ).count()
-
-    total_inc = inc_qs.count()
-    inc_abiertos = inc_qs.filter(estado='abierto').count()
-    inc_cerrados = inc_qs.filter(estado='cerrado').count()
+    total = qs.count()
+    abiertas = qs.filter(estado='abierto').count()
+    en_investigacion = qs.filter(estado='en_investigacion').count()
+    cerradas = qs.filter(estado='cerrado').count()
+    graves = qs.filter(gravedad__in=['grave', 'muy_grave']).count()
+    por_agente = {}
+    for choice in EnfermedadProfesional.AgenteCausante.choices:
+        agente_val = choice[0]
+        agente_label = choice[1]
+        count = qs.filter(agente_causante=agente_val).count()
+        if count > 0:
+            por_agente[agente_label] = count
 
     return {
-        'acc_total': total_acc,
-        'acc_abiertos': abiertos,
-        'acc_en_investigacion': en_investigacion,
-        'acc_cerrados': cerrados,
-        'acc_mortales': mortales,
-        'acc_con_baja': con_baja,
-        'inc_total': total_inc,
-        'inc_abiertos': inc_abiertos,
-        'inc_cerrados': inc_cerrados,
+        'total': total,
+        'abiertas': abiertas,
+        'en_investigacion': en_investigacion,
+        'cerradas': cerradas,
+        'graves': graves,
+        'por_agente': por_agente,
         'tasa_cierre': (
-            f'{round((cerrados / total_acc) * 100)}%' if total_acc else '0%'
+            f'{round((cerradas / total) * 100)}%' if total else '0%'
         ),
     }
 
 
-def generar_pdf_investigacion_blanco(buffer):
+def generar_pdf_eepp_blanco(buffer):
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.units import cm
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
     from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
     from reportlab.lib import colors
 
@@ -121,18 +61,21 @@ def generar_pdf_investigacion_blanco(buffer):
     normal = ParagraphStyle('Normal2', parent=styles['Normal'], fontSize=10)
     small = ParagraphStyle('Small', parent=styles['Normal'], fontSize=9, textColor=colors.HexColor('#64748b'))
 
-    elements.append(Paragraph('FORMULARIO DE INVESTIGACION DE ACCIDENTES', title_style))
+    elements.append(Paragraph('FORMULARIO DE INVESTIGACION DE ENFERMEDADES PROFESIONALES', title_style))
     elements.append(Spacer(1, 0.3 * cm))
     elements.append(Paragraph('Riskora - Prevencion de Riesgos Laborales', small))
     elements.append(Spacer(1, 0.5 * cm))
 
     sections = [
-        ('DATOS DEL ACCIDENTE', [
-            ['Codigo del accidente:', ''],
-            ['Fecha del accidente:', ''],
+        ('DATOS DE LA ENFERMEDAD PROFESIONAL', [
+            ['Codigo de la EEPP:', ''],
+            ['Fecha de diagnostico:', ''],
             ['Centro de trabajo:', ''],
-            ['Ubicacion del accidente:', ''],
-            ['Tipo de accidente:', ''],
+            ['Nombre de la enfermedad:', ''],
+            ['Agente causante:', ''],
+            ['Tipo de exposicion:', ''],
+            ['Duracion de la exposicion:', ''],
+            ['Parte del cuerpo afectada:', ''],
             ['Gravedad:', ''],
         ]),
         ('DATOS DEL TRABAJADOR', [
@@ -192,14 +135,14 @@ def generar_pdf_investigacion_blanco(buffer):
     doc.build(elements)
 
 
-def generar_pdf_investigacion(investigacion, buffer):
+def generar_pdf_eepp(investigacion, buffer):
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.units import cm
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
     from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
     from reportlab.lib import colors
 
-    acc = investigacion.accidente
+    eepp = investigacion.enfermedad
     doc = SimpleDocTemplate(buffer, pagesize=A4)
     elements = []
     styles = getSampleStyleSheet()
@@ -208,10 +151,10 @@ def generar_pdf_investigacion(investigacion, buffer):
     normal = ParagraphStyle('Normal2', parent=styles['Normal'], fontSize=10)
     small = ParagraphStyle('Small', parent=styles['Normal'], fontSize=9, textColor=colors.HexColor('#64748b'))
 
-    elements.append(Paragraph(f'INVESTIGACION DE ACCIDENTE - {acc.codigo}', title_style))
+    elements.append(Paragraph(f'INVESTIGACION EEPP - {eepp.codigo}', title_style))
     elements.append(Spacer(1, 0.3 * cm))
-    empresa_name = acc.empresa.legal_name if acc.empresa else ''
-    elements.append(Paragraph(f'{empresa_name} | {acc.titulo}', small))
+    empresa_name = eepp.empresa.legal_name if eepp.empresa else ''
+    elements.append(Paragraph(f'{empresa_name} | {eepp.titulo}', small))
     elements.append(Spacer(1, 0.5 * cm))
 
     def field(label, value):
@@ -220,17 +163,20 @@ def generar_pdf_investigacion(investigacion, buffer):
     def section(title):
         elements.append(Paragraph(title, section_style))
 
-    section('DATOS DEL ACCIDENTE')
-    elements.append(field('Codigo', acc.codigo))
-    elements.append(field('Fecha', str(acc.fecha)))
-    elements.append(field('Centro de trabajo', str(acc.centro_trabajo)))
-    elements.append(field('Ubicacion', acc.ubicacion))
-    elements.append(field('Tipo', acc.get_tipo_display()))
-    elements.append(field('Gravedad', acc.get_gravedad_display()))
+    section('DATOS DE LA ENFERMEDAD PROFESIONAL')
+    elements.append(field('Codigo', eepp.codigo))
+    elements.append(field('Fecha de diagnostico', str(eepp.fecha_diagnostico)))
+    elements.append(field('Centro de trabajo', str(eepp.centro_trabajo)))
+    elements.append(field('Nombre de la enfermedad', eepp.nombre_enfermedad))
+    elements.append(field('Agente causante', eepp.get_agente_causante_display()))
+    elements.append(field('Tipo de exposicion', eepp.tipo_exposicion))
+    elements.append(field('Duracion de la exposicion', eepp.duracion_exposicion))
+    elements.append(field('Parte del cuerpo', eepp.parte_cuerpo))
+    elements.append(field('Gravedad', eepp.get_gravedad_display()))
     elements.append(Spacer(1, 0.3 * cm))
 
     section('DATOS DEL TRABAJADOR')
-    elements.append(field('Nombre', str(acc.trabajador_afectado) if acc.trabajador_afectado else '-'))
+    elements.append(field('Nombre', str(eepp.trabajador_afectado) if eepp.trabajador_afectado else '-'))
     elements.append(field('Puesto de trabajo', investigacion.puesto_trabajo))
     elements.append(field('Horas trabajadas', str(investigacion.horas_trabajador) if investigacion.horas_trabajador else '-'))
     elements.append(field('Hora del dia', str(investigacion.hora_dia) if investigacion.hora_dia else '-'))

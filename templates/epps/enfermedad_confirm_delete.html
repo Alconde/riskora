@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar EEPP | Riskora{% endblock %}
+{% block page_title %}Eliminar enfermedad profesional{% endblock %}
+
+{% block content %}
+<div class="card">
+    <p style="font-size:14px;margin-bottom:16px;">
+        ¿Seguro que quieres eliminar la enfermedad profesional <strong>{{ object }}</strong>?
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:flex;gap:10px;">
+            <button type="submit" class="hero-btn hero-btn-primary" style="color:#dc2626;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);">Eliminar</button>
+            <a href="{% url 'epps:enfermedad-detail' object.pk %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
