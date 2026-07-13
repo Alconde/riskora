@@ -120,6 +120,11 @@ class NCCerrarView(LoginRequiredMixin, CompanyScopedMixin, FormView):
     def get_nc(self):
         return NoConformidad.objects.get(pk=self.kwargs['pk'])
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['nc'] = self.get_nc()
+        return context
+
     def form_valid(self, form):
         nc = self.get_nc()
         nc.estado = NoConformidad.Estado.CERRADA

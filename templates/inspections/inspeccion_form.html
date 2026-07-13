@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar inspeccion{% else %}Nueva inspeccion{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar inspeccion{% else %}Nueva inspeccion{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Plantilla</label>
+                {{ form.plantilla }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Centro de trabajo *</label>
+                {{ form.centro_trabajo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Inspector *</label>
+                {{ form.inspector }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha *</label>
+                {{ form.fecha_inspeccion }}
+            </div>
+            {% if object %}
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Estado</label>
+                {{ form.estado }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Resultado general</label>
+                {{ form.resultado_general }}
+            </div>
+            {% endif %}
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Observaciones</label>
+                {{ form.observaciones }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fotos evidencia</label>
+                {{ form.fotos }}
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="javascript:history.back()" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

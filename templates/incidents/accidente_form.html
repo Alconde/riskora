@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar accidente{% else %}Nuevo accidente{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar accidente{% else %}Nuevo accidente{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Titulo *</label>
+                {{ form.titulo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha y hora *</label>
+                {{ form.fecha }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Centro de trabajo *</label>
+                {{ form.centro_trabajo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Ubicacion</label>
+                {{ form.ubicacion }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Tipo de accidente *</label>
+                {{ form.tipo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Gravedad *</label>
+                {{ form.gravedad }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Tipo de lesion *</label>
+                {{ form.tipo_lesion }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Parte del cuerpo</label>
+                {{ form.parte_cuerpo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Trabajador afectado</label>
+                {{ form.trabajador_afectado }}
+            </div>
+            {% if object %}
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Estado</label>
+                {{ form.estado }}
+            </div>
+            {% endif %}
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Descripcion del accidente *</label>
+                {{ form.descripcion }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Testigos</label>
+                {{ form.testigos }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Notificado a salud</label>
+                {{ form.notify_salud }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Notificado a inspeccion</label>
+                {{ form.notify_inspeccion }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de notificacion</label>
+                {{ form.fecha_notificacion }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Causas identificadas</label>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;">
+                    {% for checkbox in form.causas %}
+                        <label style="display:flex;align-items:center;gap:4px;font-size:13px;">
+                            {{ checkbox }} {{ checkbox.choice_label }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            {% if object %}
+            <a href="{% url 'incidents:accidente-detail' object.pk %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+            {% else %}
+            <a href="{% url 'incidents:accidente-list' %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+            {% endif %}
+            <a href="{% url 'incidents:accidente-list' %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Descartar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

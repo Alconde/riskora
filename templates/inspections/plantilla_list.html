@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Plantillas de inspeccion | Riskora{% endblock %}
+{% block page_title %}Plantillas de inspeccion{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Plantillas reutilizables</h3>
+            <div class="meta">Checklists de inspeccion que se pueden reutilizar por centro.</div>
+        </div>
+        <a href="{% url 'inspections:plantilla-create' %}" class="hero-btn hero-btn-primary">Nueva plantilla</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for p in plantillas %}
+            <div class="list-item">
+                <strong><a href="{% url 'inspections:plantilla-detail' p.pk %}">{{ p.nombre }}</a></strong>
+                <div class="meta">Categoria: {{ p.get_categoria_display }} . Items: {{ p.items.count }}</div>
+                {% if not p.activa %}<span class="badge badge-secondary">Inactiva</span>{% endif %}
+            </div>
+        {% empty %}
+            <div class="list-item">No hay plantillas creadas.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

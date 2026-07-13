@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ plantilla.nombre }} | Riskora{% endblock %}
+{% block page_title %}Plantilla: {{ plantilla.nombre }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <div class="meta">Categoria: {{ plantilla.get_categoria_display }} . Empresa: {{ plantilla.empresa }}</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'inspections:plantilla-update' plantilla.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'inspections:plantilla-delete' plantilla.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="section-title">Items del checklist</h3>
+    <div class="list">
+        {% for item in plantilla.items.all %}
+            <div class="list-item">
+                <strong>{{ item.orden }}.</strong> {{ item.descripcion }}
+            </div>
+        {% empty %}
+            <div class="list-item">No hay items definidos.</div>
+        {% endfor %}
+    </div>
+    <div style="margin-top:12px;">
+        <a href="{% url 'inspections:plantilla-item-create' plantilla.pk %}" class="hero-btn hero-btn-primary" style="font-size:13px;">Agregar item</a>
+    </div>
+</div>
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'inspections:plantilla-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

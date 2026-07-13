@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Accidentes | Riskora{% endblock %}
+{% block page_title %}Accidentes de trabajo{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Listado de accidentes</h3>
+            <div class="meta">Registro de accidentes de trabajo e in itinere.</div>
+        </div>
+        <a href="{% url 'incidents:accidente-create' %}" class="hero-btn hero-btn-primary">Nuevo accidente</a>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Total accidentes</div>
+        <div class="kpi-value">{{ stats.acc_total }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Abiertos</div>
+        <div class="kpi-value">{{ stats.acc_abiertos }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">En investigacion</div>
+        <div class="kpi-value">{{ stats.acc_en_investigacion }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Tasa de cierre</div>
+        <div class="kpi-value">{{ stats.tasa_cierre }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <form method="get" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Buscar</label>
+            <input type="text" name="q" value="{{ filters.q|default:'' }}" placeholder="Codigo, titulo..." class="form-control">
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Estado</label>
+            <select name="estado" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in estado_choices %}
+                    <option value="{{ value }}" {% if filters.estado == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Gravedad</label>
+            <select name="gravedad" class="form-control">
+                <option value="">Todas</option>
+                {% for value, label in gravedad_choices %}
+                    <option value="{{ value }}" {% if filters.gravedad == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Tipo</label>
+            <select name="tipo" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in tipo_choices %}
+                    <option value="{{ value }}" {% if filters.tipo == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Centro</label>
+            <select name="centro" class="form-control">
+                <option value="">Todos</option>
+                {% for c in centros %}
+                    <option value="{{ c.pk }}" {% if filters.centro == c.pk|stringformat:"d" %}selected{% endif %}>{{ c.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="hero-btn hero-btn-primary" style="height:38px;">Filtrar</button>
+        <a href="{% url 'incidents:accidente-list' %}" class="hero-btn hero-btn-secondary" style="height:38px;">Limpiar</a>
+    </form>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for acc in accidentes %}
+            <div class="list-item">
+                <strong><a href="{% url 'incidents:accidente-detail' acc.pk %}">{{ acc.codigo }} - {{ acc.titulo }}</a></strong>
+                <div class="meta">
+                    Centro: {{ acc.centro_trabajo }} . Fecha: {{ acc.fecha|date:"d/m/Y H:i" }} . {{ acc.get_tipo_display }}
+                </div>
+                <div style="display:flex;gap:8px;margin-top:6px;">
+                    <span class="badge {{ acc.badge_estado }}">{{ acc.get_estado_display }}</span>
+                    <span class="badge {{ acc.badge_gravedad }}">{{ acc.get_gravedad_display }}</span>
+                    <span class="badge badge-secondary">{{ acc.get_tipo_lesion_display }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay accidentes registrados.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:8px;margin-top:18px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Anterior</a>
+    {% endif %}
+    <span style="padding:10px;color:#64748b;">Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Siguiente</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

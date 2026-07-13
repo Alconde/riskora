@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Inspecciones | Riskora{% endblock %}
+{% block page_title %}Inspecciones{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Listado de inspecciones</h3>
+            <div class="meta">Inspecciones de seguridad y salud en el trabajo.</div>
+        </div>
+        <a href="{% url 'inspections:inspeccion-create' %}" class="hero-btn hero-btn-primary">Nueva inspeccion</a>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <form method="get" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Buscar</label>
+            <input type="text" name="q" value="{{ filters.q|default:'' }}" placeholder="Centro o notas..." class="form-control">
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Estado</label>
+            <select name="estado" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in estado_choices %}
+                    <option value="{{ value }}" {% if filters.estado == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Centro</label>
+            <select name="centro" class="form-control">
+                <option value="">Todos</option>
+                {% for c in centros %}
+                    <option value="{{ c.pk }}" {% if filters.centro == c.pk|stringformat:"d" %}selected{% endif %}>{{ c.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="hero-btn hero-btn-primary" style="height:38px;">Filtrar</button>
+        <a href="{% url 'inspections:inspeccion-list' %}" class="hero-btn hero-btn-secondary" style="height:38px;">Limpiar</a>
+    </form>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for insp in inspecciones %}
+            <div class="list-item">
+                <strong><a href="{% url 'inspections:inspeccion-detail' insp.pk %}">INS-{{ insp.pk|stringformat:"04d" }} - {{ insp.centro_trabajo }}</a></strong>
+                <div class="meta">
+                    Inspector: {{ insp.inspector|default:"-" }} . Fecha: {{ insp.fecha_inspeccion }} . Items: {{ insp.total_items }}
+                </div>
+                <div style="display:flex;gap:8px;margin-top:6px;">
+                    <span class="badge {{ insp.badge_estado }}">{{ insp.get_estado_display }}</span>
+                    {% if insp.resultado_general %}<span class="badge {{ insp.badge_resultado }}">{{ insp.get_resultado_display }}</span>{% endif %}
+                    {% if insp.total_items %}<span class="badge badge-secondary">{{ insp.porcentaje_cumplimiento }}% cumplimiento</span>{% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay inspecciones registradas.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:8px;margin-top:18px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Anterior</a>
+    {% endif %}
+    <span style="padding:10px;color:#64748b;">Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Siguiente</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar plantilla | Riskora{% endblock %}
+{% block page_title %}Eliminar plantilla{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="text-align:center;padding:30px;">
+        <h3 style="color:#dc2626;margin-bottom:12px;">¿Eliminar "{{ object.nombre }}"?</h3>
+        <form method="post" style="display:flex;justify-content:center;gap:10px;">
+            {% csrf_token %}
+            <button type="submit" class="hero-btn hero-btn-primary" style="background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;">Eliminar</button>
+            <a href="{% url 'inspections:plantilla-detail' object.pk %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -13,13 +13,7 @@
         <div style="display:flex;gap:8px;">
             {% if nc.estado != 'cerrada' and nc.estado != 'cancelada' %}
                 <a href="{% url 'corrective_actions:nc-update' nc.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
-                <form method="post" action="{% url 'corrective_actions:nc-close' nc.pk %}" style="display:inline;">
-                    {% csrf_token %}
-                    <input type="hidden" name="resuelta_en" value="{{今天的日期|default:'' }}">
-                    <button type="submit" class="hero-btn hero-btn-primary">Cerrar NC</button>
-                </form>
-            {% endif %}
-            {% if nc.estado != 'cerrada' and nc.estado != 'cancelada' %}
+                <a href="{% url 'corrective_actions:nc-close' nc.pk %}" class="hero-btn hero-btn-primary">Cerrar NC</a>
                 <a href="{% url 'corrective_actions:nc-delete' nc.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
             {% endif %}
         </div>

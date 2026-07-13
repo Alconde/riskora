@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar {{ object.titulo }}{% else %}Nueva accion preventiva{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar accion preventiva{% else %}Nueva accion preventiva{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Titulo *</label>
+                {{ form.titulo }}
+                {% if form.titulo.errors %}<div style="color:#dc2626;font-size:12px;">{{ form.titulo.errors.0 }}</div>{% endif %}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Descripcion *</label>
+                {{ form.descripcion }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Responsable</label>
+                {{ form.responsable }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha limite *</label>
+                {{ form.fecha_limite }}
+            </div>
+            {% if object %}
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Estado</label>
+                {{ form.estado }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de ejecucion</label>
+                {{ form.fecha_ejecucion }}
+            </div>
+            {% endif %}
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">NC de origen</label>
+                {{ form.no_conformidad_origen }}
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="javascript:history.back()" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}INS-{{ inspeccion.pk|stringformat:"04d" }} | Riskora{% endblock %}
+{% block page_title %}Inspeccion INS-{{ inspeccion.pk|stringformat:"04d" }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <div class="meta">
+                Centro: {{ inspeccion.centro_trabajo }} . Inspector: {{ inspeccion.inspector|default:"-" }} . Fecha: {{ inspeccion.fecha_inspeccion }}
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'inspections:inspeccion-update' inspeccion.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'inspections:inspeccion-delete' inspeccion.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Estado</div>
+        <span class="badge {{ inspeccion.badge_estado }}">{{ inspeccion.get_estado_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Items totales</div>
+        <div class="kpi-value">{{ inspeccion.total_items }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">No conformes</div>
+        <div class="kpi-value">{{ inspeccion.items_no_conforme }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Cumplimiento</div>
+        <div class="kpi-value">{{ inspeccion.porcentaje_cumplimiento }}%</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 class="section-title" style="margin:0;">Checklist</h3>
+        <a href="{% url 'inspections:item-create' inspeccion.pk %}" class="hero-btn hero-btn-primary" style="font-size:13px;">Agregar item</a>
+    </div>
+    <div class="list">
+        {% for item in inspeccion.items.all %}
+            <div class="list-item">
+                <div style="display:flex;justify-content:space-between;align-items:start;">
+                    <div>
+                        <strong>{{ item.orden }}. {{ item.descripcion }}</strong>
+                        {% if item.observaciones %}
+                            <div class="meta" style="margin-top:4px;">{{ item.observaciones }}</div>
+                        {% endif %}
+                        {% if item.no_conformidad %}
+                            <div style="margin-top:4px;">
+                                <a href="{% url 'corrective_actions:nc-detail' item.no_conformidad.pk %}" style="color:#dc2626;font-size:12px;">→ NC: {{ item.no_conformidad.codigo }}</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        <span class="badge {{ item.badge_resultado }}">{{ item.get_resultado_display|default:"Sin resultado" }}</span>
+                        <a href="{% url 'inspections:item-update' item.pk %}" style="font-size:11px;color:#1d4ed8;">Editar</a>
+                        {% if item.resultado == 'no_conforme' and not item.no_conformidad %}
+                            <a href="{% url 'inspections:item-nc' item.pk %}" style="font-size:11px;color:#dc2626;">Crear NC</a>
+                        {% endif %}
+                        <a href="{% url 'inspections:item-delete' item.pk %}" style="font-size:11px;color:#dc2626;">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay items. Agrega items para realizar la inspeccion.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if inspeccion.observaciones %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title">Observaciones generales</h3>
+    <p>{{ inspeccion.observaciones|linebreaksbr }}</p>
+</div>
+{% endif %}
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'inspections:inspeccion-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

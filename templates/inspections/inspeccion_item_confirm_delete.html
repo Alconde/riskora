@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar item | Riskora{% endblock %}
+{% block page_title %}Eliminar item de inspeccion{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="text-align:center;padding:30px;">
+        <h3 style="color:#dc2626;margin-bottom:12px;">¿Eliminar este item?</h3>
+        <form method="post" style="display:flex;justify-content:center;gap:10px;">
+            {% csrf_token %}
+            <button type="submit" class="hero-btn hero-btn-primary" style="background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;">Eliminar</button>
+            <a href="javascript:history.back()" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

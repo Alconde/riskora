@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Accion correctiva | Riskora{% endblock %}
+{% block page_title %}Accion correctiva{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">{{ accion.descripcion|truncatechars:100 }}</h3>
+            <div class="meta">NC: <a href="{% url 'corrective_actions:nc-detail' accion.no_conformidad.pk %}">{{ accion.no_conformidad.codigo }}</a> . Responsable: {{ accion.responsable|default:"-" }}</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'corrective_actions:ac-update' accion.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'corrective_actions:ac-delete' accion.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        <div class="list-item"><strong>Descripcion:</strong><br>{{ accion.descripcion|linebreaksbr }}</div>
+        <div class="list-item"><strong>Estado:</strong> <span class="badge {{ accion.badge_estado }}">{{ accion.get_estado_display }}</span></div>
+        <div class="list-item"><strong>Fecha limite:</strong> {{ accion.fecha_limite }}</div>
+        <div class="list-item"><strong>Fecha de ejecucion:</strong> {{ accion.fecha_ejecucion|default:"-" }}</div>
+        {% if accion.evidencia_implementacion %}
+            <div class="list-item"><strong>Evidencia de implementacion:</strong><br>{{ accion.evidencia_implementacion|linebreaksbr }}</div>
+        {% endif %}
+    </div>
+</div>
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'corrective_actions:nc-detail' accion.no_conformidad.pk %}" style="text-decoration:none;color:#1d4ed8;">← Volver a la NC</a>
+</div>
+{% endblock %}

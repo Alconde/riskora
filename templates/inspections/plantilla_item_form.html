@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Nuevo item | Riskora{% endblock %}
+{% block page_title %}Agregar item a la plantilla{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:100px 1fr;gap:16px;align-items:start;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Orden</label>
+                {{ form.orden }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Descripcion *</label>
+                {{ form.descripcion }}
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Agregar</button>
+            <a href="javascript:history.back()" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

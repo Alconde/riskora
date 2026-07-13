@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ incidente.codigo }} | Riskora{% endblock %}
+{% block page_title %}{{ incidente.codigo }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <div class="meta">
+                Centro: {{ incidente.centro_trabajo }} . Fecha: {{ incidente.fecha|date:"d/m/Y H:i" }}
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'incidents:incidente-update' incidente.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'incidents:incidente-delete' incidente.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Estado</div>
+        <span class="badge {{ incidente.badge_estado }}">{{ incidente.get_estado_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Gravedad potencial</div>
+        <span class="badge {{ incidente.badge_gravedad_potencial }}">{{ incidente.get_gravedad_potencial_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Reportado por</div>
+        <div class="kpi-value" style="font-size:14px;">{{ incidente.trabajador_reports|default:"-" }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Que ocurrio</h3>
+    <p>{{ incidente.descripcion|linebreaksbr }}</p>
+</div>
+
+{% if incidente.potencial_dano %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Dano potencial</h3>
+    <p>{{ incidente.potencial_dano|linebreaksbr }}</p>
+</div>
+{% endif %}
+
+{% if incidente.testigos %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Testigos</h3>
+    <p>{{ incidente.testigos|linebreaksbr }}</p>
+</div>
+{% endif %}
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'incidents:incidente-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

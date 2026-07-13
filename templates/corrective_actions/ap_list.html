@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Acciones preventivas | Riskora{% endblock %}
+{% block page_title %}Acciones preventivas{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Acciones preventivas</h3>
+            <div class="meta">Medidas preventivas para evitar la recurrencia de no conformidades.</div>
+        </div>
+        <a href="{% url 'corrective_actions:ap-create' %}" class="hero-btn hero-btn-primary">Nueva accion preventiva</a>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <form method="get" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Estado</label>
+            <select name="estado" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in estado_choices %}
+                    <option value="{{ value }}" {% if filters.estado == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="hero-btn hero-btn-primary" style="height:38px;">Filtrar</button>
+        <a href="{% url 'corrective_actions:ap-list' %}" class="hero-btn hero-btn-secondary" style="height:38px;">Limpiar</a>
+    </form>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for ap in acciones %}
+            <div class="list-item">
+                <strong><a href="{% url 'corrective_actions:ap-detail' ap.pk %}">{{ ap.titulo }}</a></strong>
+                <div class="meta">
+                    Empresa: {{ ap.empresa }} . Responsable: {{ ap.responsable|default:"-" }} . Limite: {{ ap.fecha_limite }}
+                </div>
+                <span class="badge {{ ap.badge_estado }}">{{ ap.get_estado_display }}</span>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay acciones preventivas registradas.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:8px;margin-top:18px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Anterior</a>
+    {% endif %}
+    <span style="padding:10px;color:#64748b;">Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn hero-btn-secondary">Siguiente</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

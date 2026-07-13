@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ accidente.codigo }} | Riskora{% endblock %}
+{% block page_title %}{{ accidente.codigo }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <div class="meta">
+                Centro: {{ accidente.centro_trabajo }} . Fecha: {{ accidente.fecha|date:"d/m/Y H:i" }} . {{ accidente.get_tipo_display }}
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'incidents:accidente-update' accidente.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'incidents:accidente-delete' accidente.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Estado</div>
+        <span class="badge {{ accidente.badge_estado }}">{{ accidente.get_estado_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Gravedad</div>
+        <span class="badge {{ accidente.badge_gravedad }}">{{ accidente.get_gravedad_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Tipo de lesion</div>
+        <div class="kpi-value" style="font-size:14px;">{{ accidente.get_tipo_lesion_display }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Trabajador afectado</div>
+        <div class="kpi-value" style="font-size:14px;">{{ accidente.trabajador_afectado|default:"-" }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Descripcion del accidente</h3>
+    <p>{{ accidente.descripcion|linebreaksbr }}</p>
+</div>
+
+{% if accidente.parte_cuerpo or accidente.testigos %}
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;">
+    {% if accidente.parte_cuerpo %}
+    <div class="card">
+        <h3 class="section-title" style="margin-bottom:8px;">Parte del cuerpo</h3>
+        <p>{{ accidente.parte_cuerpo }}</p>
+    </div>
+    {% endif %}
+    {% if accidente.testigos %}
+    <div class="card">
+        <h3 class="section-title" style="margin-bottom:8px;">Testigos</h3>
+        <p>{{ accidente.testigos|linebreaksbr }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if accidente.causas.all %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:8px;">Causas identificadas</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        {% for causa in accidente.causas.all %}
+            <span class="badge badge-secondary">{{ causa.get_categoria_display }}: {{ causa.nombre }}</span>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if accidente.nc_generada %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:8px;">No conformidad generada</h3>
+    <a href="{% url 'corrective_actions:nc-detail' accidente.nc_generada.pk %}" style="color:#dc2626;">→ {{ accidente.nc_generada.codigo }} - {{ accidente.nc_generada.titulo }}</a>
+</div>
+{% endif %}
+
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 class="section-title" style="margin:0;">Investigacion</h3>
+        {% if accidente.tiene_investigacion %}
+            <a href="{% url 'incidents:investigacion-detail' accidente.investigacion.pk %}" class="hero-btn hero-btn-secondary" style="font-size:13px;">Ver investigacion</a>
+        {% else %}
+            <a href="{% url 'incidents:investigacion-create' accidente.pk %}" class="hero-btn hero-btn-primary" style="font-size:13px;">Iniciar investigacion</a>
+        {% endif %}
+    </div>
+    {% if accidente.tiene_investigacion %}
+        <div class="list">
+            <div class="list-item">
+                <div style="display:flex;justify-content:space-between;">
+                    <div>
+                        <strong>Metodologia: {{ accidente.investigacion.get_metodologia_display }}</strong>
+                        <div class="meta">Investigador: {{ accidente.investigacion.investigador|default:"-" }} . Inicio: {{ accidente.investigacion.fecha_inicio }}</div>
+                    </div>
+                    <span class="badge {{ accidente.investigacion.badge_estado }}">{{ accidente.investigacion.get_estado_display }}</span>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p class="meta">No se ha iniciado una investigacion para este accidente.</p>
+    {% endif %}
+</div>
+
+{% if not accidente.nc_generada %}
+<div style="margin-bottom: 18px;">
+    <a href="{% url 'incidents:accidente-nc' accidente.pk %}" class="hero-btn hero-btn-primary" style="font-size:13px;">Crear NC desde accidente</a>
+</div>
+{% endif %}
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'incidents:accidente-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

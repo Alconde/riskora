@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Investigacion - {{ investigacion.accidente.codigo }} | Riskora{% endblock %}
+{% block page_title %}Investigacion: {{ investigacion.accidente.codigo }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <div class="meta">
+                Accidente: {{ investigacion.accidente.codigo }} - {{ investigacion.accidente.titulo }} . Investigador: {{ investigacion.investigador|default:"-" }}
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'incidents:investigacion-update' investigacion.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'incidents:accidente-detail' investigacion.accidente.pk %}" class="hero-btn hero-btn-secondary">Volver al accidente</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Estado</div>
+        <span class="badge {{ investigacion.badge_estado }}">{{ investigacion.get_estado_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Metodologia</div>
+        <div class="kpi-value" style="font-size:14px;">{{ investigacion.get_metodologia_display }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Fecha de inicio</div>
+        <div class="kpi-value" style="font-size:14px;">{{ investigacion.fecha_inicio }}</div>
+    </div>
+</div>
+
+{% if investigacion.descripcion_ideal %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Descripcion ideal (que deberia haber pasado)</h3>
+    <p>{{ investigacion.descripcion_ideal|linebreaksbr }}</p>
+</div>
+{% endif %}
+
+{% if investigacion.descripcion_real %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Descripcion real (que realmente paso)</h3>
+    <p>{{ investigacion.descripcion_real|linebreaksbr }}</p>
+</div>
+{% endif %}
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;">
+    {% if investigacion.causas_inmediatas %}
+    <div class="card">
+        <h3 class="section-title" style="margin-bottom:8px;">Causas inmediatas</h3>
+        <p>{{ investigacion.causas_inmediatas|linebreaksbr }}</p>
+    </div>
+    {% endif %}
+    {% if investigacion.causas_basicas %}
+    <div class="card">
+        <h3 class="section-title" style="margin-bottom:8px;">Causas basicas</h3>
+        <p>{{ investigacion.causas_basicas|linebreaksbr }}</p>
+    </div>
+    {% endif %}
+</div>
+
+{% if investigacion.causas_organizativas %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Causas organizativas</h3>
+    <p>{{ investigacion.causas_organizativas|linebreaksbr }}</p>
+</div>
+{% endif %}
+
+{% if investigacion.conclusiones %}
+<div class="card" style="margin-bottom: 18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Conclusiones</h3>
+    <p>{{ investigacion.conclusiones|linebreaksbr }}</p>
+</div>
+{% endif %}
+
+<div style="margin-top: 18px;">
+    <a href="{% url 'incidents:accidente-detail' investigacion.accidente.pk %}" style="text-decoration:none;color:#1d4ed8;">← Volver al accidente</a>
+</div>
+{% endblock %}

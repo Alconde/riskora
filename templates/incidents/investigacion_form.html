@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar investigacion{% else %}Nueva investigacion{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar investigacion{% else %}Nueva investigacion{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de inicio *</label>
+                {{ form.fecha_inicio }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Metodologia *</label>
+                {{ form.metodologia }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Investigador</label>
+                {{ form.investigador }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Estado</label>
+                {{ form.estado }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Descripcion ideal (que deberia haber pasado)</label>
+                {{ form.descripcion_ideal }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Descripcion real (que realmente paso)</label>
+                {{ form.descripcion_real }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Causas inmediatas</label>
+                {{ form.causas_inmediatas }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Causas basicas</label>
+                {{ form.causas_basicas }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Causas organizativas</label>
+                {{ form.causas_organizativas }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Conclusiones</label>
+                {{ form.conclusiones }}
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="javascript:history.back()" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

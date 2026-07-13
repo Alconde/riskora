@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar causa{% else %}Nueva causa{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar causa{% else %}Nueva causa{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Nombre *</label>
+                {{ form.nombre }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Categoria *</label>
+                {{ form.categoria }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Activa</label>
+                {{ form.activa }}
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="{% url 'incidents:causa-list' %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

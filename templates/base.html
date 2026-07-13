@@ -899,6 +899,61 @@
                     <span class="nav-label">Evaluaciones</span>
                 </a>
 
+                <a href="{% url 'corrective_actions:nc-list' %}" class="nav-link {% if namespace == 'corrective_actions' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M12 9v4"></path>
+                        <path d="M12 17h.01"></path>
+                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path>
+                    </svg>
+                    <span class="nav-label">No conformidades</span>
+                </a>
+
+                <a href="{% url 'inspections:plantilla-list' %}" class="nav-link {% if url_name == 'plantilla-list' or url_name == 'plantilla-detail' or url_name == 'plantilla-create' or url_name == 'plantilla-update' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+                        <path d="M14 2v6h6"></path>
+                        <path d="M16 13H8"></path>
+                        <path d="M16 17H8"></path>
+                        <path d="M10 9H8"></path>
+                    </svg>
+                    <span class="nav-label">Plantillas</span>
+                </a>
+
+                <a href="{% url 'inspections:inspeccion-list' %}" class="nav-link {% if url_name == 'inspeccion-list' or url_name == 'inspeccion-detail' or url_name == 'inspeccion-create' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
+                        <rect x="9" y="3" width="6" height="4" rx="2"></rect>
+                        <path d="M9 14l2 2 4-4"></path>
+                    </svg>
+                    <span class="nav-label">Inspecciones</span>
+                </a>
+
+                <a href="{% url 'incidents:accidente-list' %}" class="nav-link {% if namespace == 'incidents' and url_name != 'causa-list' and url_name != 'causa-create' and url_name != 'causa-update' and url_name != 'causa-delete' and url_name != 'incidente-list' and url_name != 'incidente-create' and url_name != 'incidente-detail' and url_name != 'incidente-update' and url_name != 'incidente-delete' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M12 9v4"></path>
+                        <path d="M12 17h.01"></path>
+                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path>
+                    </svg>
+                    <span class="nav-label">Accidentes</span>
+                </a>
+
+                <a href="{% url 'incidents:incidente-list' %}" class="nav-link {% if url_name == 'incidente-list' or url_name == 'incidente-detail' or url_name == 'incidente-create' or url_name == 'incidente-update' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
+                        <path d="M12 8v4"></path>
+                        <path d="M12 16h.01"></path>
+                    </svg>
+                    <span class="nav-label">Incidentes</span>
+                </a>
+
+                <a href="{% url 'incidents:causa-list' %}" class="nav-link {% if url_name == 'causa-list' or url_name == 'causa-create' or url_name == 'causa-update' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24A2.5 2.5 0 0 1 9.5 2Z"></path>
+                        <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24A2.5 2.5 0 0 0 14.5 2Z"></path>
+                    </svg>
+                    <span class="nav-label">Causas</span>
+                </a>
+
                 <a href="{% url 'tasks:alert-list' %}" class="nav-link {% if namespace == 'tasks' and url_name == 'alert-list' or namespace == 'tasks' and url_name == 'alert_detail' %}is-active{% endif %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path>
