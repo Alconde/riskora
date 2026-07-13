@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ equipo.nombre }} | Riskora{% endblock %}
+{% block page_title %}Detalle de equipo{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:4px;">{{ equipo.nombre }}</h3>
+            <div class="meta">{{ equipo.tipo.nombre }}</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <span class="badge {{ equipo.badge_estado }}">{{ equipo.get_estado_display }}</span>
+            <a href="{% url 'work_equipment:equipo-list' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'work_equipment:equipo-update' equipo.pk %}" class="hero-btn hero-btn-primary">Editar</a>
+            <a href="{% url 'work_equipment:equipo-delete' equipo.pk %}" class="hero-btn" style="background:rgba(220,38,38,0.08);color:#dc2626;border:1px solid rgba(220,38,38,0.2);">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:18px;">
+    <div class="card">
+        <h3 class="section-title" style="margin-bottom:12px;">Informacion del equipo</h3>
+        <div class="info-grid">
+            <div class="info-row">
+                <span class="info-label">Marca</span>
+                <span class="info-value">{{ equipo.marca|default:"-" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Modelo</span>
+                <span class="info-value">{{ equipo.modelo|default:"-" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Numero de serie</span>
+                <span class="info-value">{{ equipo.numero_serie|default:"-" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Fecha adquisicion</span>
+                <span class="info-value">{{ equipo.fecha_adquisicion|date:"d/m/Y"|default:"-" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Ubicacion</span>
+                <span class="info-value">{{ equipo.ubicacion|default:"-" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Proveedor</span>
+                <span class="info-value">{{ equipo.proveedor|default:"-" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Coste adquisicion</span>
+                <span class="info-value">{% if equipo.coste_adquisicion %}{{ equipo.coste_adquisicion }} &euro;{% else %}-{% endif %}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Vida util</span>
+                <span class="info-value">{% if equipo.vida_util_dias %}{{ equipo.vida_util_dias }} dias{% else %}-{% endif %}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Descripcion</span>
+                <span class="info-value">{{ equipo.descripcion|default:"-" }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:18px;">
+        <div class="card">
+            <h3 class="section-title" style="margin-bottom:12px;">Documentacion</h3>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <svg style="width:16px;height:16px;color:#475569;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:12px;font-weight:600;color:#475569;">Manual de instrucciones</div>
+                        {% if equipo.manual_instrucciones %}
+                            <a href="{{ equipo.manual_instrucciones.url }}" target="_blank" style="font-size:11px;color:#0f766e;text-decoration:none;word-break:break-all;">Ver PDF</a>
+                        {% else %}
+                            <span style="font-size:11px;color:#94a3b8;">No adjunto</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <svg style="width:16px;height:16px;color:#475569;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:12px;font-weight:600;color:#475569;">Declaracion CE</div>
+                        {% if equipo.declaracion_ce %}
+                            <a href="{{ equipo.declaracion_ce.url }}" target="_blank" style="font-size:11px;color:#0f766e;text-decoration:none;word-break:break-all;">Ver PDF</a>
+                        {% else %}
+                            <span style="font-size:11px;color:#94a3b8;">No adjunto</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <svg style="width:16px;height:16px;color:#475569;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:12px;font-weight:600;color:#475569;">Certificado instalacion</div>
+                        {% if equipo.certificado_instalacion %}
+                            <a href="{{ equipo.certificado_instalacion.url }}" target="_blank" style="font-size:11px;color:#0f766e;text-decoration:none;word-break:break-all;">Ver PDF</a>
+                        {% else %}
+                            <span style="font-size:11px;color:#94a3b8;">No adjunto</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="section-title" style="margin-bottom:12px;">Proxima revision</h3>
+            {% if equipo.proxima_revision_fecha %}
+                <div style="font-size:14px;font-weight:600;color:#0f766e;">{{ equipo.proxima_revision_fecha|date:"d/m/Y" }}</div>
+                {% if equipo.revision_pendiente %}
+                    <div class="badge badge-danger" style="margin-top:6px;">Pendiente</div>
+                {% endif %}
+            {% else %}
+                <div class="meta">Sin revision programada</div>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h3 class="section-title" style="margin-bottom:12px;">Acciones rapidas</h3>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+                <a href="{% url 'work_equipment:revision-create' %}?equipo={{ equipo.pk }}" class="hero-btn hero-btn-primary" style="text-align:center;">Nueva revision</a>
+                <a href="{% url 'work_equipment:mantenimiento-create' %}?equipo={{ equipo.pk }}" class="hero-btn hero-btn-primary" style="text-align:center;">Nuevo mantenimiento</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if equipo.revisiones.all %}
+<div class="card" style="margin-top:18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Historial de revisiones</h3>
+    <div class="list">
+        {% for rev in equipo.revisiones.all|dictsortreversed:"fecha" %}
+            <div class="list-item" style="padding:8px 0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                        <strong style="font-size:13px;">{{ rev.fecha|date:"d/m/Y" }}</strong>
+                        <span class="badge {% if rev.resultado == 'conforme' %}badge-success{% elif rev.resultado == 'no_conforme' %}badge-danger{% else %}badge-secondary{% endif %}" style="margin-left:6px;">{{ rev.get_resultado_display }}</span>
+                    </div>
+                    <div class="meta" style="font-size:11px;">{{ rev.realizado_por.get_full_name|default:rev.realizado_por.username }}</div>
+                </div>
+                {% if rev.observaciones %}
+                    <div style="font-size:12px;color:#64748b;margin-top:4px;">{{ rev.observaciones }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if equipo.mantenimientos.all %}
+<div class="card" style="margin-top:18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Historial de mantenimientos</h3>
+    <div class="list">
+        {% for mant in equipo.mantenimientos.all|dictsortreversed:"fecha" %}
+            <div class="list-item" style="padding:8px 0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                        <strong style="font-size:13px;">{{ mant.fecha|date:"d/m/Y" }}</strong>
+                        <span class="badge badge-info" style="margin-left:6px;">{{ mant.get_tipo_display }}</span>
+                    </div>
+                    <div style="font-size:12px;color:#64748b;">{% if mant.coste %}{{ mant.coste }} &euro;{% endif %}</div>
+                </div>
+                <div style="font-size:12px;color:#64748b;margin-top:4px;">{{ mant.descripcion|truncatewords:20 }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

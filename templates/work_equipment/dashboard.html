@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestion de Equipos de Trabajo | Riskora{% endblock %}
+{% block page_title %}Gestion de Equipos de Trabajo{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Total equipos</div>
+        <div class="kpi-value">{{ stats.eq_total }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Operativos</div>
+        <div class="kpi-value">{{ stats.eq_operativos }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Revisiones pendientes</div>
+        <div class="kpi-value">{{ stats.eq_revisiones_pendientes }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Coste mantenimiento</div>
+        <div class="kpi-value">{{ stats.mant_coste_total }} &euro;</div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <a href="{% url 'work_equipment:tipo-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 2 7l10 5 10-5-10-5Z"></path><path d="m2 17 10 5 10-5"></path><path d="m2 12 10 5 10-5"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Tipos de equipo</h3>
+            <div class="meta">Catalogo de categorias</div>
+        </div>
+    </a>
+
+    <a href="{% url 'work_equipment:equipo-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Inventario</h3>
+            <div class="meta">Equipos registrados</div>
+        </div>
+    </a>
+
+    <a href="{% url 'work_equipment:revision-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path><rect x="9" y="3" width="6" height="4" rx="2"></rect><path d="M9 14l2 2 4-4"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Revisiones</h3>
+            <div class="meta">Revisiones periodicas</div>
+        </div>
+    </a>
+
+    <a href="{% url 'work_equipment:mantenimiento-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Mantenimientos</h3>
+            <div class="meta">Historial de mantenimiento</div>
+        </div>
+    </a>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="card">
+        <h3 class="section-title" style="margin-bottom:12px;">Ultimos equipos</h3>
+        <div class="list">
+            {% for eq in ultimos_equipos %}
+                <div class="list-item" style="padding:8px 0;">
+                    <div style="display:flex;justify-content:space-between;">
+                        <strong style="font-size:13px;">{{ eq.nombre }}</strong>
+                        <span class="badge {{ eq.badge_estado }}" style="font-size:11px;">{{ eq.get_estado_display }}</span>
+                    </div>
+                    <div class="meta" style="font-size:11px;">{{ eq.tipo.nombre }}</div>
+                </div>
+            {% empty %}
+                <div class="list-item" style="font-size:13px;">No hay equipos registrados.</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 class="section-title" style="margin-bottom:12px;">Revisiones pendientes</h3>
+        <div class="list">
+            {% for eq in revisiones_pendientes_list %}
+                <div class="list-item" style="padding:8px 0;">
+                    <div style="display:flex;justify-content:space-between;">
+                        <strong style="font-size:13px;">{{ eq.nombre }}</strong>
+                        <span style="font-size:11px;color:#dc2626;">Pendiente</span>
+                    </div>
+                    <div class="meta" style="font-size:11px;">{{ eq.tipo.nombre }} . Proxima: {{ eq.proxima_revision_fecha }}</div>
+                </div>
+            {% empty %}
+                <div class="list-item" style="font-size:13px;">No hay revisiones pendientes.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

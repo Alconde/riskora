@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Inventario de Equipos | Riskora{% endblock %}
+{% block page_title %}Inventario de Equipos{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Equipos de trabajo</h3>
+            <div class="meta">Inventario completo de equipos.</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a href="{% url 'work_equipment:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'work_equipment:equipo-create' %}" class="hero-btn hero-btn-primary">Nuevo equipo</a>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:18px;">
+    <form method="get" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+            <label style="font-size:12px;font-weight:600;color:#475569;">Buscar</label>
+            <input type="text" name="q" value="{{ filters.q|default:'' }}" placeholder="Nombre, marca, modelo, serie..." class="form-control" style="width:100%;">
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Estado</label>
+            <select name="estado" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in estado_choices %}
+                    <option value="{{ value }}" {% if filters.estado == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Tipo</label>
+            <select name="tipo" class="form-control">
+                <option value="">Todos</option>
+                {% for tipo in tipos %}
+                    <option value="{{ tipo.pk }}" {% if filters.tipo == tipo.pk|stringformat:"d" %}selected{% endif %}>{{ tipo.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="hero-btn hero-btn-primary" style="height:38px;">Filtrar</button>
+        <a href="{% url 'work_equipment:equipo-list' %}" class="hero-btn" style="height:38px;background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Limpiar</a>
+    </form>
+</div>
+
+<div class="card" style="margin-bottom:18px;">
+    <div class="list">
+        {% for eq in equipos %}
+            <div class="list-item">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div style="flex:1;">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <strong style="font-size:14px;">
+                                <a href="{% url 'work_equipment:equipo-detail' eq.pk %}" style="color:#0f766e;text-decoration:none;">{{ eq.nombre }}</a>
+                            </strong>
+                            <span class="badge {{ eq.badge_estado }}">{{ eq.get_estado_display }}</span>
+                            {% if eq.revision_pendiente %}
+                                <span class="badge badge-danger" style="font-size:10px;">Revision pendiente</span>
+                            {% endif %}
+                            {% with docs_count=eq.document_count %}
+                                {% if docs_count > 0 %}
+                                    <span class="badge badge-success" style="font-size:10px;">{{ docs_count }} doc{{ docs_count|pluralize:"s" }}</span>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                        <div style="font-size:12px;color:#64748b;margin-top:3px;">
+                            {{ eq.tipo.nombre }} &middot; {{ eq.marca }} {{ eq.modelo }}
+                            {% if eq.numero_serie %} &middot; S/N: {{ eq.numero_serie }}{% endif %}
+                            {% if eq.ubicacion %} &middot; {{ eq.ubicacion }}{% endif %}
+                            {% if eq.fecha_adquisicion %} &middot; Adq: {{ eq.fecha_adquisicion|date:"d/m/Y" }}{% endif %}
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <a href="{% url 'work_equipment:equipo-detail' eq.pk %}" style="font-size:11px;color:#0f766e;">Ver</a>
+                        <a href="{% url 'work_equipment:equipo-update' eq.pk %}" style="font-size:11px;color:#1d4ed8;">Editar</a>
+                        <a href="{% url 'work_equipment:equipo-delete' eq.pk %}" style="font-size:11px;color:#dc2626;">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay equipos registrados.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:8px;margin-top:18px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Anterior</a>
+    {% endif %}
+    <span style="padding:10px;color:#64748b;">Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Siguiente</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

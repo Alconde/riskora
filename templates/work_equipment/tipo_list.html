@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Tipos de Equipo | Riskora{% endblock %}
+{% block page_title %}Tipos de Equipo{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Catalogo de tipos de equipo</h3>
+            <div class="meta">Categorias de equipos de trabajo.</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a href="{% url 'work_equipment:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'work_equipment:tipo-create' %}" class="hero-btn hero-btn-primary">Nuevo tipo</a>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom: 18px;">
+    <form method="get" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Buscar</label>
+            <input type="text" name="q" value="{{ filters.q|default:'' }}" placeholder="Nombre..." class="form-control">
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Categoria</label>
+            <select name="categoria" class="form-control">
+                <option value="">Todas</option>
+                {% for value, label in categoria_choices %}
+                    <option value="{{ value }}" {% if filters.categoria == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="hero-btn hero-btn-primary" style="height:38px;">Filtrar</button>
+        <a href="{% url 'work_equipment:tipo-list' %}" class="hero-btn" style="height:38px;background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Limpiar</a>
+    </form>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for tipo in tipos %}
+            <div class="list-item">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                        <strong>{{ tipo.nombre }}</strong>
+                        <div class="meta">{{ tipo.get_categoria_display }}</div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <span class="badge {% if tipo.activo %}badge-success{% else %}badge-secondary{% endif %}">
+                            {% if tipo.activo %}Activo{% else %}Inactivo{% endif %}
+                        </span>
+                        <a href="{% url 'work_equipment:tipo-update' tipo.pk %}" style="font-size:11px;color:#1d4ed8;">Editar</a>
+                        <a href="{% url 'work_equipment:tipo-delete' tipo.pk %}" style="font-size:11px;color:#dc2626;">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay tipos de equipo registrados.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:8px;margin-top:18px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Anterior</a>
+    {% endif %}
+    <span style="padding:10px;color:#64748b;">Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Siguiente</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

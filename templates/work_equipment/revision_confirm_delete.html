@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar revision | Riskora{% endblock %}
+{% block page_title %}Eliminar revision{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="text-align:center;padding:30px;">
+        <h3 style="color:#dc2626;margin-bottom:12px;">¿Eliminar esta revision?</h3>
+        <p class="meta" style="margin-bottom:16px;">Se eliminara el registro de revision de <strong>{{ object.equipo.nombre }}</strong> ({{ object.fecha|date:"d/m/Y" }}).</p>
+        <form method="post" style="display:flex;justify-content:center;gap:10px;">
+            {% csrf_token %}
+            <button type="submit" class="hero-btn hero-btn-primary" style="background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;">Eliminar</button>
+            <a href="{% url 'work_equipment:revision-list' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

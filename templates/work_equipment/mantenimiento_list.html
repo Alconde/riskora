@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Mantenimientos de Equipos | Riskora{% endblock %}
+{% block page_title %}Mantenimientos de Equipos{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Mantenimientos</h3>
+            <div class="meta">Historial de mantenimientos de equipos de trabajo.</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a href="{% url 'work_equipment:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'work_equipment:mantenimiento-create' %}" class="hero-btn hero-btn-primary">Nuevo mantenimiento</a>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:18px;">
+    <form method="get" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+            <label style="font-size:12px;font-weight:600;color:#475569;">Buscar</label>
+            <input type="text" name="q" value="{{ filters.q|default:'' }}" placeholder="Equipo, marca, descripcion, proveedor..." class="form-control" style="width:100%;">
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Tipo</label>
+            <select name="tipo" class="form-control">
+                <option value="">Todos</option>
+                {% for value, label in tipo_choices %}
+                    <option value="{{ value }}" {% if filters.tipo == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="hero-btn hero-btn-primary" style="height:38px;">Filtrar</button>
+        <a href="{% url 'work_equipment:mantenimiento-list' %}" class="hero-btn" style="height:38px;background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Limpiar</a>
+    </form>
+</div>
+
+<div class="card" style="margin-bottom:18px;">
+    <div class="list">
+        {% for mant in mantenimientos %}
+            <div class="list-item">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <strong style="font-size:13px;">{{ mant.equipo.nombre }}</strong>
+                            <span class="badge badge-info">{{ mant.get_tipo_display }}</span>
+                        </div>
+                        <div class="meta" style="font-size:11px;">{{ mant.fecha|date:"d/m/Y" }} &middot; {{ mant.equipo.marca }} {{ mant.equipo.modelo }} &middot; {{ mant.realizado_por.get_full_name|default:mant.realizado_por.username }}</div>
+                        {% if mant.descripcion %}
+                            <div style="font-size:12px;color:#64748b;margin-top:3px;">{{ mant.descripcion|truncatewords:20 }}</div>
+                        {% endif %}
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        {% if mant.coste %}<span style="font-size:12px;font-weight:600;">{{ mant.coste }} &euro;</span>{% endif %}
+                        <a href="{% url 'work_equipment:mantenimiento-update' mant.pk %}" style="font-size:11px;color:#1d4ed8;">Editar</a>
+                        <a href="{% url 'work_equipment:mantenimiento-delete' mant.pk %}" style="font-size:11px;color:#dc2626;">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item">No hay mantenimientos registrados.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:8px;margin-top:18px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Anterior</a>
+    {% endif %}
+    <span style="padding:10px;color:#64748b;">Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% for k, v in filters.items %}{% if k != 'page' %}&{{ k }}={{ v }}{% endif %}{% endfor %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Siguiente</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

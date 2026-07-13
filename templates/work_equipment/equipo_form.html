@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar equipo{% else %}Nuevo equipo{% endif %} | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar equipo de trabajo{% else %}Nuevo equipo de trabajo{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:18px;">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Nombre *</label>
+                {{ form.nombre }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Tipo *</label>
+                {{ form.tipo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Estado *</label>
+                {{ form.estado }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Marca</label>
+                {{ form.marca }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Modelo</label>
+                {{ form.modelo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Numero de serie</label>
+                {{ form.numero_serie }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de compra</label>
+                {{ form.fecha_compra }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha puesta en marcha</label>
+                {{ form.fecha_puesta_marcha }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Ubicacion</label>
+                {{ form.ubicacion }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Responsable</label>
+                {{ form.responsable }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Numero de bien</label>
+                {{ form.numero_bien }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Vida util (meses)</label>
+                {{ form.vida_util_meses }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Notas</label>
+                {{ form.notas }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Activo</label>
+                {{ form.activo }}
+            </div>
+        </div>
+
+        <div style="margin-top:24px;padding-top:18px;border-top:1px solid #e2e8f0;">
+            <h3 class="section-title" style="margin-bottom:14px;">Documentacion</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+                <div>
+                    <label style="font-size:13px;font-weight:600;color:#475569;">Manual de instrucciones</label>
+                    <div class="meta" style="font-size:11px;margin-bottom:4px;">PDF con las instrucciones de uso y mantenimiento del equipo.</div>
+                    {{ form.manual_instrucciones }}
+                    {% if form.instance.manual_instrucciones %}
+                        <div style="font-size:11px;color:#0f766e;margin-top:4px;">Actual: {{ form.instance.manual_instrucciones.name }}</div>
+                    {% endif %}
+                </div>
+                <div>
+                    <label style="font-size:13px;font-weight:600;color:#475569;">Declaracion CE de conformidad</label>
+                    <div class="meta" style="font-size:11px;margin-bottom:4px;">Declaracion del fabricante de conformidad con la normativa europea.</div>
+                    {{ form.declaracion_ce }}
+                    {% if form.instance.declaracion_ce %}
+                        <div style="font-size:11px;color:#0f766e;margin-top:4px;">Actual: {{ form.instance.declaracion_ce.name }}</div>
+                    {% endif %}
+                </div>
+                <div>
+                    <label style="font-size:13px;font-weight:600;color:#475569;">Certificado de instalacion</label>
+                    <div class="meta" style="font-size:11px;margin-bottom:4px;">Certificado de una instalacion (electrica, gas, etc.).</div>
+                    {{ form.certificado_instalacion }}
+                    {% if form.instance.certificado_instalacion %}
+                        <div style="font-size:11px;color:#0f766e;margin-top:4px;">Actual: {{ form.instance.certificado_instalacion.name }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            {% if object %}
+                <a href="{% url 'work_equipment:equipo-detail' object.pk %}" class="hero-btn" style="background:rgba(220,38,38,0.08);color:#dc2626;border:1px solid rgba(220,38,38,0.2);">Descartar</a>
+            {% else %}
+                <a href="{% url 'work_equipment:dashboard' %}" class="hero-btn" style="background:rgba(220,38,38,0.08);color:#dc2626;border:1px solid rgba(220,38,38,0.2);">Descartar</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}
