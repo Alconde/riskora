@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}{{ producto.nombre }} | Riskora{% endblock %}
+{% block page_title %}{{ producto.nombre }}{% endblock %}
+
+{% block content %}
+<div class="flex items-center gap-2" style="margin-bottom:16px;">
+    {% if producto.caducado %}<span class="badge badge-danger">Caducado</span>{% endif %}
+    {% if not producto.ficha_seguridad %}<span class="badge badge-warning">Sin ficha SDS</span>{% endif %}
+    {% if not producto.activo %}<span class="badge badge-secondary">Inactivo</span>{% endif %}
+</div>
+
+<div class="card" style="margin-bottom:20px;">
+    <div class="section-title" style="margin-bottom:12px;">Información</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+        <div><span class="meta">Fabricante:</span><br>{% if producto.fabricante %}{{ producto.fabricante }}{% else %}—{% endif %}</div>
+        <div><span class="meta">Ubicación:</span><br>{% if producto.ubicacion %}{{ producto.ubicacion }}{% else %}—{% endif %}</div>
+        <div><span class="meta">Stock:</span><br>{{ producto.stock }} {{ producto.unidad }}</div>
+        <div><span class="meta">Caducidad:</span><br>{% if producto.fecha_caducidad %}{{ producto.fecha_caducidad|date:"d/m/Y" }}{% else %}—{% endif %}</div>
+    </div>
+    {% if producto.composicion %}
+    <div style="margin-top:12px;"><span class="meta">Composición:</span><br>{{ producto.composicion|linebreaks }}</div>
+    {% endif %}
+    {% if producto.uso %}
+    <div style="margin-top:12px;"><span class="meta">Uso:</span><br>{{ producto.uso|linebreaks }}</div>
+    {% endif %}
+    {% if producto.ficha_seguridad %}
+    <div style="margin-top:12px;"><a href="{{ producto.ficha_seguridad.url }}" class="hero-btn hero-btn--secondary" target="_blank" style="display:inline-flex;align-items:center;gap:6px;">
+        <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Descargar Ficha de Seguridad (SDS)
+    </a></div>
+    {% endif %}
+</div>
+
+{% if clasificaciones %}
+<div class="section-title" style="margin-bottom:12px;">Clasificación GHS</div>
+<div class="list" style="margin-bottom:20px;">
+    {% for c in clasificaciones %}
+    <div class="list-item" style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+            <span class="badge badge-danger">{{ c.get_pictograma_display }}</span>
+            {% if c.frase_riesgo %}<span style="margin-left:8px;" class="meta">{{ c.frase_riesgo }}</span>{% endif %}
+            {% if c.frase_precaucion %}<span style="margin-left:8px;" class="meta">{{ c.frase_precaucion }}</span>{% endif %}
+        </div>
+        <a href="{% url 'chemical_products:clasificacion-delete' c.pk %}" class="hero-btn hero-btn--danger" style="padding:4px 8px;font-size:11px;">Eliminar</a>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="card" style="max-width:500px;margin-bottom:20px;">
+    <div class="section-title" style="margin-bottom:12px;">Añadir clasificación</div>
+    <form method="post" action="{% url 'chemical_products:clasificacion-create' producto.pk %}">
+        {% csrf_token %}
+        {% for field in form_clasificacion %}
+        <div style="margin-bottom:12px;">
+            <label style="font-weight:600;">{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="hero-btn">Añadir</button>
+    </form>
+</div>
+
+<div class="flex items-center gap-2" style="margin-bottom:20px;">
+    <a href="{% url 'chemical_products:update' producto.pk %}" class="hero-btn hero-btn--secondary">Editar</a>
+    <a href="{% url 'chemical_products:delete' producto.pk %}" class="hero-btn hero-btn--danger">Eliminar</a>
+</div>
+
+<a href="{% url 'chemical_products:list' %}" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);padding:8px 16px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">← Volver a Productos</a>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Controles de Salud | Riskora{% endblock %}
+{% block page_title %}Controles de Salud{% endblock %}
+
+{% block content %}
+<div class="flex items-center gap-3" style="margin-bottom:20px;">
+    <a href="{% url 'health_surveillance:control-create' %}" class="hero-btn" style="display:inline-flex;align-items:center;gap:6px;">
+        <svg style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Nuevo Control
+    </a>
+    <a href="{% url 'health_surveillance:list' %}" class="hero-btn hero-btn--secondary">← Reconocimientos</a>
+</div>
+
+{% if controles %}
+<div class="list">
+    {% for c in controles %}
+    <div class="list-item">
+        <div style="font-weight:600;">{{ c.trabajador }}</div>
+        <div class="meta">{{ c.tipo_control }} · {{ c.fecha|date:"d/m/Y" }}{% if c.recomendaciones %} · {{ c.recomendaciones|truncatewords:10 }}{% endif %}</div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="meta" style="text-align:center;padding:40px 0;">No hay controles de salud registrados.</p>
+{% endif %}
+{% endblock %}

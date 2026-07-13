@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}{{ medida.titulo }} | Riskora{% endblock %}
+{% block page_title %}{{ medida.titulo }}{% endblock %}
+
+{% block content %}
+<div class="flex items-center gap-2" style="margin-bottom:16px;">
+    <span class="badge badge-{{ medida.badge_color }}">{{ medida.get_tipo_display }}</span>
+    {% if not medida.activo %}<span class="badge badge-secondary">Inactivo</span>{% endif %}
+</div>
+
+<div class="card" style="margin-bottom:20px;">
+    <div class="section-title" style="margin-bottom:12px;">Información</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+        <div><span class="meta">Ubicación:</span><br>{% if medida.ubicacion %}{{ medida.ubicacion }}{% else %}<span class="meta">—</span>{% endif %}</div>
+        <div><span class="meta">Fecha:</span><br>{% if medida.fecha %}{{ medida.fecha|date:"d/m/Y" }}{% else %}<span class="meta">—</span>{% endif %}</div>
+        <div><span class="meta">Próximo simulacro:</span><br>{% if medida.proximo_simulacro %}{{ medida.proximo_simulacro|date:"d/m/Y" }}{% else %}<span class="meta">—</span>{% endif %}</div>
+        <div><span class="meta">Responsable:</span><br>{% if medida.responsable %}{{ medida.responsable.get_full_name|default:medida.responsable.username }}{% else %}<span class="meta">—</span>{% endif %}</div>
+    </div>
+    {% if medida.descripcion %}
+    <div style="margin-top:12px;"><span class="meta">Descripción:</span><br>{{ medida.descripcion|linebreaks }}</div>
+    {% endif %}
+    {% if medida.file %}
+    <div style="margin-top:12px;"><a href="{{ medida.file.url }}" class="hero-btn hero-btn--secondary" style="display:inline-flex;align-items:center;gap:6px;" target="_blank">
+        <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Descargar documento
+    </a></div>
+    {% endif %}
+</div>
+
+<div class="flex items-center gap-3" style="margin-bottom:16px;">
+    <a href="{% url 'emergency_measures:update' medida.pk %}" class="hero-btn hero-btn--secondary">Editar</a>
+    <a href="{% url 'emergency_measures:delete' medida.pk %}" class="hero-btn hero-btn--danger">Eliminar</a>
+</div>
+
+{% if medida.tipo == 'simulacro' %}
+<div class="section-title" style="margin-bottom:12px;">Historial de Simulacros</div>
+{% if historial %}
+<div class="list">
+    {% for h in historial %}
+    <div class="list-item">
+        <div style="font-weight:600;">{{ h.fecha|date:"d/m/Y" }}</div>
+        <div class="meta">{{ h.participantes }} participantes{% if h.observaciones %} · {{ h.observaciones|truncatewords:15 }}{% endif %}</div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="meta">No hay simulacros registrados.</p>
+{% endif %}
+
+<div class="card" style="max-width:500px;margin-top:16px;">
+    <div class="section-title" style="margin-bottom:12px;">Registrar simulacro</div>
+    <form method="post" action="{% url 'emergency_measures:simulacro-create' %}">
+        {% csrf_token %}
+        <input type="hidden" name="medida" value="{{ medida.pk }}">
+        <div style="margin-bottom:12px;">
+            <label style="font-weight:600;">Fecha</label>
+            <input type="date" name="fecha" class="form-control" required>
+        </div>
+        <div style="margin-bottom:12px;">
+            <label style="font-weight:600;">Participantes</label>
+            <input type="number" name="participantes" class="form-control" min="0" value="0">
+        </div>
+        <div style="margin-bottom:12px;">
+            <label style="font-weight:600;">Observaciones</label>
+            <textarea name="observaciones" class="form-control" rows="3"></textarea>
+        </div>
+        <button type="submit" class="hero-btn">Registrar</button>
+    </form>
+</div>
+{% endif %}
+
+<div style="margin-top:20px;">
+    <a href="{% url 'emergency_measures:list' %}" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);padding:8px 16px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">← Volver al dashboard</a>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Vigilancia de la Salud | Riskora{% endblock %}
+{% block page_title %}Vigilancia de la Salud{% endblock %}
+
+{% block content %}
+<div class="flex items-center gap-3" style="margin-bottom:20px;">
+    <a href="{% url 'health_surveillance:create' %}" class="hero-btn" style="display:inline-flex;align-items:center;gap:6px;">
+        <svg style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Nuevo Reconocimiento
+    </a>
+    <a href="{% url 'health_surveillance:controles' %}" class="hero-btn hero-btn--secondary">Controles de Salud</a>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+    <div class="kpi-card"><div class="kpi-value">{{ total }}</div><div class="kpi-label">Reconocimientos</div></div>
+    <div class="kpi-card" style="border-left:3px solid #16a34a;"><div class="kpi-value">{{ apto }}</div><div class="kpi-label">Aptos</div></div>
+    <div class="kpi-card" style="border-left:3px solid #dc2626;"><div class="kpi-value">{{ no_apto }}</div><div class="kpi-label">No aptos</div></div>
+    <div class="kpi-card" style="border-left:3px solid #f59e0b;"><div class="kpi-value">{{ pendientes }}</div><div class="kpi-label">Pendientes próximos</div></div>
+</div>
+
+<div class="flex items-center gap-2" style="margin-bottom:16px;">
+    <a href="{% url 'health_surveillance:list' %}" class="badge {% if not tipo_filtro %}badge-accent{% endif %}" style="text-decoration:none;">Todos</a>
+    <a href="{% url 'health_surveillance:list' %}?tipo=inicial" class="badge {% if tipo_filtro == 'inicial' %}badge-accent{% endif %}" style="text-decoration:none;">Iniciales</a>
+    <a href="{% url 'health_surveillance:list' %}?tipo=periodico" class="badge {% if tipo_filtro == 'periodico' %}badge-accent{% endif %}" style="text-decoration:none;">Periódicos</a>
+    <a href="{% url 'health_surveillance:list' %}?tipo=especial" class="badge {% if tipo_filtro == 'especial' %}badge-accent{% endif %}" style="text-decoration:none;">Especiales</a>
+    <a href="{% url 'health_surveillance:list' %}?apto=no" class="badge {% if apto_filtro == 'no' %}badge-accent{% endif %}" style="text-decoration:none;">No aptos</a>
+</div>
+
+{% if reconocimientos %}
+<div class="list">
+    {% for r in reconocimientos %}
+    <div class="list-item" style="display:flex;align-items:center;justify-content:space-between;">
+        <a href="{% url 'health_surveillance:detail' r.pk %}" style="text-decoration:none;color:inherit;flex:1;">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <span class="badge badge-{{ r.badge_color }}" style="font-size:11px;">{{ r.get_apto_display|default:r.get_tipo_display }}</span>
+                <div>
+                    <div style="font-weight:600;">{{ r.trabajador }}</div>
+                    <div class="meta">{{ r.get_tipo_display }} · {{ r.fecha|date:"d/m/Y" }}{% if r.medico %} · {{ r.medico }}{% endif %}</div>
+                </div>
+            </div>
+        </a>
+        <div class="flex items-center gap-2">
+            {% if r.proximo_reconocimiento %}
+            <span class="badge badge-warning" style="font-size:11px;">Próx: {{ r.proximo_reconocimiento|date:"d/m/Y" }}</span>
+            {% endif %}
+            <a href="{% url 'health_surveillance:update' r.pk %}" class="hero-btn hero-btn--secondary" style="padding:6px 10px;font-size:12px;">Editar</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:6px;margin-top:20px;">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Anterior</a>{% endif %}
+    <span style="padding:6px 12px;">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Siguiente</a>{% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<p class="meta" style="text-align:center;padding:40px 0;">No hay reconocimientos registrados.</p>
+{% endif %}
+{% endblock %}

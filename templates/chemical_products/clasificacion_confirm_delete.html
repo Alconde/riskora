@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Clasificación | Riskora{% endblock %}
+{% block page_title %}Eliminar Clasificación{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:500px;">
+    <p style="margin-bottom:16px;">¿Eliminar esta clasificación?</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="flex gap-2">
+            <button type="submit" class="hero-btn hero-btn--danger">Eliminar</button>
+            <a href="javascript:history.back()" class="hero-btn hero-btn--secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -24,6 +24,11 @@ urlpatterns = [
     path('planificacion/', include('apps.preventive_planning.urls', namespace='preventive_planning')),
     path('plan-prevencion/', include('apps.prevention_plan.urls', namespace='prevention_plan')),
     path('cae/', include('apps.cae.urls', namespace='cae')),
+    path('datos-empresa/', include('apps.company_data.urls', namespace='company_data')),
+    path('emergencias/', include('apps.emergency_measures.urls', namespace='emergency_measures')),
+    path('quimicos/', include('apps.chemical_products.urls', namespace='chemical_products')),
+    path('vigilancia-salud/', include('apps.health_surveillance.urls', namespace='health_surveillance')),
+    path('instrucciones-trabajo/', include('apps.work_instructions.urls', namespace='work_instructions')),
 ]
 
 if settings.DEBUG:

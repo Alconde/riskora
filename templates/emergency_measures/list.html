@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Medidas de Emergencia | Riskora{% endblock %}
+{% block page_title %}Medidas de Emergencia{% endblock %}
+
+{% block content %}
+<div class="flex items-center gap-3" style="margin-bottom:20px;">
+    <a href="{% url 'emergency_measures:create' %}" class="hero-btn" style="display:inline-flex;align-items:center;gap:6px;">
+        <svg style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Nueva Medida
+    </a>
+    <a href="{% url 'emergency_measures:simulacro-create' %}" class="hero-btn" style="display:inline-flex;align-items:center;gap:6px;">
+        <svg style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6v6l4 2"/></svg>
+        Registrar Simulacro
+    </a>
+</div>
+
+<div class="flex items-center gap-2" style="margin-bottom:20px;">
+    <a href="{% url 'emergency_measures:list' %}" class="badge {% if not tipo_filtro %}badge-accent{% endif %}" style="text-decoration:none;">Todos ({{ total }})</a>
+    <a href="{% url 'emergency_measures:list' %}?tipo=plan" class="badge {% if tipo_filtro == 'plan' %}badge-accent{% endif %}" style="text-decoration:none;">Planes</a>
+    <a href="{% url 'emergency_measures:list' %}?tipo=extintor" class="badge {% if tipo_filtro == 'extintor' %}badge-accent{% endif %}" style="text-decoration:none;">Extintores ({{ total_extintores }})</a>
+    <a href="{% url 'emergency_measures:list' %}?tipo=evacuacion" class="badge {% if tipo_filtro == 'evacuacion' %}badge-accent{% endif %}" style="text-decoration:none;">Evacuación</a>
+    <a href="{% url 'emergency_measures:list' %}?tipo=simulacro" class="badge {% if tipo_filtro == 'simulacro' %}badge-accent{% endif %}" style="text-decoration:none;">Simulacros ({{ total_simulacros }})</a>
+    <a href="{% url 'emergency_measures:list' %}?tipo=protocolo" class="badge {% if tipo_filtro == 'protocolo' %}badge-accent{% endif %}" style="text-decoration:none;">Protocolos</a>
+</div>
+
+{% if medidas %}
+<div class="list">
+    {% for m in medidas %}
+    <div class="list-item" style="display:flex;align-items:center;justify-content:space-between;">
+        <a href="{% url 'emergency_measures:detail' m.pk %}" style="text-decoration:none;color:inherit;flex:1;">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:36px;height:36px;border-radius:8px;background:rgba(15,118,110,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    {{ m.icon_svg|safe }}
+                </div>
+                <div>
+                    <div style="font-weight:600;">{{ m.titulo }}</div>
+                    <div class="meta">{{ m.get_tipo_display }}{% if m.ubicacion %} · {{ m.ubicacion }}{% endif %}{% if m.fecha %} · {{ m.fecha|date:"d/m/Y" }}{% endif %}</div>
+                </div>
+            </div>
+        </a>
+        <div class="flex items-center gap-2">
+            {% if m.proximo_simulacro %}
+            <span class="badge badge-warning" style="font-size:11px;">Próx. simulacro: {{ m.proximo_simulacro|date:"d/m/Y" }}</span>
+            {% endif %}
+            {% if not m.activo %}
+            <span class="badge badge-secondary">Inactivo</span>
+            {% endif %}
+            <a href="{% url 'emergency_measures:update' m.pk %}" class="hero-btn hero-btn--secondary" style="padding:6px 10px;font-size:12px;">Editar</a>
+            <a href="{% url 'emergency_measures:delete' m.pk %}" class="hero-btn hero-btn--danger" style="padding:6px 10px;font-size:12px;">Eliminar</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:6px;margin-top:20px;">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if tipo_filtro %}&tipo={{ tipo_filtro }}{% endif %}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Anterior</a>
+    {% endif %}
+    <span style="padding:6px 12px;">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if tipo_filtro %}&tipo={{ tipo_filtro }}{% endif %}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Siguiente</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<p class="meta" style="text-align:center;padding:40px 0;">No hay medidas de emergencia registradas.</p>
+{% endif %}
+{% endblock %}

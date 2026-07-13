@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Productos Químicos | Riskora{% endblock %}
+{% block page_title %}Productos Químicos{% endblock %}
+
+{% block content %}
+<div class="flex items-center gap-3" style="margin-bottom:20px;">
+    <a href="{% url 'chemical_products:create' %}" class="hero-btn" style="display:inline-flex;align-items:center;gap:6px;">
+        <svg style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Nuevo Producto
+    </a>
+</div>
+
+<div class="flex items-center gap-2" style="margin-bottom:20px;">
+    <form method="get" style="display:flex;gap:8px;">
+        <input type="text" name="q" value="{{ query }}" placeholder="Buscar producto..." class="form-control" style="width:260px;">
+        <button type="submit" class="hero-btn hero-btn--secondary">Buscar</button>
+    </form>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
+    <div class="kpi-card"><div class="kpi-value">{{ total }}</div><div class="kpi-label">Productos</div></div>
+    <div class="kpi-card"><div class="kpi-value">{{ total_con_ficha }}</div><div class="kpi-label">Con ficha SDS</div></div>
+    <div class="kpi-card" style="{% if caducados_count %}border-left:3px solid #dc2626;{% endif %}"><div class="kpi-value">{{ caducados_count }}</div><div class="kpi-label">Caducados / sin stock</div></div>
+</div>
+
+{% if productos %}
+<div class="list">
+    {% for p in productos %}
+    <div class="list-item" style="display:flex;align-items:center;justify-content:space-between;">
+        <a href="{% url 'chemical_products:detail' p.pk %}" style="text-decoration:none;color:inherit;flex:1;">
+            <div style="font-weight:600;">{{ p.nombre }}</div>
+            <div class="meta">{% if p.fabricante %}{{ p.fabricante }} · {% endif %}{% if p.ubicacion %}{{ p.ubicacion }} · {% endif %}{{ p.stock }} {{ p.unidad }}</div>
+        </a>
+        <div class="flex items-center gap-2">
+            {% if p.caducado %}<span class="badge badge-danger" style="font-size:11px;">Caducado</span>{% endif %}
+            {% if not p.ficha_seguridad %}<span class="badge badge-warning" style="font-size:11px;">Sin SDS</span>{% endif %}
+            <a href="{% url 'chemical_products:update' p.pk %}" class="hero-btn hero-btn--secondary" style="padding:6px 10px;font-size:12px;">Editar</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:6px;margin-top:20px;">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Anterior</a>{% endif %}
+    <span style="padding:6px 12px;">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Siguiente</a>{% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<p class="meta" style="text-align:center;padding:40px 0;">No hay productos químicos registrados.</p>
+{% endif %}
+{% endblock %}

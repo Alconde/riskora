@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}{{ instruccion.titulo }} | Riskora{% endblock %}
+{% block page_title %}{% if instruccion.codigo %}[{{ instruccion.codigo }}] {% endif %}{{ instruccion.titulo }}{% endblock %}
+
+{% block content %}
+<div class="flex items-center gap-2" style="margin-bottom:16px;">
+    <span class="badge badge-info">Rev. {{ instruccion.revision }}</span>
+    {% if not instruccion.activo %}<span class="badge badge-secondary">Inactivo</span>{% endif %}
+    {% if instruccion.puesto_trabajo %}<span class="badge badge-accent">{{ instruccion.puesto_trabajo }}</span>{% endif %}
+</div>
+
+<div class="card" style="margin-bottom:20px;">
+    <div class="meta" style="margin-bottom:12px;">Creada: {{ instruccion.fecha|date:"d/m/Y" }}</div>
+    {% if instruccion.contenido %}
+    <div style="white-space:pre-wrap;">{{ instruccion.contenido }}</div>
+    {% else %}
+    <p class="meta">Sin contenido definido.</p>
+    {% endif %}
+</div>
+
+{% if instruccion.file %}
+<div style="margin-bottom:20px;">
+    <a href="{{ instruccion.file.url }}" class="hero-btn hero-btn--secondary" target="_blank" style="display:inline-flex;align-items:center;gap:6px;">
+        <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Descargar documento
+    </a>
+</div>
+{% endif %}
+
+<div class="flex items-center gap-2" style="margin-bottom:20px;">
+    <a href="{% url 'work_instructions:update' instruccion.pk %}" class="hero-btn hero-btn--secondary">Editar</a>
+    <a href="{% url 'work_instructions:delete' instruccion.pk %}" class="hero-btn hero-btn--danger">Eliminar</a>
+</div>
+
+<a href="{% url 'work_instructions:list' %}" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);padding:8px 16px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">← Volver a Instrucciones</a>
+{% endblock %}

@@ -836,51 +836,44 @@
                 </div>
             </div>
 
-            <div class="nav-group-title">Operación</div>
+            <div class="nav-group-title">Datos Empresa</div>
             <nav>
-                <a href="{% url 'dashboard' %}" class="nav-link {% is_active 'dashboard' exact=True %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M3 13.2 12 4l9 9.2"></path>
-                        <path d="M5 11.8V20h14v-8.2"></path>
-                    </svg>
-                    <span class="nav-label">Dashboard</span>
-                </a>
-
-                <a href="{% url 'companies:company-list' %}" class="nav-link {% is_active 'companies:company-list' %}">
+                <a href="{% url 'company_data:dashboard' %}" class="nav-link {% if namespace == 'company_data' %}is-active{% endif %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M4 20V7a2 2 0 0 1 2-2h8v15"></path>
                         <path d="M14 10h4a2 2 0 0 1 2 2v8"></path>
                         <path d="M8 9h2M8 13h2M8 17h2M14 14h2M14 18h2"></path>
                     </svg>
-                    <span class="nav-label">Empresas</span>
+                    <span class="nav-label">Datos Empresa</span>
+                </a>
+            </nav>
+
+            <div class="nav-group-title" style="margin-top:18px;">PRL</div>
+            <nav>
+                <a href="{% url 'prevention_plan:dashboard' %}" class="nav-link {% if namespace == 'prevention_plan' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+                        <path d="M14 2v6h6"></path>
+                        <path d="M12 18v-6"></path>
+                        <path d="M9 15h6"></path>
+                    </svg>
+                    <span class="nav-label">Plan de Prevencion</span>
                 </a>
 
-                <a href="{% url 'workcenters:workcenter-list' %}" class="nav-link {% is_active 'workcenters:workcenter-list' %}">
+                <a href="{% url 'risk_assessment:evaluacion-list' %}" class="nav-link {% is_active 'risk_assessment:evaluacion-list' %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M3 20h18"></path>
-                        <path d="M5 20v-8l7-4 7 4v8"></path>
-                        <path d="M9 20v-4h6v4"></path>
+                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
+                        <path d="M8 12l3 3 5-5"></path>
                     </svg>
-                    <span class="nav-label">Centros</span>
+                    <span class="nav-label">Evaluacion de Riesgos</span>
                 </a>
 
-                <a href="{% url 'workers:worker-list' %}" class="nav-link {% is_active 'workers:worker-list' %}">
+                <a href="{% url 'preventive_planning:dashboard' %}" class="nav-link {% if namespace == 'preventive_planning' %}is-active{% endif %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="10" cy="7" r="4"></circle>
-                        <path d="M20 8v6"></path>
-                        <path d="M17 11h6"></path>
+                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
+                        <path d="M9 12l2 2 4-4"></path>
                     </svg>
-                    <span class="nav-label">Trabajadores</span>
-                </a>
-
-                <a href="{% url 'workers:jobposition-list' %}" class="nav-link {% is_active 'workers:jobposition-list' %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <rect x="3" y="7" width="18" height="12" rx="2"></rect>
-                        <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                        <path d="M3 12h18"></path>
-                    </svg>
-                    <span class="nav-label">Puestos</span>
+                    <span class="nav-label">Planificacion Preventiva</span>
                 </a>
 
                 <a href="{% url 'training:course_list' %}" class="nav-link {% is_active 'training:course_list' %}">
@@ -889,9 +882,64 @@
                         <path d="M7 9v4.5c0 1.7 2.2 3 5 3s5-1.3 5-3V9"></path>
                         <path d="M21 6.5v6"></path>
                     </svg>
-                    <span class="nav-label">Formación</span>
+                    <span class="nav-label">Informacion y Formacion</span>
                 </a>
 
+                <a href="{% url 'emergency_measures:list' %}" class="nav-link {% if namespace == 'emergency_measures' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <circle cx="12" cy="5" r="3"></circle>
+                        <path d="M12 8v4l3 5"></path>
+                        <path d="M12 12l-3 5"></path>
+                    </svg>
+                    <span class="nav-label">Medidas de Emergencia</span>
+                </a>
+
+                <a href="{% url 'epis:dashboard' %}" class="nav-link {% if namespace == 'epis' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                    <span class="nav-label">EPIs</span>
+                </a>
+
+                <a href="{% url 'incidents:dashboard' %}" class="nav-link {% if namespace == 'incidents' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M12 9v4"></path>
+                        <path d="M12 17h.01"></path>
+                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path>
+                    </svg>
+                    <span class="nav-label">Investigacion / EEPP</span>
+                </a>
+
+                <a href="{% url 'cae:dashboard' %}" class="nav-link {% if namespace == 'cae' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="10" cy="7" r="4"></circle>
+                        <path d="M20 8v6"></path>
+                        <path d="M17 11h6"></path>
+                    </svg>
+                    <span class="nav-label">CAE</span>
+                </a>
+
+                <a href="{% url 'chemical_products:list' %}" class="nav-link {% if namespace == 'chemical_products' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M10 2v6.292a.5.5 0 0 1-.2.4L3 14v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6l-6.8-5.308a.5.5 0 0 1-.2-.4V2"></path>
+                        <path d="M7 2h10"></path>
+                    </svg>
+                    <span class="nav-label">Productos Quimicos</span>
+                </a>
+
+                <a href="{% url 'health_surveillance:list' %}" class="nav-link {% if namespace == 'health_surveillance' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                    </svg>
+                    <span class="nav-label">Vigilancia de la Salud</span>
+                </a>
+            </nav>
+
+            <div class="nav-group-title" style="margin-top:18px;">Gestion</div>
+            <nav>
                 <a href="{% url 'documents:list' %}" class="nav-link {% if namespace == 'documents' %}is-active{% endif %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"></path>
@@ -909,14 +957,6 @@
                     <span class="nav-label">Tareas</span>
                 </a>
 
-                <a href="{% url 'risk_assessment:evaluacion-list' %}" class="nav-link {% is_active 'risk_assessment:evaluacion-list' %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
-                        <path d="M8 12l3 3 5-5"></path>
-                    </svg>
-                    <span class="nav-label">Evaluaciones</span>
-                </a>
-
                 <a href="{% url 'corrective_actions:nc-list' %}" class="nav-link {% if namespace == 'corrective_actions' %}is-active{% endif %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M12 9v4"></path>
@@ -926,7 +966,7 @@
                     <span class="nav-label">No conformidades</span>
                 </a>
 
-                <a href="{% url 'inspections:plantilla-list' %}" class="nav-link {% if url_name == 'plantilla-list' or url_name == 'plantilla-detail' or url_name == 'plantilla-create' or url_name == 'plantilla-update' %}is-active{% endif %}">
+                <a href="{% url 'work_instructions:list' %}" class="nav-link {% if namespace == 'work_instructions' %}is-active{% endif %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
                         <path d="M14 2v6h6"></path>
@@ -934,76 +974,7 @@
                         <path d="M16 17H8"></path>
                         <path d="M10 9H8"></path>
                     </svg>
-                    <span class="nav-label">Plantillas</span>
-                </a>
-
-                <a href="{% url 'inspections:inspeccion-list' %}" class="nav-link {% if url_name == 'inspeccion-list' or url_name == 'inspeccion-detail' or url_name == 'inspeccion-create' %}is-active{% endif %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
-                        <rect x="9" y="3" width="6" height="4" rx="2"></rect>
-                        <path d="M9 14l2 2 4-4"></path>
-                    </svg>
-                    <span class="nav-label">Inspecciones</span>
-                </a>
-
-                <a href="{% url 'incidents:dashboard' %}" class="nav-link {% if namespace == 'incidents' %}is-active{% endif %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M12 9v4"></path>
-                        <path d="M12 17h.01"></path>
-                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path>
-                    </svg>
-                    <span class="nav-label">Investigacion</span>
-                </a>
-
-                <a href="{% url 'epps:dashboard' %}" class="nav-link {% if namespace == 'epps' %}is-active{% endif %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-                    </svg>
-                    <span class="nav-label">Investigacion EEPP</span>
-                </a>
-
-                <a href="{% url 'epis:dashboard' %}" class="nav-link {% if namespace == 'epis' %}is-active{% endif %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                    </svg>
-                    <span class="nav-label">Gestion EPIs</span>
-                </a>
-
-                <a href="{% url 'work_equipment:dashboard' %}" class="nav-link {% if namespace == 'work_equipment' %}is-active{% endif %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"></path>
-                    </svg>
-                    <span class="nav-label">Equipos de trabajo</span>
-                </a>
-
-                <a href="{% url 'preventive_planning:dashboard' %}" class="nav-link {% if namespace == 'preventive_planning' %}is-active{% endif %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
-                        <path d="M9 12l2 2 4-4"></path>
-                    </svg>
-                    <span class="nav-label">Planificacion Preventiva</span>
-                </a>
-
-                <a href="{% url 'prevention_plan:dashboard' %}" class="nav-link {% if namespace == 'prevention_plan' %}is-active{% endif %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
-                        <path d="M14 2v6h6"></path>
-                        <path d="M12 18v-6"></path>
-                        <path d="M9 15h6"></path>
-                    </svg>
-                    <span class="nav-label">Plan de Prevencion</span>
-                </a>
-
-                <a href="{% url 'cae:dashboard' %}" class="nav-link {% if namespace == 'cae' %}is-active{% endif %}">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="10" cy="7" r="4"></circle>
-                        <path d="M20 8v6"></path>
-                        <path d="M17 11h6"></path>
-                    </svg>
-                    <span class="nav-label">CAE</span>
+                    <span class="nav-label">Instrucciones de Trabajo</span>
                 </a>
 
                 <a href="{% url 'tasks:alert-list' %}" class="nav-link {% if namespace == 'tasks' and url_name == 'alert-list' or namespace == 'tasks' and url_name == 'alert_detail' %}is-active{% endif %}">

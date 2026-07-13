@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Reconocimiento | Riskora{% endblock %}
+{% block page_title %}Reconocimiento de {{ reconocimiento.trabajador }}{% endblock %}
+
+{% block content %}
+<div class="flex items-center gap-2" style="margin-bottom:16px;">
+    <span class="badge badge-{{ reconocimiento.badge_color }}">{{ reconocimiento.get_apto_display }}</span>
+    <span class="badge badge-info">{{ reconocimiento.get_tipo_display }}</span>
+</div>
+
+<div class="card" style="margin-bottom:20px;">
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+        <div><span class="meta">Trabajador:</span><br>{{ reconocimiento.trabajador }}</div>
+        <div><span class="meta">Médico:</span><br>{% if reconocimiento.medico %}{{ reconocimiento.medico }}{% else %}—{% endif %}</div>
+        <div><span class="meta">Fecha:</span><br>{{ reconocimiento.fecha|date:"d/m/Y" }}</div>
+        <div><span class="meta">Próximo reconocimiento:</span><br>{% if reconocimiento.proximo_reconocimiento %}{{ reconocimiento.proximo_reconocimiento|date:"d/m/Y" }}{% else %}—{% endif %}</div>
+    </div>
+    {% if reconocimiento.observaciones %}
+    <div style="margin-top:12px;"><span class="meta">Observaciones:</span><br>{{ reconocimiento.observaciones|linebreaks }}</div>
+    {% endif %}
+    {% if reconocimiento.file %}
+    <div style="margin-top:12px;"><a href="{{ reconocimiento.file.url }}" class="hero-btn hero-btn--secondary" target="_blank">Descargar documento</a></div>
+    {% endif %}
+</div>
+
+<div class="flex items-center gap-2" style="margin-bottom:20px;">
+    <a href="{% url 'health_surveillance:update' reconocimiento.pk %}" class="hero-btn hero-btn--secondary">Editar</a>
+    <a href="{% url 'health_surveillance:delete' reconocimiento.pk %}" class="hero-btn hero-btn--danger">Eliminar</a>
+</div>
+
+<a href="{% url 'health_surveillance:list' %}" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);padding:8px 16px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">← Volver a Vigilancia de la Salud</a>
+{% endblock %}

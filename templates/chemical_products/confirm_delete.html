@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Producto | Riskora{% endblock %}
+{% block page_title %}Eliminar Producto Químico{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:500px;">
+    <p style="margin-bottom:16px;">¿Estás seguro de eliminar <strong>{{ object.nombre }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="flex gap-2">
+            <button type="submit" class="hero-btn hero-btn--danger">Eliminar</button>
+            <a href="{% url 'chemical_products:list' %}" class="hero-btn hero-btn--secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

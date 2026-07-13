@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Instrucciones de Trabajo | Riskora{% endblock %}
+{% block page_title %}Instrucciones de Trabajo{% endblock %}
+
+{% block content %}
+<div class="flex items-center gap-3" style="margin-bottom:20px;">
+    <a href="{% url 'work_instructions:create' %}" class="hero-btn" style="display:inline-flex;align-items:center;gap:6px;">
+        <svg style="width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Nueva Instrucción
+    </a>
+</div>
+
+<div class="flex items-center gap-2" style="margin-bottom:20px;">
+    <form method="get" style="display:flex;gap:8px;">
+        <input type="text" name="q" value="{{ query }}" placeholder="Buscar instrucción..." class="form-control" style="width:260px;">
+        <button type="submit" class="hero-btn hero-btn--secondary">Buscar</button>
+    </form>
+    <span class="meta" style="margin-left:8px;">{{ total }} instrucción{{ total|pluralize }}</span>
+</div>
+
+{% if instrucciones %}
+<div class="list">
+    {% for i in instrucciones %}
+    <div class="list-item" style="display:flex;align-items:center;justify-content:space-between;">
+        <a href="{% url 'work_instructions:detail' i.pk %}" style="text-decoration:none;color:inherit;flex:1;">
+            <div style="font-weight:600;">{% if i.codigo %}<span class="meta" style="margin-right:6px;">{{ i.codigo }}</span>{% endif %}{{ i.titulo }}</div>
+            <div class="meta">{% if i.puesto_trabajo %}{{ i.puesto_trabajo }} · {% endif %}Rev. {{ i.revision }} · {{ i.fecha|date:"d/m/Y" }}</div>
+        </a>
+        <div class="flex items-center gap-2">
+            {% if not i.activo %}<span class="badge badge-secondary">Inactivo</span>{% endif %}
+            {% if i.file %}<span class="badge badge-info" style="font-size:11px;">PDF</span>{% endif %}
+            <a href="{% url 'work_instructions:update' i.pk %}" class="hero-btn hero-btn--secondary" style="padding:6px 10px;font-size:12px;">Editar</a>
+            <a href="{% url 'work_instructions:delete' i.pk %}" class="hero-btn hero-btn--danger" style="padding:6px 10px;font-size:12px;">Eliminar</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div style="display:flex;justify-content:center;gap:6px;margin-top:20px;">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Anterior</a>{% endif %}
+    <span style="padding:6px 12px;">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" class="hero-btn hero-btn--secondary" style="padding:6px 12px;">Siguiente</a>{% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<p class="meta" style="text-align:center;padding:40px 0;">No hay instrucciones de trabajo registradas.</p>
+{% endif %}
+{% endblock %}

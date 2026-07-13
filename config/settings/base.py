@@ -44,6 +44,11 @@ LOCAL_APPS = [
     'apps.preventive_planning.apps.PreventivePlanningConfig',
     'apps.prevention_plan.apps.PreventionPlanConfig',
     'apps.cae.apps.CAEConfig',
+    'apps.company_data.apps.CompanyDataConfig',
+    'apps.emergency_measures.apps.EmergencyMeasuresConfig',
+    'apps.chemical_products.apps.ChemicalProductsConfig',
+    'apps.health_surveillance.apps.HealthSurveillanceConfig',
+    'apps.work_instructions.apps.WorkInstructionsConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
