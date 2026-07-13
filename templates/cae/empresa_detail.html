@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ empresa_sub.nombre_empresa }} | CAE | Riskora{% endblock %}
+{% block page_title %}{{ empresa_sub.nombre_empresa }}{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <a href="{% url 'cae:empresa-list' %}" style="font-size:12px;color:#0f766e;text-decoration:none;">Empresas</a>
+            <span style="font-size:12px;color:#64748b;"> &gt; {{ empresa_sub.nombre_empresa }}</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'cae:empresa-update' empresa_sub.pk %}" class="hero-btn hero-btn-secondary" style="font-size:12px;">Editar</a>
+            <a href="{% url 'cae:empresa-delete' empresa_sub.pk %}" class="hero-btn hero-btn-secondary" style="font-size:12px;color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <div class="meta">Trabajo a realizar</div>
+            <div style="font-size:14px;">{{ empresa_sub.trabajo_realizar }}</div>
+        </div>
+        <div style="text-align:right;">
+            <div class="meta">Estado documentacion</div>
+            {% if habilitada %}
+                <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end;">
+                    <svg style="width:32px;height:32px;color:#16a34a;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M8 12l3 3 5-5"></path></svg>
+                    <span style="font-size:16px;font-weight:700;color:#16a34a;">Habilitada</span>
+                </div>
+            {% else %}
+                <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end;">
+                    <svg style="width:32px;height:32px;color:#dc2626;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M15 9l-6 6M9 9l6 6"></path></svg>
+                    <span style="font-size:16px;font-weight:700;color:#dc2626;">Pendiente</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div style="margin-top:12px;background:#e2e8f0;border-radius:999px;height:8px;overflow:hidden;">
+        <div style="height:100%;width:{{ porcentaje }}%;background:{% if habilitada %}#16a34a{% elif porcentaje > 50 %}#d97706{% else %}#dc2626{% endif %};border-radius:999px;"></div>
+    </div>
+    <div style="font-size:12px;color:#64748b;margin-top:6px;">{{ porcentaje }}% de documentacion subida</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;font-size:13px;">
+    <div class="card">
+        <div class="meta">Persona de contacto</div>
+        <div style="font-weight:600;">{{ empresa_sub.persona_contacto }}</div>
+    </div>
+    <div class="card">
+        <div class="meta">Telefono / Email</div>
+        <div style="font-weight:600;">{{ empresa_sub.telefono|default:"-" }} / {{ empresa_sub.email|default:"-" }}</div>
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="section-title" style="margin-bottom:14px;">Documentacion requerida</h3>
+    <div class="list">
+        {% for item in documentos %}
+        <div class="list-item" style="padding:10px 14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="flex:1;">
+                    <div style="font-size:13px;font-weight:600;">{{ item.tipo.nombre }}{% if item.tipo.obligatorio %} <span style="color:#dc2626;">*</span>{% endif %}</div>
+                    {% if item.tipo.descripcion %}
+                        <div class="meta" style="font-size:11px;">{{ item.tipo.descripcion }}</div>
+                    {% endif %}
+                </div>
+                <div style="display:flex;gap:10px;align-items:center;">
+                    {% if item.subido %}
+                        <span class="badge badge-success" style="margin-top:0;">Subido</span>
+                        {% if item.actualizado %}
+                            <span class="badge badge-success" style="margin-top:0;">Actualizado</span>
+                        {% else %}
+                            <span class="badge badge-danger" style="margin-top:0;">Caducado</span>
+                        {% endif %}
+                    {% else %}
+                        <span class="badge badge-danger" style="margin-top:0;">Pendiente</span>
+                    {% endif %}
+                    <a href="{% url 'cae:documento-update' item.documento.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:6px 12px;">
+                        {% if item.subido %}Actualizar{% else %}Subir{% endif %}
+                    </a>
+                    {% if item.subido %}
+                        <a href="{% url 'cae:documento-download' item.documento.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:6px 12px;">Descargar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

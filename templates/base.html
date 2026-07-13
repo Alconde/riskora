@@ -986,6 +986,26 @@
                     <span class="nav-label">Planificacion Preventiva</span>
                 </a>
 
+                <a href="{% url 'prevention_plan:dashboard' %}" class="nav-link {% if namespace == 'prevention_plan' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+                        <path d="M14 2v6h6"></path>
+                        <path d="M12 18v-6"></path>
+                        <path d="M9 15h6"></path>
+                    </svg>
+                    <span class="nav-label">Plan de Prevencion</span>
+                </a>
+
+                <a href="{% url 'cae:dashboard' %}" class="nav-link {% if namespace == 'cae' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="10" cy="7" r="4"></circle>
+                        <path d="M20 8v6"></path>
+                        <path d="M17 11h6"></path>
+                    </svg>
+                    <span class="nav-label">CAE</span>
+                </a>
+
                 <a href="{% url 'tasks:alert-list' %}" class="nav-link {% if namespace == 'tasks' and url_name == 'alert-list' or namespace == 'tasks' and url_name == 'alert_detail' %}is-active{% endif %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path>
@@ -1039,16 +1059,29 @@
                                 <div class="user-company-name">{{ active_company }}</div>
                                 <div class="user-company-user">Usuario: {{ request.user.username }}</div>
                             </div>
+                        {% else %}
+                        <div class="user-company" style="gap:14px;">
+                            <div class="user-company-logo-placeholder" style="background:linear-gradient(135deg,#d97706,#f59e0b);">
+                                ?
+                            </div>
+                            <div class="user-company-text">
+                                <div class="user-company-name" style="color:#d97706;">Sin empresa seleccionada</div>
+                                <div class="user-company-user">Usuario: {{ request.user.username }}</div>
+                            </div>
+                        {% endif %}
 
-                            {% if available_companies|length > 1 or request.user.is_superuser %}
+                            {% if available_companies|length > 0 %}
                                 <form method="post" action="{% url 'companies:company-switch' %}" style="margin-left:8px;">
                                     {% csrf_token %}
                                     <select
                                         name="company"
                                         class="form-control"
                                         onchange="this.form.submit()"
-                                        style="min-width:220px;"
+                                        style="min-width:220px;{% if not active_company %}border-color:#d97706;color:#92400e;{% endif %}"
                                     >
+                                        {% if not active_company %}
+                                            <option value="" disabled selected>Seleccionar empresa...</option>
+                                        {% endif %}
                                         {% for company in available_companies %}
                                             <option value="{{ company.id }}" {% if active_company and company.id == active_company.id %}selected{% endif %}>
                                                 {{ company }}
@@ -1058,12 +1091,6 @@
                                 </form>
                             {% endif %}
                         </div>
-                    {% else %}
-                        <div>
-                            <div class="user-company-name">Sin empresa activa</div>
-                            <div class="user-company-user">Usuario: {{ request.user.username }}</div>
-                        </div>
-                    {% endif %}
                 </div>
             </div>
 

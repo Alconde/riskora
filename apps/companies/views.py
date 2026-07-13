@@ -57,12 +57,12 @@ def switch_company(request, company_id=None):
         company_id = request.POST.get('company')
 
     if not company_id:
-        return redirect(request.META.get('HTTP_REFERER', 'dashboard'))
+        return redirect('dashboard')
 
     if request.user.is_superuser:
         company = get_object_or_404(Company, pk=company_id)
         request.session['active_company_id'] = company.id
-        return redirect(request.META.get('HTTP_REFERER', 'dashboard'))
+        return redirect('dashboard')
 
     membership = get_object_or_404(
         CompanyMembership,
@@ -73,4 +73,4 @@ def switch_company(request, company_id=None):
     )
 
     request.session['active_company_id'] = membership.company_id
-    return redirect(request.META.get('HTTP_REFERER', 'dashboard'))
+    return redirect('dashboard')

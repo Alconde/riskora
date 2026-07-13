@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}CAE - Coordinacion | Riskora{% endblock %}
+{% block page_title %}Coordinacion de Actividades Empresariales{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;">
+    <a href="{% url 'cae:empresa-list' %}" class="card" style="text-decoration:none;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:18px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V7a2 2 0 0 1 2-2h8v15"></path><path d="M14 10h4a2 2 0 0 1 2 2v8"></path><path d="M8 9h2M8 13h2M8 17h2M14 14h2M14 18h2"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Empresas</h3>
+            <div class="meta">{{ empresas|length }} subcontratadas</div>
+        </div>
+    </a>
+
+    <a href="{% url 'cae:procedimiento' %}" class="card" style="text-decoration:none;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:18px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:{% if procedimiento and procedimiento.documento %}#16a34a{% else %}#d97706{% endif %};" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 18v-6"></path><path d="M9 15h6"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Procedimiento</h3>
+            <div class="meta">{% if procedimiento and procedimiento.documento %}Subido{% else %}Pendiente{% endif %}</div>
+        </div>
+    </a>
+
+    <a href="{% url 'cae:carta' %}" class="card" style="text-decoration:none;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:18px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:{% if carta and carta.documento %}#16a34a{% else %}#d97706{% endif %};" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Carta empresas</h3>
+            <div class="meta">{% if carta and carta.documento %}Subida{% else %}Pendiente{% endif %}</div>
+        </div>
+    </a>
+
+    <a href="{% url 'cae:riesgos' %}" class="card" style="text-decoration:none;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:18px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:{% if riesgos and riesgos.documento %}#16a34a{% else %}#d97706{% endif %};" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Riesgos y medidas</h3>
+            <div class="meta">{% if riesgos and riesgos.documento %}Subido{% else %}Pendiente{% endif %}</div>
+        </div>
+    </a>
+</div>
+
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <h3 class="section-title" style="margin:0;">Empresas subcontratadas</h3>
+        <a href="{% url 'cae:empresa-create' %}" class="hero-btn hero-btn-primary" style="font-size:13px;">Nueva empresa</a>
+    </div>
+    <div class="list">
+        {% for emp in empresas %}
+        <div class="list-item">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="flex:1;">
+                    <strong style="font-size:14px;">
+                        <a href="{% url 'cae:empresa-detail' emp.pk %}" style="color:#0f766e;text-decoration:none;">{{ emp.nombre_empresa }}</a>
+                    </strong>
+                    <div class="meta" style="font-size:12px;margin-top:2px;">
+                        {{ emp.trabajo_realizar|truncatewords:10 }} &middot; {{ emp.persona_contacto }} &middot; {{ emp.telefono|default:"-" }} &middot; {{ emp.email|default:"-" }}
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+                    <div style="background:#e2e8f0;border-radius:999px;height:6px;width:60px;overflow:hidden;">
+                        <div style="height:100%;width:{{ emp.porcentaje_documentacion }}%;background:{% if emp.habilitada %}#16a34a{% elif emp.porcentaje_documentacion > 50 %}#d97706{% else %}#dc2626{% endif %};border-radius:999px;"></div>
+                    </div>
+                    <span style="font-size:11px;color:#64748b;">{{ emp.porcentaje_documentacion }}%</span>
+                    {% if emp.habilitada %}
+                        <svg style="width:28px;height:28px;color:#16a34a;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M8 12l3 3 5-5"></path></svg>
+                    {% else %}
+                        <svg style="width:28px;height:28px;color:#dc2626;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M15 9l-6 6M9 9l6 6"></path></svg>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="list-item" style="font-size:13px;">No hay empresas subcontratadas registradas.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

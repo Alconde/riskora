@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar{% else %}Nueva{% endif %} empresa | CAE | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar: {{ object.nombre_empresa }}{% else %}Nueva empresa subcontratada{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div style="margin-bottom:16px;">
+            <label style="font-size:13px;font-weight:600;color:#475569;display:block;margin-bottom:6px;">
+                {{ field.label }}{% if field.field.required %} <span style="color:#dc2626;">*</span>{% endif %}
+            </label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <div style="display:flex;gap:10px;margin-top:18px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="javascript:history.back()" class="hero-btn hero-btn-secondary" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

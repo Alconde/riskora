@@ -42,6 +42,8 @@ LOCAL_APPS = [
     'apps.epis.apps.EpisConfig',
     'apps.work_equipment.apps.WorkEquipmentConfig',
     'apps.preventive_planning.apps.PreventivePlanningConfig',
+    'apps.prevention_plan.apps.PreventionPlanConfig',
+    'apps.cae.apps.CAEConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

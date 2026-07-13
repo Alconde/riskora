@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Empresas subcontratadas | CAE | Riskora{% endblock %}
+{% block page_title %}Empresas subcontratadas{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="{% url 'cae:dashboard' %}" class="hero-btn hero-btn-secondary" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);font-size:13px;">Volver al dashboard</a>
+        <a href="{% url 'cae:empresa-create' %}" class="hero-btn hero-btn-primary" style="font-size:13px;">Nueva empresa</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for emp in empresas %}
+        <div class="list-item">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="flex:1;">
+                    <strong style="font-size:14px;">
+                        <a href="{% url 'cae:empresa-detail' emp.pk %}" style="color:#0f766e;text-decoration:none;">{{ emp.nombre_empresa }}</a>
+                    </strong>
+                    <div class="meta" style="font-size:12px;margin-top:2px;">
+                        {{ emp.trabajo_realizar|truncatewords:10 }} &middot; {{ emp.persona_contacto }} &middot; {{ emp.email|default:"-" }}
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <span class="badge {% if emp.habilitada %}badge-success{% else %}badge-danger{% endif %}">
+                        {% if emp.habilitada %}Habilitada{% else %}Sin documentacion{% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="list-item" style="font-size:13px;">No hay empresas subcontratadas.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

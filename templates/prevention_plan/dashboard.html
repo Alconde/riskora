@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}Plan de Prevencion | Riskora{% endblock %}
+{% block page_title %}Plan de Prevencion{% endblock %}
+
+{% block content %}
+{% if plan %}
+
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <div class="meta">Empresa</div>
+            <div style="font-size:15px;font-weight:700;">{{ plan.company }}</div>
+        </div>
+        <div style="text-align:right;">
+            <div class="meta">Progreso del plan</div>
+            <div style="font-size:28px;font-weight:800;color:#0f766e;">{{ plan.progreso_total }}%</div>
+        </div>
+    </div>
+    <div style="margin-top:14px;background:#e2e8f0;border-radius:999px;height:10px;overflow:hidden;">
+        <div style="height:100%;width:{{ plan.progreso_total }}%;background:linear-gradient(90deg,#0f766e,#22c55e);border-radius:999px;"></div>
+    </div>
+    <div style="display:flex;gap:18px;margin-top:10px;font-size:12px;color:#64748b;">
+        <span>Completados: <strong style="color:#16a34a;">{{ stats.completados }}</strong></span>
+        <span>Pendientes: <strong style="color:#d97706;">{{ stats.pendientes }}</strong></span>
+        {% if stats.no_aplica > 0 %}
+        <span>No aplica: <strong style="color:#64748b;">{{ stats.no_aplica }}</strong></span>
+        {% endif %}
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;">
+
+    <!-- Politica -->
+    <a href="{% url 'prevention_plan:politica' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:4px solid {% if plan.politica_estado == 'completo' %}#16a34a{% elif plan.politica_estado == 'pendiente' %}#d97706{% else %}#94a3b8{% endif %};" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;margin-bottom:4px;">Politica</div>
+                <div style="font-size:16px;font-weight:700;color:#0f172a;">Politica de Prevencion</div>
+                <div style="font-size:12px;color:#64748b;margin-top:4px;">
+                    {% if plan.politica %}
+                        {% if plan.politica_firmada %}Firmada{% else %}Pendiente de firmar{% endif %}
+                        &middot; {{ plan.politica_fecha_subida|default:"Sin fecha" }}
+                    {% else %}
+                        Sin documento subido
+                    {% endif %}
+                </div>
+            </div>
+            <span class="badge {% if plan.politica_estado == 'completo' %}badge-success{% else %}badge-warning{% endif %}">
+                {% if plan.politica_estado == 'completo' %}Completo{% else %}Pendiente{% endif %}
+            </span>
+        </div>
+    </a>
+
+    <!-- Organigrama -->
+    <a href="{% url 'prevention_plan:organigrama' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:4px solid {% if plan.organigrama_estado == 'completo' %}#16a34a{% else %}#d97706{% endif %};" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;margin-bottom:4px;">Organigrama</div>
+                <div style="font-size:16px;font-weight:700;color:#0f172a;">Organigrama</div>
+                <div style="font-size:12px;color:#64748b;margin-top:4px;">
+                    {% if plan.organigrama %}PDF/Imagen subido{% else %}Usando texto por defecto{% endif %}
+                </div>
+            </div>
+            <span class="badge {% if plan.organigrama_estado == 'completo' %}badge-success{% else %}badge-warning{% endif %}">
+                {% if plan.organigrama_estado == 'completo' %}Completo{% else %}Pendiente{% endif %}
+            </span>
+        </div>
+    </a>
+
+    <!-- Delegado -->
+    <a href="{% url 'prevention_plan:delegado' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:4px solid {% if plan.delegado_estado == 'completo' %}#16a34a{% elif plan.delegado_estado == 'no_aplica' %}#94a3b8{% else %}#d97706{% endif %};" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;margin-bottom:4px;">Delegado PRL</div>
+                <div style="font-size:16px;font-weight:700;color:#0f172a;">Delegado de PRL</div>
+                <div style="font-size:12px;color:#64748b;margin-top:4px;">
+                    {% if plan.delegado_prl == 'no_aplica' %}No aplica
+                    {% elif plan.delegado_prl == 'si' %}
+                        Designado {% if plan.delegado_fecha_designacion %}{{ plan.delegado_fecha_designacion }}{% endif %}
+                        &middot; {% if plan.delegado_formacion %}Con formacion{% else %}Sin formacion{% endif %}
+                    {% else %}
+                        No designado
+                    {% endif %}
+                </div>
+            </div>
+            <span class="badge {% if plan.delegado_estado == 'completo' %}badge-success{% elif plan.delegado_estado == 'no_aplica' %}badge-secondary{% else %}badge-warning{% endif %}">
+                {% if plan.delegado_estado == 'completo' %}Completo{% elif plan.delegado_estado == 'no_aplica' %}No aplica{% else %}Pendiente{% endif %}
+            </span>
+        </div>
+    </a>
+
+    <!-- Recurso Preventivo -->
+    <a href="{% url 'prevention_plan:recurso' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:4px solid {% if plan.recurso_estado == 'completo' %}#16a34a{% elif plan.recurso_estado == 'no_aplica' %}#94a3b8{% else %}#d97706{% endif %};" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;margin-bottom:4px;">Recurso Preventivo</div>
+                <div style="font-size:16px;font-weight:700;color:#0f172a;">Recurso Preventivo</div>
+                <div style="font-size:12px;color:#64748b;margin-top:4px;">
+                    {% if plan.recurso_preventivo == 'no_aplica' %}No aplica
+                    {% elif plan.recurso_preventivo == 'si' %}
+                        Designado {% if plan.recurso_fecha_designacion %}{{ plan.recurso_fecha_designacion }}{% endif %}
+                        &middot; {% if plan.recurso_formacion %}Con formacion{% else %}Sin formacion{% endif %}
+                    {% else %}
+                        No designado
+                    {% endif %}
+                </div>
+            </div>
+            <span class="badge {% if plan.recurso_estado == 'completo' %}badge-success{% elif plan.recurso_estado == 'no_aplica' %}badge-secondary{% else %}badge-warning{% endif %}">
+                {% if plan.recurso_estado == 'completo' %}Completo{% elif plan.recurso_estado == 'no_aplica' %}No aplica{% else %}Pendiente{% endif %}
+            </span>
+        </div>
+    </a>
+
+    <!-- Funciones y responsabilidades -->
+    <a href="{% url 'prevention_plan:funciones' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:4px solid {% if plan.funciones_estado == 'completo' %}#16a34a{% else %}#d97706{% endif %};" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;margin-bottom:4px;">Funciones</div>
+                <div style="font-size:16px;font-weight:700;color:#0f172a;">Funciones y Responsabilidades</div>
+                <div style="font-size:12px;color:#64748b;margin-top:4px;">
+                    {% if plan.funciones_responsabilidades %}Definidas{% else %}Sin definir{% endif %}
+                </div>
+            </div>
+            <span class="badge {% if plan.funciones_estado == 'completo' %}badge-success{% else %}badge-warning{% endif %}">
+                {% if plan.funciones_estado == 'completo' %}Completo{% else %}Pendiente{% endif %}
+            </span>
+        </div>
+    </a>
+
+    <!-- ETT y Teletrabajo -->
+    <a href="{% url 'prevention_plan:ett-teletrabajo' %}" class="card" style="text-decoration:none;transition:transform 0.15s;border-left:4px solid {% if plan.ett_estado == 'completo' and plan.teletrabajo_estado == 'completo' %}#16a34a{% elif plan.ett_estado == 'pendiente' or plan.teletrabajo_estado == 'pendiente' %}#d97706{% else %}#94a3b8{% endif %};" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;margin-bottom:4px;">ETT y Teletrabajo</div>
+                <div style="font-size:16px;font-weight:700;color:#0f172a;">Empresas ETT y Teletrabajo</div>
+                <div style="font-size:12px;color:#64748b;margin-top:4px;">
+                    ETT: {% if plan.utiliza_ett %}Si{% else %}No{% endif %}
+                    &middot; Teletrabajo: {% if plan.tiene_teletrabajo %}Si{% else %}No{% endif %}
+                </div>
+            </div>
+            <span class="badge {% if plan.ett_estado == 'completo' and plan.teletrabajo_estado == 'completo' %}badge-success{% else %}badge-warning{% endif %}">
+                {% if plan.ett_estado == 'completo' and plan.teletrabajo_estado == 'completo' %}Completo{% else %}Pendiente{% endif %}
+            </span>
+        </div>
+    </a>
+
+</div>
+
+{% elif is_global_view and plans %}
+<div class="card" style="margin-bottom:18px;">
+    <div class="meta" style="margin-bottom:6px;">Vista global — Selecciona una empresa para editar su plan</div>
+</div>
+
+<div class="list">
+    {% for p in plans %}
+    <div class="list-item" style="margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+                <strong style="font-size:15px;">{{ p.company }}</strong>
+                <div class="meta" style="font-size:12px;margin-top:2px;">
+                    Progreso: {{ p.progreso_total }}% &middot;
+                    Politica: {% if p.politica %}Subida{% else %}Pendiente{% endif %} &middot;
+                    Delegado: {{ p.get_delegado_prl_display }} &middot;
+                    Recurso: {{ p.get_recurso_preventivo_display }}
+                </div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+                <div style="background:#e2e8f0;border-radius:999px;height:6px;width:80px;overflow:hidden;">
+                    <div style="height:100%;width:{{ p.progreso_total }}%;background:linear-gradient(90deg,#0f766e,#22c55e);border-radius:999px;"></div>
+                </div>
+                <span class="badge {% if p.progreso_total == 100 %}badge-success{% elif p.progreso_total >= 50 %}badge-warning{% else %}badge-danger{% endif %}" style="margin-top:0;">{{ p.progreso_total }}%</span>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="list-item">No hay planes de prevencion creados.</div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="card">
+    <p>No hay plan de prevencion para esta empresa. Selecciona una empresa desde el selector superior.</p>
+</div>
+{% endif %}
+{% endblock %}

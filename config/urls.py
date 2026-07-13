@@ -22,6 +22,8 @@ urlpatterns = [
     path('epis/', include('apps.epis.urls', namespace='epis')),
     path('equipos/', include('apps.work_equipment.urls', namespace='work_equipment')),
     path('planificacion/', include('apps.preventive_planning.urls', namespace='preventive_planning')),
+    path('plan-prevencion/', include('apps.prevention_plan.urls', namespace='prevention_plan')),
+    path('cae/', include('apps.cae.urls', namespace='cae')),
 ]
 
 if settings.DEBUG:
