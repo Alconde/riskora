@@ -978,6 +978,14 @@
                     <span class="nav-label">Equipos de trabajo</span>
                 </a>
 
+                <a href="{% url 'preventive_planning:dashboard' %}" class="nav-link {% if namespace == 'preventive_planning' %}is-active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
+                        <path d="M9 12l2 2 4-4"></path>
+                    </svg>
+                    <span class="nav-label">Planificacion Preventiva</span>
+                </a>
+
                 <a href="{% url 'tasks:alert-list' %}" class="nav-link {% if namespace == 'tasks' and url_name == 'alert-list' or namespace == 'tasks' and url_name == 'alert_detail' %}is-active{% endif %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                         <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path>

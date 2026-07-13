@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Planificacion Preventiva | Riskora{% endblock %}
+{% block page_title %}Planificacion de la Actividad Preventiva{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="{% url 'preventive_planning:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'preventive_planning:item-create' %}" class="hero-btn hero-btn-primary">Nuevo item</a>
+            <form method="post" action="{% url 'preventive_planning:importar' %}" enctype="multipart/form-data" style="display:flex;gap:6px;">
+                {% csrf_token %}
+                <input type="file" name="archivo_excel" accept=".xlsx,.xls" required style="font-size:12px;padding:6px;border:1px solid #dbe4ef;border-radius:8px;">
+                <button type="submit" class="hero-btn hero-btn-secondary" style="font-size:12px;">Importar Excel</button>
+            </form>
+            <a href="{% url 'preventive_planning:plantilla' %}" target="_blank" class="hero-btn hero-btn-secondary" style="font-size:12px;">Plantilla</a>
+            <a href="{% url 'preventive_planning:exportar' %}" class="hero-btn hero-btn-secondary" style="font-size:12px;">Exportar</a>
+        </div>
+        <form method="get" style="display:flex;gap:6px;flex-wrap:wrap;">
+            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar..." style="padding:8px 12px;border:1px solid #dbe4ef;border-radius:8px;font-size:13px;width:180px;">
+            <select name="estado" style="padding:8px;border:1px solid #dbe4ef;border-radius:8px;font-size:13px;">
+                <option value="">Todos los estados</option>
+                <option value="pendiente" {% if request.GET.estado == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                <option value="en_curso" {% if request.GET.estado == 'en_curso' %}selected{% endif %}>En curso</option>
+                <option value="implementada" {% if request.GET.estado == 'implementada' %}selected{% endif %}>Implementada</option>
+                <option value="continua" {% if request.GET.estado == 'continua' %}selected{% endif %}>Continua</option>
+            </select>
+            <select name="tipo" style="padding:8px;border:1px solid #dbe4ef;border-radius:8px;font-size:13px;">
+                <option value="">Todos los tipos</option>
+                <option value="evitables" {% if request.GET.tipo == 'evitables' %}selected{% endif %}>Evitables</option>
+                <option value="monitorizables" {% if request.GET.tipo == 'monitorizables' %}selected{% endif %}>Monitorizables</option>
+                <option value="no_evitables" {% if request.GET.tipo == 'no_evitables' %}selected{% endif %}>No evitables</option>
+            </select>
+            <button type="submit" class="hero-btn hero-btn-primary" style="font-size:12px;">Buscar</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for item in items %}
+            <div class="list-item">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div style="flex:1;">
+                        <strong style="font-size:14px;">
+                            <a href="{% url 'preventive_planning:item-detail' item.pk %}" style="color:#0f766e;text-decoration:none;">{{ item.factor_riesgo|truncatewords:12 }}</a>
+                        </strong>
+                        <div class="meta" style="font-size:11px;margin-top:2px;">
+                            {{ item.ambito_puesto|default:"-" }} &middot; {{ item.responsable|default:"-" }}
+                            {% if item.fecha_objetivo %} &middot; {{ item.fecha_objetivo }}{% endif %}
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
+                        <span class="badge {{ item.badge_tipo }}">{{ item.get_tipo_factor_riesgo_display }}</span>
+                        {% if item.gr and item.gr != 'NV' %}
+                            <span class="badge {% if item.gr == 'M' %}badge-warning{% elif item.gr == 'A' %}badge-danger{% else %}badge-secondary{% endif %}">GR: {{ item.gr }}</span>
+                        {% endif %}
+                        <span class="badge {{ item.badge_estado }}">{{ item.get_estado_display }}</span>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item" style="font-size:13px;">No se encontraron items de planificacion.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

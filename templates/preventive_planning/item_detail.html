@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ item.factor_riesgo|truncatewords:6 }} - Planificacion | Riskora{% endblock %}
+{% block page_title %}Item de planificacion preventiva{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <div class="meta">{{ item.factor_riesgo }}</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'preventive_planning:item-update' item.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'preventive_planning:item-delete' item.pk %}" class="hero-btn hero-btn-secondary" style="color:#dc2626;">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Tipo</div>
+        <span class="badge {{ item.badge_tipo }}">{{ item.get_tipo_factor_riesgo_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Estado</div>
+        <span class="badge {{ item.badge_estado }}">{{ item.get_estado_display }}</span>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Grado de riesgo</div>
+        <div class="kpi-value" style="font-size:18px;">{{ item.gr|default:"-" }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Fecha objetivo</div>
+        <div class="kpi-value" style="font-size:14px;">{{ item.fecha_objetivo|default:"-" }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:14px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Factor de riesgo</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;">
+        <div><strong>Ambito / Puesto:</strong> {{ item.ambito_puesto|default:"-" }}</div>
+        <div><strong>Riesgos asociados:</strong> {{ item.get_riesgos_display|default:"-" }}</div>
+        <div style="grid-column:1/-1;"><strong>Factor de riesgo:</strong><br>{{ item.factor_riesgo|linebreaksbr }}</div>
+        {% if item.detalle %}
+        <div style="grid-column:1/-1;"><strong>Detalle:</strong><br>{{ item.detalle|linebreaksbr }}</div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:14px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Evaluacion</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:13px;">
+        <div><strong>PB (Probabilidad):</strong> {{ item.pb }}</div>
+        <div><strong>SV (Severidad):</strong> {{ item.sv }}</div>
+        <div><strong>GR (Grado):</strong> {{ item.gr }}</div>
+        {% if item.evaluacion_riesgos %}
+        <div style="grid-column:1/-1;"><strong>Evaluacion de riesgos:</strong> {{ item.evaluacion_riesgos }}</div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:14px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Medidas preventivas</h3>
+    <div style="font-size:13px;">
+        {% if item.medidas_preventivas %}
+        <div style="margin-bottom:8px;"><strong>Medidas:</strong><br>{{ item.medidas_preventivas|linebreaksbr }}</div>
+        {% endif %}
+        {% if item.detalle_medida %}
+        <div><strong>Detalle / Accion correctora:</strong><br>{{ item.detalle_medida|linebreaksbr }}</div>
+        {% endif %}
+        {% if not item.medidas_preventivas and not item.detalle_medida %}
+        <p style="color:#64748b;">No hay medidas registradas.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:14px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Seguimiento</h3>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:13px;">
+        <div><strong>Plazo limite:</strong> {{ item.plazo_limite|default:"-" }}</div>
+        <div><strong>Responsable:</strong> {{ item.responsable|default:"-" }}</div>
+        <div><strong>Costes:</strong> {{ item.costes|default:"-" }}</div>
+        <div><strong>Origen:</strong> {{ item.origen|default:"-" }}</div>
+    </div>
+</div>
+
+<div style="margin-top:18px;">
+    <a href="{% url 'preventive_planning:item-list' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

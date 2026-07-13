@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Planificacion Preventiva | Riskora{% endblock %}
+{% block page_title %}Planificacion de la Actividad Preventiva{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Total items</div>
+        <div class="kpi-value">{{ stats.total }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Pendientes</div>
+        <div class="kpi-value">{{ stats.pendientes }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-warning">
+        <div class="kpi-label">En curso</div>
+        <div class="kpi-value">{{ stats.en_curso }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Continuas</div>
+        <div class="kpi-value">{{ stats.continuas }}</div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <a href="{% url 'preventive_planning:item-list' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path><rect x="9" y="3" width="6" height="4" rx="2"></rect><path d="M9 14l2 2 4-4"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Ver planificacion</h3>
+            <div class="meta">Listado de acciones preventivas</div>
+        </div>
+    </a>
+
+    <a href="{% url 'preventive_planning:item-create' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#0f766e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Nuevo item</h3>
+            <div class="meta">Anadir accion preventiva</div>
+        </div>
+    </a>
+
+    <a href="{% url 'preventive_planning:plantilla' %}" target="_blank" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#d97706;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"></path><path d="M14 3v5h5"></path><path d="M9 13h6M9 17h6M9 9h2"></path></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Plantilla Excel</h3>
+            <div class="meta">Descargar formato de importacion</div>
+        </div>
+    </a>
+
+    <a href="{% url 'preventive_planning:exportar' %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="text-align:center;padding:20px;">
+            <svg style="width:36px;height:36px;margin:0 auto 10px;color:#2563eb;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <h3 class="section-title" style="margin-bottom:4px;">Exportar Excel</h3>
+            <div class="meta">Descargar planificacion actual</div>
+        </div>
+    </a>
+</div>
+
+<div class="card" style="margin-bottom:18px;">
+    <h3 class="section-title" style="margin-bottom:12px;">Importar desde Excel</h3>
+    <form method="post" action="{% url 'preventive_planning:importar' %}" enctype="multipart/form-data" style="display:flex;gap:10px;align-items:center;">
+        {% csrf_token %}
+        <input type="file" name="archivo_excel" accept=".xlsx,.xls" required style="font-size:13px;">
+        <button type="submit" class="hero-btn hero-btn-primary" style="font-size:13px;">Importar</button>
+        <a href="{% url 'preventive_planning:plantilla' %}" target="_blank" style="font-size:12px;color:#0f766e;">Descargar plantilla</a>
+    </form>
+</div>
+
+<div class="card">
+    <h3 class="section-title" style="margin-bottom:12px;">Ultimos items de planificacion</h3>
+    <div class="list">
+        {% for item in ultimos_items %}
+            <div class="list-item" style="padding:8px 0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <strong style="font-size:13px;">
+                        <a href="{% url 'preventive_planning:item-detail' item.pk %}" style="color:#0f766e;text-decoration:none;">{{ item.factor_riesgo|truncatewords:10 }}</a>
+                    </strong>
+                    <div style="display:flex;gap:6px;">
+                        <span class="badge {{ item.badge_tipo }}">{{ item.get_tipo_factor_riesgo_display }}</span>
+                        <span class="badge {{ item.badge_estado }}">{{ item.get_estado_display }}</span>
+                    </div>
+                </div>
+                <div class="meta" style="font-size:11px;">{{ item.ambito_puesto|default:"-" }} &middot; {{ item.responsable|default:"-" }} &middot; {{ item.fecha_objetivo|default:"-" }}</div>
+            </div>
+        {% empty %}
+            <div class="list-item" style="font-size:13px;">No hay items de planificacion.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar item{% else %}Nuevo item{% endif %} - Planificacion | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar: {{ object.factor_riesgo|truncatewords:6 }}{% else %}Nuevo item de planificacion preventiva{% endif %}{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+
+    <div class="card" style="margin-bottom:14px;">
+        <h3 class="section-title" style="margin-bottom:12px;">Factor de riesgo</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Ambito / Puesto de trabajo</label>
+                {{ form.ambito_puesto }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Tipo de factor de riesgo *</label>
+                {{ form.tipo_factor_riesgo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Riesgos asociados</label>
+                {{ form.riesgos }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Factor de riesgo *</label>
+                {{ form.factor_riesgo }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Detalle</label>
+                {{ form.detalle }}
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+        <h3 class="section-title" style="margin-bottom:12px;">Evaluacion</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">PB (Probabilidad)</label>
+                {{ form.pb }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">SV (Severidad)</label>
+                {{ form.sv }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">GR (Grado de riesgo)</label>
+                {{ form.gr }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Evaluacion de riesgos</label>
+                {{ form.evaluacion_riesgos }}
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+        <h3 class="section-title" style="margin-bottom:12px;">Medidas preventivas</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Medidas preventivas</label>
+                {{ form.medidas_preventivas }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Detalle de la medida / Accion correctora</label>
+                {{ form.detalle_medida }}
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+        <h3 class="section-title" style="margin-bottom:12px;">Seguimiento</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Plazo limite</label>
+                {{ form.plazo_limite }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha objetivo</label>
+                {{ form.fecha_objetivo }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Responsable</label>
+                {{ form.responsable }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Costes</label>
+                {{ form.costes }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Estado</label>
+                {{ form.estado }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Origen</label>
+                {{ form.origen }}
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:14px;">
+        <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+        <a href="javascript:history.back()" class="hero-btn hero-btn-secondary">Cancelar</a>
+    </div>
+</form>
+{% endblock %}
