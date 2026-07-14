@@ -19,7 +19,8 @@ class LoginView(BaseLoginView):
         return reverse_lazy('dashboard')
 
     def form_valid(self, form):
-        messages.success(self.request, f'Bienvenido, {self.request.user.get_full_name() or self.request.user.username}.')
+        user = form.get_user()
+        messages.success(self.request, f'Bienvenido, {user.get_full_name() or user.username}.')
         return super().form_valid(form)
 
 

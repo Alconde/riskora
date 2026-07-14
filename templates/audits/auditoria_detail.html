@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static navigation_tags %}
+
+{% block page_title %}AUD-{{ auditoria.pk|stringformat:"04d" }} — {{ auditoria.titulo }}{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb">
+    <span class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'audits:dashboard' %}">Auditorías</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'audits:auditoria_list' %}">Auditorías internas</a></span>
+    <span class="breadcrumb-item active">AUD-{{ auditoria.pk|stringformat:"04d" }}</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:var(--space-lg);">
+    <div>
+        <h2 style="margin:0;">AUD-{{ auditoria.pk|stringformat:"04d" }} — {{ auditoria.titulo }}</h2>
+        <p style="color:var(--text-muted);margin:4px 0 0;">
+            Programa {{ auditoria.programa.anio }} · {{ auditoria.get_estado_display }}
+        </p>
+    </div>
+    <div style="display:flex;gap:8px;">
+        <a href="{% url 'audits:checklist_bulk' auditoria_pk=auditoria.pk %}" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" style="vertical-align:-2px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg> Cargar checklist ISO 45001
+        </a>
+        {% if auditoria.estado != 'cerrada' %}
+        <a href="{% url 'audits:checklist_create' auditoria_pk=auditoria.pk %}" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Item manual
+        </a>
+        {% endif %}
+        {% if auditoria.estado == 'completada' and not tiene_informe %}
+        <a href="{% url 'audits:informe_create' auditoria_pk=auditoria.pk %}" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" style="vertical-align:-2px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg> Generar informe
+        </a>
+        {% endif %}
+        <a href="{% url 'audits:auditoria_update' pk=auditoria.pk %}" class="btn btn-secondary">Editar</a>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--info);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></div>
+        <div>
+            <div class="kpi-label">Items evaluados</div>
+            <div class="kpi-value">{{ resumen.evaluados }} / {{ resumen.total }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--success);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+        <div>
+            <div class="kpi-label">Conformes</div>
+            <div class="kpi-value">{{ resumen.conformes }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--danger);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg></div>
+        <div>
+            <div class="kpi-label">No conformes</div>
+            <div class="kpi-value">{{ resumen.no_conformes }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--warning);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
+        <div>
+            <div class="kpi-label">Observaciones</div>
+            <div class="kpi-value">{{ resumen.observaciones }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:{% if resumen.porcentaje_cumplimiento >= 80 %}var(--success){% elif resumen.porcentaje_cumplimiento >= 50 %}var(--warning){% else %}var(--danger){% endif %};">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+        </div>
+        <div>
+            <div class="kpi-label">Cumplimiento</div>
+            <div class="kpi-value">{{ resumen.porcentaje_cumplimiento }}%</div>
+        </div>
+    </div>
+</div>
+
+{% if auditoria.descripcion %}
+<div class="card" style="margin-bottom:var(--space-lg);">
+    <div class="card-body">
+        <h4 style="margin:0 0 8px;">Descripción / Alcance</h4>
+        <p style="margin:0;">{{ auditoria.descripcion|linebreaks }}</p>
+    </div>
+</div>
+{% endif %}
+
+<div class="card" style="margin-bottom:var(--space-lg);">
+    <div class="card-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md);">
+            <h4 style="margin:0;">Checklist de auditoría</h4>
+            <span class="badge {{ auditoria.badge_estado }}">{{ auditoria.get_estado_display }}</span>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Cláusula</th>
+                        <th>Sección</th>
+                        <th>Requisito</th>
+                        <th>Conformidad</th>
+                        <th>NC</th>
+                        <th>Cerrado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in checklist %}
+                    <tr>
+                        <td><strong>{{ item.clausula_iso }}</strong></td>
+                        <td>{{ item.seccion|default:"—" }}</td>
+                        <td>{{ item.requisito|truncatewords:15 }}</td>
+                        <td>
+                            {% if item.conformidad %}
+                            <span class="badge {{ item.badge_conformidad }}">{{ item.get_conformidad_display }}</span>
+                            {% else %}
+                            <span style="color:var(--text-muted);">Pendiente</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.tiene_nc %}
+                            <span class="badge badge-danger">NC</span>
+                            {% else %}—{% endif %}
+                        </td>
+                        <td>{% if item.cerrado %}✓{% else %}—{% endif %}</td>
+                        <td>
+                            <a href="{% url 'audits:checklist_update' pk=item.pk %}" class="btn btn-sm">Evaluar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" style="text-align:center;padding:var(--space-lg);color:var(--text-muted);">
+                            No hay items en el checklist. Usa "Cargar checklist ISO 45001" o añade items manuales.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% if tiene_informe %}
+<div class="card">
+    <div class="card-body">
+        <h4 style="margin:0 0 8px;">Informe de auditoría</h4>
+        <a href="{% url 'audits:informe_detail' pk=auditoria.informe.pk %}" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" style="vertical-align:-2px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg> Ver informe
+        </a>
+        <a href="{% url 'audits:informe_update' pk=auditoria.informe.pk %}" class="btn btn-secondary">Editar informe</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

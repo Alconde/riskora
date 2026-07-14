@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static navigation_tags %}
+
+{% block page_title %}{% if form.instance.pk %}Evaluar item{% else %}Nuevo item de checklist{% endif %}{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb">
+    <span class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'audits:dashboard' %}">Auditorías</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'audits:auditoria_detail' pk=auditoria.pk %}">AUD-{{ auditoria.pk|stringformat:"04d" }}</a></span>
+    <span class="breadcrumb-item active">{% if form.instance.pk %}Evaluar{% else %}Nuevo item{% endif %}</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h3 style="margin:0 0 var(--space-lg);">
+            {% if form.instance.pk %}
+            Evaluar: {{ form.instance.clausula_iso }} — {{ form.instance.requisito|truncatewords:10 }}
+            {% else %}
+            Nuevo item de checklist para AUD-{{ auditoria.pk|stringformat:"04d" }}
+            {% endif %}
+        </h3>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="form-errors">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <small style="color:var(--text-muted);">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div style="display:flex;gap:8px;margin-top:var(--space-lg);">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'audits:auditoria_detail' pk=auditoria.pk %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

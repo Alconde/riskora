@@ -29,6 +29,8 @@ urlpatterns = [
     path('quimicos/', include('apps.chemical_products.urls', namespace='chemical_products')),
     path('vigilancia-salud/', include('apps.health_surveillance.urls', namespace='health_surveillance')),
     path('instrucciones-trabajo/', include('apps.work_instructions.urls', namespace='work_instructions')),
+    path('auditorias/', include('apps.audits.urls', namespace='audits')),
+    path('requisitos-legales/', include('apps.legal_requirements.urls', namespace='legal_requirements')),
 ]
 
 if settings.DEBUG:

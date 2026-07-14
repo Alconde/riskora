@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static navigation_tags %}
+
+{% block page_title %}Programa {{ programa.anio }}{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb">
+    <span class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'audits:dashboard' %}">Auditorías</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'audits:programa_list' %}">Programas</a></span>
+    <span class="breadcrumb-item active">{{ programa.anio }}</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:var(--space-lg);">
+    <div>
+        <h2 style="margin:0;">Programa {{ programa.anio }}</h2>
+        <p style="color:var(--text-muted);margin:4px 0 0;">Versión {{ programa.version }} · {{ resumen.total_auditorias }} auditorías</p>
+    </div>
+    <div style="display:flex;gap:8px;">
+        <a href="{% url 'audits:auditoria_create' %}?programa={{ programa.pk }}" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Nueva auditoría
+        </a>
+        <a href="{% url 'audits:programa_update' pk=programa.pk %}" class="btn btn-secondary">Editar</a>
+        <a href="{% url 'audits:programa_delete' pk=programa.pk %}" class="btn btn-danger">Eliminar</a>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--success);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+        <div>
+            <div class="kpi-label">Completadas</div>
+            <div class="kpi-value">{{ resumen.completadas }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--warning);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg></div>
+        <div>
+            <div class="kpi-label">En curso</div>
+            <div class="kpi-value">{{ resumen.en_curso }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--info);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+        <div>
+            <div class="kpi-label">Planificadas</div>
+            <div class="kpi-value">{{ resumen.planificadas }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--danger);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
+        <div>
+            <div class="kpi-label">No conformidades</div>
+            <div class="kpi-value">{{ resumen.nc_total }}</div>
+        </div>
+    </div>
+</div>
+
+{% if programa.alcance %}
+<div class="card" style="margin-bottom:var(--space-lg);">
+    <div class="card-body">
+        <h4 style="margin:0 0 8px;">Alcance del programa</h4>
+        <p style="margin:0;">{{ programa.alcance|linebreaks }}</p>
+    </div>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-body">
+        <h4 style="margin:0 0 var(--space-md);">Auditorías del programa</h4>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Fecha</th>
+                        <th>Líder</th>
+                        <th>Cumplimiento</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for aud in auditorias %}
+                    <tr>
+                        <td><strong>AUD-{{ aud.pk|stringformat:"04d" }}</strong></td>
+                        <td>{{ aud.titulo }}</td>
+                        <td>{{ aud.fecha_planificada|date:"d/m/Y" }}</td>
+                        <td>{{ aud.lider_auditoria.get_full_name|default:aud.lider_auditoria.username }}</td>
+                        <td>
+                            {% if aud.estado == 'completada' or aud.estado == 'cerrada' %}
+                            <strong style="color:{% if aud.porcentaje_cumplimiento >= 80 %}var(--success){% elif aud.porcentaje_cumplimiento >= 50 %}var(--warning){% else %}var(--danger){% endif %};">
+                                {{ aud.porcentaje_cumplimiento }}%
+                            </strong>
+                            {% else %}
+                            <span style="color:var(--text-muted);">—</span>
+                            {% endif %}
+                        </td>
+                        <td><span class="badge {{ aud.badge_estado }}">{{ aud.get_estado_display }}</span></td>
+                        <td>
+                            <div style="display:flex;gap:4px;">
+                                <a href="{% url 'audits:auditoria_detail' pk=aud.pk %}" class="btn btn-sm">Ver</a>
+                                <a href="{% url 'audits:auditoria_update' pk=aud.pk %}" class="btn btn-sm">Editar</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" style="text-align:center;padding:var(--space-lg);color:var(--text-muted);">
+                            No hay auditorías en este programa.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -49,6 +49,8 @@ LOCAL_APPS = [
     'apps.chemical_products.apps.ChemicalProductsConfig',
     'apps.health_surveillance.apps.HealthSurveillanceConfig',
     'apps.work_instructions.apps.WorkInstructionsConfig',
+    'apps.audits.apps.AuditsConfig',
+    'apps.legal_requirements.apps.LegalRequirementsConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

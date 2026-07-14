@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static navigation_tags %}
+
+{% block page_title %}Normativa Legal PRL{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb">
+    <span class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'legal_requirements:dashboard' %}">Requisitos Legales</a></span>
+    <span class="breadcrumb-item active">Normativa</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-lg);">
+    <h3 style="margin:0;">Normativa PRL española</h3>
+    <a href="{% url 'legal_requirements:normativa_create' %}" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Añadir normativa
+    </a>
+</div>
+
+<div style="display:flex;gap:8px;margin-bottom:var(--space-lg);flex-wrap:wrap;">
+    <a href="{% url 'legal_requirements:normativa_list' %}" class="btn btn-sm {% if not request.GET.tipo and not request.GET.ambito %}btn-primary{% else %}btn-secondary{% endif %}">Todas</a>
+    <a href="{% url 'legal_requirements:normativa_list' %}?tipo=ley" class="btn btn-sm {% if request.GET.tipo == 'ley' %}btn-primary{% else %}btn-secondary{% endif %}">Leyes</a>
+    <a href="{% url 'legal_requirements:normativa_list' %}?tipo=real_decreto" class="btn btn-sm {% if request.GET.tipo == 'real_decreto' %}btn-primary{% else %}btn-secondary{% endif %}">Reales Decretos</a>
+    <a href="{% url 'legal_requirements:normativa_list' %}?ambito=estatal" class="btn btn-sm {% if request.GET.ambito == 'estatal' %}btn-primary{% else %}btn-secondary{% endif %}">Estatal</a>
+    <a href="{% url 'legal_requirements:normativa_list' %}?ambito=autonomico" class="btn btn-sm {% if request.GET.ambito == 'autonomico' %}btn-primary{% else %}btn-secondary{% endif %}">Autonómico</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Número</th>
+                <th>Nombre</th>
+                <th>Ámbito</th>
+                <th>Publicación</th>
+                <th>Vigente</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in normativas %}
+            <tr>
+                <td><span class="badge badge-secondary">{{ n.get_tipo_display }}</span></td>
+                <td><strong>{{ n.numero }}</strong></td>
+                <td>{{ n.nombre|truncatewords:12 }}</td>
+                <td><span class="badge {{ n.badge_ambito }}">{{ n.get_ambito_display }}</span></td>
+                <td>{{ n.fecha_publicacion|date:"d/m/Y" }}</td>
+                <td>{% if n.vigente %}<span class="badge badge-success">Vigente</span>{% else %}<span class="badge badge-secondary">Inactiva</span>{% endif %}</td>
+                <td>
+                    <div style="display:flex;gap:4px;">
+                        <a href="{% url 'legal_requirements:normativa_detail' pk=n.pk %}" class="btn btn-sm">Ver</a>
+                        <a href="{% url 'legal_requirements:normativa_update' pk=n.pk %}" class="btn btn-sm">Editar</a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align:center;padding:var(--space-lg);color:var(--text-muted);">
+                    No hay normativa cargada. Usa el management command <code>cargar_normativa_prl</code> o añade manualmente.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="page-link">← Anterior</a>
+    {% endif %}
+    <span class="page-current">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="page-link">Siguiente →</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

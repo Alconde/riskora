@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static navigation_tags %}
+
+{% block page_title %}Requisitos Legales{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb">
+    <span class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel</a></span>
+    <span class="breadcrumb-item active">Requisitos Legales</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--success);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+        <div>
+            <div class="kpi-label">Cumple</div>
+            <div class="kpi-value">{{ resumen.cumple }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--danger);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg></div>
+        <div>
+            <div class="kpi-label">No cumple</div>
+            <div class="kpi-value">{{ resumen.no_cumple }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--warning);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg></div>
+        <div>
+            <div class="kpi-label">En curso</div>
+            <div class="kpi-value">{{ resumen.en_curso }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:var(--info);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+        <div>
+            <div class="kpi-label">Pendientes</div>
+            <div class="kpi-value">{{ resumen.pendiente }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color:{% if resumen.porcentaje_cumplimiento >= 80 %}var(--success){% elif resumen.porcentaje_cumplimiento >= 50 %}var(--warning){% else %}var(--danger){% endif %};">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+        </div>
+        <div>
+            <div class="kpi-label">Cumplimiento total</div>
+            <div class="kpi-value">{{ resumen.porcentaje_cumplimiento }}%</div>
+        </div>
+    </div>
+</div>
+
+<div style="display:flex;gap:12px;margin-bottom:var(--space-lg);flex-wrap:wrap;">
+    <a href="{% url 'legal_requirements:normativa_list' %}" class="btn btn-secondary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" style="vertical-align:-2px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg> Normativa legal
+    </a>
+    <a href="{% url 'legal_requirements:requisito_list' %}" class="btn btn-secondary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" style="vertical-align:-2px;"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg> Requisitos legales
+    </a>
+    <a href="{% url 'legal_requirements:cumplimiento_list' %}" class="btn btn-secondary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" style="vertical-align:-2px;"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path><rect x="9" y="3" width="6" height="4" rx="1"></rect><path d="m9 14 2 2 4-4"></path></svg> Evaluar cumplimiento
+    </a>
+    <a href="{% url 'legal_requirements:alerta_list' %}" class="btn btn-secondary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" style="vertical-align:-2px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        Alertas
+        {% if alertas_count > 0 %}
+        <span class="badge badge-danger" style="margin-left:4px;">{{ alertas_count }}</span>
+        {% endif %}
+    </a>
+</div>
+
+{% if alertas %}
+<div class="card" style="margin-bottom:var(--space-lg);border-left:4px solid var(--danger);">
+    <div class="card-body">
+        <h4 style="margin:0 0 var(--space-md);color:var(--danger);">Alertas pendientes</h4>
+        {% for a in alertas %}
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bg-tertiary);">
+            <div>
+                <span class="badge {{ a.badge_tipo }}">{{ a.get_tipo_display }}</span>
+                <strong style="margin-left:8px;">{{ a.titulo }}</strong>
+            </div>
+            <div style="display:flex;gap:6px;">
+                <a href="{% url 'legal_requirements:alerta_marcar_leida' pk=a.pk %}" class="btn btn-sm">Marcar leída</a>
+                <a href="{% url 'legal_requirements:alerta_resolver' pk=a.pk %}" class="btn btn-sm btn-success">Resolver</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if vencidos %}
+<div class="card" style="margin-bottom:var(--space-lg);border-left:4px solid var(--danger);">
+    <div class="card-body">
+        <h4 style="margin:0 0 var(--space-md);color:var(--danger);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" style="vertical-align:-2px;"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path></svg> Revisiones vencidas ({{ vencidos_count }})
+        </h4>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Requisito</th>
+                        <th>Normativa</th>
+                        <th>Revisión</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in vencidos %}
+                    <tr>
+                        <td>{{ c.requisito.titulo }}</td>
+                        <td>{{ c.requisito.normativa }}</td>
+                        <td style="color:var(--danger);font-weight:600;">{{ c.fecha_proxima_revision|date:"d/m/Y" }}</td>
+                        <td><a href="{% url 'legal_requirements:cumplimiento_update' pk=c.pk %}" class="btn btn-sm btn-primary">Evaluar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if proximos %}
+<div class="card" style="margin-bottom:var(--space-lg);border-left:4px solid var(--warning);">
+    <div class="card-body">
+        <h4 style="margin:0 0 var(--space-md);color:var(--warning);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" style="vertical-align:-2px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Próximas revisiones (30 días)
+        </h4>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Requisito</th>
+                        <th>Normativa</th>
+                        <th>Revisión</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in proximos %}
+                    <tr>
+                        <td>{{ c.requisito.titulo }}</td>
+                        <td>{{ c.requisito.normativa }}</td>
+                        <td style="color:var(--warning);font-weight:600;">{{ c.fecha_proxima_revision|date:"d/m/Y" }}</td>
+                        <td><a href="{% url 'legal_requirements:cumplimiento_update' pk=c.pk %}" class="btn btn-sm btn-primary">Evaluar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

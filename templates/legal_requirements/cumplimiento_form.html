@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static navigation_tags %}
+
+{% block page_title %}{% if form.instance.pk %}Editar cumplimiento{% else %}Evaluar cumplimiento{% endif %}{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb">
+    <span class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'legal_requirements:dashboard' %}">Requisitos Legales</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'legal_requirements:cumplimiento_list' %}">Cumplimiento</a></span>
+    <span class="breadcrumb-item active">{% if form.instance.pk %}Editar{% else %}Evaluar{% endif %}</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h3 style="margin:0 0 var(--space-lg);">{% if form.instance.pk %}Editar cumplimiento legal{% else %}Evaluar un requisito legal{% endif %}</h3>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="form-errors">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                <small style="color:var(--text-muted);">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div style="display:flex;gap:8px;margin-top:var(--space-lg);">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'legal_requirements:cumplimiento_list' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

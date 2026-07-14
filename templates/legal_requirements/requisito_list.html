@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static navigation_tags %}
+
+{% block page_title %}Requisitos Legales{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb">
+    <span class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'legal_requirements:dashboard' %}">Requisitos Legales</a></span>
+    <span class="breadcrumb-item active">Requisitos</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-lg);">
+    <h3 style="margin:0;">Requisitos legales</h3>
+    <a href="{% url 'legal_requirements:requisito_create' %}" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Nuevo requisito
+    </a>
+</div>
+
+<div style="display:flex;gap:8px;margin-bottom:var(--space-lg);flex-wrap:wrap;">
+    <a href="{% url 'legal_requirements:requisito_list' %}" class="btn btn-sm {% if not request.GET.categoria %}btn-primary{% else %}btn-secondary{% endif %}">Todos</a>
+    <a href="{% url 'legal_requirements:requisito_list' %}?categoria=prevencion" class="btn btn-sm btn-secondary">Prevención</a>
+    <a href="{% url 'legal_requirements:requisito_list' %}?categoria=formacion" class="btn btn-sm btn-secondary">Formación</a>
+    <a href="{% url 'legal_requirements:requisito_list' %}?categoria=vigilancia" class="btn btn-sm btn-secondary">Vigilancia</a>
+    <a href="{% url 'legal_requirements:requisito_list' %}?categoria=epis" class="btn btn-sm btn-secondary">EPIs</a>
+    <a href="{% url 'legal_requirements:requisito_list' %}?categoria=instalaciones" class="btn btn-sm btn-secondary">Instalaciones</a>
+    <a href="{% url 'legal_requirements:requisito_list' %}?categoria=emergencias" class="btn btn-sm btn-secondary">Emergencias</a>
+    <a href="{% url 'legal_requirements:requisito_list' %}?categoria=documentacion" class="btn btn-sm btn-secondary">Documentación</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Normativa</th>
+                <th>Artículo</th>
+                <th>Título</th>
+                <th>Categoría</th>
+                <th>Plazo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in requisitos %}
+            <tr>
+                <td><span class="badge badge-secondary">{{ r.normativa }}</span></td>
+                <td>{{ r.articulo|default:"—" }}</td>
+                <td>{{ r.titulo }}</td>
+                <td><span class="badge {{ r.badge_categoria }}">{{ r.get_categoria_display }}</span></td>
+                <td>{{ r.plazo_cumplimiento|default:"Permanente" }}</td>
+                <td><a href="{% url 'legal_requirements:requisito_update' pk=r.pk %}" class="btn btn-sm">Editar</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="text-align:center;padding:var(--space-lg);color:var(--text-muted);">
+                    No hay requisitos registrados.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="page-link">← Anterior</a>
+    {% endif %}
+    <span class="page-current">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="page-link">Siguiente →</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

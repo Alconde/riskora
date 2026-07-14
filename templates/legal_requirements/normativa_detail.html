@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static navigation_tags %}
+
+{% block page_title %}{{ normativa }}{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb">
+    <span class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'legal_requirements:dashboard' %}">Requisitos Legales</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'legal_requirements:normativa_list' %}">Normativa</a></span>
+    <span class="breadcrumb-item active">{{ normativa.numero }}</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:var(--space-lg);">
+    <div>
+        <h2 style="margin:0;">{{ normativa.nombre }}</h2>
+        <p style="color:var(--text-muted);margin:4px 0 0;">
+            {{ normativa.get_tipo_display }} · n.º {{ normativa.numero }}
+            {% if normativa.fecha_publicacion %} · {{ normativa.fecha_publicacion|date:"d/m/Y" }}{% endif %}
+        </p>
+    </div>
+    <div style="display:flex;gap:8px;">
+        <a href="{% url 'legal_requirements:normativa_update' pk=normativa.pk %}" class="btn btn-secondary">Editar</a>
+        <a href="{% url 'legal_requirements:normativa_delete' pk=normativa.pk %}" class="btn btn-danger">Eliminar</a>
+    </div>
+</div>
+
+<div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));">
+    <div class="kpi-card">
+        <div>
+            <div class="kpi-label">Ámbito</div>
+            <div class="kpi-value" style="font-size:1rem;"><span class="badge {{ normativa.badge_ambito }}">{{ normativa.get_ambito_display }}</span></div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div>
+            <div class="kpi-label">Vigente</div>
+            <div class="kpi-value" style="font-size:1rem;">{% if normativa.vigente %}<span class="badge badge-success">Sí</span>{% else %}<span class="badge badge-secondary">No</span>{% endif %}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div>
+            <div class="kpi-label">Requisitos</div>
+            <div class="kpi-value">{{ requisitos|length }}</div>
+        </div>
+    </div>
+</div>
+
+{% if normativa.resumen %}
+<div class="card" style="margin-bottom:var(--space-lg);">
+    <div class="card-body">
+        <h4 style="margin:0 0 8px;">Resumen</h4>
+        <p style="margin:0;">{{ normativa.resumen|linebreaks }}</p>
+    </div>
+</div>
+{% endif %}
+
+{% if normativa.boe_enlace %}
+<div style="margin-bottom:var(--space-lg);">
+    <a href="{{ normativa.boe_enlace }}" target="_blank" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14" style="vertical-align:-2px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> Ver texto completo (BOE)
+    </a>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-body">
+        <h4 style="margin:0 0 var(--space-md);">Requisitos asociados</h4>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Artículo</th>
+                        <th>Título</th>
+                        <th>Categoría</th>
+                        <th>Plazo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in requisitos %}
+                    <tr>
+                        <td>{{ r.articulo|default:"—" }}</td>
+                        <td>{{ r.titulo }}</td>
+                        <td><span class="badge {{ r.badge_categoria }}">{{ r.get_categoria_display }}</span></td>
+                        <td>{{ r.plazo_cumplimiento|default:"Permanente" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align:center;padding:var(--space-lg);color:var(--text-muted);">
+                            No hay requisitos registrados para esta normativa.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

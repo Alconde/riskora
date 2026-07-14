@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static navigation_tags %}
+
+{% block page_title %}Alertas Legales{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb">
+    <span class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel</a></span>
+    <span class="breadcrumb-item"><a href="{% url 'legal_requirements:dashboard' %}">Requisitos Legales</a></span>
+    <span class="breadcrumb-item active">Alertas</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-lg);">
+    <h3 style="margin:0;">Alertas legales</h3>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Título</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in alertas %}
+            <tr style="{% if not a.leida %}background:var(--bg-secondary);{% endif %}">
+                <td><span class="badge {{ a.badge_tipo }}">{{ a.get_tipo_display }}</span></td>
+                <td><strong>{{ a.titulo }}</strong></td>
+                <td>{{ a.fecha_creacion|date:"d/m/Y H:i" }}</td>
+                <td>
+                    {% if a.resuelta %}
+                    <span class="badge badge-success">Resuelta</span>
+                    {% elif a.leida %}
+                    <span class="badge badge-info">Leída</span>
+                    {% else %}
+                    <span class="badge badge-danger">Pendiente</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not a.resuelta %}
+                    <div style="display:flex;gap:4px;">
+                        <a href="{% url 'legal_requirements:alerta_marcar_leida' pk=a.pk %}" class="btn btn-sm">Leída</a>
+                        <a href="{% url 'legal_requirements:alerta_resolver' pk=a.pk %}" class="btn btn-sm btn-success">Resolver</a>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align:center;padding:var(--space-lg);color:var(--text-muted);">
+                    No hay alertas pendientes.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="page-link">← Anterior</a>
+    {% endif %}
+    <span class="page-current">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="page-link">Siguiente →</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

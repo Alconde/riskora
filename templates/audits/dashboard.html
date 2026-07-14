@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static navigation_tags %}
+
+{% block page_title %}Auditorías Internas{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb">
+    <span class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel</a></span>
+    <span class="breadcrumb-item active">Auditorías</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color: var(--primary);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path><rect x="9" y="3" width="6" height="4" rx="1"></rect><path d="m9 14 2 2 4-4"></path></svg>
+        </div>
+        <div>
+            <div class="kpi-label">Auditorías pendientes</div>
+            <div class="kpi-value">{{ dashboard.auditorias_pendientes_count }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color: var(--danger);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path></svg>
+        </div>
+        <div>
+            <div class="kpi-label">NC abiertas</div>
+            <div class="kpi-value">{{ dashboard.nc_abiertas_count }}</div>
+        </div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-icon" style="color: var(--accent);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        </div>
+        <div>
+            <div class="kpi-label">Próximas (30 días)</div>
+            <div class="kpi-value">{{ dashboard.auditorias_proximas|length }}</div>
+        </div>
+    </div>
+</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-lg);">
+    <h3 style="margin:0;">Programas de auditoría</h3>
+    <a href="{% url 'audits:programa_create' %}" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Nuevo programa
+    </a>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Año</th>
+                <th>Versión</th>
+                <th>Avance</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for programa in programas_recientes %}
+            <tr>
+                <td><strong>{{ programa.anio }}</strong></td>
+                <td>{{ programa.version }}</td>
+                <td>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <div style="flex:1;height:6px;background:var(--bg-tertiary);border-radius:3px;">
+                            <div style="width:{{ programa.porcentaje_avance }}%;height:100%;background:var(--success);border-radius:3px;"></div>
+                        </div>
+                        <span style="font-size:0.85rem;">{{ programa.porcentaje_avance }}%</span>
+                    </div>
+                </td>
+                <td><span class="badge {{ programa.badge_estado }}">{{ programa.get_estado_display }}</span></td>
+                <td>
+                    <a href="{% url 'audits:programa_detail' pk=programa.pk %}" class="btn btn-sm">Ver</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align:center;padding:var(--space-lg);color:var(--text-muted);">
+                    No hay programas de auditoría. <a href="{% url 'audits:programa_create' %}">Crear el primero →</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if dashboard.auditorias_proximas %}
+<h3 style="margin-top:var(--space-xl);margin-bottom:var(--space-md);">Próximas auditorías</h3>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Fecha</th>
+                <th>Líder</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aud in dashboard.auditorias_proximas %}
+            <tr>
+                <td><strong>AUD-{{ aud.pk|stringformat:"04d" }}</strong></td>
+                <td>{{ aud.titulo }}</td>
+                <td>{{ aud.fecha_planificada|date:"d/m/Y" }}</td>
+                <td>{{ aud.lider_auditoria.get_full_name|default:aud.lider_auditoria.username }}</td>
+                <td><span class="badge {{ aud.badge_estado }}">{{ aud.get_estado_display }}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}
