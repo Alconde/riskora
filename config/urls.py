@@ -3,10 +3,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from apps.dashboard.views import DashboardView, DashboardChartDataView
+from apps.core.views import busqueda_global
 
 urlpatterns = [
     path('', DashboardView.as_view(), name='dashboard'),
     path('api/chart-data/', DashboardChartDataView.as_view(), name='chart-data'),
+    path('buscar/', busqueda_global, name='busqueda-global'),
     path('admin/', admin.site.urls),
     path('', include('apps.accounts.urls', namespace='accounts')),
     path('empresas/', include('apps.companies.urls', namespace='companies')),

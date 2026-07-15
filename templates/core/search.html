@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Buscar: {{ q }} | Riskora{% endblock %}
+{% block page_title %}Resultados de busqueda{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:18px;">
+    <form method="get" action="{% url 'busqueda-global' %}" style="display:flex;gap:10px;align-items:center;">
+        <input type="text" name="q" value="{{ q }}" placeholder="Buscar trabajadores, documentos, NCs, formacion..."
+            style="flex:1;padding:10px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:14px;outline:none;"
+            autofocus>
+        <button type="submit" class="hero-btn hero-btn-primary" style="margin:0;">Buscar</button>
+    </form>
+</div>
+
+{% if q %}
+    <div style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
+        <div class="meta">
+            {% if total == 0 %}
+                No se encontraron resultados para "<strong>{{ q }}</strong>"
+            {% elif total == 1 %}
+                1 resultado para "<strong>{{ q }}</strong>"
+            {% else %}
+                {{ total }} resultados para "<strong>{{ q }}</strong>"
+            {% endif %}
+        </div>
+    </div>
+
+    {% if resultados %}
+        <div class="card">
+            <div class="list">
+                {% for r in resultados %}
+                    <a href="{{ r.url }}" class="list-item" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #f1f5f9;">
+                        <div>
+                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+                                <span class="{{ r.badge }}" style="font-size:10px;padding:2px 8px;border-radius:999px;">{{ r.tipo }}</span>
+                                <strong style="font-size:14px;color:#1f2937;">{{ r.titulo }}</strong>
+                            </div>
+                            <div style="font-size:12px;color:#64748b;">{{ r.subtitulo }}</div>
+                        </div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="color:#94a3b8;flex-shrink:0;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="card" style="text-align:center;padding:40px;">
+        <div style="font-size:48px;margin-bottom:12px;">&#128269;</div>
+        <h3 style="color:#334155;margin-bottom:6px;">Busqueda global</h3>
+        <p style="color:#64748b;font-size:14px;">Escribe al menos 2 caracteres para buscar en trabajadores, documentos, NCs, formacion, accidentes, autorizaciones y tareas.</p>
+    </div>
+{% endif %}
+{% endblock %}
