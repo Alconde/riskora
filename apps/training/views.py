@@ -1,6 +1,7 @@
 from datetime import timedelta
 from urllib.parse import urlencode
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -451,3 +452,40 @@ class TrainingDashboardView(LoginRequiredMixin, CompanyScopedMixin, TemplateView
         context['open_alerts'] = alerts.order_by('due_date', '-created_at')[:10]
 
         return context
+
+
+@login_required(login_url='/login/')
+def exportar_formacion_excel(request):
+    from apps.core.export import exportar_excel
+
+    empresa = getattr(request, 'active_company', None)
+    qs = TrainingRecord.objects.select_related('company', 'worker', 'course')
+    if empresa:
+        qs = qs.filter(company=empresa)
+    else:
+        qs = qs.none()
+
+    columns = [
+        {'header': 'Trabajador', 'value': lambda r: str(r.worker), 'width': 25},
+        {'header': 'Empresa', 'value': lambda r: str(r.company) if r.company else '', 'width': 25},
+        {'header': 'Curso', 'value': lambda r: str(r.course), 'width': 30},
+        {'header': 'Estado', 'value': lambda r: r.get_status_display(), 'width': 15},
+        {'header': 'Fecha Planificada', 'value': lambda r: r.planned_date.strftime('%d/%m/%Y') if r.planned_date else '', 'width': 15},
+        {'header': 'Fecha Realizacion', 'value': lambda r: r.completed_date.strftime('%d/%m/%Y') if r.completed_date else '', 'width': 15},
+        {'header': 'Fecha Caducidad', 'value': lambda r: r.expiry_date.strftime('%d/%m/%Y') if r.expiry_date else '', 'width': 15},
+        {'header': 'Vigencia', 'value': lambda r: r.expiry_status_label, 'width': 15},
+        {'header': 'Formador', 'value': lambda r: r.trainer_name or '', 'width': 20},
+        {'header': 'Entidad', 'value': lambda r: r.training_entity or '', 'width': 20},
+        {'header': 'Certificado', 'value': lambda r: r.certificate_number or '', 'width': 15},
+        {'header': 'Asistencia %', 'value': lambda r: r.attendance_percentage if r.attendance_percentage else '', 'width': 12},
+        {'header': 'Calificacion', 'value': lambda r: float(r.score) if r.score else '', 'width': 12},
+    ]
+
+    subtitle = f'Empresa: {empresa}' if empresa else 'Sin empresa activa'
+    return exportar_excel(
+        queryset=qs,
+        columns=columns,
+        title='Registros de Formacion',
+        filename='formacion.xlsx',
+        subtitle=subtitle,
+    )

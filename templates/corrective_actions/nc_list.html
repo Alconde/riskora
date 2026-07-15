@@ -11,6 +11,10 @@
             <div class="meta">Gestion de no conformidades detectadas, investigación y cierre.</div>
         </div>
         <a href="{% url 'corrective_actions:nc-create' %}" class="hero-btn hero-btn-primary">Nueva NC</a>
+        <a href="{% url 'corrective_actions:nc-export-excel' %}" style="background:#16a34a;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Exportar Excel
+        </a>
     </div>
 </div>
 

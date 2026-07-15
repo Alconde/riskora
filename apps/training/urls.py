@@ -16,6 +16,7 @@ from .views import (
     TrainingRecordListView,
     TrainingRecordUpdateView,
     TrainingDashboardView,
+    exportar_formacion_excel,
 )
 
 app_name = 'training'
@@ -36,8 +37,8 @@ urlpatterns = [
     path('courses/<int:pk>/delete/', TrainingCourseDeleteView.as_view(), name='course_delete'),
 
     # registros
-    
     path('records/', TrainingRecordListView.as_view(), name='record_list'),
+    path('records/export-excel/', exportar_formacion_excel, name='record-export-excel'),
     path('records/create/', TrainingRecordCreateView.as_view(), name='record_create'),
     path('records/<int:pk>/', TrainingRecordDetailView.as_view(), name='record_detail'),
     path('records/<int:pk>/edit/', TrainingRecordUpdateView.as_view(), name='record_update'),

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
@@ -445,3 +446,38 @@ class IncidenteDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
     success_url = reverse_lazy('incidents:incidente-list')
     login_url = '/login/'
     company_field_name = 'empresa'
+
+
+@login_required(login_url='/login/')
+def exportar_accidentes_excel(request):
+    from apps.core.export import exportar_excel
+
+    empresa = getattr(request, 'active_company', None)
+    qs = Accidente.objects.select_related('empresa', 'centro_trabajo', 'trabajador_afectado', 'creado_por')
+    if empresa:
+        qs = qs.filter(empresa=empresa)
+    else:
+        qs = qs.none()
+
+    columns = [
+        {'header': 'Codigo', 'value': lambda a: a.codigo, 'width': 15},
+        {'header': 'Titulo', 'value': lambda a: a.titulo, 'width': 35},
+        {'header': 'Empresa', 'value': lambda a: str(a.empresa), 'width': 25},
+        {'header': 'Centro', 'value': lambda a: str(a.centro_trabajo) if a.centro_trabajo else '', 'width': 25},
+        {'header': 'Fecha', 'value': lambda a: a.fecha.strftime('%d/%m/%Y %H:%M') if a.fecha else '', 'width': 18},
+        {'header': 'Tipo', 'value': lambda a: a.get_tipo_display(), 'width': 18},
+        {'header': 'Gravedad', 'value': lambda a: a.get_gravedad_display(), 'width': 15},
+        {'header': 'Tipo Lesion', 'value': lambda a: a.get_tipo_lesion_display(), 'width': 15},
+        {'header': 'Ubicacion', 'value': lambda a: a.ubicacion or '', 'width': 20},
+        {'header': 'Trabajador', 'value': lambda a: str(a.trabajador_afectado) if a.trabajador_afectado else '', 'width': 20},
+        {'header': 'Estado', 'value': lambda a: a.get_estado_display(), 'width': 15},
+    ]
+
+    subtitle = f'Empresa: {empresa}' if empresa else 'Sin empresa activa'
+    return exportar_excel(
+        queryset=qs,
+        columns=columns,
+        title='Accidentes de Trabajo',
+        filename='accidentes.xlsx',
+        subtitle=subtitle,
+    )

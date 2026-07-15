@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.urls import reverse_lazy
@@ -347,3 +348,41 @@ class JobPositionDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'Puesto de trabajo eliminado correctamente.')
         return super().delete(request, *args, **kwargs)
+
+
+@login_required(login_url='/login/')
+def exportar_trabajadores_excel(request):
+    from apps.core.export import exportar_excel
+    from apps.core.mixins import CompanyScopedMixin
+
+    empresa = getattr(request, 'active_company', None)
+    qs = Worker.objects.select_related('company', 'work_center', 'job_position')
+    if empresa:
+        qs = qs.filter(company=empresa)
+    else:
+        qs = qs.none()
+
+    columns = [
+        {'header': 'Nombre', 'value': lambda w: w.first_name, 'width': 20},
+        {'header': 'Apellidos', 'value': lambda w: w.last_name, 'width': 25},
+        {'header': 'Empresa', 'value': lambda w: str(w.company), 'width': 25},
+        {'header': 'Centro de Trabajo', 'value': lambda w: str(w.work_center) if w.work_center else '', 'width': 25},
+        {'header': 'Puesto', 'value': lambda w: str(w.job_position) if w.job_position else '', 'width': 25},
+        {'header': 'DNI/NIE', 'value': lambda w: w.national_id or '', 'width': 15},
+        {'header': 'Email', 'value': lambda w: w.email or '', 'width': 25},
+        {'header': 'Telefono', 'value': lambda w: w.phone or '', 'width': 15},
+        {'header': 'Cod. Empleado', 'value': lambda w: w.employee_code or '', 'width': 15},
+        {'header': 'Fecha Alta', 'value': lambda w: w.hire_date.strftime('%d/%m/%Y') if w.hire_date else '', 'width': 12},
+        {'header': 'Estado', 'value': lambda w: w.get_employment_status_display(), 'width': 12},
+        {'header': 'Sensible', 'value': lambda w: 'Si' if w.especially_sensitive else '', 'width': 10},
+        {'header': 'ETT/Temporal', 'value': lambda w: 'Si' if w.temporary_worker else '', 'width': 12},
+    ]
+
+    subtitle = f'Empresa: {empresa}' if empresa else 'Sin empresa activa'
+    return exportar_excel(
+        queryset=qs,
+        columns=columns,
+        title='Listado de Trabajadores',
+        filename='trabajadores.xlsx',
+        subtitle=subtitle,
+    )

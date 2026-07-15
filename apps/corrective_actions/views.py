@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
@@ -299,3 +300,38 @@ class APDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
     success_url = reverse_lazy('corrective_actions:ap-list')
     login_url = '/login/'
     company_field_name = 'empresa'
+
+
+@login_required(login_url='/login/')
+def exportar_ncs_excel(request):
+    from apps.core.export import exportar_excel
+
+    empresa = getattr(request, 'active_company', None)
+    qs = NoConformidad.objects.select_related('empresa', 'detectado_por', 'centro_trabajo', 'trabajador')
+    if empresa:
+        qs = qs.filter(empresa=empresa)
+    else:
+        qs = qs.none()
+
+    columns = [
+        {'header': 'Codigo', 'value': lambda nc: nc.codigo, 'width': 15},
+        {'header': 'Titulo', 'value': lambda nc: nc.titulo, 'width': 35},
+        {'header': 'Empresa', 'value': lambda nc: str(nc.empresa), 'width': 25},
+        {'header': 'Fuente', 'value': lambda nc: nc.get_fuente_display(), 'width': 15},
+        {'header': 'Gravedad', 'value': lambda nc: nc.get_gravedad_display(), 'width': 15},
+        {'header': 'Estado', 'value': lambda nc: nc.get_estado_display(), 'width': 15},
+        {'header': 'Fecha Deteccion', 'value': lambda nc: nc.fecha_deteccion.strftime('%d/%m/%Y') if nc.fecha_deteccion else '', 'width': 15},
+        {'header': 'Fecha Limite', 'value': lambda nc: nc.fecha_limite_resolucion.strftime('%d/%m/%Y') if nc.fecha_limite_resolucion else '', 'width': 15},
+        {'header': 'Centro', 'value': lambda nc: str(nc.centro_trabajo) if nc.centro_trabajo else '', 'width': 25},
+        {'header': 'Detectado Por', 'value': lambda nc: str(nc.detectado_por) if nc.detectado_por else '', 'width': 20},
+        {'header': 'Trabajador', 'value': lambda nc: str(nc.trabajador) if nc.trabajador else '', 'width': 20},
+    ]
+
+    subtitle = f'Empresa: {empresa}' if empresa else 'Sin empresa activa'
+    return exportar_excel(
+        queryset=qs,
+        columns=columns,
+        title='No Conformidades',
+        filename='no_conformidades.xlsx',
+        subtitle=subtitle,
+    )

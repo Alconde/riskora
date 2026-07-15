@@ -10,6 +10,7 @@ urlpatterns = [
 
     # Accidentes
     path('accidentes/', views.AccidenteListView.as_view(), name='accidente-list'),
+    path('accidentes/exportar-excel/', views.exportar_accidentes_excel, name='accidente-export-excel'),
     path('accidentes/nuevo/', views.AccidenteCreateView.as_view(), name='accidente-create'),
     path('accidentes/<int:pk>/', views.AccidenteDetailView.as_view(), name='accidente-detail'),
     path('accidentes/<int:pk>/editar/', views.AccidenteUpdateView.as_view(), name='accidente-update'),

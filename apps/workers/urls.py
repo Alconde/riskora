@@ -16,10 +16,12 @@ from apps.workers.views import (
     JobPositionDeleteView,
     load_workcenters,
     load_jobpositions,
+    exportar_trabajadores_excel,
 )
 
 urlpatterns = [
     path('', WorkerListView.as_view(), name='worker-list'),
+    path('exportar-excel/', exportar_trabajadores_excel, name='worker-export-excel'),
     path('documentos/', WorkerDocumentsView.as_view(), name='worker-documents'),
     path('nuevo/', WorkerCreateView.as_view(), name='worker-create'),
     path('<int:pk>/', WorkerDetailView.as_view(), name='worker-detail'),

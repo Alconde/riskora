@@ -7,6 +7,7 @@ app_name = 'corrective_actions'
 urlpatterns = [
     # No conformidades
     path('', views.NCListView.as_view(), name='nc-list'),
+    path('exportar-excel/', views.exportar_ncs_excel, name='nc-export-excel'),
     path('nueva/', views.NCCreateView.as_view(), name='nc-create'),
     path('<int:pk>/', views.NCDetailView.as_view(), name='nc-detail'),
     path('<int:pk>/editar/', views.NCUpdateView.as_view(), name='nc-update'),
