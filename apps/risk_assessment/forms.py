@@ -6,6 +6,7 @@ from apps.risk_assessment.models import (
     TipoPeligro,
     InformeRiesgoEspecial,
 )
+from apps.preventive_planning.models import MedidaPreventivaCatalogo
 
 
 class EvaluacionRiesgosForm(forms.ModelForm):
@@ -49,6 +50,7 @@ class ItemEvaluacionRiesgosForm(forms.ModelForm):
             'factor_riesgo_condicion',
             'riesgo',
             'medidas_existentes',
+            'medidas_catalogo',
             'probabilidad',
             'severidad',
             'medidas_propuestas',
@@ -68,6 +70,7 @@ class ItemEvaluacionRiesgosForm(forms.ModelForm):
             'medidas_existentes': forms.Textarea(
                 attrs={'class': 'form-control', 'rows': 2}
             ),
+            'medidas_catalogo': forms.CheckboxSelectMultiple(),
             'probabilidad': forms.Select(attrs={'class': 'form-control'}),
             'severidad': forms.Select(attrs={'class': 'form-control'}),
             'medidas_propuestas': forms.Textarea(
@@ -97,6 +100,14 @@ class ItemEvaluacionRiesgosForm(forms.ModelForm):
             ).values_list('user_id', flat=True)
             self.fields['responsable_medida'].queryset = User.objects.filter(
                 id__in=user_ids
+            )
+            self.fields['medidas_catalogo'].queryset = MedidaPreventivaCatalogo.objects.filter(
+                models.Q(company__isnull=True) | models.Q(company=empresa),
+                activo=True,
+            )
+        else:
+            self.fields['medidas_catalogo'].queryset = MedidaPreventivaCatalogo.objects.filter(
+                company__isnull=True, activo=True,
             )
         self.fields['tipo_peligro'].queryset = TipoPeligro.objects.filter(activo=True)
 

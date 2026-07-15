@@ -1,5 +1,19 @@
 from django import forms
-from .models import ItemPlanificacion
+from django.db import models
+from .models import MedidaPreventivaCatalogo, ItemPlanificacion
+
+
+class MedidaPreventivaCatalogoForm(forms.ModelForm):
+    class Meta:
+        model = MedidaPreventivaCatalogo
+        fields = ['nombre', 'categoria', 'frecuencia_por_defecto', 'normativa', 'descripcion']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'categoria': forms.Select(attrs={'class': 'form-control'}),
+            'frecuencia_por_defecto': forms.Select(attrs={'class': 'form-control'}),
+            'normativa': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: RD 1215/1997'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
 
 
 class ItemPlanificacionForm(forms.ModelForm):
@@ -8,8 +22,9 @@ class ItemPlanificacionForm(forms.ModelForm):
         fields = [
             'evaluacion_riesgos', 'ambito_puesto', 'tipo_factor_riesgo',
             'factor_riesgo', 'detalle', 'riesgos', 'pb', 'sv', 'gr',
-            'medidas_preventivas', 'detalle_medida', 'plazo_limite',
-            'fecha_objetivo', 'responsable', 'costes', 'estado', 'origen',
+            'medidas_catalogo', 'medidas_preventivas', 'detalle_medida',
+            'plazo_limite', 'fecha_objetivo', 'responsable', 'costes',
+            'estado', 'origen',
         ]
         widgets = {
             'evaluacion_riesgos': forms.Select(attrs={'class': 'form-control'}),
@@ -21,6 +36,7 @@ class ItemPlanificacionForm(forms.ModelForm):
             'pb': forms.Select(attrs={'class': 'form-control'}),
             'sv': forms.Select(attrs={'class': 'form-control'}),
             'gr': forms.Select(attrs={'class': 'form-control'}),
+            'medidas_catalogo': forms.CheckboxSelectMultiple(),
             'medidas_preventivas': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'detalle_medida': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'plazo_limite': forms.TextInput(attrs={'class': 'form-control'}),
@@ -40,3 +56,10 @@ class ItemPlanificacionForm(forms.ModelForm):
             )
         else:
             self.fields['evaluacion_riesgos'].required = False
+
+        self.fields['medidas_catalogo'].queryset = MedidaPreventivaCatalogo.objects.filter(
+            models.Q(company__isnull=True) | models.Q(company=empresa),
+            activo=True,
+        ) if empresa else MedidaPreventivaCatalogo.objects.filter(
+            company__isnull=True, activo=True,
+        )

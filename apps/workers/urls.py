@@ -8,6 +8,7 @@ from apps.workers.views import (
     WorkerCreateView,
     WorkerUpdateView,
     WorkerDeleteView,
+    WorkerDocumentsView,
     JobPositionListView,
     JobPositionDetailView,
     JobPositionCreateView,
@@ -19,6 +20,7 @@ from apps.workers.views import (
 
 urlpatterns = [
     path('', WorkerListView.as_view(), name='worker-list'),
+    path('documentos/', WorkerDocumentsView.as_view(), name='worker-documents'),
     path('nuevo/', WorkerCreateView.as_view(), name='worker-create'),
     path('<int:pk>/', WorkerDetailView.as_view(), name='worker-detail'),
     path('<int:pk>/editar/', WorkerUpdateView.as_view(), name='worker-update'),

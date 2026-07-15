@@ -55,6 +55,9 @@ class LogoutView(BaseLogoutView):
             messages.info(request, 'Has cerrado sesión correctamente.')
         return super().dispatch(request, *args, **kwargs)
 
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
 
 class ProfileView(LoginRequiredMixin, UpdateView):
     model = User

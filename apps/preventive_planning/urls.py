@@ -14,4 +14,8 @@ urlpatterns = [
     path('importar/', views.importar_excel, name='importar'),
     path('plantilla/', views.plantilla_excel, name='plantilla'),
     path('exportar/', views.exportar_excel, name='exportar'),
+    path('catalogo/', views.MedidaCatalogoListView.as_view(), name='catalogo-list'),
+    path('catalogo/nuevo/', views.MedidaCatalogoCreateView.as_view(), name='catalogo-create'),
+    path('catalogo/<int:pk>/editar/', views.MedidaCatalogoUpdateView.as_view(), name='catalogo-update'),
+    path('catalogo/<int:pk>/eliminar/', views.MedidaCatalogoDeleteView.as_view(), name='catalogo-delete'),
 ]

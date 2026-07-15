@@ -27,11 +27,11 @@ class TaskListView(LoginRequiredMixin, ListView):
             'company', 'assigned_to', 'created_by'
         ).order_by('status', 'due_date', '-created_at')
 
-        if not self.request.user.is_superuser:
-            if self.request.active_company:
-                queryset = queryset.filter(company=self.request.active_company)
-            else:
-                queryset = queryset.none()
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            queryset = queryset.filter(company=active_company)
+        elif not self.request.user.is_superuser:
+            queryset = queryset.none()
 
         q = self.request.GET.get('q', '').strip()
         company = self.request.GET.get('company', '').strip()
@@ -106,13 +106,11 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
         queryset = Task.objects.select_related(
             'company', 'assigned_to', 'created_by'
         )
-
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            return queryset.filter(company=active_company)
         if self.request.user.is_superuser:
             return queryset
-
-        if self.request.active_company:
-            return queryset.filter(company=self.request.active_company)
-
         return queryset.none()
 
 
@@ -149,10 +147,11 @@ class TaskUpdateView(LoginRequiredMixin, CompanyScopedMixin, UpdateView):
 
     def get_queryset(self):
         queryset = Task.objects.select_related('company', 'assigned_to', 'created_by')
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            return queryset.filter(company=active_company)
         if self.request.user.is_superuser:
             return queryset
-        if self.request.active_company:
-            return queryset.filter(company=self.request.active_company)
         return queryset.none()
 
     def get_form_kwargs(self):
@@ -173,10 +172,11 @@ class TaskDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
 
     def get_queryset(self):
         queryset = Task.objects.select_related('company')
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            return queryset.filter(company=active_company)
         if self.request.user.is_superuser:
             return queryset
-        if self.request.active_company:
-            return queryset.filter(company=self.request.active_company)
         return queryset.none()
 
     def delete(self, request, *args, **kwargs):
@@ -211,11 +211,11 @@ class AlertListView(LoginRequiredMixin, ListView):
             'company', 'related_task'
         )
 
-        if not self.request.user.is_superuser:
-            if self.request.active_company:
-                queryset = queryset.filter(company=self.request.active_company)
-            else:
-                queryset = queryset.none()
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            queryset = queryset.filter(company=active_company)
+        elif not self.request.user.is_superuser:
+            queryset = queryset.none()
 
         q = self.request.GET.get('q', '').strip()
         alert_type = self.request.GET.get('alert_type', '').strip()
@@ -275,13 +275,11 @@ class AlertDetailView(LoginRequiredMixin, DetailView):
         queryset = Alert.objects.select_related(
             'company', 'related_task'
         )
-
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            return queryset.filter(company=active_company)
         if self.request.user.is_superuser:
             return queryset
-
-        if self.request.active_company:
-            return queryset.filter(company=self.request.active_company)
-
         return queryset.none()
 
     def get_object(self, queryset=None):

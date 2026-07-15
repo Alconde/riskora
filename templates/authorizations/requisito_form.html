@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar requisito{% else %}Nuevo requisito{% endif %} | Autorizaciones | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar: {{ object.nombre }}{% else %}Nuevo requisito de autorización{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:800px;">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Nombre del requisito *</label>
+                {{ form.nombre }}
+                {% if form.nombre.errors %}<div style="color:#b91c1c;">{{ form.nombre.errors }}</div>{% endif %}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Tipo *</label>
+                {{ form.tipo }}
+                {% if form.tipo.errors %}<div style="color:#b91c1c;">{{ form.tipo.errors }}</div>{% endif %}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Categoría</label>
+                {{ form.categoria }}
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">Ej: Maquinaria, Trabajos especiales</div>
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Referencia normativa</label>
+                {{ form.normativa }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Descripción</label>
+                {{ form.descripcion }}
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:14px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="{% url 'authorizations:dashboard' %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

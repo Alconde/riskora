@@ -4,6 +4,10 @@
 {% block page_title %}Gestion de Equipos de Trabajo{% endblock %}
 
 {% block content %}
+<a href="{% url 'company_data:dashboard' %}" class="btn btn-secondary" style="margin-bottom:var(--space-md);">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Volver a Datos Empresa
+</a>
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
     <div class="card kpi-card">
         <div class="kpi-label">Total equipos</div>

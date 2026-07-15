@@ -5,8 +5,8 @@ from django.http import HttpResponse
 from django.db.models import Q
 
 from apps.core.mixins import CompanyScopedMixin
-from .models import ItemPlanificacion
-from .forms import ItemPlanificacionForm
+from .models import MedidaPreventivaCatalogo, ItemPlanificacion
+from .forms import MedidaPreventivaCatalogoForm, ItemPlanificacionForm
 from .services import calcular_estadisticas_planificacion, importar_planificacion_excel
 
 
@@ -87,6 +87,29 @@ class ItemPlanificacionCreateView(LoginRequiredMixin, CompanyScopedMixin, Create
         kwargs['empresa'] = self.get_active_company()
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        empresa = self.get_active_company()
+        from django.db.models import Q
+        qs = MedidaPreventivaCatalogo.objects.filter(
+            Q(company__isnull=True) | Q(company=empresa),
+            activo=True,
+        ) if empresa else MedidaPreventivaCatalogo.objects.filter(
+            company__isnull=True, activo=True,
+        )
+        context['medidas_catalogo_agrupadas'] = [
+            (cat_label, qs.filter(categoria=cat_val))
+            for cat_val, cat_label in MedidaPreventivaCatalogo.Categoria.choices
+            if qs.filter(categoria=cat_val).exists()
+        ]
+        selected = set()
+        if self.object and self.object.pk:
+            selected = set(self.object.medidas_catalogo.values_list('pk', flat=True))
+        elif self.request.POST:
+            selected = set(self.request.POST.getlist('medidas_catalogo'))
+        context['medidas_seleccionadas'] = selected
+        return context
+
     def get_success_url(self):
         return reverse_lazy('preventive_planning:item-detail', kwargs={'pk': self.object.pk})
 
@@ -102,6 +125,29 @@ class ItemPlanificacionUpdateView(LoginRequiredMixin, CompanyScopedMixin, Update
         kwargs = super().get_form_kwargs()
         kwargs['empresa'] = self.get_active_company()
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        empresa = self.get_active_company()
+        from django.db.models import Q
+        qs = MedidaPreventivaCatalogo.objects.filter(
+            Q(company__isnull=True) | Q(company=empresa),
+            activo=True,
+        ) if empresa else MedidaPreventivaCatalogo.objects.filter(
+            company__isnull=True, activo=True,
+        )
+        context['medidas_catalogo_agrupadas'] = [
+            (cat_label, qs.filter(categoria=cat_val))
+            for cat_val, cat_label in MedidaPreventivaCatalogo.Categoria.choices
+            if qs.filter(categoria=cat_val).exists()
+        ]
+        selected = set()
+        if self.object and self.object.pk:
+            selected = set(self.object.medidas_catalogo.values_list('pk', flat=True))
+        elif self.request.POST:
+            selected = set(self.request.POST.getlist('medidas_catalogo'))
+        context['medidas_seleccionadas'] = selected
+        return context
 
     def get_success_url(self):
         return reverse_lazy('preventive_planning:item-detail', kwargs={'pk': self.object.pk})
@@ -286,3 +332,70 @@ def exportar_excel(request):
     )
     response['Content-Disposition'] = f'attachment; filename="planificacion_preventiva_{empresa.pk}.xlsx"'
     return response
+
+
+class MedidaCatalogoListView(LoginRequiredMixin, CompanyScopedMixin, ListView):
+    model = MedidaPreventivaCatalogo
+    template_name = 'preventive_planning/catalogo_list.html'
+    context_object_name = 'medidas'
+    paginate_by = 50
+    login_url = '/login/'
+    company_field_name = 'empresa'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        empresa = self.get_active_company()
+        qs = qs.filter(
+            Q(company__isnull=True) | Q(company=empresa),
+            activo=True,
+        )
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            qs = qs.filter(
+                Q(nombre__icontains=q) | Q(normativa__icontains=q)
+            )
+        cat = self.request.GET.get('categoria', '')
+        if cat:
+            qs = qs.filter(categoria=cat)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = MedidaPreventivaCatalogo.Categoria.choices
+        context['categoria_actual'] = self.request.GET.get('categoria', '')
+        return context
+
+
+class MedidaCatalogoCreateView(LoginRequiredMixin, CompanyScopedMixin, CreateView):
+    model = MedidaPreventivaCatalogo
+    form_class = MedidaPreventivaCatalogoForm
+    template_name = 'preventive_planning/catalogo_form.html'
+    login_url = '/login/'
+    company_field_name = 'empresa'
+
+    def form_valid(self, form):
+        empresa = self.get_active_company()
+        form.instance.company = empresa
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('preventive_planning:catalogo-list')
+
+
+class MedidaCatalogoUpdateView(LoginRequiredMixin, CompanyScopedMixin, UpdateView):
+    model = MedidaPreventivaCatalogo
+    form_class = MedidaPreventivaCatalogoForm
+    template_name = 'preventive_planning/catalogo_form.html'
+    login_url = '/login/'
+    company_field_name = 'empresa'
+
+    def get_success_url(self):
+        return reverse_lazy('preventive_planning:catalogo-list')
+
+
+class MedidaCatalogoDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
+    model = MedidaPreventivaCatalogo
+    template_name = 'preventive_planning/catalogo_confirm_delete.html'
+    login_url = '/login/'
+    company_field_name = 'empresa'
+    success_url = reverse_lazy('preventive_planning:catalogo-list')

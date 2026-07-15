@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Autorizaciones de {{ worker.first_name }} {{ worker.last_name }} | Riskora{% endblock %}
+{% block page_title %}Autorizaciones del trabajador{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:4px;">
+                {{ worker.first_name }} {{ worker.last_name }}
+            </h3>
+            <div class="meta">{{ worker.job_position|default:"-" }} · {{ worker.company.trade_name|default:worker.company.legal_name }}</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'workers:worker-detail' worker.pk %}" class="hero-btn hero-btn-secondary">Ver trabajador</a>
+            <a href="{% url 'authorizations:dashboard' %}" class="hero-btn hero-btn-secondary">Catálogo</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Activas / válidas</div>
+        <div class="kpi-value" style="color:#059669;">{{ autorizaciones_activas }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-warning">
+        <div class="kpi-label">Próximas a caducar</div>
+        <div class="kpi-value">{{ autorizaciones_proximas }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Caducadas</div>
+        <div class="kpi-value">{{ autorizaciones_caducadas }}</div>
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="section-title" style="margin-bottom:12px;">Autorizaciones</h3>
+    <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+                <tr style="background:#f1f5f9;text-align:left;">
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Requisito</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Tipo</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Fecha autorización</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Caducidad</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Estado</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Entidad</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Certificado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for auth in autorizaciones %}
+                <tr style="border-bottom:1px solid #e2e8f0;">
+                    <td style="padding:10px 12px;">
+                        <a href="{% url 'authorizations:requisito-detail' auth.requisito.pk %}" style="color:#0f766e;text-decoration:none;font-weight:600;">
+                            {{ auth.requisito.nombre }}
+                        </a>
+                    </td>
+                    <td style="padding:10px 12px;">
+                        <span style="font-size:11px;color:{% if auth.requisito.tipo == 'equipo' %}#2563eb{% else %}#7c3aed{% endif %};">
+                            {{ auth.requisito.get_tipo_display }}
+                        </span>
+                    </td>
+                    <td style="padding:10px 12px;">{{ auth.fecha_autorizacion|date:"d/m/Y" }}</td>
+                    <td style="padding:10px 12px;">{{ auth.fecha_caducidad|date:"d/m/Y"|default:"Sin caducidad" }}</td>
+                    <td style="padding:10px 12px;">
+                        <span class="badge {{ auth.badge_estado }}">{{ auth.get_estado_display }}</span>
+                    </td>
+                    <td style="padding:10px 12px;color:#64748b;">{{ auth.entidad_emisora|default:"-" }}</td>
+                    <td style="padding:10px 12px;color:#64748b;font-size:12px;">{{ auth.numero_certificado|default:"-" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="padding:20px;text-align:center;color:#64748b;">
+                        Este trabajador no tiene autorizaciones registradas.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="margin-top:14px;">
+    <a href="{% url 'workers:worker-detail' worker.pk %}" style="text-decoration:none;color:#1d4ed8;">← Volver al trabajador</a>
+</div>
+{% endblock %}

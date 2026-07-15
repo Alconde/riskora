@@ -60,10 +60,44 @@
 
         {# Medidas existentes #}
         <h3 class="section-title" style="margin-bottom:12px;font-size:15px;">Medidas preventivas existentes</h3>
-        <div style="margin-bottom:24px;">
+        <div style="margin-bottom:16px;">
             <label for="{{ form.medidas_existentes.id_for_label }}">Medidas de protección y prevención actualmente implementadas</label>
             {{ form.medidas_existentes }}
             {% if form.medidas_existentes.errors %}<div style="color:#b91c1c;">{{ form.medidas_existentes.errors }}</div>{% endif %}
+        </div>
+
+        <div style="margin-bottom:24px;">
+            <label style="font-size:14px;font-weight:600;color:#1e293b;display:block;margin-bottom:8px;">
+                Seleccionar medidas del catálogo periódico
+                <span style="font-weight:400;color:#94a3b8;font-size:12px;">(mantenimientos, inspecciones, EPIs, formación...)</span>
+            </label>
+            <div style="border:1px solid #e2e8f0;border-radius:10px;padding:12px;max-height:280px;overflow-y:auto;background:#f8fafc;">
+                {% for cat_label, medidas in medidas_catalogo_agrupadas %}
+                <div style="margin-bottom:12px;">
+                    <div style="font-size:12px;font-weight:700;color:#0f766e;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #e2e8f0;">
+                        {{ cat_label }}
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:4px;">
+                        {% for medida in medidas %}
+                        <label style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#1e293b;cursor:pointer;padding:4px 6px;border-radius:6px;transition:background 0.15s;" onmouseover="this.style.background='#e0f2fe'" onmouseout="this.style.background='transparent'">
+                            <input type="checkbox" name="medidas_catalogo" value="{{ medida.pk }}" {% if medida.pk in medidas_seleccionadas %}checked{% endif %} style="margin-top:3px;accent-color:#0f766e;">
+                            <div>
+                                <div style="font-weight:500;">{{ medida.nombre }}</div>
+                                {% if medida.normativa %}
+                                <div style="font-size:11px;color:#64748b;">{{ medida.normativa }}</div>
+                                {% endif %}
+                                {% if medida.frecuencia_por_defecto %}
+                                <div style="font-size:11px;color:#0f766e;font-weight:500;">{{ medida.get_frecuencia_por_defecto_display }}</div>
+                                {% endif %}
+                            </div>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% empty %}
+                <p style="font-size:13px;color:#64748b;">No hay medidas en el catálogo.</p>
+                {% endfor %}
+            </div>
         </div>
 
         {# Evaluación INSST #}

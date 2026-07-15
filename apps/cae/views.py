@@ -4,6 +4,7 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import FileResponse, Http404
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
 from apps.core.mixins import CompanyScopedMixin
@@ -113,6 +114,28 @@ class EmpresaDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
         if not empresa:
             return EmpresaSubcontrata.objects.none()
         return EmpresaSubcontrata.objects.filter(empresa=empresa)
+
+
+class DocumentoCAECreateView(LoginRequiredMixin, CompanyScopedMixin, CreateView):
+    model = DocumentoCAE
+    form_class = DocumentoCAEForm
+    template_name = 'cae/documento_form.html'
+
+    def form_valid(self, form):
+        empresa = self.get_active_company()
+        sub_id = self.kwargs.get('empresa_subcontrata_id')
+        tipo_id = self.kwargs.get('tipo_id')
+        from .models import EmpresaSubcontrata, DocumentoCAETipo
+        form.instance.empresa_subcontrata = get_object_or_404(
+            EmpresaSubcontrata, pk=sub_id, empresa=empresa
+        )
+        form.instance.tipo_documento = get_object_or_404(DocumentoCAETipo, pk=tipo_id)
+        if form.cleaned_data.get('documento'):
+            form.instance.fecha_subida = timezone.now()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('cae:empresa-detail', kwargs={'pk': self.kwargs['empresa_subcontrata_id']})
 
 
 class DocumentoCAEUpdateView(LoginRequiredMixin, CompanyScopedMixin, UpdateView):

@@ -16,6 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+ARG SECRET_KEY=build-time-placeholder
+ENV SECRET_KEY=${SECRET_KEY}
 RUN python manage.py collectstatic --noinput --settings=config.settings.prod
 
 EXPOSE 8000

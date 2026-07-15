@@ -2,6 +2,87 @@ from django.conf import settings
 from django.db import models
 
 
+class MedidaPreventivaCatalogo(models.Model):
+    """
+    Catálogo maestro de medidas preventivas periódicas.
+    company=NULL → catálogo global del sistema.
+    company!=NULL → medida personalizada de la empresa.
+    """
+
+    class Categoria(models.TextChoices):
+        MANT_INSTALACIONES = 'mantenimiento_instalaciones', 'Mantenimiento de Instalaciones'
+        MANT_EQUIPOS = 'mantenimiento_equipos', 'Mantenimiento de Equipos'
+        ENTREGA_EPIS = 'entrega_epis', 'Entrega y Control de EPIs'
+        INSPECCIONES = 'inspecciones', 'Inspecciones'
+        FORMACION = 'formacion', 'Formación y Capacitación'
+        VIGILANCIA_SALUD = 'vigilancia_salud', 'Vigilancia de la Salud'
+        LIMPIEZA = 'limpieza_higiene', 'Limpieza y Higiene'
+        EMERGENCIAS = 'emergencias', 'Emergencias y Evacuación'
+        SENALIZACION = 'senalizacion_documentacion', 'Señalización y Documentación'
+        OTROS = 'otros', 'Otros'
+
+    class Frecuencia(models.TextChoices):
+        MENSUAL = 'mensual', 'Mensual'
+        BIMESTRAL = 'bimestral', 'Bimestral'
+        TRIMESTRAL = 'trimestral', 'Trimestral'
+        SEMESTRAL = 'semestral', 'Semestral'
+        ANUAL = 'anual', 'Anual'
+        BIENAL = 'bienal', 'Bienal'
+        TRIENAL = 'trienal', 'Trienal'
+        VARIABLE = 'variable', 'Variable'
+
+    nombre = models.CharField('nombre de la medida', max_length=300)
+    categoria = models.CharField(
+        'categoría',
+        max_length=50,
+        choices=Categoria.choices,
+    )
+    frecuencia_por_defecto = models.CharField(
+        'frecuencia por defecto',
+        max_length=20,
+        choices=Frecuencia.choices,
+        blank=True,
+        default='',
+    )
+    normativa = models.CharField(
+        'referencia normativa',
+        max_length=300,
+        blank=True,
+        default='',
+        help_text='Ej: RD 1215/1997, Art. 16 Ley 31/1995',
+    )
+    descripcion = models.TextField('descripción', blank=True, default='')
+    activo = models.BooleanField('activo', default=True)
+    company = models.ForeignKey(
+        'companies.Company',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='medidas_preventivas_propias',
+        verbose_name='empresa',
+        help_text='Vacío = catálogo global del sistema. Con valor = medida personalizada de la empresa.',
+    )
+
+    created_at = models.DateTimeField('creado el', auto_now_add=True)
+    updated_at = models.DateTimeField('actualizado el', auto_now=True)
+
+    class Meta:
+        verbose_name = 'medida preventiva del catálogo'
+        verbose_name_plural = 'catálogo de medidas preventivas'
+        ordering = ['categoria', 'nombre']
+        indexes = [
+            models.Index(fields=['categoria', 'activo']),
+            models.Index(fields=['company', 'activo']),
+        ]
+
+    def __str__(self):
+        return f'{self.nombre} ({self.get_categoria_display()})'
+
+    @property
+    def es_global(self):
+        return self.company_id is None
+
+
 class ItemPlanificacion(models.Model):
 
     class TipoFactorRiesgo(models.TextChoices):
@@ -100,8 +181,14 @@ class ItemPlanificacion(models.Model):
         default=PBChoices.NV,
         verbose_name='grado de riesgo (GR)',
     )
+    medidas_catalogo = models.ManyToManyField(
+        MedidaPreventivaCatalogo,
+        blank=True,
+        related_name='items_planificacion',
+        verbose_name='medidas del catálogo',
+    )
     medidas_preventivas = models.TextField(
-        blank=True, verbose_name='medidas preventivas'
+        blank=True, verbose_name='medidas preventivas (texto libre)'
     )
     detalle_medida = models.TextField(
         blank=True, verbose_name='detalle de la medida / accion correctora'

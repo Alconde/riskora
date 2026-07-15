@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ requisito.nombre }} | Autorizaciones | Riskora{% endblock %}
+{% block page_title %}Requisito de autorización{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:{% if requisito.tipo == 'equipo' %}#2563eb{% else %}#7c3aed{% endif %};background:{% if requisito.tipo == 'equipo' %}#eff6ff{% else %}#f5f3ff{% endif %};padding:2px 8px;border-radius:4px;">
+                    {{ requisito.get_tipo_display }}
+                </span>
+                {% if requisito.categoria %}
+                <span style="font-size:12px;color:#64748b;">{{ requisito.categoria }}</span>
+                {% endif %}
+            </div>
+            <h3 class="section-title" style="margin-bottom:4px;">{{ requisito.nombre }}</h3>
+            {% if requisito.normativa %}
+            <div class="meta">Normativa: {{ requisito.normativa }}</div>
+            {% endif %}
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'authorizations:requisito-update' requisito.pk %}" class="hero-btn hero-btn-secondary">Editar</a>
+            <a href="{% url 'authorizations:autorizacion-create' requisito.pk %}" class="hero-btn hero-btn-primary">Nueva autorización</a>
+        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Total autorizaciones</div>
+        <div class="kpi-value">{{ autorizaciones|length }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Activas / válidas</div>
+        <div class="kpi-value" style="color:#059669;">{{ requisito.total_autorizados }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-warning">
+        <div class="kpi-label">Próximas a caducar</div>
+        <div class="kpi-value">{{ requisito.autorizaciones_proximas_caducar }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Sin autorización</div>
+        <div class="kpi-value">{{ total_sin_autorizacion }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+        <h3 class="section-title" style="margin-bottom:0;">Trabajadores autorizados</h3>
+        <div style="display:flex;gap:6px;">
+            <a href="{% url 'authorizations:requisito-detail' requisito.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:5px 10px;{% if not filtro_actual %}background:#0f766e;color:#fff;border-color:#0f766e;{% endif %}">Todos</a>
+            <a href="?filtro=activas" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:5px 10px;{% if filtro_actual == 'activas' %}background:#059669;color:#fff;border-color:#059669;{% endif %}">Válidas</a>
+            <a href="?filtro=proximas" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:5px 10px;{% if filtro_actual == 'proximas' %}background:#f59e0b;color:#fff;border-color:#f59e0b;{% endif %}">Próximas</a>
+            <a href="?filtro=caducadas" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:5px 10px;{% if filtro_actual == 'caducadas' %}background:#dc2626;color:#fff;border-color:#dc2626;{% endif %}">Caducadas</a>
+        </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+                <tr style="background:#f1f5f9;text-align:left;">
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Trabajador</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Puesto</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Fecha autorización</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Caducidad</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Estado</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Certificado</th>
+                    <th style="padding:10px 12px;font-weight:600;color:#475569;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for auth in autorizaciones %}
+                <tr style="border-bottom:1px solid #e2e8f0;">
+                    <td style="padding:10px 12px;">
+                        <strong>{{ auth.trabajador.first_name }} {{ auth.trabajador.last_name }}</strong>
+                    </td>
+                    <td style="padding:10px 12px;color:#64748b;">{{ auth.trabajador.job_position|default:"-" }}</td>
+                    <td style="padding:10px 12px;">{{ auth.fecha_autorizacion|date:"d/m/Y" }}</td>
+                    <td style="padding:10px 12px;">{{ auth.fecha_caducidad|date:"d/m/Y"|default:"Sin caducidad" }}</td>
+                    <td style="padding:10px 12px;">
+                        <span class="badge {{ auth.badge_estado }}">{{ auth.get_estado_display }}</span>
+                    </td>
+                    <td style="padding:10px 12px;color:#64748b;font-size:12px;">
+                        {{ auth.entidad_emisora|default:"-" }}{% if auth.numero_certificado %} · {{ auth.numero_certificado }}{% endif %}
+                    </td>
+                    <td style="padding:10px 12px;">
+                        <div style="display:flex;gap:4px;">
+                            <a href="{% url 'authorizations:autorizacion-update' auth.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:3px 8px;">Editar</a>
+                            <a href="{% url 'authorizations:autorizacion-delete' auth.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:3px 8px;color:#dc2626;">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="padding:20px;text-align:center;color:#64748b;">
+                        No hay autorizaciones registradas para este requisito.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if requisito.descripcion %}
+<div class="card" style="margin-bottom:14px;">
+    <h3 class="section-title" style="margin-bottom:8px;">Descripción</h3>
+    <p style="font-size:13px;color:#475569;">{{ requisito.descripcion|linebreaksbr }}</p>
+</div>
+{% endif %}
+
+<div style="margin-top:14px;">
+    <a href="{% url 'authorizations:dashboard' %}" style="text-decoration:none;color:#1d4ed8;">← Volver al listado</a>
+</div>
+{% endblock %}

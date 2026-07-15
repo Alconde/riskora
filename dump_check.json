@@ -1,0 +1,7027 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-05-09T05:15:08.223Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "1",
+    "object_repr": "Empresa A",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-05-09T05:15:34.285Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "1",
+    "object_repr": "Empresa A - Centro de trabajo 1",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2026-05-09T05:15:59.473Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "2",
+    "object_repr": "Empresa A - Centro de trabajo 2",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2026-05-09T05:21:28.318Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "Empresa A - Personal de administración",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2026-05-09T05:22:07.908Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "1",
+    "object_repr": "Elena Furiase",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2026-05-09T05:27:12.253Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "1",
+    "object_repr": "Evaluación de riesgos",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2026-05-09T05:27:24.529Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "2",
+    "object_repr": "Planificación preventiva",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2026-05-09T05:27:31.581Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "3",
+    "object_repr": "Certificado de formación",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2026-05-09T05:27:43.683Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "4",
+    "object_repr": "Entrega de EPI",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2026-05-09T05:27:49.757Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "5",
+    "object_repr": "Aptitud médica",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2026-05-09T05:27:55.916Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "6",
+    "object_repr": "Acta CAE",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2026-05-09T05:28:04.469Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "7",
+    "object_repr": "Inspección",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2026-05-09T05:28:12.059Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "8",
+    "object_repr": "Investigación de accidente",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2026-05-09T05:29:30.617Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "6",
+    "object_repr": "Acta CAE",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Validez por defecto (d\\u00edas)\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2026-05-09T05:29:42.037Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "5",
+    "object_repr": "Aptitud médica",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Validez por defecto (d\\u00edas)\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2026-05-09T05:29:54.169Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "3",
+    "object_repr": "Certificado de formación",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Validez por defecto (d\\u00edas)\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2026-05-09T05:30:01.561Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "4",
+    "object_repr": "Entrega de EPI",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2026-05-09T05:30:19.382Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "1",
+    "object_repr": "Evaluación de riesgos",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u00c1mbito\", \"Validez por defecto (d\\u00edas)\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2026-05-09T05:30:32.269Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "6",
+    "object_repr": "Acta CAE",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u00c1mbito\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2026-05-09T05:30:37.798Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "5",
+    "object_repr": "Aptitud médica",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u00c1mbito\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2026-05-09T05:30:44.027Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "3",
+    "object_repr": "Certificado de formación",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u00c1mbito\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2026-05-09T05:30:50.210Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "4",
+    "object_repr": "Entrega de EPI",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u00c1mbito\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2026-05-09T05:31:05.195Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "7",
+    "object_repr": "Inspección",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u00c1mbito\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2026-05-09T05:31:09.852Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "8",
+    "object_repr": "Investigación de accidente",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u00c1mbito\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2026-05-09T05:31:23.285Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "2",
+    "object_repr": "Planificación preventiva",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u00c1mbito\", \"Validez por defecto (d\\u00edas)\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2026-05-09T05:31:35.846Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "7",
+    "object_repr": "Inspección",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Validez por defecto (d\\u00edas)\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2026-05-09T05:35:11.003Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "2a960570-faf1-4aad-9e47-334ce6271c79",
+    "object_repr": "Certificado de aptitud",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2026-05-09T05:41:36.397Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "1",
+    "object_repr": "Realizar investigación de accidente",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2026-05-09T05:50:49.134Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "e9756901-b198-4189-86ab-5258a58ca2fa",
+    "object_repr": "CAE",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2026-05-09T05:51:11.115Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "2a960570-faf1-4aad-9e47-334ce6271c79",
+    "object_repr": "Certificado de aptitud",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Fecha de caducidad\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2026-05-09T06:03:16.342Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "0972e5f3-7e4c-4432-9b53-5849d7a99c2f",
+    "object_repr": "Certificado de aptitud",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2026-05-15T12:00:20.614Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "2",
+    "object_repr": "Pastelería Conde Melero",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2026-05-15T12:03:57.097Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "2",
+    "object_repr": "Pastelería Conde Melero",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 3,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 3,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 3,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 3,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 2,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 2,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 2,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 2,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 4,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 4,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 4,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 4,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 5,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 5,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 5,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 5,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add user",
+    "content_type": 6,
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change user",
+    "content_type": 6,
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete user",
+    "content_type": 6,
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view user",
+    "content_type": 6,
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add empresa",
+    "content_type": 7,
+    "codename": "add_company"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change empresa",
+    "content_type": 7,
+    "codename": "change_company"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete empresa",
+    "content_type": 7,
+    "codename": "delete_company"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view empresa",
+    "content_type": 7,
+    "codename": "view_company"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add centro de trabajo",
+    "content_type": 8,
+    "codename": "add_workcenter"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change centro de trabajo",
+    "content_type": 8,
+    "codename": "change_workcenter"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete centro de trabajo",
+    "content_type": 8,
+    "codename": "delete_workcenter"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view centro de trabajo",
+    "content_type": 8,
+    "codename": "view_workcenter"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add trabajador",
+    "content_type": 10,
+    "codename": "add_worker"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change trabajador",
+    "content_type": 10,
+    "codename": "change_worker"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete trabajador",
+    "content_type": 10,
+    "codename": "delete_worker"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view trabajador",
+    "content_type": 10,
+    "codename": "view_worker"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add puesto de trabajo",
+    "content_type": 9,
+    "codename": "add_jobposition"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change puesto de trabajo",
+    "content_type": 9,
+    "codename": "change_jobposition"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete puesto de trabajo",
+    "content_type": 9,
+    "codename": "delete_jobposition"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view puesto de trabajo",
+    "content_type": 9,
+    "codename": "view_jobposition"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add documento",
+    "content_type": 11,
+    "codename": "add_document"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change documento",
+    "content_type": 11,
+    "codename": "change_document"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete documento",
+    "content_type": 11,
+    "codename": "delete_document"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view documento",
+    "content_type": 11,
+    "codename": "view_document"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add categoría documental",
+    "content_type": 12,
+    "codename": "add_documentcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change categoría documental",
+    "content_type": 12,
+    "codename": "change_documentcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete categoría documental",
+    "content_type": 12,
+    "codename": "delete_documentcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view categoría documental",
+    "content_type": 12,
+    "codename": "view_documentcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add tarea",
+    "content_type": 14,
+    "codename": "add_task"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change tarea",
+    "content_type": 14,
+    "codename": "change_task"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete tarea",
+    "content_type": 14,
+    "codename": "delete_task"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view tarea",
+    "content_type": 14,
+    "codename": "view_task"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add alerta",
+    "content_type": 13,
+    "codename": "add_alert"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change alerta",
+    "content_type": 13,
+    "codename": "change_alert"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete alerta",
+    "content_type": 13,
+    "codename": "delete_alert"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view alerta",
+    "content_type": 13,
+    "codename": "view_alert"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 57,
+  "fields": {
+    "name": "Can add Categoría de formación",
+    "content_type": 15,
+    "codename": "add_trainingcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 58,
+  "fields": {
+    "name": "Can change Categoría de formación",
+    "content_type": 15,
+    "codename": "change_trainingcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 59,
+  "fields": {
+    "name": "Can delete Categoría de formación",
+    "content_type": 15,
+    "codename": "delete_trainingcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 60,
+  "fields": {
+    "name": "Can view Categoría de formación",
+    "content_type": 15,
+    "codename": "view_trainingcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 61,
+  "fields": {
+    "name": "Can add Curso de formación",
+    "content_type": 16,
+    "codename": "add_trainingcourse"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 62,
+  "fields": {
+    "name": "Can change Curso de formación",
+    "content_type": 16,
+    "codename": "change_trainingcourse"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete Curso de formación",
+    "content_type": 16,
+    "codename": "delete_trainingcourse"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view Curso de formación",
+    "content_type": 16,
+    "codename": "view_trainingcourse"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add Registro de formación",
+    "content_type": 18,
+    "codename": "add_trainingrecord"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change Registro de formación",
+    "content_type": 18,
+    "codename": "change_trainingrecord"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete Registro de formación",
+    "content_type": 18,
+    "codename": "delete_trainingrecord"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view Registro de formación",
+    "content_type": 18,
+    "codename": "view_trainingrecord"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 69,
+  "fields": {
+    "name": "Can add Documento de formación",
+    "content_type": 17,
+    "codename": "add_trainingdocument"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 70,
+  "fields": {
+    "name": "Can change Documento de formación",
+    "content_type": 17,
+    "codename": "change_trainingdocument"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 71,
+  "fields": {
+    "name": "Can delete Documento de formación",
+    "content_type": 17,
+    "codename": "delete_trainingdocument"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 72,
+  "fields": {
+    "name": "Can view Documento de formación",
+    "content_type": 17,
+    "codename": "view_trainingdocument"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 73,
+  "fields": {
+    "name": "Can add membresía de empresa",
+    "content_type": 19,
+    "codename": "add_companymembership"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 74,
+  "fields": {
+    "name": "Can change membresía de empresa",
+    "content_type": 19,
+    "codename": "change_companymembership"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 75,
+  "fields": {
+    "name": "Can delete membresía de empresa",
+    "content_type": 19,
+    "codename": "delete_companymembership"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 76,
+  "fields": {
+    "name": "Can view membresía de empresa",
+    "content_type": 19,
+    "codename": "view_companymembership"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 77,
+  "fields": {
+    "name": "Can add Necesidad formativa",
+    "content_type": 21,
+    "codename": "add_trainingneed"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 78,
+  "fields": {
+    "name": "Can change Necesidad formativa",
+    "content_type": 21,
+    "codename": "change_trainingneed"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 79,
+  "fields": {
+    "name": "Can delete Necesidad formativa",
+    "content_type": 21,
+    "codename": "delete_trainingneed"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 80,
+  "fields": {
+    "name": "Can view Necesidad formativa",
+    "content_type": 21,
+    "codename": "view_trainingneed"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 81,
+  "fields": {
+    "name": "Can add Alerta de formación",
+    "content_type": 20,
+    "codename": "add_trainingalert"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 82,
+  "fields": {
+    "name": "Can change Alerta de formación",
+    "content_type": 20,
+    "codename": "change_trainingalert"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 83,
+  "fields": {
+    "name": "Can delete Alerta de formación",
+    "content_type": 20,
+    "codename": "delete_trainingalert"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 84,
+  "fields": {
+    "name": "Can view Alerta de formación",
+    "content_type": 20,
+    "codename": "view_trainingalert"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 85,
+  "fields": {
+    "name": "Can add Requisito formativo",
+    "content_type": 22,
+    "codename": "add_trainingrequirement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 86,
+  "fields": {
+    "name": "Can change Requisito formativo",
+    "content_type": 22,
+    "codename": "change_trainingrequirement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 87,
+  "fields": {
+    "name": "Can delete Requisito formativo",
+    "content_type": 22,
+    "codename": "delete_trainingrequirement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 88,
+  "fields": {
+    "name": "Can view Requisito formativo",
+    "content_type": 22,
+    "codename": "view_trainingrequirement"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 89,
+  "fields": {
+    "name": "Can add nivel de riesgo de referencia",
+    "content_type": 25,
+    "codename": "add_nivelriesgoreferencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 90,
+  "fields": {
+    "name": "Can change nivel de riesgo de referencia",
+    "content_type": 25,
+    "codename": "change_nivelriesgoreferencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 91,
+  "fields": {
+    "name": "Can delete nivel de riesgo de referencia",
+    "content_type": 25,
+    "codename": "delete_nivelriesgoreferencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 92,
+  "fields": {
+    "name": "Can view nivel de riesgo de referencia",
+    "content_type": 25,
+    "codename": "view_nivelriesgoreferencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 93,
+  "fields": {
+    "name": "Can add evaluación de riesgos",
+    "content_type": 23,
+    "codename": "add_evaluacionriesgos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 94,
+  "fields": {
+    "name": "Can change evaluación de riesgos",
+    "content_type": 23,
+    "codename": "change_evaluacionriesgos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 95,
+  "fields": {
+    "name": "Can delete evaluación de riesgos",
+    "content_type": 23,
+    "codename": "delete_evaluacionriesgos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 96,
+  "fields": {
+    "name": "Can view evaluación de riesgos",
+    "content_type": 23,
+    "codename": "view_evaluacionriesgos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 97,
+  "fields": {
+    "name": "Can add tipo de peligro",
+    "content_type": 26,
+    "codename": "add_tipopeligro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 98,
+  "fields": {
+    "name": "Can change tipo de peligro",
+    "content_type": 26,
+    "codename": "change_tipopeligro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 99,
+  "fields": {
+    "name": "Can delete tipo de peligro",
+    "content_type": 26,
+    "codename": "delete_tipopeligro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 100,
+  "fields": {
+    "name": "Can view tipo de peligro",
+    "content_type": 26,
+    "codename": "view_tipopeligro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 101,
+  "fields": {
+    "name": "Can add item de evaluación de riesgos",
+    "content_type": 24,
+    "codename": "add_itemevaluacionriesgos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 102,
+  "fields": {
+    "name": "Can change item de evaluación de riesgos",
+    "content_type": 24,
+    "codename": "change_itemevaluacionriesgos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 103,
+  "fields": {
+    "name": "Can delete item de evaluación de riesgos",
+    "content_type": 24,
+    "codename": "delete_itemevaluacionriesgos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 104,
+  "fields": {
+    "name": "Can view item de evaluación de riesgos",
+    "content_type": 24,
+    "codename": "view_itemevaluacionriesgos"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 105,
+  "fields": {
+    "name": "Can add no conformidad",
+    "content_type": 29,
+    "codename": "add_noconformidad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 106,
+  "fields": {
+    "name": "Can change no conformidad",
+    "content_type": 29,
+    "codename": "change_noconformidad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 107,
+  "fields": {
+    "name": "Can delete no conformidad",
+    "content_type": 29,
+    "codename": "delete_noconformidad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 108,
+  "fields": {
+    "name": "Can view no conformidad",
+    "content_type": 29,
+    "codename": "view_noconformidad"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 109,
+  "fields": {
+    "name": "Can add accion preventiva",
+    "content_type": 28,
+    "codename": "add_accionpreventiva"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 110,
+  "fields": {
+    "name": "Can change accion preventiva",
+    "content_type": 28,
+    "codename": "change_accionpreventiva"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 111,
+  "fields": {
+    "name": "Can delete accion preventiva",
+    "content_type": 28,
+    "codename": "delete_accionpreventiva"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 112,
+  "fields": {
+    "name": "Can view accion preventiva",
+    "content_type": 28,
+    "codename": "view_accionpreventiva"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 113,
+  "fields": {
+    "name": "Can add accion correctiva",
+    "content_type": 27,
+    "codename": "add_accioncorrectiva"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 114,
+  "fields": {
+    "name": "Can change accion correctiva",
+    "content_type": 27,
+    "codename": "change_accioncorrectiva"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 115,
+  "fields": {
+    "name": "Can delete accion correctiva",
+    "content_type": 27,
+    "codename": "delete_accioncorrectiva"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 116,
+  "fields": {
+    "name": "Can view accion correctiva",
+    "content_type": 27,
+    "codename": "view_accioncorrectiva"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 117,
+  "fields": {
+    "name": "Can add plantilla de inspeccion",
+    "content_type": 32,
+    "codename": "add_plantillainspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 118,
+  "fields": {
+    "name": "Can change plantilla de inspeccion",
+    "content_type": 32,
+    "codename": "change_plantillainspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 119,
+  "fields": {
+    "name": "Can delete plantilla de inspeccion",
+    "content_type": 32,
+    "codename": "delete_plantillainspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 120,
+  "fields": {
+    "name": "Can view plantilla de inspeccion",
+    "content_type": 32,
+    "codename": "view_plantillainspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 121,
+  "fields": {
+    "name": "Can add inspeccion",
+    "content_type": 30,
+    "codename": "add_inspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 122,
+  "fields": {
+    "name": "Can change inspeccion",
+    "content_type": 30,
+    "codename": "change_inspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 123,
+  "fields": {
+    "name": "Can delete inspeccion",
+    "content_type": 30,
+    "codename": "delete_inspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 124,
+  "fields": {
+    "name": "Can view inspeccion",
+    "content_type": 30,
+    "codename": "view_inspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 125,
+  "fields": {
+    "name": "Can add item de plantilla",
+    "content_type": 33,
+    "codename": "add_plantillainspeccionitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 126,
+  "fields": {
+    "name": "Can change item de plantilla",
+    "content_type": 33,
+    "codename": "change_plantillainspeccionitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 127,
+  "fields": {
+    "name": "Can delete item de plantilla",
+    "content_type": 33,
+    "codename": "delete_plantillainspeccionitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 128,
+  "fields": {
+    "name": "Can view item de plantilla",
+    "content_type": 33,
+    "codename": "view_plantillainspeccionitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 129,
+  "fields": {
+    "name": "Can add item de inspeccion",
+    "content_type": 31,
+    "codename": "add_iteminspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 130,
+  "fields": {
+    "name": "Can change item de inspeccion",
+    "content_type": 31,
+    "codename": "change_iteminspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 131,
+  "fields": {
+    "name": "Can delete item de inspeccion",
+    "content_type": 31,
+    "codename": "delete_iteminspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 132,
+  "fields": {
+    "name": "Can view item de inspeccion",
+    "content_type": 31,
+    "codename": "view_iteminspeccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 133,
+  "fields": {
+    "name": "Can add causa de accidente",
+    "content_type": 35,
+    "codename": "add_causaaccidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 134,
+  "fields": {
+    "name": "Can change causa de accidente",
+    "content_type": 35,
+    "codename": "change_causaaccidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 135,
+  "fields": {
+    "name": "Can delete causa de accidente",
+    "content_type": 35,
+    "codename": "delete_causaaccidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 136,
+  "fields": {
+    "name": "Can view causa de accidente",
+    "content_type": 35,
+    "codename": "view_causaaccidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 137,
+  "fields": {
+    "name": "Can add accidente",
+    "content_type": 34,
+    "codename": "add_accidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 138,
+  "fields": {
+    "name": "Can change accidente",
+    "content_type": 34,
+    "codename": "change_accidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 139,
+  "fields": {
+    "name": "Can delete accidente",
+    "content_type": 34,
+    "codename": "delete_accidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 140,
+  "fields": {
+    "name": "Can view accidente",
+    "content_type": 34,
+    "codename": "view_accidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 141,
+  "fields": {
+    "name": "Can add incidente",
+    "content_type": 36,
+    "codename": "add_incidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 142,
+  "fields": {
+    "name": "Can change incidente",
+    "content_type": 36,
+    "codename": "change_incidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 143,
+  "fields": {
+    "name": "Can delete incidente",
+    "content_type": 36,
+    "codename": "delete_incidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 144,
+  "fields": {
+    "name": "Can view incidente",
+    "content_type": 36,
+    "codename": "view_incidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 145,
+  "fields": {
+    "name": "Can add investigacion de accidente",
+    "content_type": 37,
+    "codename": "add_investigacionaccidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 146,
+  "fields": {
+    "name": "Can change investigacion de accidente",
+    "content_type": 37,
+    "codename": "change_investigacionaccidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 147,
+  "fields": {
+    "name": "Can delete investigacion de accidente",
+    "content_type": 37,
+    "codename": "delete_investigacionaccidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 148,
+  "fields": {
+    "name": "Can view investigacion de accidente",
+    "content_type": 37,
+    "codename": "view_investigacionaccidente"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 149,
+  "fields": {
+    "name": "Can add EPI",
+    "content_type": 39,
+    "codename": "add_epi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 150,
+  "fields": {
+    "name": "Can change EPI",
+    "content_type": 39,
+    "codename": "change_epi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 151,
+  "fields": {
+    "name": "Can delete EPI",
+    "content_type": 39,
+    "codename": "delete_epi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 152,
+  "fields": {
+    "name": "Can view EPI",
+    "content_type": 39,
+    "codename": "view_epi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 153,
+  "fields": {
+    "name": "Can add entrega de EPI",
+    "content_type": 38,
+    "codename": "add_entregaepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 154,
+  "fields": {
+    "name": "Can change entrega de EPI",
+    "content_type": 38,
+    "codename": "change_entregaepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 155,
+  "fields": {
+    "name": "Can delete entrega de EPI",
+    "content_type": 38,
+    "codename": "delete_entregaepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 156,
+  "fields": {
+    "name": "Can view entrega de EPI",
+    "content_type": 38,
+    "codename": "view_entregaepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 157,
+  "fields": {
+    "name": "Can add inspeccion de EPI",
+    "content_type": 40,
+    "codename": "add_inspeccionepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 158,
+  "fields": {
+    "name": "Can change inspeccion de EPI",
+    "content_type": 40,
+    "codename": "change_inspeccionepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 159,
+  "fields": {
+    "name": "Can delete inspeccion de EPI",
+    "content_type": 40,
+    "codename": "delete_inspeccionepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 160,
+  "fields": {
+    "name": "Can view inspeccion de EPI",
+    "content_type": 40,
+    "codename": "view_inspeccionepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 161,
+  "fields": {
+    "name": "Can add tipo de EPI",
+    "content_type": 41,
+    "codename": "add_tipoepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 162,
+  "fields": {
+    "name": "Can change tipo de EPI",
+    "content_type": 41,
+    "codename": "change_tipoepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 163,
+  "fields": {
+    "name": "Can delete tipo de EPI",
+    "content_type": 41,
+    "codename": "delete_tipoepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 164,
+  "fields": {
+    "name": "Can view tipo de EPI",
+    "content_type": 41,
+    "codename": "view_tipoepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 165,
+  "fields": {
+    "name": "Can add procedimiento de entrega de EPI",
+    "content_type": 43,
+    "codename": "add_procedimientoentrega"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 166,
+  "fields": {
+    "name": "Can change procedimiento de entrega de EPI",
+    "content_type": 43,
+    "codename": "change_procedimientoentrega"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 167,
+  "fields": {
+    "name": "Can delete procedimiento de entrega de EPI",
+    "content_type": 43,
+    "codename": "delete_procedimientoentrega"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 168,
+  "fields": {
+    "name": "Can view procedimiento de entrega de EPI",
+    "content_type": 43,
+    "codename": "view_procedimientoentrega"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 169,
+  "fields": {
+    "name": "Can add firma de entrega de EPI",
+    "content_type": 42,
+    "codename": "add_firmaentrega"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 170,
+  "fields": {
+    "name": "Can change firma de entrega de EPI",
+    "content_type": 42,
+    "codename": "change_firmaentrega"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 171,
+  "fields": {
+    "name": "Can delete firma de entrega de EPI",
+    "content_type": 42,
+    "codename": "delete_firmaentrega"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 172,
+  "fields": {
+    "name": "Can view firma de entrega de EPI",
+    "content_type": 42,
+    "codename": "view_firmaentrega"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 173,
+  "fields": {
+    "name": "Can add catalogo de EPI",
+    "content_type": 44,
+    "codename": "add_catalogoepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 174,
+  "fields": {
+    "name": "Can change catalogo de EPI",
+    "content_type": 44,
+    "codename": "change_catalogoepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 175,
+  "fields": {
+    "name": "Can delete catalogo de EPI",
+    "content_type": 44,
+    "codename": "delete_catalogoepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 176,
+  "fields": {
+    "name": "Can view catalogo de EPI",
+    "content_type": 44,
+    "codename": "view_catalogoepi"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 177,
+  "fields": {
+    "name": "Can add tipo de equipo",
+    "content_type": 48,
+    "codename": "add_tipoequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 178,
+  "fields": {
+    "name": "Can change tipo de equipo",
+    "content_type": 48,
+    "codename": "change_tipoequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 179,
+  "fields": {
+    "name": "Can delete tipo de equipo",
+    "content_type": 48,
+    "codename": "delete_tipoequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 180,
+  "fields": {
+    "name": "Can view tipo de equipo",
+    "content_type": 48,
+    "codename": "view_tipoequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 181,
+  "fields": {
+    "name": "Can add equipo de trabajo",
+    "content_type": 45,
+    "codename": "add_equipotrabajo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 182,
+  "fields": {
+    "name": "Can change equipo de trabajo",
+    "content_type": 45,
+    "codename": "change_equipotrabajo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 183,
+  "fields": {
+    "name": "Can delete equipo de trabajo",
+    "content_type": 45,
+    "codename": "delete_equipotrabajo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 184,
+  "fields": {
+    "name": "Can view equipo de trabajo",
+    "content_type": 45,
+    "codename": "view_equipotrabajo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 185,
+  "fields": {
+    "name": "Can add mantenimiento de equipo",
+    "content_type": 46,
+    "codename": "add_mantenimientoequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 186,
+  "fields": {
+    "name": "Can change mantenimiento de equipo",
+    "content_type": 46,
+    "codename": "change_mantenimientoequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 187,
+  "fields": {
+    "name": "Can delete mantenimiento de equipo",
+    "content_type": 46,
+    "codename": "delete_mantenimientoequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 188,
+  "fields": {
+    "name": "Can view mantenimiento de equipo",
+    "content_type": 46,
+    "codename": "view_mantenimientoequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 189,
+  "fields": {
+    "name": "Can add revision de equipo",
+    "content_type": 47,
+    "codename": "add_revisionequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 190,
+  "fields": {
+    "name": "Can change revision de equipo",
+    "content_type": 47,
+    "codename": "change_revisionequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 191,
+  "fields": {
+    "name": "Can delete revision de equipo",
+    "content_type": 47,
+    "codename": "delete_revisionequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 192,
+  "fields": {
+    "name": "Can view revision de equipo",
+    "content_type": 47,
+    "codename": "view_revisionequipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 193,
+  "fields": {
+    "name": "Can add procedimiento de investigacion",
+    "content_type": 49,
+    "codename": "add_procedimientoinvestigacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 194,
+  "fields": {
+    "name": "Can change procedimiento de investigacion",
+    "content_type": 49,
+    "codename": "change_procedimientoinvestigacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 195,
+  "fields": {
+    "name": "Can delete procedimiento de investigacion",
+    "content_type": 49,
+    "codename": "delete_procedimientoinvestigacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 196,
+  "fields": {
+    "name": "Can view procedimiento de investigacion",
+    "content_type": 49,
+    "codename": "view_procedimientoinvestigacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 197,
+  "fields": {
+    "name": "Can add enfermedad profesional",
+    "content_type": 50,
+    "codename": "add_enfermedadprofesional"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 198,
+  "fields": {
+    "name": "Can change enfermedad profesional",
+    "content_type": 50,
+    "codename": "change_enfermedadprofesional"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 199,
+  "fields": {
+    "name": "Can delete enfermedad profesional",
+    "content_type": 50,
+    "codename": "delete_enfermedadprofesional"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 200,
+  "fields": {
+    "name": "Can view enfermedad profesional",
+    "content_type": 50,
+    "codename": "view_enfermedadprofesional"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 201,
+  "fields": {
+    "name": "Can add investigacion de enfermedad profesional",
+    "content_type": 51,
+    "codename": "add_investigacioneepp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 202,
+  "fields": {
+    "name": "Can change investigacion de enfermedad profesional",
+    "content_type": 51,
+    "codename": "change_investigacioneepp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 203,
+  "fields": {
+    "name": "Can delete investigacion de enfermedad profesional",
+    "content_type": 51,
+    "codename": "delete_investigacioneepp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 204,
+  "fields": {
+    "name": "Can view investigacion de enfermedad profesional",
+    "content_type": 51,
+    "codename": "view_investigacioneepp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 205,
+  "fields": {
+    "name": "Can add procedimiento de investigacion EEPP",
+    "content_type": 52,
+    "codename": "add_procedimientoinvestigacioneepp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 206,
+  "fields": {
+    "name": "Can change procedimiento de investigacion EEPP",
+    "content_type": 52,
+    "codename": "change_procedimientoinvestigacioneepp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 207,
+  "fields": {
+    "name": "Can delete procedimiento de investigacion EEPP",
+    "content_type": 52,
+    "codename": "delete_procedimientoinvestigacioneepp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 208,
+  "fields": {
+    "name": "Can view procedimiento de investigacion EEPP",
+    "content_type": 52,
+    "codename": "view_procedimientoinvestigacioneepp"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 209,
+  "fields": {
+    "name": "Can add item de planificacion preventiva",
+    "content_type": 53,
+    "codename": "add_itemplanificacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 210,
+  "fields": {
+    "name": "Can change item de planificacion preventiva",
+    "content_type": 53,
+    "codename": "change_itemplanificacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 211,
+  "fields": {
+    "name": "Can delete item de planificacion preventiva",
+    "content_type": 53,
+    "codename": "delete_itemplanificacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 212,
+  "fields": {
+    "name": "Can view item de planificacion preventiva",
+    "content_type": 53,
+    "codename": "view_itemplanificacion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 213,
+  "fields": {
+    "name": "Can add Plan de Prevencion",
+    "content_type": 54,
+    "codename": "add_planprevention"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 214,
+  "fields": {
+    "name": "Can change Plan de Prevencion",
+    "content_type": 54,
+    "codename": "change_planprevention"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 215,
+  "fields": {
+    "name": "Can delete Plan de Prevencion",
+    "content_type": 54,
+    "codename": "delete_planprevention"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 216,
+  "fields": {
+    "name": "Can view Plan de Prevencion",
+    "content_type": 54,
+    "codename": "view_planprevention"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 217,
+  "fields": {
+    "name": "Can add Carta CAE",
+    "content_type": 55,
+    "codename": "add_cartacae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 218,
+  "fields": {
+    "name": "Can change Carta CAE",
+    "content_type": 55,
+    "codename": "change_cartacae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 219,
+  "fields": {
+    "name": "Can delete Carta CAE",
+    "content_type": 55,
+    "codename": "delete_cartacae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 220,
+  "fields": {
+    "name": "Can view Carta CAE",
+    "content_type": 55,
+    "codename": "view_cartacae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 221,
+  "fields": {
+    "name": "Can add Documento CAE",
+    "content_type": 56,
+    "codename": "add_documentocae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 222,
+  "fields": {
+    "name": "Can change Documento CAE",
+    "content_type": 56,
+    "codename": "change_documentocae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 223,
+  "fields": {
+    "name": "Can delete Documento CAE",
+    "content_type": 56,
+    "codename": "delete_documentocae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 224,
+  "fields": {
+    "name": "Can view Documento CAE",
+    "content_type": 56,
+    "codename": "view_documentocae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 225,
+  "fields": {
+    "name": "Can add Tipo de documento CAE",
+    "content_type": 57,
+    "codename": "add_documentocaetipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 226,
+  "fields": {
+    "name": "Can change Tipo de documento CAE",
+    "content_type": 57,
+    "codename": "change_documentocaetipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 227,
+  "fields": {
+    "name": "Can delete Tipo de documento CAE",
+    "content_type": 57,
+    "codename": "delete_documentocaetipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 228,
+  "fields": {
+    "name": "Can view Tipo de documento CAE",
+    "content_type": 57,
+    "codename": "view_documentocaetipo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 229,
+  "fields": {
+    "name": "Can add Procedimiento CAE",
+    "content_type": 60,
+    "codename": "add_procedimientocae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 230,
+  "fields": {
+    "name": "Can change Procedimiento CAE",
+    "content_type": 60,
+    "codename": "change_procedimientocae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 231,
+  "fields": {
+    "name": "Can delete Procedimiento CAE",
+    "content_type": 60,
+    "codename": "delete_procedimientocae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 232,
+  "fields": {
+    "name": "Can view Procedimiento CAE",
+    "content_type": 60,
+    "codename": "view_procedimientocae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 233,
+  "fields": {
+    "name": "Can add Documento de Riesgos CAE",
+    "content_type": 58,
+    "codename": "add_documentoriesgoscae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 234,
+  "fields": {
+    "name": "Can change Documento de Riesgos CAE",
+    "content_type": 58,
+    "codename": "change_documentoriesgoscae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 235,
+  "fields": {
+    "name": "Can delete Documento de Riesgos CAE",
+    "content_type": 58,
+    "codename": "delete_documentoriesgoscae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 236,
+  "fields": {
+    "name": "Can view Documento de Riesgos CAE",
+    "content_type": 58,
+    "codename": "view_documentoriesgoscae"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 237,
+  "fields": {
+    "name": "Can add Empresa subcontratada",
+    "content_type": 59,
+    "codename": "add_empresasubcontrata"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 238,
+  "fields": {
+    "name": "Can change Empresa subcontratada",
+    "content_type": 59,
+    "codename": "change_empresasubcontrata"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 239,
+  "fields": {
+    "name": "Can delete Empresa subcontratada",
+    "content_type": 59,
+    "codename": "delete_empresasubcontrata"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 240,
+  "fields": {
+    "name": "Can view Empresa subcontratada",
+    "content_type": 59,
+    "codename": "view_empresasubcontrata"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 241,
+  "fields": {
+    "name": "Can add Medida de Emergencia",
+    "content_type": 62,
+    "codename": "add_medidaemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 242,
+  "fields": {
+    "name": "Can change Medida de Emergencia",
+    "content_type": 62,
+    "codename": "change_medidaemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 243,
+  "fields": {
+    "name": "Can delete Medida de Emergencia",
+    "content_type": 62,
+    "codename": "delete_medidaemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 244,
+  "fields": {
+    "name": "Can view Medida de Emergencia",
+    "content_type": 62,
+    "codename": "view_medidaemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 245,
+  "fields": {
+    "name": "Can add Historial de Simulacro",
+    "content_type": 61,
+    "codename": "add_historialsimulacro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 246,
+  "fields": {
+    "name": "Can change Historial de Simulacro",
+    "content_type": 61,
+    "codename": "change_historialsimulacro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 247,
+  "fields": {
+    "name": "Can delete Historial de Simulacro",
+    "content_type": 61,
+    "codename": "delete_historialsimulacro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 248,
+  "fields": {
+    "name": "Can view Historial de Simulacro",
+    "content_type": 61,
+    "codename": "view_historialsimulacro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 249,
+  "fields": {
+    "name": "Can add Producto Químico",
+    "content_type": 64,
+    "codename": "add_productoquimico"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 250,
+  "fields": {
+    "name": "Can change Producto Químico",
+    "content_type": 64,
+    "codename": "change_productoquimico"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 251,
+  "fields": {
+    "name": "Can delete Producto Químico",
+    "content_type": 64,
+    "codename": "delete_productoquimico"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 252,
+  "fields": {
+    "name": "Can view Producto Químico",
+    "content_type": 64,
+    "codename": "view_productoquimico"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 253,
+  "fields": {
+    "name": "Can add Clasificación Química",
+    "content_type": 63,
+    "codename": "add_clasificacionquimica"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 254,
+  "fields": {
+    "name": "Can change Clasificación Química",
+    "content_type": 63,
+    "codename": "change_clasificacionquimica"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 255,
+  "fields": {
+    "name": "Can delete Clasificación Química",
+    "content_type": 63,
+    "codename": "delete_clasificacionquimica"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 256,
+  "fields": {
+    "name": "Can view Clasificación Química",
+    "content_type": 63,
+    "codename": "view_clasificacionquimica"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 257,
+  "fields": {
+    "name": "Can add Reconocimiento Médico",
+    "content_type": 66,
+    "codename": "add_reconocimientomedico"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 258,
+  "fields": {
+    "name": "Can change Reconocimiento Médico",
+    "content_type": 66,
+    "codename": "change_reconocimientomedico"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 259,
+  "fields": {
+    "name": "Can delete Reconocimiento Médico",
+    "content_type": 66,
+    "codename": "delete_reconocimientomedico"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 260,
+  "fields": {
+    "name": "Can view Reconocimiento Médico",
+    "content_type": 66,
+    "codename": "view_reconocimientomedico"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 261,
+  "fields": {
+    "name": "Can add Control de Salud",
+    "content_type": 65,
+    "codename": "add_controlsalud"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 262,
+  "fields": {
+    "name": "Can change Control de Salud",
+    "content_type": 65,
+    "codename": "change_controlsalud"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 263,
+  "fields": {
+    "name": "Can delete Control de Salud",
+    "content_type": 65,
+    "codename": "delete_controlsalud"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 264,
+  "fields": {
+    "name": "Can view Control de Salud",
+    "content_type": 65,
+    "codename": "view_controlsalud"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 265,
+  "fields": {
+    "name": "Can add Instrucción de Trabajo",
+    "content_type": 67,
+    "codename": "add_instrucciontrabajo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 266,
+  "fields": {
+    "name": "Can change Instrucción de Trabajo",
+    "content_type": 67,
+    "codename": "change_instrucciontrabajo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 267,
+  "fields": {
+    "name": "Can delete Instrucción de Trabajo",
+    "content_type": 67,
+    "codename": "delete_instrucciontrabajo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 268,
+  "fields": {
+    "name": "Can view Instrucción de Trabajo",
+    "content_type": 67,
+    "codename": "view_instrucciontrabajo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 269,
+  "fields": {
+    "name": "Can add Medio de Protección contra Incendios",
+    "content_type": 71,
+    "codename": "add_medioproteccionincendios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 270,
+  "fields": {
+    "name": "Can change Medio de Protección contra Incendios",
+    "content_type": 71,
+    "codename": "change_medioproteccionincendios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 271,
+  "fields": {
+    "name": "Can delete Medio de Protección contra Incendios",
+    "content_type": 71,
+    "codename": "delete_medioproteccionincendios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 272,
+  "fields": {
+    "name": "Can view Medio de Protección contra Incendios",
+    "content_type": 71,
+    "codename": "view_medioproteccionincendios"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 273,
+  "fields": {
+    "name": "Can add Entrega de Información de Emergencia",
+    "content_type": 69,
+    "codename": "add_entregainformacionemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 274,
+  "fields": {
+    "name": "Can change Entrega de Información de Emergencia",
+    "content_type": 69,
+    "codename": "change_entregainformacionemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 275,
+  "fields": {
+    "name": "Can delete Entrega de Información de Emergencia",
+    "content_type": 69,
+    "codename": "delete_entregainformacionemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 276,
+  "fields": {
+    "name": "Can view Entrega de Información de Emergencia",
+    "content_type": 69,
+    "codename": "view_entregainformacionemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 277,
+  "fields": {
+    "name": "Can add Equipo de Emergencia",
+    "content_type": 70,
+    "codename": "add_equipoemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 278,
+  "fields": {
+    "name": "Can change Equipo de Emergencia",
+    "content_type": 70,
+    "codename": "change_equipoemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 279,
+  "fields": {
+    "name": "Can delete Equipo de Emergencia",
+    "content_type": 70,
+    "codename": "delete_equipoemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 280,
+  "fields": {
+    "name": "Can view Equipo de Emergencia",
+    "content_type": 70,
+    "codename": "view_equipoemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 281,
+  "fields": {
+    "name": "Can add Plan de Autoprotección",
+    "content_type": 73,
+    "codename": "add_planautoproteccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 282,
+  "fields": {
+    "name": "Can change Plan de Autoprotección",
+    "content_type": 73,
+    "codename": "change_planautoproteccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 283,
+  "fields": {
+    "name": "Can delete Plan de Autoprotección",
+    "content_type": 73,
+    "codename": "delete_planautoproteccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 284,
+  "fields": {
+    "name": "Can view Plan de Autoprotección",
+    "content_type": 73,
+    "codename": "view_planautoproteccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 285,
+  "fields": {
+    "name": "Can add Registro de Simulacro",
+    "content_type": 74,
+    "codename": "add_registrosimulacro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 286,
+  "fields": {
+    "name": "Can change Registro de Simulacro",
+    "content_type": 74,
+    "codename": "change_registrosimulacro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 287,
+  "fields": {
+    "name": "Can delete Registro de Simulacro",
+    "content_type": 74,
+    "codename": "delete_registrosimulacro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 288,
+  "fields": {
+    "name": "Can view Registro de Simulacro",
+    "content_type": 74,
+    "codename": "view_registrosimulacro"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 289,
+  "fields": {
+    "name": "Can add Medio de Protección de la Empresa",
+    "content_type": 68,
+    "codename": "add_empresamedioproteccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 290,
+  "fields": {
+    "name": "Can change Medio de Protección de la Empresa",
+    "content_type": 68,
+    "codename": "change_empresamedioproteccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 291,
+  "fields": {
+    "name": "Can delete Medio de Protección de la Empresa",
+    "content_type": 68,
+    "codename": "delete_empresamedioproteccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 292,
+  "fields": {
+    "name": "Can view Medio de Protección de la Empresa",
+    "content_type": 68,
+    "codename": "view_empresamedioproteccion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 293,
+  "fields": {
+    "name": "Can add Miembro del Equipo de Emergencia",
+    "content_type": 72,
+    "codename": "add_miembroequipoemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 294,
+  "fields": {
+    "name": "Can change Miembro del Equipo de Emergencia",
+    "content_type": 72,
+    "codename": "change_miembroequipoemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 295,
+  "fields": {
+    "name": "Can delete Miembro del Equipo de Emergencia",
+    "content_type": 72,
+    "codename": "delete_miembroequipoemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 296,
+  "fields": {
+    "name": "Can view Miembro del Equipo de Emergencia",
+    "content_type": 72,
+    "codename": "view_miembroequipoemergencia"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 297,
+  "fields": {
+    "name": "Can add Informe de Riesgo Especial",
+    "content_type": 75,
+    "codename": "add_informeriesgoespecial"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 298,
+  "fields": {
+    "name": "Can change Informe de Riesgo Especial",
+    "content_type": 75,
+    "codename": "change_informeriesgoespecial"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 299,
+  "fields": {
+    "name": "Can delete Informe de Riesgo Especial",
+    "content_type": 75,
+    "codename": "delete_informeriesgoespecial"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 300,
+  "fields": {
+    "name": "Can view Informe de Riesgo Especial",
+    "content_type": 75,
+    "codename": "view_informeriesgoespecial"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "accounts",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "companies",
+    "model": "company"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "workcenters",
+    "model": "workcenter"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "workers",
+    "model": "jobposition"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "workers",
+    "model": "worker"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "documents",
+    "model": "document"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 12,
+  "fields": {
+    "app_label": "documents",
+    "model": "documentcategory"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "tasks",
+    "model": "alert"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "tasks",
+    "model": "task"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "training",
+    "model": "trainingcategory"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 16,
+  "fields": {
+    "app_label": "training",
+    "model": "trainingcourse"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 17,
+  "fields": {
+    "app_label": "training",
+    "model": "trainingdocument"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 18,
+  "fields": {
+    "app_label": "training",
+    "model": "trainingrecord"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 19,
+  "fields": {
+    "app_label": "companies",
+    "model": "companymembership"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 20,
+  "fields": {
+    "app_label": "training",
+    "model": "trainingalert"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 21,
+  "fields": {
+    "app_label": "training",
+    "model": "trainingneed"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 22,
+  "fields": {
+    "app_label": "training",
+    "model": "trainingrequirement"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 23,
+  "fields": {
+    "app_label": "risk_assessment",
+    "model": "evaluacionriesgos"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 24,
+  "fields": {
+    "app_label": "risk_assessment",
+    "model": "itemevaluacionriesgos"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 25,
+  "fields": {
+    "app_label": "risk_assessment",
+    "model": "nivelriesgoreferencia"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 26,
+  "fields": {
+    "app_label": "risk_assessment",
+    "model": "tipopeligro"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 27,
+  "fields": {
+    "app_label": "corrective_actions",
+    "model": "accioncorrectiva"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 28,
+  "fields": {
+    "app_label": "corrective_actions",
+    "model": "accionpreventiva"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 29,
+  "fields": {
+    "app_label": "corrective_actions",
+    "model": "noconformidad"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 30,
+  "fields": {
+    "app_label": "inspections",
+    "model": "inspeccion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 31,
+  "fields": {
+    "app_label": "inspections",
+    "model": "iteminspeccion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 32,
+  "fields": {
+    "app_label": "inspections",
+    "model": "plantillainspeccion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 33,
+  "fields": {
+    "app_label": "inspections",
+    "model": "plantillainspeccionitem"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 34,
+  "fields": {
+    "app_label": "incidents",
+    "model": "accidente"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 35,
+  "fields": {
+    "app_label": "incidents",
+    "model": "causaaccidente"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 36,
+  "fields": {
+    "app_label": "incidents",
+    "model": "incidente"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 37,
+  "fields": {
+    "app_label": "incidents",
+    "model": "investigacionaccidente"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 38,
+  "fields": {
+    "app_label": "epis",
+    "model": "entregaepi"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 39,
+  "fields": {
+    "app_label": "epis",
+    "model": "epi"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 40,
+  "fields": {
+    "app_label": "epis",
+    "model": "inspeccionepi"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 41,
+  "fields": {
+    "app_label": "epis",
+    "model": "tipoepi"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 42,
+  "fields": {
+    "app_label": "epis",
+    "model": "firmaentrega"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 43,
+  "fields": {
+    "app_label": "epis",
+    "model": "procedimientoentrega"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 44,
+  "fields": {
+    "app_label": "epis",
+    "model": "catalogoepi"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 45,
+  "fields": {
+    "app_label": "work_equipment",
+    "model": "equipotrabajo"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 46,
+  "fields": {
+    "app_label": "work_equipment",
+    "model": "mantenimientoequipo"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 47,
+  "fields": {
+    "app_label": "work_equipment",
+    "model": "revisionequipo"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 48,
+  "fields": {
+    "app_label": "work_equipment",
+    "model": "tipoequipo"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 49,
+  "fields": {
+    "app_label": "incidents",
+    "model": "procedimientoinvestigacion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 50,
+  "fields": {
+    "app_label": "epps",
+    "model": "enfermedadprofesional"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 51,
+  "fields": {
+    "app_label": "epps",
+    "model": "investigacioneepp"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 52,
+  "fields": {
+    "app_label": "epps",
+    "model": "procedimientoinvestigacioneepp"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 53,
+  "fields": {
+    "app_label": "preventive_planning",
+    "model": "itemplanificacion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 54,
+  "fields": {
+    "app_label": "prevention_plan",
+    "model": "planprevention"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 55,
+  "fields": {
+    "app_label": "cae",
+    "model": "cartacae"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 56,
+  "fields": {
+    "app_label": "cae",
+    "model": "documentocae"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 57,
+  "fields": {
+    "app_label": "cae",
+    "model": "documentocaetipo"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 58,
+  "fields": {
+    "app_label": "cae",
+    "model": "documentoriesgoscae"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 59,
+  "fields": {
+    "app_label": "cae",
+    "model": "empresasubcontrata"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 60,
+  "fields": {
+    "app_label": "cae",
+    "model": "procedimientocae"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 61,
+  "fields": {
+    "app_label": "emergency_measures",
+    "model": "historialsimulacro"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 62,
+  "fields": {
+    "app_label": "emergency_measures",
+    "model": "medidaemergencia"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 63,
+  "fields": {
+    "app_label": "chemical_products",
+    "model": "clasificacionquimica"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 64,
+  "fields": {
+    "app_label": "chemical_products",
+    "model": "productoquimico"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 65,
+  "fields": {
+    "app_label": "health_surveillance",
+    "model": "controlsalud"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 66,
+  "fields": {
+    "app_label": "health_surveillance",
+    "model": "reconocimientomedico"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 67,
+  "fields": {
+    "app_label": "work_instructions",
+    "model": "instrucciontrabajo"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 68,
+  "fields": {
+    "app_label": "emergency_measures",
+    "model": "empresamedioproteccion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 69,
+  "fields": {
+    "app_label": "emergency_measures",
+    "model": "entregainformacionemergencia"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 70,
+  "fields": {
+    "app_label": "emergency_measures",
+    "model": "equipoemergencia"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 71,
+  "fields": {
+    "app_label": "emergency_measures",
+    "model": "medioproteccionincendios"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 72,
+  "fields": {
+    "app_label": "emergency_measures",
+    "model": "miembroequipoemergencia"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 73,
+  "fields": {
+    "app_label": "emergency_measures",
+    "model": "planautoproteccion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 74,
+  "fields": {
+    "app_label": "emergency_measures",
+    "model": "registrosimulacro"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 75,
+  "fields": {
+    "app_label": "risk_assessment",
+    "model": "informeriesgoespecial"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "9djysjarlnsm6eorwvspdgagl7k32qoh",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyHdbcsGj979BsICK1UDSWlPjf9um_Sgc5z3Zjbl_Lpkt7Y0uymqqwJ1-e3Yh1cqB4hPXx5Vh1qWeWJ9KPqkTd9rTO_b6f4dZN_yviYgYESSUUDIRpQ-YbBsBuAOUy-B9hhvQETGLiIOgcQwkRXiLqnPF9l4N-Y:1wNqRY:hT6qgpulR8SjgWOcXNkXCEWJkCp2LWmeJ579RIsNGtU",
+    "expire_date": "2026-05-29T11:11:00.530Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "bnk7vomsoy9j3uyogmul0ckk16ytu1ay",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyHdbcsGj979BsICK1UDSWlPjf9um_Sgc5z3Zjbl_Lpkt7Y0uymqqwJ1-e3Yh1cqB4hPXx5Vh1qWeWJ9KPqkTd9rTO_b6f4dZN_yviYgYESSUUDIRpQ-YbBsBuAOUy-B9hhvQETGLiIOgcQwkRXiLqnPF9l4N-Y:1wLa1K:DMTh_ipfwIsOhElxeO3oMzJeJHr6j5Yt9N98vVQzC6w",
+    "expire_date": "2026-05-23T05:14:34.894Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "bt49am2j3jatj2iqfiod57rjz3kqviz7",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyHdbcsGj979BsICK1UDSWlPjf9um_Sgc5z3Zjbl_Lpkt7Y0uymqqwJ1-e3Yh1cqB4hPXx5Vh1qWeWJ9KPqkTd9rTO_b6f4dZN_yviYgYESSUUDIRpQ-YbBsBuAOUy-B9hhvQETGLiIOgcQwkRXiLqnPF9l4N-Y:1wiwn2:Vnsb2ab7Ze63a83qYGSFk4CogK6VD9TIk3GrtYvYYdY",
+    "expire_date": "2026-07-26T16:12:24.465Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "grm873v16d364z09f6zoed69fu7szsty",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyHdbcsGj979BsICK1UDSWlPjf9um_Sgc5z3Zjbl_Lpkt7Y0uymqqwJ1-e3Yh1cqB4hPXx5Vh1qWeWJ9KPqkTd9rTO_b6f4dZN_yviYgYESSUUDIRpQ-YbBsBuAOUy-B9hhvQETGLiIOgcQwkRXiLqnPF9l4N-Y:1wRBzO:rFCRoVEeVYZgeg0MIe9gsomDPsRN3cVOznFDaGN5LDs",
+    "expire_date": "2026-06-07T16:47:46.884Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "vwxgxp472flbk7xpwjdj5obg5lvepssq",
+  "fields": {
+    "session_data": ".eJxVjs0OgjAQhN-lZ9PQBbrBo3efodltu4I_raFgYozvLhgOOseZbybzUo7mqXdziaMbgtoro3a_HpO_xLQG4UzplLXPaRoH1iuit7ToYw7xetjYv4GeSr-00aBhAJRWjGAXQOoIvmPbGK4g1uJxkSVrRKStAkDjUSwjdoJcxWWU_DQ8ovP5dqf0_L6F9wcAJD_A:1wjFqv:kfe5c-E-oSoHNOJoEs6F-drHoYSzALjQ7ghpxurzoKU",
+    "expire_date": "2026-07-27T12:33:41.598Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "x20mab4s3dkft0qm9141393e6vqlswvi",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyHdbcsGj979BsICK1UDSWlPjf9um_Sgc5z3Zjbl_Lpkt7Y0uymqqwJ1-e3Yh1cqB4hPXx5Vh1qWeWJ9KPqkTd9rTO_b6f4dZN_yviYgYESSUUDIRpQ-YbBsBuAOUy-B9hhvQETGLiIOgcQwkRXiLqnPF9l4N-Y:1wMlIt:bknyglrgrQtQhh5p6jwqJE1b613u5Bk4mX1PIU72XlU",
+    "expire_date": "2026-05-26T11:29:35.265Z"
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$pFOV4Av36VxCGv4nL7wDkp$ZTsjS6VhL1GBp1jSOQl4CMfKnE6fTRilgX1dju7dxps=",
+    "last_login": "2026-07-12T17:02:42.745Z",
+    "is_superuser": true,
+    "username": "Admin",
+    "first_name": "Alvaro",
+    "last_name": "Conde",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-05-09T05:08:37.534Z",
+    "email": "admin@admin.com",
+    "role": "viewer",
+    "phone": "",
+    "job_title": "",
+    "is_verified": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$HSuAqtZeZkRibQVFJbfVfh$78CtFtRoFNPxEWhY0SsXLe+rAAl1TT3CI6yrwMyIGI4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "pasteleria",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-07-13T10:26:07.901Z",
+    "email": "admin@condemelero.com",
+    "role": "viewer",
+    "phone": "",
+    "job_title": "",
+    "is_verified": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "companies.company",
+  "pk": 1,
+  "fields": {
+    "legal_name": "Empresa A",
+    "trade_name": "",
+    "tax_id": "A123456",
+    "email": "",
+    "phone": "",
+    "website": "",
+    "address": "",
+    "postal_code": "",
+    "city": "",
+    "province": "",
+    "autonomous_community": "",
+    "country": "España",
+    "activity": "",
+    "cnae": "",
+    "workforce_size": null,
+    "logo": "",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-05-09T05:15:08.219Z",
+    "updated_at": "2026-05-09T05:15:08.219Z"
+  }
+},
+{
+  "model": "companies.company",
+  "pk": 2,
+  "fields": {
+    "legal_name": "PASTELERIA CONDE MELERO, S.L.",
+    "trade_name": "Pastelería Conde Melero",
+    "tax_id": "B1234567",
+    "email": "pasteleria@condemelero.es",
+    "phone": "48 40 46 45",
+    "website": "http://pasteleriacondemelero.es/",
+    "address": "Calle Mayor, 17, 31593",
+    "postal_code": "31593",
+    "city": "Fitero",
+    "province": "Navarra",
+    "autonomous_community": "Navarra",
+    "country": "España",
+    "activity": "Pastelería",
+    "cnae": "",
+    "workforce_size": 2,
+    "logo": "",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-05-15T12:00:20.591Z",
+    "updated_at": "2026-05-15T12:03:57.087Z"
+  }
+},
+{
+  "model": "companies.companymembership",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "company": 2,
+    "role": "company_admin",
+    "is_active": true,
+    "is_default": true,
+    "created_at": "2026-07-13T10:26:09.322Z",
+    "updated_at": "2026-07-13T10:26:09.322Z"
+  }
+},
+{
+  "model": "workcenters.workcenter",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "name": "Centro de trabajo 1",
+    "code": "",
+    "address": "Calle A",
+    "postal_code": "",
+    "city": "",
+    "province": "",
+    "contact_person": "",
+    "contact_phone": "",
+    "contact_email": "",
+    "activity": "",
+    "worker_count": null,
+    "risk_level": "low",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-05-09T05:15:34.280Z",
+    "updated_at": "2026-05-09T05:15:34.280Z"
+  }
+},
+{
+  "model": "workcenters.workcenter",
+  "pk": 2,
+  "fields": {
+    "company": 1,
+    "name": "Centro de trabajo 2",
+    "code": "",
+    "address": "Calle A2",
+    "postal_code": "",
+    "city": "",
+    "province": "",
+    "contact_person": "",
+    "contact_phone": "",
+    "contact_email": "",
+    "activity": "",
+    "worker_count": null,
+    "risk_level": "low",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-05-09T05:15:59.468Z",
+    "updated_at": "2026-05-09T05:15:59.468Z"
+  }
+},
+{
+  "model": "workcenters.workcenter",
+  "pk": 3,
+  "fields": {
+    "company": 2,
+    "name": "Calle Mayor",
+    "code": "001",
+    "address": "Calle Mayor, 17",
+    "postal_code": "31593",
+    "city": "Fitero",
+    "province": "Navarra",
+    "contact_person": "Patricia Conde",
+    "contact_phone": "948404645",
+    "contact_email": "pasteleriacondemelero@hotmail.com",
+    "activity": "Pastelería",
+    "worker_count": 2,
+    "risk_level": "low",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-07-12T16:15:40.232Z",
+    "updated_at": "2026-07-12T16:15:40.232Z"
+  }
+},
+{
+  "model": "workcenters.workcenter",
+  "pk": 4,
+  "fields": {
+    "company": 2,
+    "name": "Central Pasteleria",
+    "code": "",
+    "address": "Calle Horno 15",
+    "postal_code": "28012",
+    "city": "Madrid",
+    "province": "Madrid",
+    "contact_person": "",
+    "contact_phone": "",
+    "contact_email": "",
+    "activity": "",
+    "worker_count": null,
+    "risk_level": "low",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-07-13T10:26:09.329Z",
+    "updated_at": "2026-07-13T10:26:09.329Z"
+  }
+},
+{
+  "model": "workcenters.workcenter",
+  "pk": 5,
+  "fields": {
+    "company": 2,
+    "name": "Taller de Produccion",
+    "code": "",
+    "address": "Poligono Industrial Sur",
+    "postal_code": "28906",
+    "city": "Getafe",
+    "province": "Madrid",
+    "contact_person": "",
+    "contact_phone": "",
+    "contact_email": "",
+    "activity": "",
+    "worker_count": null,
+    "risk_level": "low",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-07-13T10:26:09.338Z",
+    "updated_at": "2026-07-13T10:26:09.338Z"
+  }
+},
+{
+  "model": "workers.jobposition",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "name": "Personal de administración",
+    "department": "",
+    "description": "Trabajos administrativos",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-05-09T05:21:28.318Z",
+    "updated_at": "2026-05-09T05:21:28.318Z"
+  }
+},
+{
+  "model": "workers.jobposition",
+  "pk": 2,
+  "fields": {
+    "company": 2,
+    "name": "Dependiente-a",
+    "department": "",
+    "description": "Atención al público en la tienda. Ayuda en obrador y limpieza de utensilios",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-07-12T16:16:58.489Z",
+    "updated_at": "2026-07-12T16:16:58.489Z"
+  }
+},
+{
+  "model": "workers.jobposition",
+  "pk": 3,
+  "fields": {
+    "company": 2,
+    "name": "Ayudante de pastelería",
+    "department": "",
+    "description": "Ayuda en en obrador",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-07-12T16:17:26.686Z",
+    "updated_at": "2026-07-12T16:17:26.686Z"
+  }
+},
+{
+  "model": "workers.jobposition",
+  "pk": 4,
+  "fields": {
+    "company": 2,
+    "name": "Gerente",
+    "department": "",
+    "description": "",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-07-13T10:26:09.345Z",
+    "updated_at": "2026-07-13T10:26:09.345Z"
+  }
+},
+{
+  "model": "workers.jobposition",
+  "pk": 5,
+  "fields": {
+    "company": 2,
+    "name": "Pastelero/a",
+    "department": "",
+    "description": "",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-07-13T10:26:09.352Z",
+    "updated_at": "2026-07-13T10:26:09.352Z"
+  }
+},
+{
+  "model": "workers.jobposition",
+  "pk": 6,
+  "fields": {
+    "company": 2,
+    "name": "Administrativo/a",
+    "department": "",
+    "description": "",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-07-13T10:26:09.359Z",
+    "updated_at": "2026-07-13T10:26:09.359Z"
+  }
+},
+{
+  "model": "workers.worker",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "work_center": 1,
+    "job_position": 1,
+    "user": 1,
+    "first_name": "Elena",
+    "last_name": "Furiase",
+    "national_id": "160123456",
+    "email": "",
+    "phone": "",
+    "employee_code": "",
+    "social_security_number": "",
+    "hire_date": null,
+    "birth_date": null,
+    "employment_status": "active",
+    "especially_sensitive": false,
+    "temporary_worker": false,
+    "notes": "",
+    "created_at": "2026-05-09T05:22:07.900Z",
+    "updated_at": "2026-05-09T05:22:07.900Z"
+  }
+},
+{
+  "model": "workers.worker",
+  "pk": 2,
+  "fields": {
+    "company": 1,
+    "work_center": 1,
+    "job_position": 1,
+    "user": null,
+    "first_name": "Pedro",
+    "last_name": "Gutierrez",
+    "national_id": null,
+    "email": "",
+    "phone": "",
+    "employee_code": null,
+    "social_security_number": null,
+    "hire_date": null,
+    "birth_date": null,
+    "employment_status": "active",
+    "especially_sensitive": false,
+    "temporary_worker": false,
+    "notes": "",
+    "created_at": "2026-05-10T05:37:02.353Z",
+    "updated_at": "2026-05-10T05:37:02.353Z"
+  }
+},
+{
+  "model": "workers.worker",
+  "pk": 3,
+  "fields": {
+    "company": 1,
+    "work_center": 1,
+    "job_position": 1,
+    "user": null,
+    "first_name": "Javier",
+    "last_name": "Azkargorta",
+    "national_id": "15623564",
+    "email": "javier@empresaA.com",
+    "phone": "",
+    "employee_code": "3",
+    "social_security_number": "003",
+    "hire_date": "2026-05-10",
+    "birth_date": "1999-12-28",
+    "employment_status": "active",
+    "especially_sensitive": false,
+    "temporary_worker": false,
+    "notes": "",
+    "created_at": "2026-05-10T05:54:40.789Z",
+    "updated_at": "2026-05-10T05:54:40.789Z"
+  }
+},
+{
+  "model": "workers.worker",
+  "pk": 4,
+  "fields": {
+    "company": 2,
+    "work_center": 4,
+    "job_position": 4,
+    "user": null,
+    "first_name": "Maria",
+    "last_name": "Lopez Garcia",
+    "national_id": "12345678A",
+    "email": "maria.lopez@condemelero.com",
+    "phone": "612345678",
+    "employee_code": null,
+    "social_security_number": "36500012A",
+    "hire_date": "2025-07-13",
+    "birth_date": null,
+    "employment_status": "active",
+    "especially_sensitive": false,
+    "temporary_worker": false,
+    "notes": "",
+    "created_at": "2026-07-13T10:26:55.393Z",
+    "updated_at": "2026-07-13T10:26:55.393Z"
+  }
+},
+{
+  "model": "workers.worker",
+  "pk": 5,
+  "fields": {
+    "company": 2,
+    "work_center": 4,
+    "job_position": 5,
+    "user": null,
+    "first_name": "Carlos",
+    "last_name": "Fernandez Ruiz",
+    "national_id": "23456789B",
+    "email": "carlos.fernandez@condemelero.com",
+    "phone": "612345678",
+    "employee_code": null,
+    "social_security_number": "36500023B",
+    "hire_date": "2025-07-13",
+    "birth_date": null,
+    "employment_status": "active",
+    "especially_sensitive": false,
+    "temporary_worker": false,
+    "notes": "",
+    "created_at": "2026-07-13T10:26:55.408Z",
+    "updated_at": "2026-07-13T10:26:55.408Z"
+  }
+},
+{
+  "model": "workers.worker",
+  "pk": 6,
+  "fields": {
+    "company": 2,
+    "work_center": 5,
+    "job_position": 5,
+    "user": null,
+    "first_name": "Ana",
+    "last_name": "Martinez Sanchez",
+    "national_id": "34567890C",
+    "email": "ana.martinez@condemelero.com",
+    "phone": "612345678",
+    "employee_code": null,
+    "social_security_number": "36500034C",
+    "hire_date": "2025-07-13",
+    "birth_date": null,
+    "employment_status": "active",
+    "especially_sensitive": false,
+    "temporary_worker": false,
+    "notes": "",
+    "created_at": "2026-07-13T10:26:55.417Z",
+    "updated_at": "2026-07-13T10:26:55.417Z"
+  }
+},
+{
+  "model": "workers.worker",
+  "pk": 7,
+  "fields": {
+    "company": 2,
+    "work_center": 4,
+    "job_position": 6,
+    "user": null,
+    "first_name": "Pedro",
+    "last_name": "Sanchez Lopez",
+    "national_id": "45678901D",
+    "email": "pedro.sanchez@condemelero.com",
+    "phone": "612345678",
+    "employee_code": null,
+    "social_security_number": "36500045D",
+    "hire_date": "2025-07-13",
+    "birth_date": null,
+    "employment_status": "active",
+    "especially_sensitive": false,
+    "temporary_worker": false,
+    "notes": "",
+    "created_at": "2026-07-13T10:26:55.425Z",
+    "updated_at": "2026-07-13T10:26:55.425Z"
+  }
+},
+{
+  "model": "workers.worker",
+  "pk": 8,
+  "fields": {
+    "company": 2,
+    "work_center": 5,
+    "job_position": 5,
+    "user": null,
+    "first_name": "Laura",
+    "last_name": "Garcia Perez",
+    "national_id": "56789012E",
+    "email": "laura.garcia@condemelero.com",
+    "phone": "612345678",
+    "employee_code": null,
+    "social_security_number": "36500056E",
+    "hire_date": "2025-07-13",
+    "birth_date": null,
+    "employment_status": "active",
+    "especially_sensitive": false,
+    "temporary_worker": false,
+    "notes": "",
+    "created_at": "2026-07-13T10:26:55.436Z",
+    "updated_at": "2026-07-13T10:26:55.436Z"
+  }
+},
+{
+  "model": "documents.documentcategory",
+  "pk": 1,
+  "fields": {
+    "name": "Evaluación de riesgos",
+    "slug": "evaluacion-de-riesgos",
+    "scope": "job_position",
+    "description": "",
+    "is_mandatory": false,
+    "default_validity_days": 365,
+    "is_active": true,
+    "created_at": "2026-05-09T05:27:12.245Z",
+    "updated_at": "2026-05-09T05:30:19.378Z"
+  }
+},
+{
+  "model": "documents.documentcategory",
+  "pk": 2,
+  "fields": {
+    "name": "Planificación preventiva",
+    "slug": "planificacion-preventiva",
+    "scope": "company",
+    "description": "",
+    "is_mandatory": false,
+    "default_validity_days": 365,
+    "is_active": true,
+    "created_at": "2026-05-09T05:27:24.520Z",
+    "updated_at": "2026-05-09T05:31:23.280Z"
+  }
+},
+{
+  "model": "documents.documentcategory",
+  "pk": 3,
+  "fields": {
+    "name": "Certificado de formación",
+    "slug": "certificado-de-formacion",
+    "scope": "worker",
+    "description": "",
+    "is_mandatory": false,
+    "default_validity_days": 730,
+    "is_active": true,
+    "created_at": "2026-05-09T05:27:31.576Z",
+    "updated_at": "2026-05-09T05:30:44.025Z"
+  }
+},
+{
+  "model": "documents.documentcategory",
+  "pk": 4,
+  "fields": {
+    "name": "Entrega de EPI",
+    "slug": "entrega-de-epi",
+    "scope": "worker",
+    "description": "",
+    "is_mandatory": false,
+    "default_validity_days": null,
+    "is_active": true,
+    "created_at": "2026-05-09T05:27:43.680Z",
+    "updated_at": "2026-05-09T05:30:50.205Z"
+  }
+},
+{
+  "model": "documents.documentcategory",
+  "pk": 5,
+  "fields": {
+    "name": "Aptitud médica",
+    "slug": "aptitud-medica",
+    "scope": "worker",
+    "description": "",
+    "is_mandatory": false,
+    "default_validity_days": 365,
+    "is_active": true,
+    "created_at": "2026-05-09T05:27:49.755Z",
+    "updated_at": "2026-05-09T05:30:37.794Z"
+  }
+},
+{
+  "model": "documents.documentcategory",
+  "pk": 6,
+  "fields": {
+    "name": "Acta CAE",
+    "slug": "acta-cae",
+    "scope": "company",
+    "description": "",
+    "is_mandatory": false,
+    "default_validity_days": 365,
+    "is_active": true,
+    "created_at": "2026-05-09T05:27:55.916Z",
+    "updated_at": "2026-05-09T05:30:32.262Z"
+  }
+},
+{
+  "model": "documents.documentcategory",
+  "pk": 7,
+  "fields": {
+    "name": "Inspección",
+    "slug": "inspeccion",
+    "scope": "workcenter",
+    "description": "",
+    "is_mandatory": false,
+    "default_validity_days": 180,
+    "is_active": true,
+    "created_at": "2026-05-09T05:28:04.463Z",
+    "updated_at": "2026-05-09T05:31:35.842Z"
+  }
+},
+{
+  "model": "documents.documentcategory",
+  "pk": 8,
+  "fields": {
+    "name": "Investigación de accidente",
+    "slug": "investigacion-de-accidente",
+    "scope": "worker",
+    "description": "",
+    "is_mandatory": false,
+    "default_validity_days": null,
+    "is_active": true,
+    "created_at": "2026-05-09T05:28:12.055Z",
+    "updated_at": "2026-05-09T05:31:09.850Z"
+  }
+},
+{
+  "model": "documents.documentcategory",
+  "pk": 9,
+  "fields": {
+    "name": "Planificacion",
+    "slug": "planificacion",
+    "scope": "general",
+    "description": "",
+    "is_mandatory": false,
+    "default_validity_days": null,
+    "is_active": true,
+    "created_at": "2026-07-13T10:30:19.181Z",
+    "updated_at": "2026-07-13T10:30:19.186Z"
+  }
+},
+{
+  "model": "documents.documentcategory",
+  "pk": 10,
+  "fields": {
+    "name": "Seguridad",
+    "slug": "seguridad",
+    "scope": "general",
+    "description": "",
+    "is_mandatory": false,
+    "default_validity_days": null,
+    "is_active": true,
+    "created_at": "2026-07-13T10:30:19.193Z",
+    "updated_at": "2026-07-13T10:30:19.193Z"
+  }
+},
+{
+  "model": "documents.document",
+  "pk": "0972e5f3-7e4c-4432-9b53-5849d7a99c2f",
+  "fields": {
+    "company": 1,
+    "category": 5,
+    "title": "Certificado de aptitud",
+    "description": "",
+    "file": "documents/company_1/aptitud-medica/doc_22_04_cert_aptitud_laboral_0_cgdh27o.pdf",
+    "version": "1.0",
+    "code": "",
+    "issue_date": "2026-04-01",
+    "review_date": "2026-04-01",
+    "expiry_date": "2026-05-09",
+    "status": "valid",
+    "is_confidential": false,
+    "uploaded_by": 1,
+    "content_type": 11,
+    "object_id": null,
+    "notes": "",
+    "created_at": "2026-05-09T06:03:16.336Z",
+    "updated_at": "2026-05-09T06:03:16.336Z"
+  }
+},
+{
+  "model": "documents.document",
+  "pk": "2a960570-faf1-4aad-9e47-334ce6271c79",
+  "fields": {
+    "company": 1,
+    "category": 5,
+    "title": "Certificado de aptitud",
+    "description": "",
+    "file": "documents/company_1/aptitud-medica/doc_22_04_cert_aptitud_laboral_0.pdf",
+    "version": "1.0",
+    "code": "",
+    "issue_date": "2026-05-09",
+    "review_date": "2026-05-09",
+    "expiry_date": "2026-05-13",
+    "status": "valid",
+    "is_confidential": false,
+    "uploaded_by": 1,
+    "content_type": 10,
+    "object_id": null,
+    "notes": "",
+    "created_at": "2026-05-09T05:35:11.003Z",
+    "updated_at": "2026-05-09T05:51:11.107Z"
+  }
+},
+{
+  "model": "documents.document",
+  "pk": "8d420485-7786-4b63-ad12-704c4c06e380",
+  "fields": {
+    "company": 2,
+    "category": 9,
+    "title": "Politica de Prevencion 2026",
+    "description": "Politica de prevencion anual",
+    "file": "documents/company_2/planificacion/documento.pdf",
+    "version": "1.0",
+    "code": "",
+    "issue_date": null,
+    "review_date": null,
+    "expiry_date": "2027-05-09",
+    "status": "valid",
+    "is_confidential": false,
+    "uploaded_by": 2,
+    "content_type": null,
+    "object_id": null,
+    "notes": "",
+    "created_at": "2026-07-13T10:30:19.224Z",
+    "updated_at": "2026-07-13T10:30:19.224Z"
+  }
+},
+{
+  "model": "documents.document",
+  "pk": "8de0ec10-f011-44a2-9fa1-54ac2eebf8c4",
+  "fields": {
+    "company": 2,
+    "category": 10,
+    "title": "Protocolo de limpieza",
+    "description": "Protocolo de limpieza del local",
+    "file": "documents/company_2/seguridad/documento.pdf",
+    "version": "1.0",
+    "code": "",
+    "issue_date": null,
+    "review_date": null,
+    "expiry_date": "2027-01-09",
+    "status": "valid",
+    "is_confidential": false,
+    "uploaded_by": 2,
+    "content_type": null,
+    "object_id": null,
+    "notes": "",
+    "created_at": "2026-07-13T10:30:19.257Z",
+    "updated_at": "2026-07-13T10:30:19.257Z"
+  }
+},
+{
+  "model": "documents.document",
+  "pk": "e9756901-b198-4189-86ab-5258a58ca2fa",
+  "fields": {
+    "company": 1,
+    "category": 6,
+    "title": "CAE",
+    "description": "Coordinación",
+    "file": "documents/company_1/acta-cae/PRF-SGP-2-1102-17.05.17-cas-VIG-Modelo_Acta_CAE.pdf",
+    "version": "1.0",
+    "code": "",
+    "issue_date": "2026-05-04",
+    "review_date": "2026-05-04",
+    "expiry_date": "2026-05-08",
+    "status": "expired",
+    "is_confidential": false,
+    "uploaded_by": 1,
+    "content_type": 7,
+    "object_id": null,
+    "notes": "",
+    "created_at": "2026-05-09T05:50:49.123Z",
+    "updated_at": "2026-05-09T05:50:49.123Z"
+  }
+},
+{
+  "model": "tasks.task",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "title": "Realizar investigación de accidente",
+    "description": "",
+    "status": "pending",
+    "priority": "medium",
+    "assigned_to": 1,
+    "created_by": 1,
+    "due_date": "2026-05-09",
+    "completed_at": null,
+    "content_type": 14,
+    "object_id": null,
+    "notes": "",
+    "created_at": "2026-05-09T05:41:36.397Z",
+    "updated_at": "2026-05-09T05:41:36.397Z"
+  }
+},
+{
+  "model": "tasks.task",
+  "pk": 2,
+  "fields": {
+    "company": 1,
+    "title": "Revisar documento caducado: Certificado de aptitud",
+    "description": "El documento \"Certificado de aptitud\" de la categoría \"Aptitud médica\" ha caducado y requiere revisión.",
+    "status": "pending",
+    "priority": "high",
+    "assigned_to": null,
+    "created_by": null,
+    "due_date": "2026-05-09",
+    "completed_at": null,
+    "content_type": 11,
+    "object_id": "0972e5f3-7e4c-4432-9b53-5849d7a99c2f",
+    "notes": "",
+    "created_at": "2026-05-09T06:09:34.540Z",
+    "updated_at": "2026-05-09T06:09:34.540Z"
+  }
+},
+{
+  "model": "tasks.task",
+  "pk": 3,
+  "fields": {
+    "company": 1,
+    "title": "Revisar documento caducado: CAE",
+    "description": "El documento \"CAE\" de la categoría \"Acta CAE\" ha caducado y requiere revisión.",
+    "status": "pending",
+    "priority": "high",
+    "assigned_to": null,
+    "created_by": null,
+    "due_date": "2026-05-09",
+    "completed_at": null,
+    "content_type": 11,
+    "object_id": "e9756901-b198-4189-86ab-5258a58ca2fa",
+    "notes": "",
+    "created_at": "2026-05-09T06:09:34.555Z",
+    "updated_at": "2026-05-09T06:09:34.555Z"
+  }
+},
+{
+  "model": "tasks.task",
+  "pk": 4,
+  "fields": {
+    "company": 2,
+    "title": "Revision extintores trimestral",
+    "description": "Revisar estado de todos los extintores del local",
+    "status": "pending",
+    "priority": "high",
+    "assigned_to": null,
+    "created_by": 2,
+    "due_date": "2026-07-28",
+    "completed_at": null,
+    "content_type": null,
+    "object_id": null,
+    "notes": "",
+    "created_at": "2026-07-13T10:30:19.268Z",
+    "updated_at": "2026-07-13T10:30:19.268Z"
+  }
+},
+{
+  "model": "tasks.task",
+  "pk": 5,
+  "fields": {
+    "company": 2,
+    "title": "Actualizar EPIs caducados",
+    "description": "Solicitar nuevos guantes y gafas de proteccion",
+    "status": "in_progress",
+    "priority": "medium",
+    "assigned_to": null,
+    "created_by": 2,
+    "due_date": "2026-08-12",
+    "completed_at": null,
+    "content_type": null,
+    "object_id": null,
+    "notes": "",
+    "created_at": "2026-07-13T10:30:19.281Z",
+    "updated_at": "2026-07-13T10:30:19.281Z"
+  }
+},
+{
+  "model": "tasks.alert",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "title": "Documento próximo a caducar: Certificado de aptitud",
+    "message": "El documento \"Certificado de aptitud\" caduca el 2026-05-13.",
+    "alert_type": "document_expiry",
+    "severity": "warning",
+    "due_date": "2026-05-13",
+    "is_active": true,
+    "is_read": false,
+    "read_at": null,
+    "related_task": null,
+    "content_type": 11,
+    "object_id": "2a960570-faf1-4aad-9e47-334ce6271c79",
+    "created_at": "2026-05-09T05:58:17.906Z",
+    "updated_at": "2026-05-09T05:58:17.906Z"
+  }
+},
+{
+  "model": "tasks.alert",
+  "pk": 2,
+  "fields": {
+    "company": 1,
+    "title": "Documento próximo a caducar: Certificado de aptitud",
+    "message": "El documento \"Certificado de aptitud\" caduca el 2026-05-09.",
+    "alert_type": "document_expiry",
+    "severity": "warning",
+    "due_date": "2026-05-09",
+    "is_active": true,
+    "is_read": false,
+    "read_at": null,
+    "related_task": null,
+    "content_type": 11,
+    "object_id": "0972e5f3-7e4c-4432-9b53-5849d7a99c2f",
+    "created_at": "2026-05-09T06:03:34.347Z",
+    "updated_at": "2026-05-09T06:03:34.347Z"
+  }
+},
+{
+  "model": "tasks.alert",
+  "pk": 3,
+  "fields": {
+    "company": 1,
+    "title": "Documento caducado: Certificado de aptitud",
+    "message": "El documento \"Certificado de aptitud\" ha caducado el 2026-05-09.",
+    "alert_type": "document_expiry",
+    "severity": "danger",
+    "due_date": "2026-05-09",
+    "is_active": true,
+    "is_read": false,
+    "read_at": null,
+    "related_task": 2,
+    "content_type": 11,
+    "object_id": "0972e5f3-7e4c-4432-9b53-5849d7a99c2f",
+    "created_at": "2026-05-09T06:09:34.520Z",
+    "updated_at": "2026-05-09T06:09:34.540Z"
+  }
+},
+{
+  "model": "tasks.alert",
+  "pk": 4,
+  "fields": {
+    "company": 1,
+    "title": "Documento caducado: CAE",
+    "message": "El documento \"CAE\" ha caducado el 2026-05-08.",
+    "alert_type": "document_expiry",
+    "severity": "danger",
+    "due_date": "2026-05-08",
+    "is_active": true,
+    "is_read": false,
+    "read_at": null,
+    "related_task": 3,
+    "content_type": 11,
+    "object_id": "e9756901-b198-4189-86ab-5258a58ca2fa",
+    "created_at": "2026-05-09T06:09:34.550Z",
+    "updated_at": "2026-05-09T06:09:34.555Z"
+  }
+},
+{
+  "model": "tasks.alert",
+  "pk": 5,
+  "fields": {
+    "company": 2,
+    "title": "NC abierta: NC-2026-001 - Falta de rotulacion en zona de calderas",
+    "message": "La no conformidad NC-2026-001 esta abierta. Fecha limite: 2026-08-02.",
+    "alert_type": "generic",
+    "severity": "warning",
+    "due_date": "2026-08-02",
+    "is_active": true,
+    "is_read": false,
+    "read_at": null,
+    "related_task": null,
+    "content_type": null,
+    "object_id": null,
+    "created_at": "2026-07-13T10:31:44.574Z",
+    "updated_at": "2026-07-13T10:31:44.574Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 1,
+  "fields": {
+    "name": "Formación inicial PRL",
+    "code": "PRL-INI",
+    "description": "",
+    "is_active": true,
+    "created_at": "2026-05-10T14:15:11.509Z",
+    "updated_at": "2026-05-10T14:15:11.509Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 2,
+  "fields": {
+    "name": "Formación específica por puesto",
+    "code": "PRL-PUESTO",
+    "description": "",
+    "is_active": true,
+    "created_at": "2026-05-10T14:15:24.891Z",
+    "updated_at": "2026-05-10T14:15:24.891Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 3,
+  "fields": {
+    "name": "Emergencias y primeros auxilios",
+    "code": "PRL-EMERG",
+    "description": "",
+    "is_active": true,
+    "created_at": "2026-05-10T14:15:38.607Z",
+    "updated_at": "2026-05-10T14:15:38.607Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 4,
+  "fields": {
+    "name": "Equipos de trabajo",
+    "code": "PRL-EQUIP",
+    "description": "",
+    "is_active": true,
+    "created_at": "2026-05-10T14:16:00.026Z",
+    "updated_at": "2026-05-10T14:16:00.026Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 5,
+  "fields": {
+    "name": "EPIs",
+    "code": "PRL-EPI",
+    "description": "",
+    "is_active": true,
+    "created_at": "2026-05-10T14:16:18.612Z",
+    "updated_at": "2026-05-10T14:16:18.612Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 6,
+  "fields": {
+    "name": "Riesgo químico",
+    "code": "PRL-QUIM",
+    "description": "",
+    "is_active": true,
+    "created_at": "2026-05-10T14:16:32.205Z",
+    "updated_at": "2026-05-10T14:16:32.205Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 7,
+  "fields": {
+    "name": "Seguridad",
+    "code": "SEG",
+    "description": "",
+    "is_active": true,
+    "created_at": "2026-07-13T10:29:55.057Z",
+    "updated_at": "2026-07-13T10:29:55.057Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 8,
+  "fields": {
+    "name": "Prevencion de Incendios",
+    "code": "INCENDIOS",
+    "description": "Formacion en prevencion y extincion de incendios.",
+    "is_active": true,
+    "created_at": "2026-07-13T11:54:35.736Z",
+    "updated_at": "2026-07-13T11:54:35.736Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 9,
+  "fields": {
+    "name": "Primeros Auxilios",
+    "code": "AUXILIOS",
+    "description": "Formacion en primeros auxilios y RCP.",
+    "is_active": true,
+    "created_at": "2026-07-13T11:54:35.743Z",
+    "updated_at": "2026-07-13T11:54:35.743Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 10,
+  "fields": {
+    "name": "Medidas de Emergencia",
+    "code": "EMERGENCIAS",
+    "description": "Formacion sobre protocolos y medidas de emergencia.",
+    "is_active": true,
+    "created_at": "2026-07-13T11:54:35.758Z",
+    "updated_at": "2026-07-13T11:54:35.758Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 11,
+  "fields": {
+    "name": "Evacuacion",
+    "code": "EVACUACION",
+    "description": "Formacion en procedimientos de evacuacion.",
+    "is_active": true,
+    "created_at": "2026-07-13T11:54:35.766Z",
+    "updated_at": "2026-07-13T11:54:35.766Z"
+  }
+},
+{
+  "model": "training.trainingcategory",
+  "pk": 12,
+  "fields": {
+    "name": "Uso de Extintores",
+    "code": "EXTINTORES",
+    "description": "Formacion practica en el uso de extintores.",
+    "is_active": true,
+    "created_at": "2026-07-13T11:54:35.773Z",
+    "updated_at": "2026-07-13T11:54:35.773Z"
+  }
+},
+{
+  "model": "training.trainingcourse",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "category": 2,
+    "name": "Formación en Prevención de Riesgos Laborales para Personal de Administración (Art. 19 LPRL).",
+    "code": "PRL-ADMIN-ART19-EA.",
+    "description": "Curso obligatorio adaptado a los riesgos específicos del puesto administrativo, como ergonomía, estrés y seguridad en oficina, conforme al Artículo 19 de la Ley 31/1995 de Prevención de Riesgos Laborales (LPRL). Incluye formación teórico-práctica inicial y actualizaciones por cambios en funciones o equipos",
+    "objective": "Garantizar que el personal de administración reciba formación suficiente y adecuada para identificar riesgos laborales en su puesto, aplicar medidas preventivas y cumplir con la normativa PRL, promoviendo un entorno de trabajo seguro.",
+    "content": "Normativa básica PRL y derechos/obligaciones de trabajadores.\r\n\r\nRiesgos ergonómicos (posturas, VDU), psicosociales (estrés, carga mental) y físicos (caídas, eléctricos, incendios).\r\n\r\nMedidas preventivas: ergonomía en oficina, evacuación, primeros auxilios y autoevaluación del puesto.\r\n\r\nPrácticas: simulacros y ajustes ergonómicos.",
+    "modality": "presential",
+    "duration_hours": "3.00",
+    "is_mandatory": true,
+    "requires_renewal": true,
+    "validity_value": 36,
+    "validity_unit": "months",
+    "status": "active",
+    "notes": "Impartido por personal cualificado de Servicio de Prevención (propio o ajeno). Gratuito para trabajadores, durante jornada laboral. Acreditado con certificado y registro para inspecciones. Adaptable a evaluaciones de riesgos específicas de Empresa A.",
+    "created_at": "2026-05-10T14:18:10.537Z",
+    "updated_at": "2026-05-10T14:18:10.537Z",
+    "required_for_job_positions": []
+  }
+},
+{
+  "model": "training.trainingcourse",
+  "pk": 2,
+  "fields": {
+    "company": null,
+    "category": 4,
+    "name": "Curso de manejo seguro de carretillas elevadoras",
+    "code": "PRL-ET-CE-01",
+    "description": "Formación teórico-práctica orientada a la utilización segura de carretillas elevadoras, incluyendo normativa aplicable, identificación de riesgos y medidas preventivas.",
+    "objective": "Capacitar a los trabajadores para el manejo seguro y eficiente de carretillas elevadoras, reduciendo el riesgo de accidentes laborales y cumpliendo con la normativa vigente en prevención de riesgos laborales.",
+    "content": "Contenido\r\n\r\nNormativa aplicable (Ley PRL, RD 1215/1997).\r\n\r\nTipos de carretillas elevadoras.\r\n\r\nPartes y componentes principales.\r\n\r\nRiesgos asociados al uso de carretillas.\r\n\r\nMedidas preventivas y normas de seguridad.\r\n\r\nEstabilidad de la carga y diagramas de carga.\r\n\r\nManipulación y transporte de cargas.\r\n\r\nInspección y mantenimiento básico.\r\n\r\nSeñalización y circulación en el lugar de trabajo.\r\n\r\nPrácticas de conducción segura.",
+    "modality": "mixed",
+    "duration_hours": "8.00",
+    "is_mandatory": true,
+    "requires_renewal": false,
+    "validity_value": null,
+    "validity_unit": "",
+    "status": "active",
+    "notes": "Incluye parte práctica obligatoria. Es necesario disponer de aptitud médica para el manejo de equipos de trabajo. Se recomienda reciclaje periódico según evolución del puesto o equipo.",
+    "created_at": "2026-05-15T15:19:42.994Z",
+    "updated_at": "2026-05-15T15:19:42.994Z",
+    "required_for_job_positions": []
+  }
+},
+{
+  "model": "training.trainingcourse",
+  "pk": 3,
+  "fields": {
+    "company": 2,
+    "category": 7,
+    "name": "Prevencion de Riesgos Laborales",
+    "code": "",
+    "description": "Formacion basica PRL",
+    "objective": "",
+    "content": "",
+    "modality": "presential",
+    "duration_hours": "40.00",
+    "is_mandatory": true,
+    "requires_renewal": true,
+    "validity_value": 24,
+    "validity_unit": "months",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-07-13T10:29:55.102Z",
+    "updated_at": "2026-07-13T10:29:55.102Z",
+    "required_for_job_positions": []
+  }
+},
+{
+  "model": "training.trainingcourse",
+  "pk": 4,
+  "fields": {
+    "company": 2,
+    "category": 7,
+    "name": "Uso de Extintores",
+    "code": "EXT-001",
+    "description": "Manejo de extintores",
+    "objective": "",
+    "content": "",
+    "modality": "presential",
+    "duration_hours": "8.00",
+    "is_mandatory": true,
+    "requires_renewal": true,
+    "validity_value": 12,
+    "validity_unit": "months",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-07-13T10:30:19.068Z",
+    "updated_at": "2026-07-13T10:30:19.068Z",
+    "required_for_job_positions": []
+  }
+},
+{
+  "model": "training.trainingcourse",
+  "pk": 5,
+  "fields": {
+    "company": 2,
+    "category": 7,
+    "name": "Primeros Auxilios",
+    "code": "PA-001",
+    "description": "Primeros auxilios en el trabajo",
+    "objective": "",
+    "content": "",
+    "modality": "presential",
+    "duration_hours": "16.00",
+    "is_mandatory": true,
+    "requires_renewal": true,
+    "validity_value": 24,
+    "validity_unit": "months",
+    "status": "active",
+    "notes": "",
+    "created_at": "2026-07-13T10:30:19.086Z",
+    "updated_at": "2026-07-13T10:30:19.086Z",
+    "required_for_job_positions": []
+  }
+},
+{
+  "model": "training.trainingrecord",
+  "pk": 1,
+  "fields": {
+    "company": 2,
+    "worker": 4,
+    "job_position": 4,
+    "course": 3,
+    "status": "completed",
+    "planned_date": null,
+    "completed_date": "2026-01-14",
+    "expiry_date": "2028-01-04",
+    "trainer_name": "",
+    "training_entity": "",
+    "certificate_number": "PRV-0004",
+    "attendance_percentage": null,
+    "score": null,
+    "notes": "",
+    "created_by": 2,
+    "created_at": "2026-07-13T10:30:19.101Z",
+    "updated_at": "2026-07-13T10:30:19.101Z",
+    "effectiveness_validated": false,
+    "effectiveness_notes": "",
+    "evidence_document": null,
+    "validated_by": null,
+    "validated_at": null
+  }
+},
+{
+  "model": "training.trainingrecord",
+  "pk": 2,
+  "fields": {
+    "company": 2,
+    "worker": 5,
+    "job_position": 5,
+    "course": 3,
+    "status": "completed",
+    "planned_date": null,
+    "completed_date": "2026-01-14",
+    "expiry_date": "2028-01-04",
+    "trainer_name": "",
+    "training_entity": "",
+    "certificate_number": "PRV-0005",
+    "attendance_percentage": null,
+    "score": null,
+    "notes": "",
+    "created_by": 2,
+    "created_at": "2026-07-13T10:30:19.123Z",
+    "updated_at": "2026-07-13T10:30:19.123Z",
+    "effectiveness_validated": false,
+    "effectiveness_notes": "",
+    "evidence_document": null,
+    "validated_by": null,
+    "validated_at": null
+  }
+},
+{
+  "model": "training.trainingrecord",
+  "pk": 3,
+  "fields": {
+    "company": 2,
+    "worker": 6,
+    "job_position": 5,
+    "course": 3,
+    "status": "completed",
+    "planned_date": null,
+    "completed_date": "2026-01-14",
+    "expiry_date": "2028-01-04",
+    "trainer_name": "",
+    "training_entity": "",
+    "certificate_number": "PRV-0006",
+    "attendance_percentage": null,
+    "score": null,
+    "notes": "",
+    "created_by": 2,
+    "created_at": "2026-07-13T10:30:19.139Z",
+    "updated_at": "2026-07-13T10:30:19.139Z",
+    "effectiveness_validated": false,
+    "effectiveness_notes": "",
+    "evidence_document": null,
+    "validated_by": null,
+    "validated_at": null
+  }
+},
+{
+  "model": "training.trainingrecord",
+  "pk": 4,
+  "fields": {
+    "company": 2,
+    "worker": 5,
+    "job_position": 5,
+    "course": 4,
+    "status": "completed",
+    "planned_date": null,
+    "completed_date": "2026-04-14",
+    "expiry_date": "2027-04-14",
+    "trainer_name": "",
+    "training_entity": "",
+    "certificate_number": "EXT-0002",
+    "attendance_percentage": null,
+    "score": null,
+    "notes": "",
+    "created_by": 2,
+    "created_at": "2026-07-13T10:30:19.154Z",
+    "updated_at": "2026-07-13T10:30:19.154Z",
+    "effectiveness_validated": false,
+    "effectiveness_notes": "",
+    "evidence_document": null,
+    "validated_by": null,
+    "validated_at": null
+  }
+},
+{
+  "model": "training.trainingrecord",
+  "pk": 5,
+  "fields": {
+    "company": 2,
+    "worker": 4,
+    "job_position": 4,
+    "course": 5,
+    "status": "completed",
+    "planned_date": null,
+    "completed_date": "2026-05-14",
+    "expiry_date": "2027-05-14",
+    "trainer_name": "",
+    "training_entity": "",
+    "certificate_number": "PA-0001",
+    "attendance_percentage": null,
+    "score": null,
+    "notes": "",
+    "created_by": 2,
+    "created_at": "2026-07-13T10:30:19.172Z",
+    "updated_at": "2026-07-13T10:30:19.172Z",
+    "effectiveness_validated": false,
+    "effectiveness_notes": "",
+    "evidence_document": null,
+    "validated_by": null,
+    "validated_at": null
+  }
+},
+{
+  "model": "training.trainingalert",
+  "pk": 1,
+  "fields": {
+    "company": 2,
+    "worker": 4,
+    "course": 3,
+    "record": 1,
+    "need": null,
+    "alert_type": "effectiveness",
+    "status": "open",
+    "title": "Validación pendiente de eficacia: Maria Lopez Garcia · Pastelería Conde Melero - Prevencion de Riesgos Laborales",
+    "message": "La formación está completada, pero falta validar su eficacia.",
+    "due_date": "2026-01-14",
+    "triggered_on": "2026-07-13",
+    "created_at": "2026-07-13T10:30:19.107Z",
+    "closed_at": null
+  }
+},
+{
+  "model": "training.trainingalert",
+  "pk": 2,
+  "fields": {
+    "company": 2,
+    "worker": 5,
+    "course": 3,
+    "record": 2,
+    "need": null,
+    "alert_type": "effectiveness",
+    "status": "open",
+    "title": "Validación pendiente de eficacia: Carlos Fernandez Ruiz · Pastelería Conde Melero - Prevencion de Riesgos Laborales",
+    "message": "La formación está completada, pero falta validar su eficacia.",
+    "due_date": "2026-01-14",
+    "triggered_on": "2026-07-13",
+    "created_at": "2026-07-13T10:30:19.127Z",
+    "closed_at": null
+  }
+},
+{
+  "model": "training.trainingalert",
+  "pk": 3,
+  "fields": {
+    "company": 2,
+    "worker": 6,
+    "course": 3,
+    "record": 3,
+    "need": null,
+    "alert_type": "effectiveness",
+    "status": "open",
+    "title": "Validación pendiente de eficacia: Ana Martinez Sanchez · Pastelería Conde Melero - Prevencion de Riesgos Laborales",
+    "message": "La formación está completada, pero falta validar su eficacia.",
+    "due_date": "2026-01-14",
+    "triggered_on": "2026-07-13",
+    "created_at": "2026-07-13T10:30:19.143Z",
+    "closed_at": null
+  }
+},
+{
+  "model": "training.trainingalert",
+  "pk": 4,
+  "fields": {
+    "company": 2,
+    "worker": 5,
+    "course": 4,
+    "record": 4,
+    "need": null,
+    "alert_type": "effectiveness",
+    "status": "open",
+    "title": "Validación pendiente de eficacia: Carlos Fernandez Ruiz · Pastelería Conde Melero - Uso de Extintores",
+    "message": "La formación está completada, pero falta validar su eficacia.",
+    "due_date": "2026-04-14",
+    "triggered_on": "2026-07-13",
+    "created_at": "2026-07-13T10:30:19.161Z",
+    "closed_at": null
+  }
+},
+{
+  "model": "training.trainingalert",
+  "pk": 5,
+  "fields": {
+    "company": 2,
+    "worker": 4,
+    "course": 5,
+    "record": 5,
+    "need": null,
+    "alert_type": "effectiveness",
+    "status": "open",
+    "title": "Validación pendiente de eficacia: Maria Lopez Garcia · Pastelería Conde Melero - Primeros Auxilios",
+    "message": "La formación está completada, pero falta validar su eficacia.",
+    "due_date": "2026-05-14",
+    "triggered_on": "2026-07-13",
+    "created_at": "2026-07-13T10:30:19.176Z",
+    "closed_at": null
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 1,
+  "fields": {
+    "nombre": "Rotación",
+    "codigo": "MEC001",
+    "categoria": "mecanico",
+    "referencia_normativa": "RD 1215/1997",
+    "descripcion": "Movimientos de rotación de elementos mecánicos",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.644Z",
+    "updated_at": "2026-07-12T17:06:11.644Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 2,
+  "fields": {
+    "nombre": "Partes móviles",
+    "codigo": "MEC002",
+    "categoria": "mecanico",
+    "referencia_normativa": "RD 1215/1997",
+    "descripcion": "Contacto con partes móviles de máquinas",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.652Z",
+    "updated_at": "2026-07-12T17:06:11.652Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 3,
+  "fields": {
+    "nombre": "Elementos a presión",
+    "codigo": "MEC003",
+    "categoria": "mecanico",
+    "referencia_normativa": "RD 1215/1997",
+    "descripcion": "Rotura o proyección de elementos a presión",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.656Z",
+    "updated_at": "2026-07-12T17:06:11.656Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 4,
+  "fields": {
+    "nombre": "Caída de objetos",
+    "codigo": "MEC004",
+    "categoria": "mecanico",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Caída de objetos por desplome o caída en altura",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.661Z",
+    "updated_at": "2026-07-12T17:06:11.661Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 5,
+  "fields": {
+    "nombre": "Proyección de partículas",
+    "codigo": "MEC005",
+    "categoria": "mecanico",
+    "referencia_normativa": "RD 1215/1997",
+    "descripcion": "Proyección de partículas sólidas",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.666Z",
+    "updated_at": "2026-07-12T17:06:11.666Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 6,
+  "fields": {
+    "nombre": "Ruido",
+    "codigo": "FIS001",
+    "categoria": "fisico",
+    "referencia_normativa": "RD 286/2006",
+    "descripcion": "Exposición a niveles de ruido superiores a 80 dB(A)",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.676Z",
+    "updated_at": "2026-07-12T17:06:11.676Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 7,
+  "fields": {
+    "nombre": "Vibraciones",
+    "codigo": "FIS002",
+    "categoria": "fisico",
+    "referencia_normativa": "RD 1316/1989",
+    "descripcion": "Exposición a vibraciones mecánicas",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.679Z",
+    "updated_at": "2026-07-12T17:06:11.679Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 8,
+  "fields": {
+    "nombre": "Radiaciones ionizantes",
+    "codigo": "FIS003",
+    "categoria": "fisico",
+    "referencia_normativa": "RD 783/2001",
+    "descripcion": "Exposición a radiaciones ionizantes",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.682Z",
+    "updated_at": "2026-07-12T17:06:11.682Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 9,
+  "fields": {
+    "nombre": "Radiaciones no ionizantes",
+    "codigo": "FIS004",
+    "categoria": "fisico",
+    "referencia_normativa": "RD 1316/1989",
+    "descripcion": "Exposición a radiaciones no ionizantes (láser, UV, IR)",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.684Z",
+    "updated_at": "2026-07-12T17:06:11.684Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 10,
+  "fields": {
+    "nombre": "Temperaturas extremas",
+    "codigo": "FIS005",
+    "categoria": "fisico",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Exposición a calor o frío extremo",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.687Z",
+    "updated_at": "2026-07-12T17:06:11.687Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 11,
+  "fields": {
+    "nombre": "Iluminación deficiente",
+    "codigo": "FIS006",
+    "categoria": "fisico",
+    "referencia_normativa": "RD 486/1997",
+    "descripcion": "Insuficiente o excesiva iluminación",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.691Z",
+    "updated_at": "2026-07-12T17:06:11.691Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 12,
+  "fields": {
+    "nombre": "Ruido ambiental",
+    "codigo": "FIS007",
+    "categoria": "fisico",
+    "referencia_normativa": "RD 286/2006",
+    "descripcion": "Ruido producido por fuentes diversas en el puesto",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.695Z",
+    "updated_at": "2026-07-12T17:06:11.695Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 13,
+  "fields": {
+    "nombre": "Polvos",
+    "codigo": "QUI001",
+    "categoria": "quimico",
+    "referencia_normativa": "RD 374/2001",
+    "descripcion": "Inhalación de polvos nocivos",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.698Z",
+    "updated_at": "2026-07-12T17:06:11.698Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 14,
+  "fields": {
+    "nombre": "Humos",
+    "codigo": "QUI002",
+    "categoria": "quimico",
+    "referencia_normativa": "RD 374/2001",
+    "descripcion": "Inhalación de humos industriales",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.701Z",
+    "updated_at": "2026-07-12T17:06:11.701Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 15,
+  "fields": {
+    "nombre": "Nieblas",
+    "codigo": "QUI003",
+    "categoria": "quimico",
+    "referencia_normativa": "RD 374/2001",
+    "descripcion": "Exposición a nieblas químicas",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.705Z",
+    "updated_at": "2026-07-12T17:06:11.705Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 16,
+  "fields": {
+    "nombre": "Gases",
+    "codigo": "QUI004",
+    "categoria": "quimico",
+    "referencia_normativa": "RD 374/2001",
+    "descripcion": "Exposición a gases tóxicos o asfixiantes",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.707Z",
+    "updated_at": "2026-07-12T17:06:11.707Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 17,
+  "fields": {
+    "nombre": "Vapores",
+    "codigo": "QUI005",
+    "categoria": "quimico",
+    "referencia_normativa": "RD 374/2001",
+    "descripcion": "Exposición a vapores químicos",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.710Z",
+    "updated_at": "2026-07-12T17:06:11.710Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 18,
+  "fields": {
+    "nombre": "Líquidos",
+    "codigo": "QUI006",
+    "categoria": "quimico",
+    "referencia_normativa": "RD 374/2001",
+    "descripcion": "Contacto con líquidos nocivos o corrosivos",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.713Z",
+    "updated_at": "2026-07-12T17:06:11.713Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 19,
+  "fields": {
+    "nombre": "Sólidos",
+    "codigo": "QUI007",
+    "categoria": "quimico",
+    "referencia_normativa": "RD 374/2001",
+    "descripcion": "Contacto con sustancias sólidas nocivas",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.716Z",
+    "updated_at": "2026-07-12T17:06:11.716Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 20,
+  "fields": {
+    "nombre": "CAE - Cancerígenos",
+    "codigo": "QUI008",
+    "categoria": "quimico",
+    "referencia_normativa": "RD 171/2004",
+    "descripcion": "Exposición a agentes cancerígenos",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.719Z",
+    "updated_at": "2026-07-12T17:06:11.719Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 21,
+  "fields": {
+    "nombre": "Sensibilizantes",
+    "codigo": "QUI009",
+    "categoria": "quimico",
+    "referencia_normativa": "RD 374/2001",
+    "descripcion": "Exposición a sustancias sensibilizantes",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.724Z",
+    "updated_at": "2026-07-12T17:06:11.724Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 22,
+  "fields": {
+    "nombre": "Corriente eléctrica",
+    "codigo": "ELE001",
+    "categoria": "electrico",
+    "referencia_normativa": "RD 614/2001",
+    "descripcion": "Contacto directo o indirecto con instalaciones eléctricas",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.727Z",
+    "updated_at": "2026-07-12T17:06:11.729Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 23,
+  "fields": {
+    "nombre": "Arco eléctrico",
+    "codigo": "ELE002",
+    "categoria": "electrico",
+    "referencia_normativa": "RD 614/2001",
+    "descripcion": "Riesgo de arco eléctrico por cortocircuito",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.732Z",
+    "updated_at": "2026-07-12T17:06:11.732Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 24,
+  "fields": {
+    "nombre": "Campo electromagnético",
+    "codigo": "ELE003",
+    "categoria": "electrico",
+    "referencia_normativa": "RD 316/2006",
+    "descripcion": "Exposición a campos electromagnéticos de baja frecuencia",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.734Z",
+    "updated_at": "2026-07-12T17:06:11.734Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 25,
+  "fields": {
+    "nombre": "Movimientos repetitivos",
+    "codigo": "ERG001",
+    "categoria": "ergonomico",
+    "referencia_normativa": "Real Decreto 1004/2017",
+    "descripcion": "Ejecución repetitiva de movimientos con una parte del cuerpo",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.736Z",
+    "updated_at": "2026-07-12T17:06:11.736Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 26,
+  "fields": {
+    "nombre": "Posturas forzadas",
+    "codigo": "ERG002",
+    "categoria": "ergonomico",
+    "referencia_normativa": "Real Decreto 1004/2017",
+    "descripcion": "Mantenimiento de posturas incómodas o forzadas",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.739Z",
+    "updated_at": "2026-07-12T17:06:11.739Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 27,
+  "fields": {
+    "nombre": "Esfuerzo físico",
+    "codigo": "ERG003",
+    "categoria": "ergonomico",
+    "referencia_normativa": "RD 1004/2017",
+    "descripcion": "Manipulación manual de cargas pesadas",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.742Z",
+    "updated_at": "2026-07-12T17:06:11.742Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 28,
+  "fields": {
+    "nombre": "Pantallas de visualización",
+    "codigo": "ERG004",
+    "categoria": "ergonomico",
+    "referencia_normativa": "RD 486/1997",
+    "descripcion": "Uso prolongado de pantallas de visualización de datos",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.744Z",
+    "updated_at": "2026-07-12T17:06:11.744Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 29,
+  "fields": {
+    "nombre": "Ritmo de trabajo",
+    "codigo": "ERG005",
+    "categoria": "ergonomico",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Imposición de ritmos de trabajo inadecuados",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.768Z",
+    "updated_at": "2026-07-12T17:06:11.768Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 30,
+  "fields": {
+    "nombre": "Estrés laboral",
+    "codigo": "PSI001",
+    "categoria": "psicosocial",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Situaciones de estrés por carga de trabajo o clima organizacional",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.774Z",
+    "updated_at": "2026-07-12T17:06:11.774Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 31,
+  "fields": {
+    "nombre": "Violencia",
+    "codigo": "PSI002",
+    "categoria": "psicosocial",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Riesgo de violencia física o psicológica en el trabajo",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.776Z",
+    "updated_at": "2026-07-12T17:06:11.776Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 32,
+  "fields": {
+    "nombre": "Acoso laboral (mobbing)",
+    "codigo": "PSI003",
+    "categoria": "psicosocial",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Situaciones de acoso psicológico en el trabajo",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.779Z",
+    "updated_at": "2026-07-12T17:06:11.779Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 33,
+  "fields": {
+    "nombre": "Turnicidad",
+    "codigo": "PSI004",
+    "categoria": "psicosocial",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Jornadas nocturnas o rotación de turnos",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.785Z",
+    "updated_at": "2026-07-12T17:06:11.785Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 34,
+  "fields": {
+    "nombre": "Fatiga",
+    "codigo": "PSI005",
+    "categoria": "psicosocial",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Agotamiento físico o mental por condiciones de trabajo",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.788Z",
+    "updated_at": "2026-07-12T17:06:11.788Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 35,
+  "fields": {
+    "nombre": "Agentes biológicos",
+    "codigo": "BIO001",
+    "categoria": "biologico",
+    "referencia_normativa": "RD 664/1997",
+    "descripcion": "Exposición a agentes biológicos (virus, bacterias, hongos)",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.791Z",
+    "updated_at": "2026-07-12T17:06:11.791Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 36,
+  "fields": {
+    "nombre": "Legionella",
+    "codigo": "BIO002",
+    "categoria": "biologico",
+    "referencia_normativa": "RD 865/2003",
+    "descripcion": "Riesgo de exposición a Legionella pneumophila",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.802Z",
+    "updated_at": "2026-07-12T17:06:11.802Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 37,
+  "fields": {
+    "nombre": "Materiales biológicos",
+    "codigo": "BIO003",
+    "categoria": "biologico",
+    "referencia_normativa": "RD 664/1997",
+    "descripcion": "Manipulación de materiales biológicos contaminados",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.807Z",
+    "updated_at": "2026-07-12T17:06:11.807Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 38,
+  "fields": {
+    "nombre": "Caídas al mismo nivel",
+    "codigo": "LOC001",
+    "categoria": "locativo",
+    "referencia_normativa": "RD 486/1997",
+    "descripcion": "Resbalones, tropiezos y caídas en superficies de trabajo",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.812Z",
+    "updated_at": "2026-07-12T17:06:11.813Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 39,
+  "fields": {
+    "nombre": "Caídas a distinto nivel",
+    "codigo": "LOC002",
+    "categoria": "locativo",
+    "referencia_normativa": "RD 486/1997",
+    "descripcion": "Caídas desde altura (andamios, escaleras, tejados)",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.816Z",
+    "updated_at": "2026-07-12T17:06:11.816Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 40,
+  "fields": {
+    "nombre": "Golpes contra objetos",
+    "codigo": "LOC003",
+    "categoria": "locativo",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Impacto con objetos fijos o móviles",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.822Z",
+    "updated_at": "2026-07-12T17:06:11.822Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 41,
+  "fields": {
+    "nombre": "Atrapamientos",
+    "codigo": "LOC004",
+    "categoria": "locativo",
+    "referencia_normativa": "RD 1215/1997",
+    "descripcion": "Atrapamiento por o entre máquinas o elementos móviles",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.832Z",
+    "updated_at": "2026-07-12T17:06:11.832Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 42,
+  "fields": {
+    "nombre": "Volcamiento de vehículos",
+    "codigo": "LOC005",
+    "categoria": "locativo",
+    "referencia_normativa": "RD 1215/1997",
+    "descripcion": "Caída o volcamiento de vehículos industriales",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.837Z",
+    "updated_at": "2026-07-12T17:06:11.837Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 43,
+  "fields": {
+    "nombre": "Combustibles",
+    "codigo": "INC001",
+    "categoria": "incendio",
+    "referencia_normativa": "RD 2267/2004",
+    "descripcion": "Presencia de sustancias combustibles o inflamables",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.840Z",
+    "updated_at": "2026-07-12T17:06:11.840Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 44,
+  "fields": {
+    "nombre": "Fuentes de ignición",
+    "codigo": "INC002",
+    "categoria": "incendio",
+    "referencia_normativa": "RD 2267/2004",
+    "descripcion": "Presencia de fuentes de ignición en áreas con riesgo",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.844Z",
+    "updated_at": "2026-07-12T17:06:11.844Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 45,
+  "fields": {
+    "nombre": "Atmósferas explosivas (ATEX)",
+    "codigo": "INC003",
+    "categoria": "incendio",
+    "referencia_normativa": "RD 681/2003",
+    "descripcion": "Presencia de atmósferas explosivas",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.846Z",
+    "updated_at": "2026-07-12T17:06:11.846Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 46,
+  "fields": {
+    "nombre": "Oxígeno enriquecido",
+    "codigo": "INC004",
+    "categoria": "incendio",
+    "referencia_normativa": "RD 2267/2004",
+    "descripcion": "Riesgo por presencia de oxígeno en concentraciones superiores",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.848Z",
+    "updated_at": "2026-07-12T17:06:11.849Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 47,
+  "fields": {
+    "nombre": "Derrames",
+    "codigo": "OTR001",
+    "categoria": "otro",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Riesgo por derrames de sustancias",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.852Z",
+    "updated_at": "2026-07-12T17:06:11.852Z"
+  }
+},
+{
+  "model": "risk_assessment.tipopeligro",
+  "pk": 48,
+  "fields": {
+    "nombre": "Inundaciones",
+    "codigo": "OTR002",
+    "categoria": "otro",
+    "referencia_normativa": "Ley 31/1995",
+    "descripcion": "Riesgo por inundaciones o aguas acumuladas",
+    "activo": true,
+    "created_at": "2026-07-12T17:06:11.856Z",
+    "updated_at": "2026-07-12T17:06:11.856Z"
+  }
+},
+{
+  "model": "risk_assessment.evaluacionriesgos",
+  "pk": 1,
+  "fields": {
+    "empresa": 2,
+    "centro_trabajo": 3,
+    "titulo": "Evaluación de Riesgos",
+    "fecha_evaluacion": "2026-07-12",
+    "fecha_proxima_revision": "2026-07-12",
+    "metodologia": "propio",
+    "revisado_por": 1,
+    "aprobado_por": null,
+    "fecha_aprobacion": null,
+    "estado": "borrador",
+    "version": "1.0",
+    "observaciones": "",
+    "created_at": "2026-07-12T17:03:20.669Z",
+    "updated_at": "2026-07-12T17:03:20.671Z"
+  }
+},
+{
+  "model": "risk_assessment.evaluacionriesgos",
+  "pk": 2,
+  "fields": {
+    "empresa": 2,
+    "centro_trabajo": 4,
+    "titulo": "Evaluacion riesgos Pasteleria Central",
+    "fecha_evaluacion": "2026-05-14",
+    "fecha_proxima_revision": "2027-05-14",
+    "metodologia": "propio",
+    "revisado_por": 2,
+    "aprobado_por": null,
+    "fecha_aprobacion": null,
+    "estado": "aprobada",
+    "version": "1.0",
+    "observaciones": "",
+    "created_at": "2026-07-13T10:30:19.293Z",
+    "updated_at": "2026-07-13T10:30:19.293Z"
+  }
+},
+{
+  "model": "risk_assessment.itemevaluacionriesgos",
+  "pk": 1,
+  "fields": {
+    "evaluacion": 1,
+    "tipo_riesgo": "evitable",
+    "frecuencia": "",
+    "puesto_trabajo": 2,
+    "tipo_peligro": 34,
+    "factor_riesgo_condicion": "Atención al público",
+    "riesgo": "psicosocial",
+    "medidas_existentes": "Apoyo psicológico",
+    "probabilidad": 2,
+    "severidad": 2,
+    "grado_riesgo": 4,
+    "nivel_riesgo": "bajo",
+    "medidas_propuestas": "Seguir realizando apoyo psicosocial",
+    "responsable_medida": null,
+    "fecha_limite_implementacion": "2026-12-12",
+    "estado_implementacion": "en_curso",
+    "created_at": "2026-07-12T17:12:22.076Z",
+    "updated_at": "2026-07-12T17:31:52.433Z"
+  }
+},
+{
+  "model": "risk_assessment.itemevaluacionriesgos",
+  "pk": 2,
+  "fields": {
+    "evaluacion": 2,
+    "tipo_riesgo": "evitable",
+    "frecuencia": "",
+    "puesto_trabajo": 5,
+    "tipo_peligro": null,
+    "factor_riesgo_condicion": "Quemaduras por contacto con superficies calientes",
+    "riesgo": "quemaduras",
+    "medidas_existentes": "",
+    "probabilidad": 2,
+    "severidad": 2,
+    "grado_riesgo": 4,
+    "nivel_riesgo": "bajo",
+    "medidas_propuestas": "Guantes termoresistentes, senales de aviso",
+    "responsable_medida": null,
+    "fecha_limite_implementacion": null,
+    "estado_implementacion": "pendiente",
+    "created_at": "2026-07-13T10:31:11.723Z",
+    "updated_at": "2026-07-13T10:31:11.723Z"
+  }
+},
+{
+  "model": "risk_assessment.itemevaluacionriesgos",
+  "pk": 3,
+  "fields": {
+    "evaluacion": 2,
+    "tipo_riesgo": "evitable",
+    "frecuencia": "",
+    "puesto_trabajo": 5,
+    "tipo_peligro": null,
+    "factor_riesgo_condicion": "Resbalones en suelo mojado",
+    "riesgo": "caidas_mismo_nivel",
+    "medidas_existentes": "",
+    "probabilidad": 2,
+    "severidad": 1,
+    "grado_riesgo": 2,
+    "nivel_riesgo": "muy_bajo",
+    "medidas_propuestas": "Calzado antideslizante, limpieza inmediata",
+    "responsable_medida": null,
+    "fecha_limite_implementacion": null,
+    "estado_implementacion": "pendiente",
+    "created_at": "2026-07-13T10:31:11.748Z",
+    "updated_at": "2026-07-13T10:31:11.748Z"
+  }
+},
+{
+  "model": "corrective_actions.noconformidad",
+  "pk": 1,
+  "fields": {
+    "empresa": 2,
+    "codigo": "NC-2026-001",
+    "titulo": "Falta de rotulacion en zona de calderas",
+    "descripcion": "Se detecto la ausencia de senales de peligro en la zona de calderas.",
+    "fuente": "inspeccion",
+    "gravedad": "moderada",
+    "estado": "abierta",
+    "detectado_por": 2,
+    "fecha_deteccion": "2026-07-03",
+    "centro_trabajo": 5,
+    "trabajador": null,
+    "ubicacion": "",
+    "causa_raiz": "",
+    "metodo_causa_raiz": "_5_porques",
+    "evidencias": "",
+    "archivo_evidencia": "",
+    "fecha_limite_resolucion": "2026-08-02",
+    "resuelta_en": null,
+    "verificada": false,
+    "fecha_verificacion": null,
+    "verificada_por": null,
+    "notas_verificacion": "",
+    "creado_por": null,
+    "created_at": "2026-07-13T10:31:44.558Z",
+    "updated_at": "2026-07-13T10:31:44.558Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 1,
+  "fields": {
+    "nombre": "Gafas de proteccion",
+    "categoria": "ojos",
+    "riesgos_proteccion": "Proyecciones de particulas, polvo, salpicaduras",
+    "norma_eu": "EN 166",
+    "descripcion": "Gafas de proteccion general contra impactos leves, polvo y salpicaduras.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.916Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 2,
+  "fields": {
+    "nombre": "Gafas de proteccion con pantalla facial",
+    "categoria": "ojos",
+    "riesgos_proteccion": "Impacto de particulas, salpicaduras quimicas, radiacion UV",
+    "norma_eu": "EN 166 + EN 170",
+    "descripcion": "Gafas con pantalla facial completa para proteccion ocular y facial.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.924Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 3,
+  "fields": {
+    "nombre": "Guantes de proteccion contra cortes",
+    "categoria": "manos",
+    "riesgos_proteccion": "Cortes, rasgados, abrasion",
+    "norma_eu": "EN 388",
+    "descripcion": "Guantes resistentes a cortes para manipulacion de materiales afilados.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.924Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 4,
+  "fields": {
+    "nombre": "Guantes de nitrilo",
+    "categoria": "manos",
+    "riesgos_proteccion": "Quimicos, agentes biologicos, contaminacion",
+    "norma_eu": "EN 374",
+    "descripcion": "Guantes de proteccion contra productos quimicos y agentes biologicos.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.938Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 5,
+  "fields": {
+    "nombre": "Guantes termicos",
+    "categoria": "manos",
+    "riesgos_proteccion": "Frio, conduccion termica, congelacion",
+    "norma_eu": "EN 511",
+    "descripcion": "Guantes aislantes para trabajos en ambiente frio.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.941Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 6,
+  "fields": {
+    "nombre": "Guantes contra vibraciones",
+    "categoria": "manos",
+    "riesgos_proteccion": "Vibraciones de herramientas manuales, impactos",
+    "norma_eu": "EN ISO 10819",
+    "descripcion": "Guantes amortiguadores para uso de herramientas vibratorias.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.953Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 7,
+  "fields": {
+    "nombre": "Calzado de seguridad",
+    "categoria": "pies",
+    "riesgos_proteccion": "Impacto, compresion, punctura, caida de objetos",
+    "norma_eu": "EN ISO 20345",
+    "descripcion": "Calzado con puntera de seguridad que resiste impactos de hasta 200J.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.953Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 8,
+  "fields": {
+    "nombre": "Calzado de proteccion",
+    "categoria": "pies",
+    "riesgos_proteccion": "Impacto, calor, corriente electrica, resbalones",
+    "norma_eu": "EN ISO 20346",
+    "descripcion": "Calzado con proteccion frente a riesgos menos severos que el de seguridad.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.969Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 9,
+  "fields": {
+    "nombre": "Calzado dieléctrico",
+    "categoria": "pies",
+    "riesgos_proteccion": "Corriente electrica, descargas electricas",
+    "norma_eu": "EN 50321",
+    "descripcion": "Calzado aislante para trabajos con riesgo electrico.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.977Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 10,
+  "fields": {
+    "nombre": "Casco de seguridad industrial",
+    "categoria": "cabeza",
+    "riesgos_proteccion": "Caida de objetos, impactos laterales, perforacion",
+    "norma_eu": "EN 397",
+    "descripcion": "Casco protector para trabajos en obras y zonas industriales.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.984Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 11,
+  "fields": {
+    "nombre": "Cascete de proteccion",
+    "categoria": "cabeza",
+    "riesgos_proteccion": "Golpes, impactos leves, caidas accidentales",
+    "norma_eu": "EN 812",
+    "descripcion": "Cascete ligero sin barbilla, para golpes accidentales.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:44.993Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 12,
+  "fields": {
+    "nombre": "Proteccion auditiva - tapones",
+    "categoria": "oidos",
+    "riesgos_proteccion": "Ruido excesivo, danos auditivos",
+    "norma_eu": "EN 352-2",
+    "descripcion": "Tapones auriculares con atenuacion de ruido para entornos ruidosos.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.000Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 13,
+  "fields": {
+    "nombre": "Proteccion auditiva - orejeras",
+    "categoria": "oidos",
+    "riesgos_proteccion": "Ruido ambiental, danos auditivos",
+    "norma_eu": "EN 352-1",
+    "descripcion": "Orejeras de amortiguacion para proteccion contra ruido.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.005Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 14,
+  "fields": {
+    "nombre": "Mascarilla FFP2",
+    "categoria": "respiratoria",
+    "riesgos_proteccion": "Particulas, polvo, aerosoles no aceitosos",
+    "norma_eu": "EN 149",
+    "descripcion": "Mascarilla filtrante de semifiltro contra particulas solidas y liquidos no aceitosos.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.016Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 15,
+  "fields": {
+    "nombre": "Mascarilla FFP3",
+    "categoria": "respiratoria",
+    "riesgos_proteccion": "Particulas finas, fibras, agentes biologicos, fibra de asbesto",
+    "norma_eu": "EN 149",
+    "descripcion": "Mascarilla filtrante de alta eficiencia contra particulas finas y toxicas.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.023Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 16,
+  "fields": {
+    "nombre": "Respirador semimascarilla",
+    "categoria": "respiratoria",
+    "riesgos_proteccion": "Gases, vapores, partículas组合adas",
+    "norma_eu": "EN 140 + EN 143",
+    "descripcion": "Respirador reutilizable con filtros intercambiables para gases y particulas.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.032Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 17,
+  "fields": {
+    "nombre": "Traje de proteccion quimica",
+    "categoria": "corporal",
+    "riesgos_proteccion": "Quimicos, agentes biologicos, salpicaduras",
+    "norma_eu": "EN 14605",
+    "descripcion": "Traje completo de proteccion contra sustancias quimicas liquidas.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.038Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 18,
+  "fields": {
+    "nombre": "Chaleco de alta visibilidad",
+    "categoria": "corporal",
+    "riesgos_proteccion": "Visibilidad reducida, atropello, accidentes de trafico",
+    "norma_eu": "EN ISO 20471",
+    "descripcion": "Prenda de alta visibilidad para trabajos via carretera y zonas de riesgo.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.038Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 19,
+  "fields": {
+    "nombre": "Traje de proteccion contra lluvia",
+    "categoria": "corporal",
+    "riesgos_proteccion": "Agua, viento, condicion meteorologica adversa",
+    "norma_eu": "EN 343",
+    "descripcion": "Traje impermeable para proteccion frente a lluvia y viento.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.048Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 20,
+  "fields": {
+    "nombre": "Mascara facial completa",
+    "categoria": "respiratoria",
+    "riesgos_proteccion": "Gases toxicos, vapores, ausencia de oxigeno",
+    "norma_eu": "EN 136 + EN 140",
+    "descripcion": "Mascara de cara completa para uso con equipos de respiracion autonoma.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.048Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 21,
+  "fields": {
+    "nombre": "Proteccion facial transparente",
+    "categoria": "ojos",
+    "riesgos_proteccion": "Salpicaduras quimicas, proyeccion de particulas, chispas",
+    "norma_eu": "EN 166",
+    "descripcion": "Pantalla facial de policarbonato para proteccion completa del rostro.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.065Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 22,
+  "fields": {
+    "nombre": "Mandil de proteccion",
+    "categoria": "corporal",
+    "riesgos_proteccion": "Salpicaduras, chispas, calor radiante",
+    "norma_eu": "EN 11611 / EN 11612",
+    "descripcion": "Mandil resistente a llama y calor para soldadura y corte.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.069Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 23,
+  "fields": {
+    "nombre": "Guantes de soldador",
+    "categoria": "manos",
+    "riesgos_proteccion": "Calor, chispas, salpicaduras de metal fundido",
+    "norma_eu": "EN 12477",
+    "descripcion": "Guantes de cuero para proteccion durante operaciones de soldadura.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.080Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 24,
+  "fields": {
+    "nombre": "Manguitos de proteccion",
+    "categoria": "manos",
+    "riesgos_proteccion": "Calor, abrasion, cortes leves en antebrazos",
+    "norma_eu": "EN 388",
+    "descripcion": "Manguitos protectores para antebrazos en tareas industriales.",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T06:28:45.081Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 25,
+  "fields": {
+    "nombre": "Guantes de proteccion termica",
+    "categoria": "manos",
+    "riesgos_proteccion": "Quemaduras por contacto con superficies calientes",
+    "norma_eu": "EN 407",
+    "descripcion": "",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T10:31:44.601Z"
+  }
+},
+{
+  "model": "epis.catalogoepi",
+  "pk": 26,
+  "fields": {
+    "nombre": "Calzado antideslizante",
+    "categoria": "pies",
+    "riesgos_proteccion": "Resbalones y caidas",
+    "norma_eu": "EN ISO 20345",
+    "descripcion": "",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T10:31:44.614Z"
+  }
+},
+{
+  "model": "epis.epi",
+  "pk": 1,
+  "fields": {
+    "empresa": 2,
+    "catalogo": 25,
+    "marca": "Moldex",
+    "modelo": "G-500",
+    "numero_serie": "EPI-001",
+    "vida_util_meses": 6,
+    "precio": "0.00",
+    "proveedor": "",
+    "fecha_compra": null,
+    "estado": "asignado",
+    "activo": true,
+    "created_at": "2026-07-13T10:31:44.629Z",
+    "updated_at": "2026-07-13T10:31:44.629Z"
+  }
+},
+{
+  "model": "epis.epi",
+  "pk": 2,
+  "fields": {
+    "empresa": 2,
+    "catalogo": 26,
+    "marca": "Cofra",
+    "modelo": "Smart S1P",
+    "numero_serie": "EPI-002",
+    "vida_util_meses": 24,
+    "precio": "0.00",
+    "proveedor": "",
+    "fecha_compra": null,
+    "estado": "asignado",
+    "activo": true,
+    "created_at": "2026-07-13T10:31:44.644Z",
+    "updated_at": "2026-07-13T10:31:44.644Z"
+  }
+},
+{
+  "model": "work_equipment.tipoequipo",
+  "pk": 1,
+  "fields": {
+    "empresa": 2,
+    "nombre": "Batidora industrial",
+    "categoria": "maquinaria",
+    "descripcion": "Batidora para grandes producciones",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T10:31:44.654Z"
+  }
+},
+{
+  "model": "work_equipment.tipoequipo",
+  "pk": 2,
+  "fields": {
+    "empresa": 2,
+    "nombre": "Horno industrial",
+    "categoria": "instalaciones",
+    "descripcion": "Horno de coccion profesional",
+    "imagen": "",
+    "activo": true,
+    "created_at": "2026-07-13T10:31:44.662Z"
+  }
+},
+{
+  "model": "work_equipment.equipotrabajo",
+  "pk": 1,
+  "fields": {
+    "empresa": 2,
+    "tipo": 1,
+    "nombre": "Batidora Hobart 20L",
+    "marca": "Hobart",
+    "modelo": "HLC-500",
+    "numero_serie": "EQ-001",
+    "numero_bien": "",
+    "fecha_compra": "2024-07-13",
+    "fecha_puesta_marcha": null,
+    "ubicacion": "",
+    "responsable": null,
+    "vida_util_meses": null,
+    "estado": "operativo",
+    "notas": "",
+    "manual_instrucciones": "",
+    "declaracion_ce": "",
+    "certificado_instalacion": "",
+    "activo": true,
+    "created_at": "2026-07-13T10:32:17.155Z",
+    "updated_at": "2026-07-13T10:32:17.155Z"
+  }
+},
+{
+  "model": "work_equipment.equipotrabajo",
+  "pk": 2,
+  "fields": {
+    "empresa": 2,
+    "tipo": 2,
+    "nombre": "Horno Rational iCombi",
+    "marca": "Rational",
+    "modelo": "iCombi Pro 6-1/1",
+    "numero_serie": "EQ-002",
+    "numero_bien": "",
+    "fecha_compra": "2025-07-13",
+    "fecha_puesta_marcha": null,
+    "ubicacion": "",
+    "responsable": null,
+    "vida_util_meses": null,
+    "estado": "operativo",
+    "notas": "",
+    "manual_instrucciones": "",
+    "declaracion_ce": "",
+    "certificado_instalacion": "",
+    "activo": true,
+    "created_at": "2026-07-13T10:32:17.178Z",
+    "updated_at": "2026-07-13T10:32:17.178Z"
+  }
+},
+{
+  "model": "preventive_planning.itemplanificacion",
+  "pk": 1,
+  "fields": {
+    "empresa": 2,
+    "evaluacion_riesgos": null,
+    "ambito_puesto": "Pastelero",
+    "tipo_factor_riesgo": "evitables",
+    "factor_riesgo": "Quemaduras por contacto con plancha",
+    "detalle": "",
+    "riesgos": "quemaduras",
+    "pb": "NV",
+    "sv": "NV",
+    "gr": "NV",
+    "medidas_preventivas": "Guantes termoresistentes y formacion",
+    "detalle_medida": "",
+    "plazo_limite": "",
+    "fecha_objetivo": "2026-06-13",
+    "responsable": "Maria Lopez Garcia",
+    "costes": "",
+    "estado": "implementada",
+    "origen": "",
+    "created_at": "2026-07-13T10:32:17.190Z",
+    "updated_at": "2026-07-13T10:32:17.190Z"
+  }
+},
+{
+  "model": "preventive_planning.itemplanificacion",
+  "pk": 2,
+  "fields": {
+    "empresa": 2,
+    "evaluacion_riesgos": null,
+    "ambito_puesto": "Pastelero",
+    "tipo_factor_riesgo": "monitorizables",
+    "factor_riesgo": "Ruido por maquinaria",
+    "detalle": "",
+    "riesgos": "sordera",
+    "pb": "NV",
+    "sv": "NV",
+    "gr": "NV",
+    "medidas_preventivas": " Proteccion auditiva y medicion periodica",
+    "detalle_medida": "",
+    "plazo_limite": "",
+    "fecha_objetivo": "2026-08-12",
+    "responsable": "Carlos Fernandez Ruiz",
+    "costes": "",
+    "estado": "en_curso",
+    "origen": "",
+    "created_at": "2026-07-13T10:32:17.201Z",
+    "updated_at": "2026-07-13T10:32:17.201Z"
+  }
+},
+{
+  "model": "prevention_plan.planprevention",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "politica": "",
+    "politica_fecha_subida": null,
+    "politica_firmada": false,
+    "organigrama": "",
+    "organigrama_texto": "Estructura organizativa:\n\n1. Empresario / Direction General\n   - Responsable maximo de la empresa\n   - Aprueba el Plan de Prevencion\n\n2. Encargado / Mando intermedio\n   - Supervisa la actividad preventiva en su area\n   - Aplica las medidas preventivas\n\n3. Trabajadores/as\n   - Cumplen las normas de seguridad e higiene\n   - Colaboran en la prevencion de riesgos",
+    "delegado_prl": "no_aplica",
+    "delegado_fecha_designacion": null,
+    "delegado_formacion": false,
+    "doc_designacion_delegado": "",
+    "doc_formacion_delegado": "",
+    "recurso_preventivo": "no_aplica",
+    "recurso_actividades": "",
+    "recurso_fecha_designacion": null,
+    "recurso_formacion": false,
+    "doc_designacion_recurso": "",
+    "doc_formacion_recurso": "",
+    "funciones_responsabilidades": "Funciones y responsabilidades segun el organigrama:\n\nEMPRESARIO/DIRECCION:\n- Aprobar y revisar el Plan de Prevencion\n- Dotar los medios necesarios para la prevencion\n- Garantizar la formacion de los trabajadores\n- Designar al delegado de prevencion y recurso preventivo\n\nENCARGADO/MANDO INTERMEDIO:\n- Supervisar el cumplimiento de las medidas preventivas\n- Informar de los riesgos a los trabajadores\n- Colaborar en la evaluacion de riesgos\n- Formar a los trabajadores nuevos\n\nTRABAJADORES/AS:\n- Cumplir las normas de seguridad e higiene\n- Usar correctamente los EPIs\n- Informar de las situaciones de riesgo\n- Colaborar en la prevencion de riesgos",
+    "utiliza_ett": false,
+    "puestos_ett": "",
+    "tiene_teletrabajo": false,
+    "puestos_teletrabajo": "",
+    "created": "2026-07-13T09:29:53.090Z",
+    "updated": "2026-07-13T09:29:53.090Z"
+  }
+},
+{
+  "model": "prevention_plan.planprevention",
+  "pk": 2,
+  "fields": {
+    "company": 2,
+    "politica": "",
+    "politica_fecha_subida": "2026-06-28",
+    "politica_firmada": true,
+    "organigrama": "",
+    "organigrama_texto": "Estructura organizativa:\n\n1. Empresario / Direction General\n   - Responsable maximo de la empresa\n   - Aprueba el Plan de Prevencion\n\n2. Encargado / Mando intermedio\n   - Supervisa la actividad preventiva en su area\n   - Aplica las medidas preventivas\n\n3. Trabajadores/as\n   - Cumplen las normas de seguridad e higiene\n   - Colaboran en la prevencion de riesgos",
+    "delegado_prl": "si",
+    "delegado_fecha_designacion": "2026-03-15",
+    "delegado_formacion": true,
+    "doc_designacion_delegado": "",
+    "doc_formacion_delegado": "",
+    "recurso_preventivo": "no_aplica",
+    "recurso_actividades": "",
+    "recurso_fecha_designacion": null,
+    "recurso_formacion": false,
+    "doc_designacion_recurso": "",
+    "doc_formacion_recurso": "",
+    "funciones_responsabilidades": "Funciones y responsabilidades segun el organigrama:\n\nEMPRESARIO/DIRECCION:\n- Aprobar y revisar el Plan de Prevencion\n- Dotar los medios necesarios para la prevencion\n- Garantizar la formacion de los trabajadores\n- Designar al delegado de prevencion y recurso preventivo\n\nENCARGADO/MANDO INTERMEDIO:\n- Supervisar el cumplimiento de las medidas preventivas\n- Informar de los riesgos a los trabajadores\n- Colaborar en la evaluacion de riesgos\n- Formar a los trabajadores nuevos\n\nTRABAJADORES/AS:\n- Cumplir las normas de seguridad e higiene\n- Usar correctamente los EPIs\n- Informar de las situaciones de riesgo\n- Colaborar en la prevencion de riesgos",
+    "utiliza_ett": false,
+    "puestos_ett": "",
+    "tiene_teletrabajo": false,
+    "puestos_teletrabajo": "",
+    "created": "2026-07-13T09:29:53.107Z",
+    "updated": "2026-07-13T10:32:17.208Z"
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 1,
+  "fields": {
+    "nombre": "Certificado de Afiliacion a la Seguridad Social",
+    "descripcion": "Certificado de estar al corriente de obligaciones con la Seguridad Social",
+    "obligatorio": true,
+    "orden": 1,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 2,
+  "fields": {
+    "nombre": "Certificado de Mutua",
+    "descripcion": "Certificado de cobertura de accidentes y enfermedades profesionales",
+    "obligatorio": true,
+    "orden": 2,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 3,
+  "fields": {
+    "nombre": "Politica de Prevencion",
+    "descripcion": "Documento de politica de prevencion de riesgos de la empresa",
+    "obligatorio": true,
+    "orden": 3,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 4,
+  "fields": {
+    "nombre": "Plan de Prevencion",
+    "descripcion": "Plan de prevencion de riesgos laborales de la empresa",
+    "obligatorio": true,
+    "orden": 4,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 5,
+  "fields": {
+    "nombre": "Evaluacion de Riesgos",
+    "descripcion": "Evaluacion de riesgos especifica para el trabajo a realizar",
+    "obligatorio": true,
+    "orden": 5,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 6,
+  "fields": {
+    "nombre": "Certificado de Formacion",
+    "descripcion": "Certificados de formacion de los trabajadores que van a intervenir",
+    "obligatorio": true,
+    "orden": 6,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 7,
+  "fields": {
+    "nombre": "Diplomas de Trabajadores",
+    "descripcion": "Diplomas o certificados individuales de los trabajadores",
+    "obligatorio": true,
+    "orden": 7,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 8,
+  "fields": {
+    "nombre": "Certificado de Equipos",
+    "descripcion": "Certificado de revision de equipos de trabajo y EPIs",
+    "obligatorio": true,
+    "orden": 8,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 9,
+  "fields": {
+    "nombre": "Autorizacion de Trabajo",
+    "descripcion": "Autorizacion especifica para el trabajo a realizar en el centro",
+    "obligatorio": true,
+    "orden": 9,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 10,
+  "fields": {
+    "nombre": "Declaracion CE",
+    "descripcion": "Declaracion CE de conformidad de maquinaria y equipos",
+    "obligatorio": false,
+    "orden": 10,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 11,
+  "fields": {
+    "nombre": "Manual de Instrucciones",
+    "descripcion": "Manual de instrucciones de maquinaria y equipos",
+    "obligatorio": false,
+    "orden": 11,
+    "activo": true
+  }
+},
+{
+  "model": "cae.documentocaetipo",
+  "pk": 12,
+  "fields": {
+    "nombre": "Seguro de Responsabilidad Civil",
+    "descripcion": "Poliza de seguro de responsabilidad civil",
+    "obligatorio": true,
+    "orden": 12,
+    "activo": true
+  }
+},
+{
+  "model": "cae.procedimientocae",
+  "pk": 1,
+  "fields": {
+    "empresa": 2,
+    "documento": "",
+    "version": "1.0",
+    "fecha": null,
+    "created": "2026-07-13T11:06:53.946Z",
+    "updated": "2026-07-13T11:06:53.947Z"
+  }
+},
+{
+  "model": "cae.cartacae",
+  "pk": 1,
+  "fields": {
+    "empresa": 2,
+    "documento": "",
+    "created": "2026-07-13T11:06:57.185Z",
+    "updated": "2026-07-13T11:06:57.185Z"
+  }
+},
+{
+  "model": "cae.documentoriesgoscae",
+  "pk": 1,
+  "fields": {
+    "empresa": 2,
+    "documento": "",
+    "created": "2026-07-13T11:07:01.786Z",
+    "updated": "2026-07-13T11:07:01.786Z"
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 1,
+  "fields": {
+    "nombre": "Extintor de Polvo",
+    "descripcion": "Extintor de polvo ABC, 6/8 kg. Uso general contra fuegos de clase A, B y C.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 2,
+  "fields": {
+    "nombre": "Extintor de CO2",
+    "descripcion": "Extintor de dioxido de carbono, 5/10 kg. Ideal para riesgos electricos y fuegos de clase B.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 3,
+  "fields": {
+    "nombre": "BIE 25 (Boquilla Intermedia)",
+    "descripcion": "Boquilla de interpconexion 25mm, 20m de manguera.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 4,
+  "fields": {
+    "nombre": "BIE 45 (Boquilla Intermedia)",
+    "descripcion": "Boquilla de interpconexion 45mm, 20/30m de manguera.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 5,
+  "fields": {
+    "nombre": "Iluminacion de Emergencia",
+    "descripcion": "Luminarias de emergencia con autonomia minima de 1 hora.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 6,
+  "fields": {
+    "nombre": "Botiquin de Primeros Auxilios",
+    "descripcion": "Botiquin normalizado con material de cura y primeros auxilios.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 7,
+  "fields": {
+    "nombre": "Alarma de Emergencia",
+    "descripcion": "Sistema de alarma sonora para emergencias.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 8,
+  "fields": {
+    "nombre": "Sirena de Emergencia",
+    "descripcion": "Sirena manual o automatica para evacuacion.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 9,
+  "fields": {
+    "nombre": "Pulsador de Alarma",
+    "descripcion": "Pulsador manual conectado al sistema de alarma.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 10,
+  "fields": {
+    "nombre": "Manta Ignifuga",
+    "descripcion": "Manta contra fuegos para extincion inicial o proteccion personal.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 11,
+  "fields": {
+    "nombre": "Retenedor de Manguera",
+    "descripcion": "Retenedor para manguera de BIE.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 12,
+  "fields": {
+    "nombre": "Salida de Emergencia (señalizacion)",
+    "descripcion": "Señalizacion fotoluminiscente de salidas de emergencia.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 13,
+  "fields": {
+    "nombre": "Señalizacion de Ruta de Evacuacion",
+    "descripcion": "Señales de direccion de evacuacion fotoluminiscentes.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 14,
+  "fields": {
+    "nombre": "Punto de Reunion",
+    "descripcion": "Señalizacion del punto de reunion exterior.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 15,
+  "fields": {
+    "nombre": "Chorro de Arena",
+    "descripcion": "Equipo de extension fija con boquilla de arena para riesgos especificos.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 16,
+  "fields": {
+    "nombre": "Hidrante Exterior",
+    "descripcion": "Hidrante de columna de incendios equipada (CIE).",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 17,
+  "fields": {
+    "nombre": "Pulsera Luminiscente",
+    "descripcion": "Pulsera de seguridad fotoluminiscente para el equipo de emergencia.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 18,
+  "fields": {
+    "nombre": "Megafono",
+    "descripcion": "Megafono portatil para comunicaciones de emergencia.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 19,
+  "fields": {
+    "nombre": "Cinta de balizamiento",
+    "descripcion": "Cinta de precintado para balizar zonas de peligro.",
+    "icono": "",
+    "activo": true
+  }
+},
+{
+  "model": "emergency_measures.medioproteccionincendios",
+  "pk": 20,
+  "fields": {
+    "nombre": "Guantes ignifugos",
+    "descripcion": "Guantes de proteccion termica para el equipo de intervencion.",
+    "icono": "",
+    "activo": true
+  }
+}
+]

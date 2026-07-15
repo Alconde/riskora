@@ -51,6 +51,7 @@ LOCAL_APPS = [
     'apps.work_instructions.apps.WorkInstructionsConfig',
     'apps.audits.apps.AuditsConfig',
     'apps.legal_requirements.apps.LegalRequirementsConfig',
+    'apps.authorizations.apps.AuthorizationsConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

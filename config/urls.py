@@ -2,10 +2,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from apps.dashboard.views import DashboardView
+from apps.dashboard.views import DashboardView, DashboardChartDataView
 
 urlpatterns = [
     path('', DashboardView.as_view(), name='dashboard'),
+    path('api/chart-data/', DashboardChartDataView.as_view(), name='chart-data'),
     path('admin/', admin.site.urls),
     path('', include('apps.accounts.urls', namespace='accounts')),
     path('empresas/', include('apps.companies.urls', namespace='companies')),
@@ -31,6 +32,7 @@ urlpatterns = [
     path('instrucciones-trabajo/', include('apps.work_instructions.urls', namespace='work_instructions')),
     path('auditorias/', include('apps.audits.urls', namespace='audits')),
     path('requisitos-legales/', include('apps.legal_requirements.urls', namespace='legal_requirements')),
+    path('autorizaciones/', include('apps.authorizations.urls', namespace='authorizations')),
 ]
 
 if settings.DEBUG:

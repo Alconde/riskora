@@ -21,11 +21,11 @@ class DocumentListView(LoginRequiredMixin, ListView):
             'company', 'category', 'uploaded_by'
         ).order_by('-created_at')
 
-        if not self.request.user.is_superuser:
-            if self.request.active_company:
-                queryset = queryset.filter(company=self.request.active_company)
-            else:
-                queryset = queryset.none()
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            queryset = queryset.filter(company=active_company)
+        elif not self.request.user.is_superuser:
+            queryset = queryset.none()
 
         q = self.request.GET.get('q', '').strip()
         company = self.request.GET.get('company', '').strip()
@@ -130,15 +130,13 @@ class DocumentDetailView(LoginRequiredMixin, DetailView):
         queryset = Document.objects.select_related(
             'company', 'category', 'uploaded_by', 'content_type'
         )
-
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            return queryset.filter(company=active_company)
         if self.request.user.is_superuser:
             return queryset
-
-        if self.request.active_company:
-            return queryset.filter(company=self.request.active_company)
-
         return queryset.none()
-    
+
 class DocumentCreateView(LoginRequiredMixin, CreateView):
     model = Document
     form_class = DocumentForm
@@ -166,7 +164,7 @@ class DocumentCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.uploaded_by = self.request.user
 
-        if not self.request.user.is_superuser and self.request.active_company:
+        if self.request.active_company:
             form.instance.company = self.request.active_company
 
         messages.success(self.request, 'Documento creado correctamente.')
@@ -186,25 +184,22 @@ class DocumentUpdateView(LoginRequiredMixin, UpdateView):
         queryset = Document.objects.select_related(
             'company', 'category', 'uploaded_by', 'content_type'
         )
-
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            return queryset.filter(company=active_company)
         if self.request.user.is_superuser:
             return queryset
-
-        if self.request.active_company:
-            return queryset.filter(company=self.request.active_company)
-
         return queryset.none()
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-
-        if not self.request.user.is_superuser:
-            if self.request.active_company:
-                form.fields['company'].queryset = Company.objects.filter(
-                    pk=self.request.active_company.pk
-                )
-            else:
-                form.fields['company'].queryset = Company.objects.none()
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            form.fields['company'].queryset = Company.objects.filter(
+                pk=active_company.pk
+            )
+        elif not self.request.user.is_superuser:
+            form.fields['company'].queryset = Company.objects.none()
 
         form.fields['category'].queryset = DocumentCategory.objects.filter(
             is_active=True
@@ -231,13 +226,11 @@ class DocumentDeleteView(LoginRequiredMixin, DeleteView):
         queryset = Document.objects.select_related(
             'company', 'category', 'uploaded_by'
         )
-
+        active_company = getattr(self.request, 'active_company', None)
+        if active_company:
+            return queryset.filter(company=active_company)
         if self.request.user.is_superuser:
             return queryset
-
-        if self.request.active_company:
-            return queryset.filter(company=self.request.active_company)
-
         return queryset.none()
 
     def delete(self, request, *args, **kwargs):

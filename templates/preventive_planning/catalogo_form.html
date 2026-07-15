@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar medida{% else %}Nueva medida{% endif %} - Catálogo | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar: {{ object.nombre }}{% else %}Nueva medida preventiva del catálogo{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:800px;">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Nombre de la medida *</label>
+                {{ form.nombre }}
+                {% if form.nombre.errors %}<div style="color:#b91c1c;">{{ form.nombre.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Categoría *</label>
+                {{ form.categoria }}
+                {% if form.categoria.errors %}<div style="color:#b91c1c;">{{ form.categoria.errors }}</div>{% endif %}
+            </div>
+
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Frecuencia por defecto</label>
+                {{ form.frecuencia_por_defecto }}
+                {% if form.frecuencia_por_defecto.errors %}<div style="color:#b91c1c;">{{ form.frecuencia_por_defecto.errors }}</div>{% endif %}
+            </div>
+
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Referencia normativa</label>
+                {{ form.normativa }}
+                {% if form.normativa.errors %}<div style="color:#b91c1c;">{{ form.normativa.errors }}</div>{% endif %}
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">Ej: RD 1215/1997, Art. 16 Ley 31/1995</div>
+            </div>
+
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Descripción</label>
+                {{ form.descripcion }}
+                {% if form.descripcion.errors %}<div style="color:#b91c1c;">{{ form.descripcion.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:14px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="{% url 'preventive_planning:catalogo-list' %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

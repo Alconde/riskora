@@ -4,6 +4,10 @@
 {% block page_title %}Eliminar tipo de equipo{% endblock %}
 
 {% block content %}
+<a href="{% url 'company_data:dashboard' %}" class="btn btn-secondary" style="margin-bottom:var(--space-md);">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Volver a Datos Empresa
+</a>
 <div class="card">
     <div style="text-align:center;padding:30px;">
         <h3 style="color:#dc2626;margin-bottom:12px;">¿Eliminar este tipo de equipo?</h3>

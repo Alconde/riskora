@@ -345,4 +345,108 @@
         </div>
     </div>
 </div>
+
+<div style="margin-top:24px;">
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:#1e293b;">Graficas</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+        <div class="card" style="padding:18px;">
+            <h4 style="font-size:14px;font-weight:700;color:#334155;margin-bottom:12px;">Accidentes por mes</h4>
+            <div style="position:relative;height:220px;">
+                <canvas id="chartAccidentes"></canvas>
+            </div>
+        </div>
+        <div class="card" style="padding:18px;">
+            <h4 style="font-size:14px;font-weight:700;color:#334155;margin-bottom:12px;">Formacion por estado</h4>
+            <div style="position:relative;height:220px;">
+                <canvas id="chartFormacion"></canvas>
+            </div>
+        </div>
+        <div class="card" style="padding:18px;">
+            <h4 style="font-size:14px;font-weight:700;color:#334155;margin-bottom:12px;">Tareas por prioridad</h4>
+            <div style="position:relative;height:220px;">
+                <canvas id="chartTareas"></canvas>
+            </div>
+        </div>
+        <div class="card" style="padding:18px;">
+            <h4 style="font-size:14px;font-weight:700;color:#334155;margin-bottom:12px;">No conformidades por fuente</h4>
+            <div style="position:relative;height:220px;">
+                <canvas id="chartNC"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const COLORS = ['#0f766e','#2563eb','#d97706','#dc2626','#7c3aed','#059669','#ea580c','#6366f1'];
+    const COLORS_ALPHA = COLORS.map(c => c + '33');
+
+    function barConfig(labels, values, color) {
+        return {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: color,
+                    borderRadius: 6,
+                    maxBarThickness: 40,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+                    y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 11 } }, grid: { color: '#e2e8f0' } }
+                }
+            }
+        };
+    }
+
+    function doughnutConfig(labels, values) {
+        return {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: COLORS.slice(0, values.length),
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '55%',
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { boxWidth: 12, padding: 10, font: { size: 11 } }
+                    }
+                }
+            }
+        };
+    }
+
+    fetch('{% url "chart-data" %}')
+        .then(r => r.json())
+        .then(data => {
+            if (data.accidentes && data.accidentes.labels.length) {
+                new Chart(document.getElementById('chartAccidentes'), barConfig(data.accidentes.labels, data.accidentes.values, '#dc2626'));
+            }
+            if (data.formacion && data.formacion.labels.length) {
+                new Chart(document.getElementById('chartFormacion'), doughnutConfig(data.formacion.labels, data.formacion.values));
+            }
+            if (data.tareas && data.tareas.labels.length) {
+                new Chart(document.getElementById('chartTareas'), barConfig(data.tareas.labels, data.tareas.values, '#2563eb'));
+            }
+            if (data.no_conformidades && data.no_conformidades.labels.length) {
+                new Chart(document.getElementById('chartNC'), barConfig(data.no_conformidades.labels, data.no_conformidades.values, '#d97706'));
+            }
+        });
+})();
+</script>
 {% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar requisito | Riskora{% endblock %}
+{% block page_title %}Eliminar requisito de autorización{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:600px;">
+    <h3 class="section-title" style="margin-bottom:12px;">¿Eliminar este requisito?</h3>
+    <div style="font-size:14px;margin-bottom:16px;">
+        <strong>{{ object.nombre }}</strong>
+        <div class="meta" style="margin-top:4px;">{{ object.get_tipo_display }} · {{ object.get_categoria_display }}</div>
+    </div>
+
+    {% if object.autorizaciones.count %}
+    <div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;color:#92400e;">
+        Este requisito tiene <strong>{{ object.autorizaciones.count }}</strong> autorización(es) asociadas. Se eliminarán también.
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="display:flex;gap:10px;">
+            <button type="submit" class="hero-btn" style="background:#dc2626;color:#fff;border:none;">Eliminar</button>
+            <a href="{% url 'authorizations:dashboard' %}" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

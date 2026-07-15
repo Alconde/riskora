@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Catálogo de Medidas Preventivas | Riskora{% endblock %}
+{% block page_title %}Catálogo de Medidas Preventivas Periódicas{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="{% url 'preventive_planning:dashboard' %}" class="hero-btn" style="background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Volver al dashboard</a>
+            <a href="{% url 'preventive_planning:catalogo-create' %}" class="hero-btn hero-btn-primary">Nueva medida</a>
+        </div>
+        <form method="get" style="display:flex;gap:6px;flex-wrap:wrap;">
+            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar..." style="padding:8px 12px;border:1px solid #dbe4ef;border-radius:8px;font-size:13px;width:180px;">
+            <select name="categoria" style="padding:8px;border:1px solid #dbe4ef;border-radius:8px;font-size:13px;">
+                <option value="">Todas las categorías</option>
+                {% for val, label in categorias %}
+                <option value="{{ val }}" {% if val == categoria_actual %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="hero-btn hero-btn-primary" style="font-size:12px;">Buscar</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="list">
+        {% for medida in medidas %}
+            <div class="list-item">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div style="flex:1;">
+                        <strong style="font-size:14px;">
+                            {% if medida.es_global %}
+                                <span style="color:#0f766e;">{{ medida.nombre }}</span>
+                            {% else %}
+                                <a href="{% url 'preventive_planning:catalogo-update' medida.pk %}" style="color:#0f766e;text-decoration:none;">{{ medida.nombre }}</a>
+                            {% endif %}
+                        </strong>
+                        <div class="meta" style="font-size:11px;margin-top:2px;">
+                            {{ medida.get_categoria_display }}
+                            {% if medida.normativa %} &middot; {{ medida.normativa }}{% endif %}
+                            {% if medida.frecuencia_por_defecto %} &middot; {{ medida.get_frecuencia_por_defecto_display }}{% endif %}
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
+                        <span class="badge {% if medida.es_global %}badge-info{% else %}badge-success{% endif %}">
+                            {% if medida.es_global %}Global{% else %}Propia{% endif %}
+                        </span>
+                        {% if not medida.es_global %}
+                        <a href="{% url 'preventive_planning:catalogo-update' medida.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:4px 8px;">Editar</a>
+                        <a href="{% url 'preventive_planning:catalogo-delete' medida.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:4px 8px;color:#dc2626;">Eliminar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-item" style="font-size:13px;">No se encontraron medidas en el catálogo.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

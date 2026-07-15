@@ -46,16 +46,17 @@ class CompanyScopedMixin:
         }
 
     def scope_queryset_to_company(self, queryset):
+        active_company = self.get_active_company_or_none()
+
+        if active_company:
+            return queryset.filter(
+                **self.get_company_filter_kwargs(active_company)
+            )
+
         if self.is_global_access_allowed():
             return queryset
 
-        active_company = self.get_active_company_or_none()
-        if not active_company:
-            return queryset.none()
-
-        return queryset.filter(
-            **self.get_company_filter_kwargs(active_company)
-        )
+        return queryset.none()
 
     def get_company_scoped_queryset(self, queryset=None):
         queryset = queryset if queryset is not None else self.get_base_queryset()

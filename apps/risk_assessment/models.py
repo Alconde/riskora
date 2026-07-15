@@ -251,6 +251,12 @@ class ItemEvaluacionRiesgos(models.Model):
         blank=True,
         help_text='Medidas de protección y prevención actualmente implementadas',
     )
+    medidas_catalogo = models.ManyToManyField(
+        'preventive_planning.MedidaPreventivaCatalogo',
+        blank=True,
+        related_name='items_evaluacion',
+        verbose_name='medidas del catálogo',
+    )
 
     probabilidad = models.PositiveSmallIntegerField(
         'probabilidad',

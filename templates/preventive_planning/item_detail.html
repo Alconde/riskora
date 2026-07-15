@@ -62,13 +62,31 @@
 <div class="card" style="margin-bottom:14px;">
     <h3 class="section-title" style="margin-bottom:12px;">Medidas preventivas</h3>
     <div style="font-size:13px;">
+        {% if item.medidas_catalogo.all %}
+        <div style="margin-bottom:12px;">
+            <strong>Medidas del catálogo:</strong>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+                {% for medida in item.medidas_catalogo.all %}
+                <div style="background:#f0fdfa;border:1px solid #99f6e4;border-radius:8px;padding:6px 10px;font-size:12px;">
+                    <div style="font-weight:600;color:#0f766e;">{{ medida.nombre }}</div>
+                    {% if medida.normativa %}
+                    <div style="color:#64748b;font-size:11px;">{{ medida.normativa }}</div>
+                    {% endif %}
+                    {% if medida.frecuencia_por_defecto %}
+                    <div style="color:#0f766e;font-size:11px;font-weight:500;">Frecuencia: {{ medida.get_frecuencia_por_defecto_display }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
         {% if item.medidas_preventivas %}
-        <div style="margin-bottom:8px;"><strong>Medidas:</strong><br>{{ item.medidas_preventivas|linebreaksbr }}</div>
+        <div style="margin-bottom:8px;"><strong>Medidas (texto libre):</strong><br>{{ item.medidas_preventivas|linebreaksbr }}</div>
         {% endif %}
         {% if item.detalle_medida %}
         <div><strong>Detalle / Accion correctora:</strong><br>{{ item.detalle_medida|linebreaksbr }}</div>
         {% endif %}
-        {% if not item.medidas_preventivas and not item.detalle_medida %}
+        {% if not item.medidas_catalogo.all and not item.medidas_preventivas and not item.detalle_medida %}
         <p style="color:#64748b;">No hay medidas registradas.</p>
         {% endif %}
     </div>

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Editar autorización{% else %}Nueva autorización{% endif %} | Autorizaciones | Riskora{% endblock %}
+{% block page_title %}{% if object %}Editar autorización de {{ object.trabajador }}{% else %}Nueva autorización{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:800px;">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="margin-bottom:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Trabajador *</label>
+                {{ form.trabajador }}
+                {% if form.trabajador.errors %}<div style="color:#b91c1c;">{{ form.trabajador.errors }}</div>{% endif %}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Requisito *</label>
+                {{ form.requisito }}
+                {% if form.requisito.errors %}<div style="color:#b91c1c;">{{ form.requisito.errors }}</div>{% endif %}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de autorización *</label>
+                {{ form.fecha_autorizacion }}
+                {% if form.fecha_autorizacion.errors %}<div style="color:#b91c1c;">{{ form.fecha_autorizacion.errors }}</div>{% endif %}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Fecha de caducidad</label>
+                {{ form.fecha_caducidad }}
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">Dejar vacío si no caduca</div>
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Entidad emisora</label>
+                {{ form.entidad_emisora }}
+            </div>
+            <div>
+                <label style="font-size:13px;font-weight:600;color:#475569;">Nº certificado</label>
+                {{ form.numero_certificado }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Certificado / acreditación</label>
+                {{ form.archivo }}
+            </div>
+            <div style="grid-column:1/-1;">
+                <label style="font-size:13px;font-weight:600;color:#475569;">Observaciones</label>
+                {{ form.observaciones }}
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:14px;">
+            <button type="submit" class="hero-btn hero-btn-primary">Guardar</button>
+            <a href="javascript:history.back()" class="hero-btn hero-btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -294,6 +294,23 @@ class ItemEvaluacionCreateView(LoginRequiredMixin, CreateView):
         form.instance.evaluacion = evaluacion
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        empresa = self.get_evaluacion().empresa
+        from django.db.models import Q
+        from apps.preventive_planning.models import MedidaPreventivaCatalogo
+        qs = MedidaPreventivaCatalogo.objects.filter(
+            Q(company__isnull=True) | Q(company=empresa),
+            activo=True,
+        )
+        context['medidas_catalogo_agrupadas'] = [
+            (cat_label, qs.filter(categoria=cat_val))
+            for cat_val, cat_label in MedidaPreventivaCatalogo.Categoria.choices
+            if qs.filter(categoria=cat_val).exists()
+        ]
+        context['medidas_seleccionadas'] = set()
+        return context
+
     def get_success_url(self):
         return reverse_lazy(
             'risk_assessment:evaluacion-detail', kwargs={'pk': self.kwargs['evaluacion_pk']}
@@ -310,6 +327,26 @@ class ItemEvaluacionUpdateView(LoginRequiredMixin, UpdateView):
         kwargs = super().get_form_kwargs()
         kwargs['empresa'] = self.object.evaluacion.empresa
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        empresa = self.object.evaluacion.empresa
+        from django.db.models import Q
+        from apps.preventive_planning.models import MedidaPreventivaCatalogo
+        qs = MedidaPreventivaCatalogo.objects.filter(
+            Q(company__isnull=True) | Q(company=empresa),
+            activo=True,
+        )
+        context['medidas_catalogo_agrupadas'] = [
+            (cat_label, qs.filter(categoria=cat_val))
+            for cat_val, cat_label in MedidaPreventivaCatalogo.Categoria.choices
+            if qs.filter(categoria=cat_val).exists()
+        ]
+        selected = set(self.object.medidas_catalogo.values_list('pk', flat=True))
+        if self.request.POST:
+            selected = set(self.request.POST.getlist('medidas_catalogo'))
+        context['medidas_seleccionadas'] = selected
+        return context
 
     def get_success_url(self):
         return reverse_lazy(

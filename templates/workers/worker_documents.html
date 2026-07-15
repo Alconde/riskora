@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+
+{% block title %}Documentos del trabajador | Riskora{% endblock %}
+{% block page_title %}Documentos del trabajador{% endblock %}
+
+{% block content %}
+<a href="{% url 'company_data:dashboard' %}" class="btn btn-secondary" style="margin-bottom:var(--space-md);">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Volver a Datos Empresa
+</a>
+
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:6px;">Filtro de trabajador</h3>
+            <div class="meta">Selecciona un trabajador para ver todos sus documentos.</div>
+        </div>
+    </div>
+    <form method="get" style="margin-top:12px;">
+        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+            <div style="flex:1;min-width:250px;">
+                <label style="display:block;font-size:0.85em;color:#6b7280;margin-bottom:4px;">Trabajador</label>
+                <select name="worker" class="form-control" style="width:100%;">
+                    <option value="">--- Seleccionar ---</option>
+                    {% for w in workers %}
+                        <option value="{{ w.pk }}" {% if filters.worker|stringformat:"s" == w.pk|stringformat:"s" %}selected{% endif %}>
+                            {{ w.last_name }}, {{ w.first_name }} — {{ w.national_id|default:"-" }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" style="background:#1d4ed8;color:#fff;padding:10px 20px;border:none;border-radius:10px;cursor:pointer;font-size:0.9em;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:6px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Consultar
+            </button>
+        </div>
+    </form>
+</div>
+
+{% if selected_worker %}
+<div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom:6px;">
+                {{ selected_worker.first_name }} {{ selected_worker.last_name }}
+            </h3>
+            <div class="meta">
+                Empresa: {{ selected_worker.company.trade_name|default:selected_worker.company.legal_name }} ·
+                Centro: {{ selected_worker.work_center.name|default:"-" }} ·
+                Puesto: {{ selected_worker.job_position|default:"-" }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="sections">
+
+    <section class="card">
+        <h3 class="section-title">Formación realizada</h3>
+        {% if documents.training %}
+            <div class="table-wrapper" style="overflow-x:auto;">
+                <table class="table" style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Curso</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Estado</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Fecha realización</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Caducidad</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Certificado</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Documentos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in documents.training %}
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <td style="padding:8px 6px;">{{ record.course.name }}</td>
+                            <td style="padding:8px 6px;">
+                                <span class="badge badge-{{ record.expiry_badge_class }}">
+                                    {{ record.get_status_display }}
+                                </span>
+                            </td>
+                            <td style="padding:8px 6px;">{{ record.completed_date|default:"-" }}</td>
+                            <td style="padding:8px 6px;">
+                                {% if record.expiry_date %}
+                                    <span class="badge {{ record.expiry_badge_class }}">{{ record.expiry_help_text }}</span>
+                                {% else %}-{% endif %}
+                            </td>
+                            <td style="padding:8px 6px;">
+                                {% if record.certificate_number %}
+                                    <span class="badge badge-neutral">{{ record.certificate_number }}</span>
+                                {% else %}-{% endif %}
+                            </td>
+                            <td style="padding:8px 6px;">
+                                {% for doc in record.documents.all %}
+                                    <a href="{{ doc.file.url }}" target="_blank" style="text-decoration:none;color:#1d4ed8;display:block;font-size:0.9em;">{{ doc.name }}</a>
+                                {% empty %}
+                                    {% if record.evidence_document %}
+                                        <a href="{{ record.evidence_document.file.url }}" target="_blank" style="text-decoration:none;color:#1d4ed8;font-size:0.9em;">Ver documento</a>
+                                    {% else %}-{% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="meta" style="padding:12px 0;">Sin registros de formación.</div>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Certificados de aptitud (Vigilancia de la Salud)</h3>
+        {% if documents.health %}
+            <div class="table-wrapper" style="overflow-x:auto;">
+                <table class="table" style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Tipo</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Fecha</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Apto</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Próximo reconocimiento</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Médico</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Documento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rec in documents.health %}
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <td style="padding:8px 6px;">{{ rec.get_tipo_display }}</td>
+                            <td style="padding:8px 6px;">{{ rec.fecha }}</td>
+                            <td style="padding:8px 6px;">
+                                <span class="badge badge-{{ rec.badge_color }}">{% if rec.apto %}Apto{% else %}No apto{% endif %}</span>
+                            </td>
+                            <td style="padding:8px 6px;">{{ rec.proximo_reconocimiento|default:"-" }}</td>
+                            <td style="padding:8px 6px;">{{ rec.medico|default:"-" }}</td>
+                            <td style="padding:8px 6px;">
+                                {% if rec.file %}
+                                    <a href="{{ rec.file.url }}" target="_blank" style="text-decoration:none;color:#1d4ed8;font-size:0.9em;">Ver archivo</a>
+                                {% else %}-{% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="meta" style="padding:12px 0;">Sin reconocimientos médicos registrados.</div>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Entregas de EPIs firmadas</h3>
+        {% if documents.epi_deliveries %}
+            <div class="table-wrapper" style="overflow-x:auto;">
+                <table class="table" style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">EPI</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Fecha entrega</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Caducidad</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Estado</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Firma</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Archivo firmado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entrega in documents.epi_deliveries %}
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <td style="padding:8px 6px;">
+                                {% if entrega.epi.catalogo %}
+                                    {{ entrega.epi.catalogo.nombre }} — {{ entrega.epi.marca }} {{ entrega.epi.modelo }}
+                                {% else %}
+                                    {{ entrega.epi.marca }} {{ entrega.epi.modelo }}
+                                {% endif %}
+                            </td>
+                            <td style="padding:8px 6px;">{{ entrega.fecha_entrega }}</td>
+                            <td style="padding:8px 6px;">{{ entrega.fecha_caducidad|default:"-" }}</td>
+                            <td style="padding:8px 6px;">
+                                <span class="badge {{ entrega.badge_estado }}">{{ entrega.get_estado_display }}</span>
+                            </td>
+                            <td style="padding:8px 6px;">
+                                {% if entrega.firma_trabajador %}
+                                    <span class="badge badge-success">Firmado</span>
+                                {% elif entrega.firma and entrega.firma.estado_firma == 'firmado' %}
+                                    <span class="badge badge-success">Firmado</span>
+                                {% elif entrega.firma %}
+                                    <span class="badge badge-warning">{{ entrega.firma.get_estado_firma_display }}</span>
+                                {% else %}
+                                    <span class="badge badge-warning">Pendiente</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding:8px 6px;">
+                                {% if entrega.firma and entrega.firma.archivo_firmado %}
+                                    <a href="{{ entrega.firma.archivo_firmado.url }}" target="_blank" style="text-decoration:none;color:#1d4ed8;font-size:0.9em;">Ver PDF</a>
+                                {% else %}-{% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="meta" style="padding:12px 0;">Sin entregas de EPIs registradas.</div>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h3 class="section-title">Información de riesgos (puesto: {{ selected_worker.job_position|default:"sin asignar" }})</h3>
+        {% if documents.risk_items %}
+            <div class="table-wrapper" style="overflow-x:auto;">
+                <table class="table" style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Evaluación</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Factor de riesgo</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Riesgo</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Nivel</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Medidas propuestas</th>
+                            <th style="text-align:left;padding:8px 6px;font-size:0.85em;color:#6b7280;">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in documents.risk_items %}
+                        <tr style="border-bottom:1px solid var(--border);">
+                            <td style="padding:8px 6px;">{{ item.evaluacion.titulo }}</td>
+                            <td style="padding:8px 6px;">{{ item.factor_riesgo_condicion }}</td>
+                            <td style="padding:8px 6px;">{{ item.get_riesgo_display|default:item.riesgo }}</td>
+                            <td style="padding:8px 6px;">
+                                <span class="badge badge-{% if item.nivel_riesgo == 'muy_alto' or item.nivel_riesgo == 'alto' %}danger{% elif item.nivel_riesgo == 'medio' %}warning{% else %}neutral{% endif %}">
+                                    {{ item.get_nivel_riesgo_display }}
+                                </span>
+                            </td>
+                            <td style="padding:8px 6px;">{{ item.medidas_propuestas|default:"-" }}</td>
+                            <td style="padding:8px 6px;">
+                                <span class="badge badge-neutral">{{ item.get_estado_implementacion_display }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="meta" style="padding:12px 0;">
+                {% if selected_worker.job_position %}
+                    Sin riesgos evaluados para este puesto.
+                {% else %}
+                    El trabajador no tiene un puesto de trabajo asignado.
+                {% endif %}
+            </div>
+        {% endif %}
+    </section>
+
+</div>
+{% endif %}
+{% endblock %}

@@ -4,6 +4,10 @@
 {% block page_title %}Detalle de trabajador{% endblock %}
 
 {% block content %}
+<a href="{% url 'company_data:dashboard' %}" class="btn btn-secondary" style="margin-bottom:var(--space-md);">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Volver a Datos Empresa
+</a>
 <div class="card" style="margin-bottom:18px;">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
         <div>
@@ -68,6 +72,27 @@
             <div class="meta">{{ worker.notes|default:"Sin observaciones." }}</div>
         </div>
     </div>
+</div>
+
+<div class="card" style="margin-top:18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3 class="section-title" style="margin-bottom:0;">Autorizaciones</h3>
+        <a href="{% url 'authorizations:worker-autorizaciones' worker.pk %}" class="hero-btn hero-btn-secondary" style="font-size:12px;">Ver todas →</a>
+    </div>
+    {% if autorizaciones_recientes %}
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
+        {% for auth in autorizaciones_recientes %}
+        <div style="background:{% if auth.esta_valida %}#f0fdfa{% else %}#fef2f2{% endif %};border:1px solid {% if auth.esta_valida %}#99f6e4{% else %}#fecaca{% endif %};border-radius:8px;padding:6px 10px;font-size:12px;">
+            <div style="font-weight:600;color:{% if auth.esta_valida %}#0f766e{% else %}#dc2626{% endif %};">{{ auth.requisito.nombre }}</div>
+            <div style="color:#64748b;font-size:11px;">
+                {% if auth.fecha_caducidad %}Caduca: {{ auth.fecha_caducidad|date:"d/m/Y" }}{% else %}Sin caducidad{% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="font-size:13px;color:#64748b;margin-top:12px;">Este trabajador no tiene autorizaciones registradas.</p>
+    {% endif %}
 </div>
 
 <div style="margin-top:18px;">

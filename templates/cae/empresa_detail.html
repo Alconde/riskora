@@ -78,9 +78,13 @@
                     {% else %}
                         <span class="badge badge-danger" style="margin-top:0;">Pendiente</span>
                     {% endif %}
-                    <a href="{% url 'cae:documento-update' item.documento.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:6px 12px;">
-                        {% if item.subido %}Actualizar{% else %}Subir{% endif %}
-                    </a>
+                    {% if item.documento %}
+                        <a href="{% url 'cae:documento-update' item.documento.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:6px 12px;">
+                            {% if item.subido %}Actualizar{% else %}Subir{% endif %}
+                        </a>
+                    {% else %}
+                        <a href="{% url 'cae:documento-create' empresa_sub.pk item.tipo.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:6px 12px;">Subir</a>
+                    {% endif %}
                     {% if item.subido %}
                         <a href="{% url 'cae:documento-download' item.documento.pk %}" class="hero-btn hero-btn-secondary" style="font-size:11px;padding:6px 12px;">Descargar</a>
                     {% endif %}

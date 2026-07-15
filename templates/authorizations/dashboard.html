@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Autorizaciones | Riskora{% endblock %}
+{% block page_title %}Gestión de Autorizaciones{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;">
+    <div class="card kpi-card">
+        <div class="kpi-label">Autorizaciones activas</div>
+        <div class="kpi-value">{{ total_autorizaciones }}</div>
+    </div>
+    <div class="card kpi-card">
+        <div class="kpi-label">Trabajadores</div>
+        <div class="kpi-value">{{ total_trabajadores }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-warning">
+        <div class="kpi-label">Próximas a caducar</div>
+        <div class="kpi-value">{{ total_proximas }}</div>
+    </div>
+    <div class="card kpi-card kpi-card-danger">
+        <div class="kpi-label">Caducadas</div>
+        <div class="kpi-value">{{ total_caducadas }}</div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="{% url 'authorizations:requisito-create' %}" class="hero-btn hero-btn-primary">Nuevo requisito</a>
+        </div>
+        <form method="get" style="display:flex;gap:6px;flex-wrap:wrap;">
+            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar..." style="padding:8px 12px;border:1px solid #dbe4ef;border-radius:8px;font-size:13px;width:180px;">
+            <select name="tipo" style="padding:8px;border:1px solid #dbe4ef;border-radius:8px;font-size:13px;">
+                <option value="">Todos los tipos</option>
+                {% for val, label in tipos %}
+                <option value="{{ val }}" {% if val == tipo_actual %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="hero-btn hero-btn-primary" style="font-size:12px;">Buscar</button>
+        </form>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;">
+    {% for req in requisitos %}
+    <a href="{% url 'authorizations:requisito-detail' req.pk %}" class="card" style="text-decoration:none;cursor:pointer;transition:transform 0.15s;border-left:4px solid {% if req.autorizaciones_caducadas > 0 %}#dc2626{% elif req.autorizaciones_proximas_caducar > 0 %}#f59e0b{% else %}#10b981{% endif %};" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div style="flex:1;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                    <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:{% if req.tipo == 'equipo' %}#2563eb{% else %}#7c3aed{% endif %};background:{% if req.tipo == 'equipo' %}#eff6ff{% else %}#f5f3ff{% endif %};padding:2px 8px;border-radius:4px;">
+                        {{ req.get_tipo_display }}
+                    </span>
+                    {% if req.categoria %}
+                    <span style="font-size:11px;color:#64748b;">{{ req.categoria }}</span>
+                    {% endif %}
+                </div>
+                <h3 style="font-size:15px;font-weight:700;color:#0f172a;margin:0 0 4px 0;">{{ req.nombre }}</h3>
+                {% if req.normativa %}
+                <div style="font-size:11px;color:#64748b;">{{ req.normativa }}</div>
+                {% endif %}
+            </div>
+            <div style="display:flex;gap:6px;flex-shrink:0;">
+                {% if req.total_autorizados > 0 %}
+                <span class="badge badge-success">{{ req.total_autorizados }} autorizados</span>
+                {% endif %}
+                {% if req.autorizaciones_caducadas > 0 %}
+                <span class="badge badge-danger">{{ req.autorizaciones_caducadas }} caducados</span>
+                {% endif %}
+                {% if req.autorizaciones_proximas_caducar > 0 %}
+                <span class="badge badge-warning">{{ req.autorizaciones_proximas_caducar }} próximos</span>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+    {% empty %}
+    <div class="card" style="grid-column:1/-1;text-align:center;padding:40px;">
+        <p style="color:#64748b;font-size:14px;">No se encontraron requisitos de autorización.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

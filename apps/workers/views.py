@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.db.models import Q
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.db.models import Q, Prefetch
 
 from apps.workers.forms import WorkerForm
 from apps.workers.models import Worker, JobPosition
@@ -104,6 +104,26 @@ class WorkerDetailView(LoginRequiredMixin, CompanyScopedMixin, DetailView):
             'job_position',
         )
         return self.get_company_scoped_queryset(queryset)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from django.utils import timezone
+        from django.db.models import Q
+        from apps.authorizations.models import AutorizacionTrabajador
+        hoy = timezone.now().date()
+        empresa = getattr(self.object, 'company', None)
+        autorizaciones = AutorizacionTrabajador.objects.filter(
+            trabajador=self.object,
+            empresa=empresa,
+        ).select_related('requisito').order_by('requisito__nombre')
+        context['autorizaciones_recientes'] = autorizaciones[:6]
+        context['total_autorizaciones'] = autorizaciones.filter(activa=True).count()
+        context['autorizaciones_validas'] = autorizaciones.filter(
+            activa=True,
+        ).filter(
+            Q(fecha_caducidad__isnull=True) | Q(fecha_caducidad__gte=hoy),
+        ).count()
+        return context
 
 
 class WorkerCreateView(LoginRequiredMixin, CompanyScopedMixin, CreateView):
@@ -232,6 +252,67 @@ class JobPositionUpdateView(LoginRequiredMixin, CompanyScopedMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('workers:jobposition-detail', kwargs={'pk': self.object.pk})
+
+
+class WorkerDocumentsView(LoginRequiredMixin, CompanyScopedMixin, TemplateView):
+    template_name = 'workers/worker_documents.html'
+    login_url = '/login/'
+    company_field_name = 'company'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        workers_qs = self.get_company_scoped_queryset(
+            Worker.objects.select_related(
+                'company', 'work_center', 'job_position'
+            ).order_by('last_name', 'first_name')
+        )
+        context['workers'] = workers_qs
+
+        worker_id = self.request.GET.get('worker')
+        selected_worker = None
+        documents = {'training': [], 'health': [], 'epi_deliveries': [], 'risk_items': []}
+
+        if worker_id:
+            try:
+                selected_worker = workers_qs.get(pk=worker_id)
+            except Worker.DoesNotExist:
+                pass
+
+        if selected_worker:
+            training_records = selected_worker.training_records.select_related(
+                'course', 'evidence_document'
+            ).prefetch_related('documents').order_by('-completed_date', '-planned_date')
+
+            health_records = selected_worker.reconocimientos_medicos.select_related(
+                'company'
+            ).order_by('-fecha')
+
+            epi_deliveries = selected_worker.entregas_epi.select_related(
+                'epi', 'epi__catalogo', 'firma'
+            ).order_by('-fecha_entrega')
+
+            risk_items = []
+            if selected_worker.job_position:
+                risk_items = list(
+                    selected_worker.job_position.items_evaluacion.select_related(
+                        'evaluacion', 'tipo_peligro'
+                    ).filter(
+                        evaluacion__estado='aprobada'
+                    ).order_by('-nivel_riesgo', 'factor_riesgo_condicion')[:50]
+                )
+
+            documents = {
+                'training': training_records,
+                'health': health_records,
+                'epi_deliveries': epi_deliveries,
+                'risk_items': risk_items,
+            }
+
+        context['selected_worker'] = selected_worker
+        context['documents'] = documents
+        context['filters'] = self.request.GET
+        return context
 
 
 class WorkerDeleteView(LoginRequiredMixin, CompanyScopedMixin, DeleteView):
