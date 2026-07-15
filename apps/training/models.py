@@ -4,7 +4,9 @@ from django.db import models
 from datetime import timedelta
 from django.utils import timezone
 
-class TrainingCategory(models.Model):
+from apps.core.mixins import AuditFieldsMixin
+
+class TrainingCategory(AuditFieldsMixin, models.Model):
     name = models.CharField('nombre', max_length=150, unique=True)
     code = models.CharField('código', max_length=50, unique=True, blank=True)
     description = models.TextField('descripción', blank=True)
@@ -27,7 +29,7 @@ class TrainingCategory(models.Model):
         return self.name
 
 
-class TrainingCourse(models.Model):
+class TrainingCourse(AuditFieldsMixin, models.Model):
     class Modality(models.TextChoices):
         PRESENTIAL = 'presential', 'Presencial'
         ONLINE = 'online', 'Online'
@@ -145,7 +147,7 @@ class TrainingCourse(models.Model):
         return self.name
 
 
-class TrainingRecord(models.Model):
+class TrainingRecord(AuditFieldsMixin, models.Model):
     class Status(models.TextChoices):
         PLANNED = 'planned', 'Planificada'
         IN_PROGRESS = 'in_progress', 'En curso'
@@ -361,7 +363,7 @@ class TrainingRecord(models.Model):
         return f'{self.worker} - {self.course}'
 
 
-class TrainingDocument(models.Model):
+class TrainingDocument(AuditFieldsMixin, models.Model):
     record = models.ForeignKey(
         'training.TrainingRecord',
         on_delete=models.CASCADE,
@@ -383,7 +385,7 @@ class TrainingDocument(models.Model):
         return self.name
 
 
-class TrainingRequirement(models.Model):
+class TrainingRequirement(AuditFieldsMixin, models.Model):
     company = models.ForeignKey(
         'companies.Company',
         on_delete=models.CASCADE,
@@ -417,7 +419,7 @@ class TrainingRequirement(models.Model):
         return f'{self.job_position} · {self.course}'
 
 
-class TrainingNeed(models.Model):
+class TrainingNeed(AuditFieldsMixin, models.Model):
     STATUS_PENDING = 'pending'
     STATUS_SCHEDULED = 'scheduled'
     STATUS_COMPLETED = 'completed'
@@ -497,7 +499,7 @@ class TrainingNeed(models.Model):
         return {1: 'badge-danger', 2: 'badge-warning', 3: 'badge-info'}.get(self.priority, 'badge-neutral')
 
 
-class TrainingAlert(models.Model):
+class TrainingAlert(AuditFieldsMixin, models.Model):
     TYPE_EXPIRING = 'expiring'
     TYPE_EXPIRED = 'expired'
     TYPE_MISSING = 'missing'

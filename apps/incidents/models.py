@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.db import models
+from apps.core.mixins import AuditFieldsMixin
 
 
-class CausaAccidente(models.Model):
+class CausaAccidente(AuditFieldsMixin, models.Model):
 
     class Categoria(models.TextChoices):
         INMEDIATA = 'inmediata', 'Causa inmediata'
@@ -36,7 +37,7 @@ class CausaAccidente(models.Model):
         return self.nombre
 
 
-class Accidente(models.Model):
+class Accidente(AuditFieldsMixin, models.Model):
 
     class Tipo(models.TextChoices):
         TRABAJO = 'trabajo', 'Accidente de trabajo'
@@ -188,7 +189,7 @@ class Accidente(models.Model):
         return hasattr(self, 'investigacion') and self.investigacion is not None
 
 
-class InvestigacionAccidente(models.Model):
+class InvestigacionAccidente(AuditFieldsMixin, models.Model):
 
     RIESGO_CHOICES = [
         ('', '--- Seleccionar ---'),
@@ -345,7 +346,7 @@ class InvestigacionAccidente(models.Model):
         return mapping.get(self.estado, 'badge-secondary')
 
 
-class ProcedimientoInvestigacion(models.Model):
+class ProcedimientoInvestigacion(AuditFieldsMixin, models.Model):
     empresa = models.ForeignKey(
         'companies.Company',
         on_delete=models.CASCADE,
@@ -379,7 +380,7 @@ class ProcedimientoInvestigacion(models.Model):
         return f'{self.titulo} v{self.version}'
 
 
-class Incidente(models.Model):
+class Incidente(AuditFieldsMixin, models.Model):
 
     class GravedadPotencial(models.TextChoices):
         LEVE = 'leve', 'Leve'

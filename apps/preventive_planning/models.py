@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.db import models
+from apps.core.mixins import AuditFieldsMixin
 
 
-class MedidaPreventivaCatalogo(models.Model):
+class MedidaPreventivaCatalogo(AuditFieldsMixin, models.Model):
     """
     Catálogo maestro de medidas preventivas periódicas.
     company=NULL → catálogo global del sistema.
@@ -83,7 +84,7 @@ class MedidaPreventivaCatalogo(models.Model):
         return self.company_id is None
 
 
-class ItemPlanificacion(models.Model):
+class ItemPlanificacion(AuditFieldsMixin, models.Model):
 
     class TipoFactorRiesgo(models.TextChoices):
         EVITABLES = 'evitables', 'Evitables'

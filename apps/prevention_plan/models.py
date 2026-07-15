@@ -1,5 +1,6 @@
 from django.db import models
 from apps.companies.models import Company
+from apps.core.mixins import AuditFieldsMixin
 
 
 SI_NO_NO_APLICA = [
@@ -58,7 +59,7 @@ DEFAULT_FUNCIONES = (
 )
 
 
-class PlanPrevention(models.Model):
+class PlanPrevention(AuditFieldsMixin, models.Model):
     company = models.OneToOneField(
         Company,
         on_delete=models.CASCADE,
@@ -185,9 +186,6 @@ class PlanPrevention(models.Model):
         default='',
         verbose_name='Puestos en teletrabajo',
     )
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Plan de Prevencion'

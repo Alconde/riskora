@@ -5,13 +5,15 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
+from apps.core.mixins import AuditFieldsMixin
+
 
 def document_upload_path(instance, filename):
     company_id = instance.company_id or 'sin_empresa'
     return f'documents/company_{company_id}/{instance.category.slug}/{filename}'
 
 
-class DocumentCategory(models.Model):
+class DocumentCategory(AuditFieldsMixin, models.Model):
     class Scope(models.TextChoices):
         GENERAL = 'general', 'General'
         COMPANY = 'company', 'Empresa'
@@ -48,7 +50,7 @@ class DocumentCategory(models.Model):
         return self.name
 
 
-class Document(models.Model):
+class Document(AuditFieldsMixin, models.Model):
     class Status(models.TextChoices):
         DRAFT = 'draft', 'Borrador'
         VALID = 'valid', 'Vigente'

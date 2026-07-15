@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from apps.core.mixins import AuditFieldsMixin
 
 
-class CatalogoEPI(models.Model):
+class CatalogoEPI(AuditFieldsMixin, models.Model):
 
     class Categoria(models.TextChoices):
         CABEZA = 'cabeza', 'Proteccion de la cabeza'
@@ -49,7 +50,7 @@ class CatalogoEPI(models.Model):
         return f'{self.get_categoria_display()} - {self.nombre}'
 
 
-class EPI(models.Model):
+class EPI(AuditFieldsMixin, models.Model):
 
     class Estado(models.TextChoices):
         DISPONIBLE = 'disponible', 'Disponible'
@@ -125,7 +126,7 @@ class EPI(models.Model):
         return self.entregas.filter(estado='activo').first()
 
 
-class EntregaEPI(models.Model):
+class EntregaEPI(AuditFieldsMixin, models.Model):
 
     class Estado(models.TextChoices):
         ACTIVO = 'activo', 'Activo'
@@ -215,7 +216,7 @@ class EntregaEPI(models.Model):
         return delta.days
 
 
-class InspeccionEPI(models.Model):
+class InspeccionEPI(AuditFieldsMixin, models.Model):
 
     class Resultado(models.TextChoices):
         BUENO = 'bueno', 'Buen estado'
@@ -284,7 +285,7 @@ class InspeccionEPI(models.Model):
         return mapping.get(self.resultado, 'badge-secondary')
 
 
-class ProcedimientoEntrega(models.Model):
+class ProcedimientoEntrega(AuditFieldsMixin, models.Model):
     empresa = models.ForeignKey(
         'companies.Company',
         on_delete=models.CASCADE,
@@ -318,7 +319,7 @@ class ProcedimientoEntrega(models.Model):
         return f'{self.titulo} v{self.version}'
 
 
-class FirmaEntrega(models.Model):
+class FirmaEntrega(AuditFieldsMixin, models.Model):
     class EstadoFirma(models.TextChoices):
         PENDIENTE = 'pendiente', 'Pendiente de firma'
         FIRMADO = 'firmado', 'Firmado'

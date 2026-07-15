@@ -2,9 +2,10 @@ from django.db import models
 from django.conf import settings
 from apps.companies.models import Company
 from apps.workers.models import Worker
+from apps.core.mixins import AuditFieldsMixin
 
 
-class MedioProteccionIncendios(models.Model):
+class MedioProteccionIncendios(AuditFieldsMixin, models.Model):
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField(blank=True, default='')
     icono = models.CharField(max_length=50, blank=True, default='')
@@ -19,7 +20,7 @@ class MedioProteccionIncendios(models.Model):
         return self.nombre
 
 
-class EmpresaMedioProteccion(models.Model):
+class EmpresaMedioProteccion(AuditFieldsMixin, models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='medios_proteccion')
     medio = models.ForeignKey(MedioProteccionIncendios, on_delete=models.CASCADE, related_name='empresas')
     cantidad = models.PositiveIntegerField(default=1)
@@ -36,7 +37,7 @@ class EmpresaMedioProteccion(models.Model):
         return f"{self.medio.nombre} ({self.cantidad})"
 
 
-class PlanAutoproteccion(models.Model):
+class PlanAutoproteccion(AuditFieldsMixin, models.Model):
     company = models.OneToOneField(Company, on_delete=models.CASCADE, related_name='plan_autoproteccion')
     file_plan = models.FileField(upload_to='medidas_emergencia/plan/', blank=True)
     file_plano = models.FileField(upload_to='medidas_emergencia/plano/', blank=True)
@@ -54,7 +55,7 @@ class PlanAutoproteccion(models.Model):
         return f"Plan de Autoprotección — {self.company}"
 
 
-class EquipoEmergencia(models.Model):
+class EquipoEmergencia(AuditFieldsMixin, models.Model):
     TIPO_CHOICES = [
         ('jefe', 'Jefe de Emergencia'),
         ('sustituto', 'Sustituto del Jefe'),
@@ -93,7 +94,7 @@ class EquipoEmergencia(models.Model):
         }.get(self.tipo, 'secondary')
 
 
-class MiembroEquipoEmergencia(models.Model):
+class MiembroEquipoEmergencia(AuditFieldsMixin, models.Model):
     equipo = models.ForeignKey(EquipoEmergencia, on_delete=models.CASCADE, related_name='miembros')
     trabajador = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name='equipos_emergencia')
     rol = models.CharField(max_length=100, blank=True, default='')
@@ -110,7 +111,7 @@ class MiembroEquipoEmergencia(models.Model):
         return f"{self.trabajador} — {self.equipo.get_tipo_display()}"
 
 
-class RegistroSimulacro(models.Model):
+class RegistroSimulacro(AuditFieldsMixin, models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='simulacros')
     fecha = models.DateField()
     descripcion = models.TextField(blank=True, default='')
@@ -132,7 +133,7 @@ class RegistroSimulacro(models.Model):
         return f"Simulacro {self.fecha}"
 
 
-class EntregaInformacionEmergencia(models.Model):
+class EntregaInformacionEmergencia(AuditFieldsMixin, models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='entregas_info_emergencia')
     trabajador = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name='entregas_info_emergencia')
     fecha_entrega = models.DateField()

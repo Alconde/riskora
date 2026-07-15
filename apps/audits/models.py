@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.db import models
+from apps.core.mixins import AuditFieldsMixin
 
 
-class ProgramaAuditoria(models.Model):
+class ProgramaAuditoria(AuditFieldsMixin, models.Model):
 
     class Estado(models.TextChoices):
         BORRADOR = 'borrador', 'Borrador'
@@ -78,7 +79,7 @@ class ProgramaAuditoria(models.Model):
         }.get(self.estado, 'badge-secondary')
 
 
-class AuditoriaInterna(models.Model):
+class AuditoriaInterna(AuditFieldsMixin, models.Model):
 
     class Estado(models.TextChoices):
         PLANIFICADA = 'planificada', 'Planificada'
@@ -185,7 +186,7 @@ class AuditoriaInterna(models.Model):
         }.get(self.estado, 'badge-secondary')
 
 
-class ChecklistAuditoria(models.Model):
+class ChecklistAuditoria(AuditFieldsMixin, models.Model):
 
     class Conformidad(models.TextChoices):
         CONFORME = 'conforme', 'Conforme'
@@ -284,7 +285,7 @@ class ChecklistAuditoria(models.Model):
         return self.accion_correctiva is not None
 
 
-class InformeAuditoria(models.Model):
+class InformeAuditoria(AuditFieldsMixin, models.Model):
 
     auditoria = models.OneToOneField(
         AuditoriaInterna,

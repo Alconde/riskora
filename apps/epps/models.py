@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.db import models
+from apps.core.mixins import AuditFieldsMixin
 
 
-class EnfermedadProfesional(models.Model):
+class EnfermedadProfesional(AuditFieldsMixin, models.Model):
 
     class AgenteCausante(models.TextChoices):
         QUIMICO = 'quimico', 'Quimico'
@@ -132,7 +133,7 @@ class EnfermedadProfesional(models.Model):
         return hasattr(self, 'investigacion') and self.investigacion is not None
 
 
-class InvestigacionEEPP(models.Model):
+class InvestigacionEEPP(AuditFieldsMixin, models.Model):
 
     RIESGO_CHOICES = [
         ('', '--- Seleccionar ---'),
@@ -282,7 +283,7 @@ class InvestigacionEEPP(models.Model):
         return mapping.get(self.estado, 'badge-secondary')
 
 
-class ProcedimientoInvestigacionEEPP(models.Model):
+class ProcedimientoInvestigacionEEPP(AuditFieldsMixin, models.Model):
     empresa = models.ForeignKey(
         'companies.Company',
         on_delete=models.CASCADE,

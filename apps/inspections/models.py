@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.db import models
+from apps.core.mixins import AuditFieldsMixin
 
 
-class PlantillaInspeccion(models.Model):
+class PlantillaInspeccion(AuditFieldsMixin, models.Model):
 
     class Categoria(models.TextChoices):
         SEGURIDAD = 'seguridad', 'Seguridad'
@@ -39,7 +40,7 @@ class PlantillaInspeccion(models.Model):
         return self.nombre
 
 
-class PlantillaInspeccionItem(models.Model):
+class PlantillaInspeccionItem(AuditFieldsMixin, models.Model):
     plantilla = models.ForeignKey(
         PlantillaInspeccion,
         on_delete=models.CASCADE,
@@ -58,7 +59,7 @@ class PlantillaInspeccionItem(models.Model):
         return f'{self.orden}. {self.descripcion[:60]}'
 
 
-class Inspeccion(models.Model):
+class Inspeccion(AuditFieldsMixin, models.Model):
 
     class Estado(models.TextChoices):
         PLANIFICADA = 'planificada', 'Planificada'
@@ -186,7 +187,7 @@ class Inspeccion(models.Model):
         return mapping.get(self.resultado_general, 'badge-secondary')
 
 
-class ItemInspeccion(models.Model):
+class ItemInspeccion(AuditFieldsMixin, models.Model):
 
     class Resultado(models.TextChoices):
         CONFORME = 'conforme', 'Conforme'

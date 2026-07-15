@@ -1,9 +1,10 @@
 from django.db import models
 from django.conf import settings
 from apps.companies.models import Company
+from apps.core.mixins import AuditFieldsMixin
 
 
-class ProductoQuimico(models.Model):
+class ProductoQuimico(AuditFieldsMixin, models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='productos_quimicos')
     nombre = models.CharField(max_length=200)
     fabricante = models.CharField(max_length=200, blank=True, default='')
@@ -35,7 +36,7 @@ class ProductoQuimico(models.Model):
         return False
 
 
-class ClasificacionQuimica(models.Model):
+class ClasificacionQuimica(AuditFieldsMixin, models.Model):
     PELIGRO_CHOICES = [
         ('GHS01', 'Explosivo'),
         ('GHS02', 'Inflamable'),

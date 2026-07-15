@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.db import models
 
+from apps.core.mixins import AuditFieldsMixin
 
-class TipoPeligro(models.Model):
+
+class TipoPeligro(AuditFieldsMixin, models.Model):
     """
     Catálogo maestro de tipos de peligro.
     Basado en el Anexo I del RD 39/1997 y guías INSST.
@@ -48,7 +50,7 @@ class TipoPeligro(models.Model):
         return f'{self.nombre} ({self.get_categoria_display()})'
 
 
-class EvaluacionRiesgos(models.Model):
+class EvaluacionRiesgos(AuditFieldsMixin, models.Model):
     """
     Evaluación de Riesgos - Documento maestro de evaluación.
     Metodología INSST: Matriz de Probabilidad × Severidad.
@@ -140,7 +142,7 @@ class EvaluacionRiesgos(models.Model):
         return self.items.filter(nivel_riesgo__in=['medio', 'alto', 'muy_alto']).count()
 
 
-class ItemEvaluacionRiesgos(models.Model):
+class ItemEvaluacionRiesgos(AuditFieldsMixin, models.Model):
     """
     Cada fila de la matriz de evaluación de riesgos.
     Un item = puesto + factor de riesgo + riesgo + evaluación INSST.
@@ -342,7 +344,7 @@ class ItemEvaluacionRiesgos(models.Model):
         return self.nivel_riesgo in ('medio', 'alto', 'muy_alto')
 
 
-class NivelRiesgoReferencia(models.Model):
+class NivelRiesgoReferencia(AuditFieldsMixin, models.Model):
     """
     Tabla de referencia de los 9 niveles de riesgo de la matriz INSST.
     Permite configurar colores y etiquetas desde el admin.
@@ -372,7 +374,7 @@ class NivelRiesgoReferencia(models.Model):
         return f'GR {self.grado} - {self.etiqueta}'
 
 
-class InformeRiesgoEspecial(models.Model):
+class InformeRiesgoEspecial(AuditFieldsMixin, models.Model):
     TIPO_CHOICES = [
         ('higienico', 'Riesgos Higiénicos'),
         ('psicosocial', 'Riesgos Psicosociales'),

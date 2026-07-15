@@ -7,8 +7,8 @@ class PlanPreventionAdmin(admin.ModelAdmin):
     list_display = (
         'company', 'politica_firmada', 'delegado_prl',
         'recurso_preventivo', 'utiliza_ett', 'tiene_teletrabajo',
-        'created',
+        'created_at',
     )
     list_filter = ('politica_firmada', 'delegado_prl', 'recurso_preventivo')
     search_fields = ('company__name',)
-    readonly_fields = ('created', 'updated')
+    readonly_fields = ('created_at', 'updated_at')

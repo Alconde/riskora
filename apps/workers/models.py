@@ -2,8 +2,10 @@ from django.conf import settings
 from django.core.validators import RegexValidator
 from django.db import models
 
+from apps.core.mixins import AuditFieldsMixin
 
-class JobPosition(models.Model):
+
+class JobPosition(AuditFieldsMixin, models.Model):
     class Status(models.TextChoices):
         ACTIVE = 'active', 'Activo'
         INACTIVE = 'inactive', 'Inactivo'
@@ -37,7 +39,7 @@ class JobPosition(models.Model):
     def __str__(self):
         return f'{self.company} - {self.name}'
     
-class Worker(models.Model):
+class Worker(AuditFieldsMixin, models.Model):
     class EmploymentStatus(models.TextChoices):
         ACTIVE = 'active', 'Activo'
         LEAVE = 'leave', 'Baja'

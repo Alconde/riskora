@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Registro de Auditoría | Riskora{% endblock %}
+{% block page_title %}Registro de Auditoría{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 class="section-title" style="margin-bottom: 6px;">Historial de acciones</h3>
+            <div class="meta">Trazabilidad completa de todas las operaciones del sistema.</div>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:18px;">
+    <form method="get" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+            <label style="font-size:12px;font-weight:600;color:#475569;">Buscar</label>
+            <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Objeto, usuario..." class="form-control" style="width:100%;">
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Acción</label>
+            <select name="action" class="form-control">
+                <option value="">Todas</option>
+                <option value="create" {% if request.GET.action == 'create' %}selected{% endif %}>Creación</option>
+                <option value="update" {% if request.GET.action == 'update' %}selected{% endif %}>Actualización</option>
+                <option value="delete" {% if request.GET.action == 'delete' %}selected{% endif %}>Eliminación</option>
+                <option value="login" {% if request.GET.action == 'login' %}selected{% endif %}>Login</option>
+                <option value="export" {% if request.GET.action == 'export' %}selected{% endif %}>Exportación</option>
+            </select>
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Modelo</label>
+            <input type="text" name="model" value="{{ request.GET.model|default:'' }}" placeholder="Ej: Worker" class="form-control" style="width:140px;">
+        </div>
+        <div>
+            <label style="font-size:12px;font-weight:600;color:#475569;">Origen</label>
+            <select name="origin" class="form-control">
+                <option value="">Todos</option>
+                <option value="USER" {% if request.GET.origin == 'USER' %}selected{% endif %}>Usuario</option>
+                <option value="SYSTEM" {% if request.GET.origin == 'SYSTEM' %}selected{% endif %}>Sistema</option>
+                <option value="API" {% if request.GET.origin == 'API' %}selected{% endif %}>API</option>
+                <option value="IMPORT" {% if request.GET.origin == 'IMPORT' %}selected{% endif %}>Importación</option>
+            </select>
+        </div>
+        <button type="submit" class="hero-btn hero-btn-primary" style="height:38px;">Filtrar</button>
+        <a href="{% url 'audit_log:log-list' %}" class="hero-btn" style="height:38px;background:rgba(15,118,110,0.08);color:#0f766e;border:1px solid rgba(15,118,110,0.2);">Limpiar</a>
+    </form>
+</div>
+
+<div class="card">
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead>
+            <tr style="border-bottom:2px solid #e2e8f0;">
+                <th style="text-align:left;padding:10px 12px;color:#475569;font-weight:600;">Fecha</th>
+                <th style="text-align:left;padding:10px 12px;color:#475569;font-weight:600;">Usuario</th>
+                <th style="text-align:left;padding:10px 12px;color:#475569;font-weight:600;">Acción</th>
+                <th style="text-align:left;padding:10px 12px;color:#475569;font-weight:600;">Modelo</th>
+                <th style="text-align:left;padding:10px 12px;color:#475569;font-weight:600;">Objeto</th>
+                <th style="text-align:left;padding:10px 12px;color:#475569;font-weight:600;">Origen</th>
+                <th style="text-align:left;padding:10px 12px;color:#475569;font-weight:600;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr style="border-bottom:1px solid #f1f5f9;">
+                <td style="padding:10px 12px;color:#64748b;white-space:nowrap;">{{ log.timestamp|date:"d/m/Y H:i" }}</td>
+                <td style="padding:10px 12px;">{{ log.user|default:"—" }}</td>
+                <td style="padding:10px 12px;">
+                    {% if log.action == 'create' %}
+                        <span class="badge badge-success">Creación</span>
+                    {% elif log.action == 'update' %}
+                        <span class="badge badge-warning">Actualización</span>
+                    {% elif log.action == 'delete' %}
+                        <span class="badge badge-danger">Eliminación</span>
+                    {% elif log.action == 'login' %}
+                        <span class="badge badge-info">Login</span>
+                    {% elif log.action == 'export' %}
+                        <span class="badge badge-moderate">Exportación</span>
+                    {% else %}
+                        <span class="badge badge-secondary">{{ log.get_action_display }}</span>
+                    {% endif %}
+                </td>
+                <td style="padding:10px 12px;color:#64748b;">{{ log.model_name }}</td>
+                <td style="padding:10px 12px;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ log.object_repr }}">{{ log.object_repr|default:"—" }}</td>
+                <td style="padding:10px 12px;">
+                    {% if log.origin == 'USER' %}
+                        <span class="badge badge-info">Usuario</span>
+                    {% elif log.origin == 'SYSTEM' %}
+                        <span class="badge badge-moderate">Sistema</span>
+                    {% elif log.origin == 'API' %}
+                        <span class="badge badge-secondary">API</span>
+                    {% elif log.origin == 'IMPORT' %}
+                        <span class="badge badge-warning">Importación</span>
+                    {% else %}
+                        <span class="badge badge-secondary">{{ log.get_origin_display }}</span>
+                    {% endif %}
+                </td>
+                <td style="padding:10px 12px;">
+                    <a href="{% url 'audit_log:log-detail' log.pk %}" style="color:var(--primary);text-decoration:none;font-weight:500;">Ver</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="padding:30px;text-align:center;color:#94a3b8;">No hay registros de auditoría.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_paginated %}
+    <div style="display:flex;justify-content:center;gap:8px;padding:16px;">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}" class="hero-btn" style="font-size:12px;">Anterior</a>
+        {% endif %}
+        <span style="padding:8px 14px;color:#64748b;font-size:13px;">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}" class="hero-btn" style="font-size:12px;">Siguiente</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

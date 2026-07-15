@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from apps.core.mixins import AuditFieldsMixin
 
 
-class TipoEquipo(models.Model):
+class TipoEquipo(AuditFieldsMixin, models.Model):
 
     class Categoria(models.TextChoices):
         MAQUINARIA = 'maquinaria', 'Maquinaria'
@@ -49,7 +50,7 @@ class TipoEquipo(models.Model):
         return f'{self.get_categoria_display()} - {self.nombre}'
 
 
-class EquipoTrabajo(models.Model):
+class EquipoTrabajo(AuditFieldsMixin, models.Model):
 
     class Estado(models.TextChoices):
         OPERATIVO = 'operativo', 'Operativo'
@@ -180,7 +181,7 @@ class EquipoTrabajo(models.Model):
         return sum(1 for d in docs if d)
 
 
-class RevisionEquipo(models.Model):
+class RevisionEquipo(AuditFieldsMixin, models.Model):
 
     class Resultado(models.TextChoices):
         CONFORME = 'conforme', 'Conforme'
@@ -244,7 +245,7 @@ class RevisionEquipo(models.Model):
         return mapping.get(self.resultado, 'badge-secondary')
 
 
-class MantenimientoEquipo(models.Model):
+class MantenimientoEquipo(AuditFieldsMixin, models.Model):
 
     class TipoMantenimiento(models.TextChoices):
         PREVENTIVO = 'preventivo', 'Preventivo'

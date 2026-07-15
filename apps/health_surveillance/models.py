@@ -2,9 +2,10 @@ from django.db import models
 from django.conf import settings
 from apps.companies.models import Company
 from apps.workers.models import Worker
+from apps.core.mixins import AuditFieldsMixin
 
 
-class ReconocimientoMedico(models.Model):
+class ReconocimientoMedico(AuditFieldsMixin, models.Model):
     TIPO_CHOICES = [
         ('inicial', 'Reconocimiento Inicial'),
         ('periodico', 'Reconocimiento Periódico'),
@@ -36,7 +37,7 @@ class ReconocimientoMedico(models.Model):
         return 'success' if self.apto else 'danger'
 
 
-class ControlSalud(models.Model):
+class ControlSalud(AuditFieldsMixin, models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='controles_salud')
     trabajador = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name='controles_salud')
     fecha = models.DateField()

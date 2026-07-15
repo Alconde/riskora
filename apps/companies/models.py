@@ -3,13 +3,15 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 
+from apps.core.mixins import AuditFieldsMixin
+
 
 def company_logo_upload_path(instance, filename):
     company_identifier = instance.pk or 'tmp'
     return f'companies/logos/{company_identifier}/{filename}'
 
 
-class Company(models.Model):
+class Company(AuditFieldsMixin, models.Model):
     class Status(models.TextChoices):
         ACTIVE = 'active', 'Activa'
         INACTIVE = 'inactive', 'Inactiva'
@@ -61,7 +63,7 @@ class Company(models.Model):
         return self.trade_name or self.legal_name
 
 
-class CompanyMembership(models.Model):
+class CompanyMembership(AuditFieldsMixin, models.Model):
     class Role(models.TextChoices):
         COMPANY_ADMIN = 'company_admin', 'Administrador empresa'
         TECHNICIAN = 'technician', 'Técnico PRL'

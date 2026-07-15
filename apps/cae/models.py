@@ -1,5 +1,6 @@
 from django.db import models
 from apps.companies.models import Company
+from apps.core.mixins import AuditFieldsMixin
 
 
 def upload_cae_path(instance, filename):
@@ -18,7 +19,7 @@ def upload_riesgos_path(instance, filename):
     return f'cae/{instance.empresa_id}/riesgos/{filename}'
 
 
-class EmpresaSubcontrata(models.Model):
+class EmpresaSubcontrata(AuditFieldsMixin, models.Model):
     empresa = models.ForeignKey(
         Company,
         on_delete=models.CASCADE,
@@ -31,9 +32,6 @@ class EmpresaSubcontrata(models.Model):
     telefono = models.CharField('Telefono', max_length=20, blank=True)
     email = models.EmailField('Correo electronico', blank=True)
     activa = models.BooleanField('Activa', default=True)
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Empresa subcontratada'
@@ -74,7 +72,7 @@ class EmpresaSubcontrata(models.Model):
         return round((self.documentos_subidos / total) * 100)
 
 
-class DocumentoCAETipo(models.Model):
+class DocumentoCAETipo(AuditFieldsMixin, models.Model):
     nombre = models.CharField('Nombre del documento', max_length=200)
     descripcion = models.TextField('Descripcion', blank=True)
     obligatorio = models.BooleanField('Obligatorio', default=True)
@@ -90,7 +88,7 @@ class DocumentoCAETipo(models.Model):
         return self.nombre
 
 
-class DocumentoCAE(models.Model):
+class DocumentoCAE(AuditFieldsMixin, models.Model):
     empresa_subcontrata = models.ForeignKey(
         EmpresaSubcontrata,
         on_delete=models.CASCADE,
@@ -143,7 +141,7 @@ class DocumentoCAE(models.Model):
         return self.fecha_caducidad >= timezone.localdate()
 
 
-class ProcedimientoCAE(models.Model):
+class ProcedimientoCAE(AuditFieldsMixin, models.Model):
     empresa = models.OneToOneField(
         Company,
         on_delete=models.CASCADE,
@@ -159,9 +157,6 @@ class ProcedimientoCAE(models.Model):
     version = models.CharField('Version', max_length=20, default='1.0')
     fecha = models.DateField('Fecha del procedimiento', blank=True, null=True)
 
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
     class Meta:
         verbose_name = 'Procedimiento CAE'
         verbose_name_plural = 'Procedimientos CAE'
@@ -170,7 +165,7 @@ class ProcedimientoCAE(models.Model):
         return f'Procedimiento CAE - {self.empresa}'
 
 
-class CartaCAE(models.Model):
+class CartaCAE(AuditFieldsMixin, models.Model):
     empresa = models.OneToOneField(
         Company,
         on_delete=models.CASCADE,
@@ -183,8 +178,6 @@ class CartaCAE(models.Model):
         null=True,
         verbose_name='Carta de empresas',
     )
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Carta CAE'
@@ -194,7 +187,7 @@ class CartaCAE(models.Model):
         return f'Carta CAE - {self.empresa}'
 
 
-class DocumentoRiesgosCAE(models.Model):
+class DocumentoRiesgosCAE(AuditFieldsMixin, models.Model):
     empresa = models.OneToOneField(
         Company,
         on_delete=models.CASCADE,
@@ -207,8 +200,6 @@ class DocumentoRiesgosCAE(models.Model):
         null=True,
         verbose_name='Documento de riesgos, medidas preventivas y emergencia',
     )
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Documento de Riesgos CAE'

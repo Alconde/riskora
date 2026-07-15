@@ -1,7 +1,9 @@
 from django.db import models
 
+from apps.core.mixins import AuditFieldsMixin
 
-class WorkCenter(models.Model):
+
+class WorkCenter(AuditFieldsMixin, models.Model):
     class RiskLevel(models.TextChoices):
         LOW = 'low', 'Bajo'
         MEDIUM = 'medium', 'Medio'

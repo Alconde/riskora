@@ -7,6 +7,7 @@ from apps.companies.models import CompanyMembership
 
 class CompanyMembershipInline(admin.TabularInline):
     model = CompanyMembership
+    fk_name = 'user'
     extra = 0
     autocomplete_fields = ('company',)
     fields = ('company', 'role', 'is_active', 'is_default', 'created_at', 'updated_at')

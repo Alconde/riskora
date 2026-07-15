@@ -2,7 +2,10 @@ from django.conf import settings
 from django.db import models
 
 
-class NormativaLegal(models.Model):
+from apps.core.mixins import AuditFieldsMixin
+
+
+class NormativaLegal(AuditFieldsMixin, models.Model):
 
     class Tipo(models.TextChoices):
         LEY = 'ley', 'Ley'
@@ -110,7 +113,7 @@ class NormativaLegal(models.Model):
         return True
 
 
-class RequisitoLegal(models.Model):
+class RequisitoLegal(AuditFieldsMixin, models.Model):
 
     class Categoria(models.TextChoices):
         PREVENCION = 'prevencion', 'Prevención de riesgos'
@@ -182,7 +185,7 @@ class RequisitoLegal(models.Model):
         }.get(self.categoria, 'badge-secondary')
 
 
-class CumplimientoLegal(models.Model):
+class CumplimientoLegal(AuditFieldsMixin, models.Model):
 
     class Estado(models.TextChoices):
         CUMPLE = 'cumple', 'Cumple'
@@ -299,7 +302,7 @@ class CumplimientoLegal(models.Model):
         return 0 <= delta <= 30
 
 
-class AlertaLegal(models.Model):
+class AlertaLegal(AuditFieldsMixin, models.Model):
 
     class Tipo(models.TextChoices):
         VENCIMIENTO = 'vencimiento', 'Vencimiento de revisión'

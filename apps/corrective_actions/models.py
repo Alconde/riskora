@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.db import models
 
+from apps.core.mixins import AuditFieldsMixin
 
-class NoConformidad(models.Model):
+
+class NoConformidad(AuditFieldsMixin, models.Model):
 
     class Fuente(models.TextChoices):
         INTERNA = 'interna', 'Interna'
@@ -191,7 +193,7 @@ class NoConformidad(models.Model):
         return mapping.get(self.gravedad, 'badge-secondary')
 
 
-class AccionCorrectiva(models.Model):
+class AccionCorrectiva(AuditFieldsMixin, models.Model):
 
     class Estado(models.TextChoices):
         PENDIENTE = 'pendiente', 'Pendiente'
@@ -268,7 +270,7 @@ class AccionCorrectiva(models.Model):
         return mapping.get(self.estado, 'badge-secondary')
 
 
-class AccionPreventiva(models.Model):
+class AccionPreventiva(AuditFieldsMixin, models.Model):
 
     class Estado(models.TextChoices):
         PENDIENTE = 'pendiente', 'Pendiente'

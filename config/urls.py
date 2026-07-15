@@ -35,6 +35,7 @@ urlpatterns = [
     path('auditorias/', include('apps.audits.urls', namespace='audits')),
     path('requisitos-legales/', include('apps.legal_requirements.urls', namespace='legal_requirements')),
     path('autorizaciones/', include('apps.authorizations.urls', namespace='authorizations')),
+    path('audit-log/', include('apps.audit_log.urls', namespace='audit_log')),
 ]
 
 if settings.DEBUG:

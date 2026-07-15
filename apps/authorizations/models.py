@@ -3,7 +3,10 @@ from django.db import models
 from django.utils import timezone
 
 
-class RequisitoAutorizacion(models.Model):
+from apps.core.mixins import AuditFieldsMixin
+
+
+class RequisitoAutorizacion(AuditFieldsMixin, models.Model):
     """
     Catálogo de requisitos de autorización: equipos o trabajos que
     requieren capacitación/certificación específica del trabajador.
@@ -101,7 +104,7 @@ class RequisitoAutorizacion(models.Model):
         ).exclude(id__in=autorizados_ids)
 
 
-class AutorizacionTrabajador(models.Model):
+class AutorizacionTrabajador(AuditFieldsMixin, models.Model):
     """
     Registro de autorización de un trabajador para un requisito específico.
     """

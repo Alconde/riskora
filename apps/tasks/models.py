@@ -4,8 +4,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
 
+from apps.core.mixins import AuditFieldsMixin
 
-class Task(models.Model):
+
+class Task(AuditFieldsMixin, models.Model):
     class Status(models.TextChoices):
         PENDING = 'pending', 'Pendiente'
         IN_PROGRESS = 'in_progress', 'En progreso'
@@ -94,7 +96,7 @@ class Task(models.Model):
         return self.title
 
 
-class Alert(models.Model):
+class Alert(AuditFieldsMixin, models.Model):
     class AlertType(models.TextChoices):
         DOCUMENT_EXPIRY = 'document_expiry', 'Caducidad documental'
         DOCUMENT_REVIEW = 'document_review', 'Revisión documental'

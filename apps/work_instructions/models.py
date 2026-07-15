@@ -2,9 +2,10 @@ from django.db import models
 from django.conf import settings
 from apps.companies.models import Company
 from apps.workers.models import JobPosition
+from apps.core.mixins import AuditFieldsMixin
 
 
-class InstruccionTrabajo(models.Model):
+class InstruccionTrabajo(AuditFieldsMixin, models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='instrucciones_trabajo')
     titulo = models.CharField(max_length=200)
     codigo = models.CharField(max_length=50, blank=True, default='')
